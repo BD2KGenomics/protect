@@ -1,0 +1,61 @@
+                                   0
+                                   |
+                                   1
+                        ___________|______________
+                       /        |     |    |   |  \
+                      2--+     +3     4+  +5  +6  7+
+                      |  |     ||_____||  ||__||__||
+                      9  |_ _ _|_ _| _ |_ |_ _|| _ |_ _,8
+                  ____|____   _____|__         |
+                 /    |    \ /   /    \        |
+                |     |     |   |     |        |
+                10    11   *12  13   14        15
+                |     |     |   |     |        |
+                |     |     16  17    |        |
+                |     |     |___|     |        |
+                |     |       |       |        |
+                |     +------18-------+        |
+                |             |                |
+                |            19                |
+                |             |                |
+                |            20                |
+                |             |________________|
+                |                      |
+                |                     *21
+                |                 _____|_____
+                |                /           \
+                |               XX           YY
+                |               |_____________|
+                |                      |
+                |                      22
+                |                      |
+                +----------------------23
+
+
+     0 = Start Node
+     1 = Prepare sample (Download if necessary)
+     2 = Process RNA for Adapters (CUTADAPT)
+     3 = Align Tumor DNA (BWA)
+     4 = Align Normal DNA (BWA)
+     5 = Decipher MHC Haplotype Tumor DNA (PHLAT)
+     6 = Decipher MHC Haplotype Normal DNA (PHLAT)
+     7 = Decipher MHC Haplotype Tumor RNA (PHLAT)
+     8 = Delete Fastqs to cleanup space for future jobs
+     9 = Align RNA (STAR)
+    10 = Calculate Gene Expression (RSEM)
+    11 = Identify Fusion Genes (CURRENTLY NOT IMPLEMENTED)
+    12 = Mutation Calling 1 (RADIA)
+    13 = Mutation Calling 2 (Mutect)
+    14 = INDEL Calling (CURRENTLY NOT IMPLEMENTED)
+    15 = Merge PHLAT outputs (PYTHON SCRIPT)
+    16 = Merge radia mutation calls
+    17 = Merge mutect mutation calls
+    18 = Merge Mutation calls (PYTHON SCRIPT)
+    19 = translate to Protein space (SnpEff, Future Translator)
+    20 = Convert AA change to peptides (TRANSGENE)
+    21 = Dynamically spawn mhci prediction on n mhci alleles (XX)
+         and mhcii prediction on m mhcii alleles (YY)
+    XX = Predict MHCI peptides for n predicted alleles
+    YY = Predict MHCII peptides for m predicted alleles
+    22 = merge MHC:peptide binding predictions
+    23 = Rank Boost

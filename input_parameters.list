@@ -1,0 +1,93 @@
+## Copyright 2016 Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+####################################################################################################
+####################################################################################################
+##  This is the input parameter file for the precision immuno pipeline.  The paramters for each of
+##  the tools is provided here.  DO NOT change the commented (#'d) text below the BEGIN statement as
+##  it will affect the parsing function.
+##
+##  You can add comments anywhere in this file by using DOUBLE hashes (##).
+##
+##  Notes: Multiple patients can be specified followed by the trio of tumor_dna, tumor_rna, and
+##         normal dna fastq prefixes.  Prefixes can either be of the form
+##         /path/to/fastqfile_1.fastq or /path/to/fastqfile
+##         Notes about the sample(s) being processed by this config file can be added before the
+##         BEGIN keyword, be starting the line with two # symbols.
+####################################################################################################
+####################################################################################################
+
+BEGIN
+
+# patient
+patient_id PATIENT_ID1
+tumor_dna_fastq_prefix tum_dna_1
+normal_dna_fastq_prefix norm_dna_1
+tumor_rna_fastq_prefix tum_rna_1
+
+# patient
+patient_id PATIENT_ID2
+tumor_dna_fastq_prefix tum_dna_1
+normal_dna_fastq_prefix norm_dna_1
+tumor_rna_fastq_prefix tum_rna_1
+
+# Universal_Optional
+dockerhub aarjunrao
+java_Xmx 20G
+sse_key master_key
+
+## Tool specific options. You probably don't need to change any of this!
+
+# cutadapt 
+a  AGATCGGAAGAG
+A  AGATCGGAAGAG
+
+# star
+index_tar https://s3-us-west-2.amazonaws.com/pimmuno-references/STAR_100_index.tar.gz
+
+# bwa
+index_tar https://s3-us-west-2.amazonaws.com/pimmuno-references/bwa_index.tar.gz
+
+# rsem
+index_tar https://s3-us-west-2.amazonaws.com/pimmuno-references/rsem_index.tar.gz
+
+# mut_callers
+genome_fasta https://s3-us-west-2.amazonaws.com/pimmuno-references/hg19.fa.tar.gz
+genome_fai https://s3-us-west-2.amazonaws.com/pimmuno-references/hg19.fa.fai.tar.gz
+genome_dict https://s3-us-west-2.amazonaws.com/pimmuno-references/hg19.dict.tar.gz
+cosmic_vcf https://s3-us-west-2.amazonaws.com/pimmuno-references/CosmicCodingMuts.vcf.tar.gz
+cosmic_idx https://s3-us-west-2.amazonaws.com/pimmuno-references/CosmicCodingMuts.vcf.idx.tar.gz
+dbsnp_vcf https://s3-us-west-2.amazonaws.com/pimmuno-references/dbsnp_coding.vcf.tar.gz
+dbsnp_idx https://s3-us-west-2.amazonaws.com/pimmuno-references/dbsnp_coding.vcf.idx.tar.gz
+java_Xmx 2G
+
+# snpeff
+index_tar https://s3-us-west-2.amazonaws.com/pimmuno-references/snpeff_index.tar.gz
+java_Xmx 20G
+
+# transgene
+gencode_peptide_fasta https://s3-us-west-2.amazonaws.com/pimmuno-references/gencode.v19.pc_translations.fa.tar.gz
+
+# phlat
+index_tar https://s3-us-west-2.amazonaws.com/pimmuno-references/phlat_index.tar.gz
+
+# mhci
+method_file https://s3-us-west-2.amazonaws.com/pimmuno-references/mhci_restrictions.json.tar.gz
+pred IEDB_recommended
+
+# mhcii
+method_file https://s3-us-west-2.amazonaws.com/pimmuno-references/mhcii_restrictions.json.tar.gz
+pred IEDB_recommended
+
+# rank_boost
+combo 0.0,0.0,0.32,0.0,0.68
