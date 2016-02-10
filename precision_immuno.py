@@ -24,7 +24,6 @@ from __future__ import print_function
 from collections import defaultdict
 from multiprocessing import cpu_count
 from pysam import Samfile
-from shutil import copyfileobj
 from toil.job import Job
 
 import argparse
@@ -34,6 +33,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -90,8 +90,8 @@ def parse_config_file(job, config_file):
         raise ParameterError(' The following tools have no arguments in the config file : \n' +
                              '\n'.join(missing_tools))
     # Start a job for each sample in the sample set
-    for sample_fastqs in sample_set.keys():
-        job.addChild(job.wrapJobFn(pipeline_launchpad, sample_set[sample_fastqs], univ_options,
+    for patient_id in sample_set.keys():
+        job.addChild(job.wrapJobFn(pipeline_launchpad, sample_set[patient_id], univ_options,
                                    tool_options))
     return None
 
@@ -280,7 +280,7 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
 
 
 def delete_fastqs(job, fastqs):
-    '''
+    """
     This module will delete the fastqs from teh job Store once their purpose has been achieved (i.e.
     after all mapping steps)
 
@@ -290,7 +290,7 @@ def delete_fastqs(job, fastqs):
             +- 'tumor_rna': [<JSid for 1.fastq> , <JSid for 2.fastq>]
             +- 'tumor_dna': [<JSid for 1.fastq> , <JSid for 2.fastq>]
             +- 'normal_dna': [<JSid for 1.fastq> , <JSid for 2.fastq>]
-    '''
+    """
     for fq_type in ['tumor_rna', 'tumor_dna', 'normal_dna']:
         for i in xrange(0,2):
             job.fileStore.deleteGlobalFile(fastqs[fq_type][i])
@@ -688,7 +688,7 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
 
 
 def merge_radia(job, perchrom_rvs):
-    '''
+    """
     This module will merge the per-chromosome radia files created by spawn_radia into a genome vcf.
     It will make 2 vcfs, one for PASSing non-germline calls, and one for all calls.
 
@@ -702,7 +702,7 @@ def merge_radia(job, perchrom_rvs):
                 +- radia_parsed_filter_passing_calls.vcf: <JSid>
 
     This module corresponds to node 11 on the tree
-    '''
+    """
     work_dir = job.fileStore.getLocalTempDir()
     # We need to squash the input dict of dicts to a single dict such that it can be passed to
     # get_files_from_filestore
@@ -918,7 +918,7 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
 
 
 def merge_mutect(job, perchrom_rvs):
-    '''
+    """
     This module will merge the per-chromosome mutect files created by spawn_mutect into a genome
     vcf.  It will make 2 vcfs, one for PASSing non-germline calls, and one for all calls.
 
@@ -929,7 +929,7 @@ def merge_mutect(job, perchrom_rvs):
     1. output_files: <JSid for mutect_passing_calls.vcf>
 
     This module corresponds to node 11 on the tree
-    '''
+    """
     work_dir = job.fileStore.getLocalTempDir()
     # We need to squash the input dict of dicts to a single dict such that it can be passed to
     # get_files_from_filestore
@@ -1135,7 +1135,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
                   '-noStats',
                   'hg19_gencode',
                   input_files['merged_mutations.vcf']]
-    Xmx = mutect_options['java_Xmx'] if snpeff_options['java_Xmx'] else univ_options['java_Xmx']
+    Xmx = snpeff_options['java_Xmx'] if snpeff_options['java_Xmx'] else univ_options['java_Xmx']
     with open('/'.join([work_dir, 'snpeffed_mutations.vcf']), 'w') as snpeff_file:
         docker_call(tool='snpeff', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], java_opts=Xmx, outfile=snpeff_file)
@@ -1241,7 +1241,7 @@ def merge_phlat_calls(job, tumor_phlat, normal_phlat, rna_phlat):
     3. rna_phlat: <JSid for tumor RNA called alleles>
 
     RETURN VALUES
-    1. output_files: Doct of JSids for consensus MHCI and MHCII alleles
+    1. output_files: Dict of JSids for consensus MHCI and MHCII alleles
              output_files
                     |- 'mhci_alleles.list': <JSid>
                     +- 'mhcii_alleles.list': <JSid>
@@ -1624,16 +1624,38 @@ def boost_ranks(job, gene_expression, merged_mhc_calls, transgene_out, univ_opti
     """
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
-        'rsem_quant.list': gene_expression,
-        'mhci_merged_files.list': merged_mhc_calls['mhci_merged_files.list'],
-        'mhcii_merged_files.list': merged_mhc_calls['mhcii_merged_files.list'],
-        'mhci_pepnames.map': transgene_out['transgened_tumor_10_mer_snpeffed.faa.map'],
-        'mhcii_pepnames.map': transgene_out['transgened_tumor_15_mer_snpeffed.faa.map']}
+        'rsem_quant.tsv': gene_expression,
+        'mhci_merged_files.tsv': merged_mhc_calls['mhci_merged_files.list'],
+        'mhcii_merged_files.tsv': merged_mhc_calls['mhcii_merged_files.list'],
+        'mhci_peptides.faa': transgene_out['transgened_tumor_10_mer_snpeffed.faa'],
+        'mhcii_peptides.faa': transgene_out['transgened_tumor_15_mer_snpeffed.faa']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
-    with open('testing_flow.txt', 'a') as logfile:
-        print('Hi, I\'m boost_ranks and I was passed', gene_expression, merged_mhc_calls,
-              univ_options, 'and', rank_boost_options, file=logfile)
-    return 'rank boost'
+    output_files = {}
+    for mhc in ('mhci', 'mhcii'):
+        parameters = [mhc,
+                      input_files[''.join([mhc, '_merged_files.tsv'])],
+                      input_files['rsem_quant.tsv'],
+                      input_files[''.join([mhc, '_peptides.faa'])],
+                      rank_boost_options[''.join([mhc, '_combo'])]
+                      ]
+        docker_call(tool='rankboost', tool_parameters=parameters, work_dir=work_dir,
+                    dockerhub=univ_options['dockerhub'])
+        output_files[mhc] = {
+            ''.join([mhc, '_concise_results.tsv']):
+                job.fileStore.writeGlobalFile(''.join([work_dir, '/', mhc,
+                                                       '_merged_files_concise_results.tsv'])),
+            ''.join([mhc, '_detailed_results.tsv']):
+                job.fileStore.writeGlobalFile(''.join([work_dir, '/', mhc,
+                                                       '_merged_files_detailed_results.tsv']))}
+    outdir = os.path.join('/mnt/ephemeral/toil/', univ_options['patient'])
+    os.mkdir(outdir)
+    for filename in ['mhci_merged_files.tsv', 'mhcii_merged_files.tsv',
+                     ''.join(['mhci_merged_files_concise_results.tsv']),
+                     ''.join(['mhci_merged_files_detailed_results.tsv']),
+                     ''.join(['mhcii_merged_files_concise_results.tsv']),
+                     ''.join(['mhcii_merged_files_detailed_results.tsv'])]:
+        shutil.copy(os.path.join(work_dir, filename), os.path.join(outdir, filename))
+    return output_files
 
 
 def tool_specific_param_generator(job, config_file):
@@ -1644,37 +1666,37 @@ def tool_specific_param_generator(job, config_file):
         config_file - a file handle to an open file stream that is reading the
                       input config file to the pipeline.
     Return (Yielded) Values:
-        groupname - The name of the group that is being yielded
+        group_name - The name of the group that is being yielded
         group_params - The parameters for the group GROUPNAME
     """
     work_dir = job.fileStore.getLocalTempDir()
-    # Initialize the return values.  groupname == None will be used to bypass the first #-prefixed
+    # Initialize the return values.  group_name == None will be used to bypass the first #-prefixed
     # group in the file
     group_params = defaultdict()
-    groupname = None
+    group_name = None
     for line in config_file:
         line = line.strip()
         if line.startswith('##') or len(line) == 0:
             continue
         if line.startswith('#'):
             # Skip first #-prefixed string
-            if groupname is None:
-                groupname = line.lstrip('#').strip()
+            if group_name is None:
+                group_name = line.lstrip('#').strip()
                 continue
             else:
-                yield groupname, group_params
+                yield group_name, group_params
                 group_params = defaultdict(int)
-                groupname = line.lstrip('#').strip()
+                group_name = line.lstrip('#').strip()
                 continue
         else:
             line = line.strip().split()
             if len(line) != 2:
                 raise ParameterError('Found a problem in the config file while attempting to ' +
-                                     'parse %s in group %s' % (line[0], groupname) + '.  Every ' +
+                                     'parse %s in group %s' % (line[0], group_name) + '.  Every ' +
                                      'parameter takes ONLY one argument.')
             # If a file is of the type file, vcf, tar or fasta, it needs to be downloaded from S3 if
-            # reqd, then written to filestore.
-            if [ x for x in ['file', 'vcf', 'tar', 'fasta', 'fai', 'idx', 'dict'] if x in line[0]]:
+            # reqd, then written to job store.
+            if [x for x in ['file', 'vcf', 'tar', 'fasta', 'fai', 'idx', 'dict'] if x in line[0]]:
                 if line[1].startswith('http'):
                     assert line[1].startswith('https://s3'), line[1] + ' is not an S3 file'
                     line[1] = get_file_from_s3(job, line[1], write_to_jobstore=False)
@@ -1688,7 +1710,7 @@ def tool_specific_param_generator(job, config_file):
                     line[1] = untargz(line[1], work_dir)
                 line[1] = job.fileStore.writeGlobalFile(line[1])
             group_params[line[0]] = line[1]
-    yield groupname, group_params
+    yield group_name, group_params
 
 
 def prepare_samples(job, fastqs, univ_options):
@@ -1715,16 +1737,20 @@ def prepare_samples(job, fastqs, univ_options):
 
     This module corresponds to node 1 in the tree
     """
-    work_dir = job.fileStore.getLocalTempDir()
     allowed_samples = {'tumor_dna_fastq_prefix', 'tumor_rna_fastq_prefix',
                        'normal_dna_fastq_prefix'}
     if set(fastqs.keys()).difference(allowed_samples) != {'patient_id'}:
         raise ParameterError('Sample with the following parameters has an error:\n' +
-                                       '\n'.join(fastqs.values()))
+                             '\n'.join(fastqs.values()))
     # For each sample type, check if the prefix is an S3 link or a regular file
     # Download S3 files.
     for sample_type in ['tumor_dna', 'tumor_rna', 'normal_dna']:
         prefix = fastqs[''.join([sample_type, '_fastq_prefix'])]
+        # if the file was an xml, process it before moving further.
+        if prefix.endswith('.xml'):
+            prefix = get_file_from_cghub(job, fastqs[''.join([sample_type, '_fastq_prefix'])],
+                                         univ_options['cghub_key'], univ_options,
+                                         write_to_jobstore=False)
         # If gzipped, remember that
         if prefix.endswith('.gz'):
             prefix = os.path.splitext(prefix)[0]
@@ -1732,7 +1758,7 @@ def prepare_samples(job, fastqs, univ_options):
         else:
             fastqs['gzipped'] = False
         # Is the file .fastq or .fq
-        if prefix.endswith('.fastq') or prefix.endswith('.fq'):
+        if prefix.endswith(('.fastq', '.fq')):
             prefix, extn = os.path.splitext(prefix)
             # If the file was gzipped, add that to the extension
             if fastqs['gzipped']:
@@ -1744,15 +1770,14 @@ def prepare_samples(job, fastqs, univ_options):
         if prefix.startswith('http'):
             assert prefix.startswith('https://s3'), 'Not an S3 link'
             fastqs[sample_type] = [
-                get_file_from_s3(job, ''.join([prefix, '_1', extn]),
-                univ_options['sse_key']),
-                get_file_from_s3(job, ''.join([prefix, '_2', extn]),
-                univ_options['sse_key'])]
+                get_file_from_s3(job, ''.join([prefix, '_1', extn]), univ_options['sse_key']),
+                get_file_from_s3(job, ''.join([prefix, '_2', extn]), univ_options['sse_key'])]
         else:
             # Relies heavily on the assumption that the pair will be in the same
             # folder
             assert os.path.exists(''.join([prefix, '_1', extn])), 'Bogus input: %s' % prefix
-            # Python lists maintain orderhence the values are always guaranteed to be fastq1, fastq2.
+            # Python lists maintain order hence the values are always guaranteed to be
+            # [fastq1, fastq2]
             fastqs[sample_type] = [
                 job.fileStore.writeGlobalFile(''.join([prefix, '_1', extn])),
                 job.fileStore.writeGlobalFile(''.join([prefix, '_2', extn]))]
@@ -1786,7 +1811,7 @@ def get_files_from_filestore(job, files, work_dir, cache=True, docker=False):
         elif is_gzipfile(outfile) and file_xext(outfile) == '.gz':
             ungz_name = strip_xext(outfile)
             with gzip.open(outfile, 'rb') as gz_in, open(ungz_name, 'w') as ungz_out:
-                copyfileobj(gz_in, ungz_out)
+                shutil.copyfileobj(gz_in, ungz_out)
             files[os.path.basename(ungz_name)] = outfile
             files.pop(name)
             name = os.path.basename(ungz_name)
@@ -1984,7 +2009,7 @@ def parse_radia_multi_alt(infile, outfile):
 
 
 def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile):
-    '''
+    """
     To reduce code redundancy, this module will accept data from merge_mhc_peptide_calls for a given
     neoepitope and print it to outfile
     ARGUMENTS
@@ -2004,7 +2029,7 @@ def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile):
               +- 'neoepitope_n':
                      'ensembl_gene\thugo_gene\tcomma_sep_transcript_mutations'
 
-    '''
+    """
     allele, pept, pred, core = neoepitope_info
     peptide_names = [x for x, y in peptides.items() if pept in y]
     # For each peptide, append the ensembl gene
@@ -2054,9 +2079,9 @@ def docker_call(tool, tool_parameters, work_dir, java_opts=None, outfile=None,
         try:
             call = ' '.join(['docker', 'pull', docker_tool]).split()
             subprocess.check_call(call)
-        except subprocess.CalledProcessError:
-            raise RuntimeError('docker command returned a non-zero exit status for ' +
-                               'command \"%s\"' % ' '.join(call))
+        except subprocess.CalledProcessError as err:
+            raise RuntimeError('docker command returned a non-zero exit status ' +
+                               '(%s)' % err.returncode + 'for command \"%s\"' % ' '.join(call),)
         except OSError:
             raise RuntimeError('docker not found on system. Install on all' +
                                ' nodes.')
@@ -2070,9 +2095,9 @@ def docker_call(tool, tool_parameters, work_dir, java_opts=None, outfile=None,
     call = base_docker_call.split() + [docker_tool] + tool_parameters
     try:
         subprocess.check_call(call, stdout=outfile)
-    except subprocess.CalledProcessError:
-        raise RuntimeError('docker command returned a non-zero exit status for command ' + \
-            '\"%s\"' % ' '.join(call))
+    except subprocess.CalledProcessError as err:
+        raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+                           'for command \"%s\"' % ' '.join(call),)
     except OSError:
         raise RuntimeError('docker not found on system. Install on all nodes.')
 
@@ -2095,12 +2120,12 @@ def untargz(input_targz_file, untar_to_dir):
 
 
 def is_gzipfile(filename):
-    '''
+    """
     This function attempts to ascertain the gzip status of a file based on the "magic signatures" of
     the file. This was taken from the stack overflow
     http://stackoverflow.com/questions/13044562/python-mechanism-to-identify-compressed-file-type\
         -and-uncompress
-    '''
+    """
     assert os.path.exists(filename), 'Input {} does not '.format(filename) + \
         'point to a file.'
     with file(filename, 'rb') as in_f:
@@ -2119,10 +2144,10 @@ def is_gzipfile(filename):
 
 
 def generate_unique_key(master_key, url):
-    '''
+    """
     This module will take a master key and a url, and then make a new key specific to the url, based
     off the master.
-    '''
+    """
     with open(master_key, 'r') as keyfile:
         master_key = keyfile.read()
     assert len(master_key) == 32, 'Invalid Key! Must be 32 characters. ' \
@@ -2168,12 +2193,101 @@ def get_file_from_s3(job, s3_url, encryption_key=None, write_to_jobstore=True):
     return filename
 
 
+def get_file_from_cghub(job, cghub_xml, cghub_key, univ_options, write_to_jobstore=True):
+    """
+    This function will download the file from cghub using the xml specified by cghub_xml
+
+    ARGUMENTS
+    1. cghub_xml: Path to an xml file for cghub.
+    2. cghub_key: Credentials for a cghub download operation.
+    3. write_to_jobstore: Flag indicating whether the final product should be written to jobStore.
+
+    RETURN VALUES
+    1. A path to the prefix for the fastqs that is compatible with the pipeline.
+    """
+    work_dir = job.fileStore.getLocalTempDir()
+    # Get from S3 if required
+    if cghub_xml.startswith('http'):
+        assert cghub_xml.startswith('https://s3'), 'Not an S3 link'
+        cghub_xml = get_file_from_s3(job, cghub_xml, encryption_key=univ_options['sse_key'],
+                                     write_to_jobstore=False)
+    else:
+        assert os.path.exists(cghub_xml), 'Could not find file: %s' % cghub_xml
+    shutil.copy(cghub_xml, os.path.join(work_dir, 'cghub.xml'))
+    cghub_xml = os.path.join(work_dir, 'cghub.xml')
+    assert os.path.exists(cghub_key), 'Could not find file: %s' % cghub_key
+    shutil.copy(cghub_key, os.path.join(work_dir, 'cghub.key'))
+    cghub_key = os.path.join(work_dir, 'cghub.key')
+    temp_fastqdir = os.path.join(work_dir, 'temp_fastqdir')
+    os.mkdir(temp_fastqdir)
+    parameters = ['-d',  docker_path(cghub_xml),
+                  '-c', docker_path(cghub_key),
+                  '-p', docker_path(temp_fastqdir),
+                  '-k', '30']
+    docker_call('genetorrent', tool_parameters=parameters, work_dir=work_dir,
+                dockerhub=univ_options['dockerhub'])
+    analysis_id = [x for x in os.listdir(temp_fastqdir)
+                   if not (x.startswith('.') or x.endswith('.gto'))][0]
+    files = [x for x in os.listdir(os.path.join(temp_fastqdir, analysis_id))
+             if not x.startswith('.')]
+    if len(files) == 2:
+        prefixes = [os.path.splitext(x)[1] for x in files]
+        if {'.bam', '.bai'} - set(prefixes):
+            raise RuntimeError('This is probably not a TCGA archive for WXS or RSQ. If you are ' +
+                               'sure it is, email aarao@ucsc.edu with details.')
+        else:
+            bamfile = os.path.join(temp_fastqdir, analysis_id,
+                                   [x for x in files if x.endswith('.bam')][0])
+            return bam2fastq(job, bamfile, univ_options)
+    elif len(files) == 1:
+        if not files[0].endswith('.tar.gz'):
+            raise RuntimeError('This is probably not a TCGA archive for WXS or RSQ. If you are ' +
+                               'sure it is, email aarao@ucsc.edu with details.')
+        else:
+            outFastqDir = os.path.join(work_dir, 'fastqs')
+            os.mkdir(outFastqDir)
+            fastq_file = untargz(os.path.join(temp_fastqdir, analysis_id, files[0]), outFastqDir)
+            if fastq_file.endswith(('.fastq', '.fastq.gz')):
+                return re.sub('_2.fastq', '_1.fastq', fastq_file)
+            else:
+                raise RuntimeError('This is probably not a TCGA archive for WXS or RSQ. If you ' +
+                                   'are sure it is, email aarao@ucsc.edu with details.')
+    else:
+        raise RuntimeError('This is probably not a TCGA archive for WXS or RSQ. If you are sure ' +
+                           'it is, email aarao@ucsc.edu with details.')
+
+
+def bam2fastq(job, bamfile, univ_options):
+    """
+    split an input bam to paired fastqs.
+
+    ARGUMENTS
+    1. bamfile: Path to a bam file
+    2. univ_options: Dict of universal arguments used by almost all tools
+         univ_options
+                |- 'dockerhub': <dockerhub to use>
+                +- 'java_Xmx': value for max heap passed to java
+    """
+    work_dir = os.path.split(bamfile)[0]
+    base_name = os.path.split(os.path.splitext(bamfile)[0])[1]
+    parameters = ['SamToFastq',
+                  ''.join(['I=', docker_path(bamfile)]),
+                  ''.join(['F=/data/', base_name, '_1.fastq']),
+                  ''.join(['F2=/data/', base_name, '_2.fastq']),
+                  ''.join(['FU=/data/', base_name, '_UP.fastq'])]
+    docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
+                dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'])
+    first_fastq = ''.join([work_dir, '/', base_name, '_1.fastq'])
+    assert os.path.exists(first_fastq)
+    return first_fastq
+
+
 def file_xext(filepath):
-    '''
+    """
     Get the file extension wrt compression from the filename (is it tar or targz)
     :param str filepath: Path to the file
     :return str ext: Compression extension name
-    '''
+    """
     ext = os.path.splitext(filepath)[1]
     if ext == '.gz':
         xext = os.path.splitext(os.path.splitext(filepath)[0])[1]
@@ -2187,11 +2301,11 @@ def file_xext(filepath):
 
 
 def strip_xext(filepath):
-    '''
+    """
     Strips the compression extension from the filename
     :param filepath: Path to compressed file.
     :return str filepath: Path to the file with the compression extension stripped off.
-    '''
+    """
     ext_size = len(file_xext(filepath).split('.')) - 1
     for i in xrange(0, ext_size):
         filepath = os.path.splitext(filepath)[0]
@@ -2200,9 +2314,9 @@ def strip_xext(filepath):
 
 # Exception for bad parameters provided
 class ParameterError(Exception):
-    '''
+    """
     This Error Class will be raised  in the case of a bad parameter provided.
-    '''
+    """
     pass
 
 

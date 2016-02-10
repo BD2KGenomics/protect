@@ -45,6 +45,7 @@ tumor_rna_fastq_prefix tum_rna_1
 dockerhub aarjunrao
 java_Xmx 20G
 sse_key master_key
+cghub_key cghub_key
 
 ## Tool specific options. You probably don't need to change any of this!
 
@@ -90,4 +91,5 @@ method_file https://s3-us-west-2.amazonaws.com/pimmuno-references/mhcii_restrict
 pred IEDB_recommended
 
 # rank_boost
-combo 0.0,0.0,0.32,0.0,0.68
+mhci_combo 0.0,0.0,0.32,0.0,0.68
+mhcii_combo 0.25,0.25,0.25,0.25
