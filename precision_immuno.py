@@ -37,7 +37,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
-
+import time
 
 def parse_config_file(job, config_file):
     """
@@ -175,7 +175,7 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
         tool_options['rsem']['n'] = ncpu / 3
     # Define the various nodes in the DAG
     # Need a logfile and a way to send it around
-    sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options)
+    sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options, disk='140G')
     cutadapt = job.wrapJobFn(run_cutadapt, sample_prep.rv(), univ_options, tool_options['cutadapt'],
                              cores=1, disk='80G')
     star = job.wrapJobFn(run_star, cutadapt.rv(), univ_options, tool_options['star'],
@@ -2220,12 +2220,26 @@ def get_file_from_cghub(job, cghub_xml, cghub_key, univ_options, write_to_jobsto
     cghub_key = os.path.join(work_dir, 'cghub.key')
     temp_fastqdir = os.path.join(work_dir, 'temp_fastqdir')
     os.mkdir(temp_fastqdir)
-    parameters = ['-d',  docker_path(cghub_xml),
+    base_parameters = ['-d',  docker_path(cghub_xml),
                   '-c', docker_path(cghub_key),
-                  '-p', docker_path(temp_fastqdir),
-                  '-k', '30']
-    docker_call('genetorrent', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                  '-p', docker_path(temp_fastqdir)]
+    attemptNumber = 0
+    while True:
+        # timeout increases by 10 mins per try
+        parameters = base_parameters + ['-k', str((attemptNumber + 1) * 10)]
+        try:
+            docker_call('genetorrent', tool_parameters=parameters, work_dir=work_dir,
+                        dockerhub=univ_options['dockerhub'])
+        except RuntimeError as err:
+            time.sleep(600)
+            job.fileStore.logToMaster(err.message)
+            attemptNumber += 1
+            if attemptNumber == 3:
+                raise
+            else:
+                continue
+        else:
+            break
     analysis_id = [x for x in os.listdir(temp_fastqdir)
                    if not (x.startswith('.') or x.endswith('.gto'))][0]
     files = [x for x in os.listdir(os.path.join(temp_fastqdir, analysis_id))
