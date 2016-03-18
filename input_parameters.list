@@ -19,6 +19,11 @@
 ##
 ##  You can add comments anywhere in this file by using DOUBLE hashes (##).
 ##
+##  [Items in square brackets] denote the choices available for that flag
+##
+##  {Items in curly brackets} denote optional arguments that can be left out if desired.  Unless
+##  specified, all options are mandatory.
+##
 ##  Notes: Multiple patients can be specified followed by the trio of tumor_dna, tumor_rna, and
 ##         normal dna fastq prefixes.  Prefixes can either be of the form
 ##         /path/to/fastqfile_1.fastq or /path/to/fastqfile
@@ -41,11 +46,13 @@ tumor_dna_fastq_prefix tum_dna_1
 normal_dna_fastq_prefix norm_dna_1
 tumor_rna_fastq_prefix tum_rna_1
 
-# Universal_Optional
-dockerhub aarjunrao
+# Universal_Options
+dockerhub {aarjunrao}
 java_Xmx 20G
-sse_key master_key
-cghub_key cghub_key
+sse_key {master_key}
+cghub_key {cghub_key}
+output_folder output_folder
+storage_location [Local, aws:<bucket_name>]
 
 ## Tool specific options. You probably don't need to change any of this!
 
@@ -54,6 +61,7 @@ a  AGATCGGAAGAG
 A  AGATCGGAAGAG
 
 # star
+type [star, starlong]
 index_tar https://s3-us-west-2.amazonaws.com/pimmuno-references/STAR_100_index.tar.gz
 
 # bwa

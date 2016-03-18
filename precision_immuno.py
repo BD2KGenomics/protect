@@ -22,12 +22,14 @@ Details can also be obtained by running the script with -h .
 """
 from __future__ import print_function
 from collections import defaultdict
+from encrypt_files_in_dir_to_s3 import write_to_s3
 from multiprocessing import cpu_count
 from pysam import Samfile
 from toil.job import Job
 
 import argparse
 import base64
+import errno
 import gzip
 import hashlib
 import json
@@ -38,6 +40,7 @@ import subprocess
 import sys
 import tarfile
 import time
+
 
 def parse_config_file(job, config_file):
     """
@@ -53,6 +56,7 @@ def parse_config_file(job, config_file):
     RETURN VALUES
     None
     """
+    job.fileStore.logToMaster('Parsing config file')
     config_file = os.path.abspath(config_file)
     if not os.path.exists(config_file):
         raise ParameterError('The config file was not found at specified location. Please verify ' +
@@ -76,8 +80,13 @@ def parse_config_file(job, config_file):
                 if 'patient_id' not in group_params.keys():
                     raise ParameterError('A patient group is missing the patient_id flag.')
                 sample_set[group_params['patient_id']] = group_params
-            elif groupname == 'Universal_Optional':
+            elif groupname == 'Universal_Options':
                 univ_options = group_params
+                required_options = {'java_Xmx', 'output_folder', 'storage_location'}
+                missing_opts = required_options.difference(set(univ_options.keys()))
+                if len(missing_opts) > 0:
+                    raise ParameterError(' The following options have no arguments in the config '
+                                         'file :\n' + '\n'.join(missing_opts))
             # If it isn't any of the above, it's a tool group
             else:
                 tool_options[groupname] = group_params
@@ -188,37 +197,39 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
                                disk='120G').encapsulate()
     phlat_tumor_dna = job.wrapJobFn(run_phlat, sample_prep.rv(), 'tumor_dna', univ_options,
                                     tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                    disk='50G')
+                                    disk='60G')
     phlat_normal_dna = job.wrapJobFn(run_phlat, sample_prep.rv(), 'normal_dna', univ_options,
                                      tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                     disk='50G')
+                                     disk='60G')
     phlat_tumor_rna = job.wrapJobFn(run_phlat, sample_prep.rv(), 'tumor_rna', univ_options,
                                     tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                    disk='50G')
+                                    disk='60G')
     fastq_deletion = job.wrapJobFn(delete_fastqs, sample_prep.rv())
     rsem = job.wrapJobFn(run_rsem, star.rv(), univ_options, tool_options['rsem'],
-                         cores=tool_options['rsem']['n'], disk='70G')
+                         cores=tool_options['rsem']['n'], disk='80G')
     fusions = job.wrapJobFn(run_fusion_caller, star.rv(), univ_options, 'fusion_options')
     Sradia = job.wrapJobFn(spawn_radia, star.rv(), bwa_tumor.rv(),
                            bwa_normal.rv(), univ_options, tool_options['mut_callers']).encapsulate()
     Mradia = job.wrapJobFn(merge_radia, Sradia.rv())
     Smutect = job.wrapJobFn(spawn_mutect, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                            tool_options['mut_callers'], disk='60G').encapsulate()
-    Mmutect = job.wrapJobFn(merge_mutect, Smutect.rv(), disk='60G')
+                            tool_options['mut_callers']).encapsulate()
+    Mmutect = job.wrapJobFn(merge_mutect, Smutect.rv())
     indels = job.wrapJobFn(run_indel_caller, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                            'indel_options')
     merge_mutations = job.wrapJobFn(run_mutation_aggregator, fusions.rv(), Mradia.rv(),
-                                    Mmutect.rv(), indels.rv())
-    snpeff = job.wrapJobFn(run_snpeff, merge_mutations.rv(), univ_options, tool_options['snpeff'])
-    transgene = job.wrapJobFn(run_transgene, snpeff.rv(), univ_options, tool_options['transgene'])
+                                    Mmutect.rv(), indels.rv(), univ_options)
+    snpeff = job.wrapJobFn(run_snpeff, merge_mutations.rv(), univ_options, tool_options['snpeff'],
+                           disk='30G')
+    transgene = job.wrapJobFn(run_transgene, snpeff.rv(), univ_options, tool_options['transgene'],
+                              disk='5G')
     merge_phlat = job.wrapJobFn(merge_phlat_calls, phlat_tumor_dna.rv(), phlat_normal_dna.rv(),
-                                phlat_tumor_rna.rv())
+                                phlat_tumor_rna.rv(), disk='5G')
     spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), merge_phlat.rv(),
                               univ_options, (tool_options['mhci'],
                                              tool_options['mhcii'])).encapsulate()
-    merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene.rv())
+    merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene.rv(), disk='5G')
     rank_boost = job.wrapJobFn(boost_ranks, rsem.rv(), merge_mhc.rv(), transgene.rv(), univ_options,
-                               tool_options['rank_boost'])
+                               tool_options['rank_boost'], disk='5G')
     # Define the DAG in a static form
     job.addChild(sample_prep)  # Edge  0->1
     # A. The first step is running the alignments and the MHC haplotypers
@@ -320,6 +331,7 @@ def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
 
     This module corresponds to node 2 on the tree
     """
+    job.fileStore.logToMaster('Running cutadapt on %s' %univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     fq_extn = '.gz' if fastqs['gzipped'] else ''
     input_files = {
@@ -364,6 +376,8 @@ def run_star(job, fastqs, univ_options, star_options):
 
     This module corresponds to node 9 on the tree
     """
+    assert star_options['type'] in ('star', 'starlong')
+    job.fileStore.logToMaster('Running STAR on %s' %univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'rna_cutadapt_1.fastq': fastqs['rna_cutadapt_1.fastq'],
@@ -381,8 +395,12 @@ def run_star(job, fastqs, univ_options, star_options):
                   '--outSAMtype', 'BAM', 'SortedByCoordinate',
                   '--quantMode', 'TranscriptomeSAM',
                   '--outSAMunmapped', 'Within']
-    docker_call(tool='star', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+    if star_options['type'] == 'star':
+        docker_call(tool='star', tool_parameters=parameters, work_dir=work_dir,
+                    dockerhub=univ_options['dockerhub'])
+    else:
+        docker_call(tool='starlong', tool_parameters=parameters, work_dir=work_dir,
+                    dockerhub=univ_options['dockerhub'])
     output_files = defaultdict()
     for bam_file in ['rnaAligned.toTranscriptome.out.bam',
                      'rnaAligned.sortedByCoord.out.bam']:
@@ -392,7 +410,7 @@ def run_star(job, fastqs, univ_options, star_options):
     job.fileStore.deleteGlobalFile(fastqs['rna_cutadapt_2.fastq'])
     index_star = job.wrapJobFn(index_bamfile,
                                output_files['rnaAligned.sortedByCoord.out.bam'],
-                               'rna', univ_options)
+                               'rna', univ_options, disk='120G')
     job.addChild(index_star)
     output_files['rnaAligned.sortedByCoord.out.bam'] = index_star.rv()
     return output_files
@@ -423,6 +441,7 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
 
     This module corresponds to nodes 3 and 4 on the tree
     """
+    job.fileStore.logToMaster('Running bwa on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     fq_extn = '.gz' if fastqs['gzipped'] else ''
     input_files = {
@@ -441,7 +460,8 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
                     dockerhub=univ_options['dockerhub'], outfile=samfile)
     # samfile.name retains the path info
     output_file = job.fileStore.writeGlobalFile(samfile.name)
-    samfile_processing = job.wrapJobFn(bam_conversion, output_file, sample_type, univ_options)
+    samfile_processing = job.wrapJobFn(bam_conversion, output_file, sample_type, univ_options,
+                                       disk='60G')
     job.addChild(samfile_processing)
     # Return values get passed up the chain to here.  The return value will be a dict with
     # SAMPLE_TYPE_fix_pg_sorted.bam: jobStoreID
@@ -462,6 +482,7 @@ def bam_conversion(job, samfile, sample_type, univ_options):
     RETURN VALUES
     1. output_files: REFER output_files in run_bwa()
     """
+    job.fileStore.logToMaster('Running sam2bam on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'aligned.sam': samfile}
@@ -477,7 +498,7 @@ def bam_conversion(job, samfile, sample_type, univ_options):
                 dockerhub=univ_options['dockerhub'])
     output_file = job.fileStore.writeGlobalFile(bamfile)
     job.fileStore.deleteGlobalFile(samfile)
-    reheader_bam = job.wrapJobFn(fix_bam_header, output_file, sample_type, univ_options, disk='80G')
+    reheader_bam = job.wrapJobFn(fix_bam_header, output_file, sample_type, univ_options, disk='60G')
     job.addChild(reheader_bam)
     return reheader_bam.rv()
 
@@ -495,6 +516,7 @@ def fix_bam_header(job, bamfile, sample_type, univ_options):
     RETURN VALUES
     1. output_files: REFER output_files in run_bwa()
     """
+    job.fileStore.logToMaster('Running reheader on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'aligned.bam': bamfile}
@@ -519,7 +541,7 @@ def fix_bam_header(job, bamfile, sample_type, univ_options):
                     dockerhub=univ_options['dockerhub'], outfile=fixpg_bamfile)
     output_file = job.fileStore.writeGlobalFile(fixpg_bamfile.name)
     job.fileStore.deleteGlobalFile(bamfile)
-    add_rg = job.wrapJobFn(add_readgroups, output_file, sample_type, univ_options, disk='80G')
+    add_rg = job.wrapJobFn(add_readgroups, output_file, sample_type, univ_options, disk='60G')
     job.addChild(add_rg)
     return add_rg.rv()
 
@@ -537,6 +559,8 @@ def add_readgroups(job, bamfile, sample_type, univ_options):
     RETURN VALUES
     1. output_files: REFER output_files in run_bwa()
     """
+    job.fileStore.logToMaster('Running add_read_groups on %s:%s' % (univ_options['patient'],
+                                                                    sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'aligned_fixpg.bam': bamfile}
@@ -556,7 +580,7 @@ def add_readgroups(job, bamfile, sample_type, univ_options):
     output_file = job.fileStore.writeGlobalFile('/'.join([work_dir,
                                                           'aligned_fixpg_sorted_reheader.bam']))
     job.fileStore.deleteGlobalFile(bamfile)
-    bam_index = job.wrapJobFn(index_bamfile, output_file, sample_type, univ_options, disk='80G')
+    bam_index = job.wrapJobFn(index_bamfile, output_file, sample_type, univ_options, disk='60G')
     job.addChild(bam_index)
     return bam_index.rv()
 
@@ -574,6 +598,8 @@ def index_bamfile(job, bamfile, sample_type, univ_options):
     1. output_files: REFER output_files in run_bwa(). This module is the one is
                      the one that generates the files.
     """
+    job.fileStore.logToMaster('Running samtools-index on %s:%s' % (univ_options['patient'],
+                                                                   sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     in_bamfile = '_'.join([sample_type, 'fix_pg_sorted.bam'])
     input_files = {
@@ -612,6 +638,7 @@ def run_rsem(job, star_bams, univ_options, rsem_options):
 
     This module corresponds to node 9 on the tree
     """
+    job.fileStore.logToMaster('Running rsem index on %s' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'star_transcriptome.bam': star_bams['rnaAligned.toTranscriptome.out.bam'],
@@ -670,6 +697,7 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
 
     This module corresponds to node 11 on the tree
     """
+    job.fileStore.logToMaster('Running spawn_radia on %s' % univ_options['patient'])
     rna_bam_key = 'rnaAligned.sortedByCoord.out.bam' # to reduce next line size
     bams = {'tumor_rna': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
             'tumor_rnai': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam.bai'],
@@ -683,7 +711,7 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
     perchrom_radia = defaultdict()
     for chrom in chromosomes:
         perchrom_radia[chrom] = job.addChildJobFn(run_radia, bams, univ_options, radia_options,
-                                                  chrom).rv()
+                                                  chrom, disk='60G').rv()
     return perchrom_radia
 
 
@@ -703,6 +731,7 @@ def merge_radia(job, perchrom_rvs):
 
     This module corresponds to node 11 on the tree
     """
+    job.fileStore.logToMaster('Running merge_radia')
     work_dir = job.fileStore.getLocalTempDir()
     # We need to squash the input dict of dicts to a single dict such that it can be passed to
     # get_files_from_filestore
@@ -765,6 +794,7 @@ def run_radia(job, bams, univ_options, radia_options, chrom):
         |- 'radia_filtered_CHROM.vcf': <JSid>
         +- 'radia_filtered_CHROM_radia.log': <JSid>
     """
+    job.fileStore.logToMaster('Running radia on %s:%s' %(univ_options['patient'], chrom))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'rna.bam': bams['tumor_rna'],
@@ -802,7 +832,7 @@ def run_radia(job, bams, univ_options, radia_options, chrom):
             job.fileStore.writeGlobalFile(radia_file)
     filterradia = job.wrapJobFn(run_filter_radia, bams,
                                 output_files[os.path.basename(radia_output)],
-                                univ_options, radia_options, chrom)
+                                univ_options, radia_options, chrom, disk='60G')
     job.addChild(filterradia)
     return filterradia.rv()
 
@@ -823,6 +853,7 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
         |- 'radia_filtered_CHROM.vcf': <JSid>
         +- 'radia_filtered_CHROM_radia.log': <JSid>
     """
+    job.fileStore.logToMaster('Running filter-radia on %s:%s' % (univ_options['patient'], chrom))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'rna.bam': bams['tumor_rna'],
@@ -907,13 +938,15 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
 
     This module corresponds to node 11 on the tree
     """
+    job.fileStore.logToMaster('Running spawn_mutect on %s' % univ_options['patient'])
     # Make a dict object to hold the return values for each of the chromosome
     # jobs.  Then run mutect on each chromosome.
     chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
     perchrom_mutect = defaultdict()
     for chrom in chromosomes:
         perchrom_mutect[chrom] = job.addChildJobFn(run_mutect, tumor_bam, normal_bam, univ_options,
-                                                   mutect_options, chrom, memory='3.5G').rv()
+                                                   mutect_options, chrom, disk='60G',
+                                                   memory='3.5G').rv()
     return perchrom_mutect
 
 
@@ -930,6 +963,7 @@ def merge_mutect(job, perchrom_rvs):
 
     This module corresponds to node 11 on the tree
     """
+    job.fileStore.logToMaster('Running merge_mutect')
     work_dir = job.fileStore.getLocalTempDir()
     # We need to squash the input dict of dicts to a single dict such that it can be passed to
     # get_files_from_filestore
@@ -991,6 +1025,7 @@ def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options, chrom):
 
     This module corresponds to node 12 on the tree
     """
+    job.fileStore.logToMaster('Running mutect on %s:%s' % (univ_options['patient'], chrom))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -1035,6 +1070,7 @@ def run_indel_caller(job, tumor_bam, normal_bam, univ_options, indel_options):
 
     This module corresponds to node 13 on the tree
     """
+    job.fileStore.logToMaster('Running INDEL on %s' % univ_options['patient'])
     indel_file = job.fileStore.getLocalTempFile()
     output_file = job.fileStore.writeGlobalFile(indel_file)
     return output_file
@@ -1047,12 +1083,14 @@ def run_fusion_caller(job, star_bam, univ_options, fusion_options):
 
     This module corresponds to node 10 on the tree
     """
+    job.fileStore.logToMaster('Running FUSION on %s' % univ_options['patient'])
     fusion_file = job.fileStore.getLocalTempFile()
     output_file = job.fileStore.writeGlobalFile(fusion_file)
     return output_file
 
 
-def run_mutation_aggregator(job, fusion_output, radia_output, mutect_output, indel_output):
+def run_mutation_aggregator(job, fusion_output, radia_output, mutect_output, indel_output,
+                            univ_options):
     """
     This module will aggregate all the mutations called in the previous steps and will then call
     snpeff on the results.
@@ -1068,6 +1106,7 @@ def run_mutation_aggregator(job, fusion_output, radia_output, mutect_output, ind
 
     This module corresponds to node 15 on the tree
     """
+    job.fileStore.logToMaster('Aggregating mutations for %s' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'mutect.vcf': mutect_output,
@@ -1081,7 +1120,8 @@ def run_mutation_aggregator(job, fusion_output, radia_output, mutect_output, ind
     # read files into memory
     vcf_file = defaultdict()
     mutcallers = input_files.keys()
-    with open('/'.join([work_dir, 'merged_mutations.vcf']), 'w') as merged_mut_file:
+    with open(''.join([work_dir, '/', univ_options['patient'], '_merged_mutations.vcf']),
+              'w') as merged_mut_file:
         for mut_caller in mutcallers:
             caller = mut_caller.rstrip('.vcf')
             vcf_file[caller] = defaultdict()
@@ -1096,6 +1136,7 @@ def run_mutation_aggregator(job, fusion_output, radia_output, mutect_output, ind
     # This method can be changed in the future to incorporate more callers and
     # fancier integration methods
     merge_vcfs(vcf_file, merged_mut_file.name)
+    export_results(merged_mut_file.name, univ_options)
     output_file = job.fileStore.writeGlobalFile(merged_mut_file.name)
     return output_file
 
@@ -1120,6 +1161,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
 
     This node corresponds to node 16 on the tree
     """
+    job.fileStore.logToMaster('Running snpeff on %s' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'merged_mutations.vcf': merged_mutation_file,
@@ -1166,6 +1208,7 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
 
     This module corresponds to node 17 on the tree
     """
+    job.fileStore.logToMaster('Running transgene on %s' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'snpeffed_muts.vcf': snpeffed_file,
@@ -1209,6 +1252,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
 
     This module corresponds to nodes 5, 6 and 7 on the tree
     """
+    job.fileStore.logToMaster('Running phlat on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     fq_extn = '.gz' if fastqs['gzipped'] else ''
     input_files = {
@@ -1248,6 +1292,7 @@ def merge_phlat_calls(job, tumor_phlat, normal_phlat, rna_phlat):
 
     This module corresponds to node 14 on the tree
     """
+    job.fileStore.logToMaster('Merging Phlat calls')
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'tumor_dna': tumor_phlat,
@@ -1341,6 +1386,7 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
 
     This module corresponds to node 18 on the tree
     """
+    job.fileStore.logToMaster('Running spawn_anti on %s' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     mhci_options, mhcii_options = mhc_options
     pept_files = {
@@ -1385,14 +1431,15 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
             predfile = ''.join([stripped_allele, '_', peptfile[:-4], '_mer.pred'])
             mhci_preds[predfile] = job.addChildJobFn(predict_mhci_binding, pept_files[peptfile],
                                                      allele, peplen, univ_options,
-                                                     mhci_options).rv()
+                                                     mhci_options, disk='10G').rv()
     for allele in mhcii_alleles:
         stripped_allele = re.sub(strip_allele_re, '_', allele)
         predfile = ''.join([stripped_allele, '_15_mer.pred'])
         if allele not in mhcii_restrictions[mhcii_options['pred']]:
             continue
         mhcii_preds[predfile] = job.addChildJobFn(predict_mhcii_binding, pept_files['15_mer.faa'],
-                                                  allele, univ_options, mhcii_options).rv()
+                                                  allele, univ_options, mhcii_options,
+                                                  disk='10G').rv()
     return mhci_preds, mhcii_preds
 
 
@@ -1404,6 +1451,8 @@ def predict_mhci_binding(job, peptfile, allele, peplen, univ_options,
 
     This module corresponds to node 18 on the tree
     """
+    job.fileStore.logToMaster('Running mhci on %s:%s:%s' % (univ_options['patient'], allele,
+                                                            peplen))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'peptfile.faa': peptfile}
@@ -1429,6 +1478,7 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
 
     This module corresponds to node 19 on the tree
     """
+    job.fileStore.logToMaster('Running mhcii on %s:%s' % (univ_options['patient'], allele))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'peptfile.faa': peptfile}
@@ -1439,12 +1489,12 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
     with open('/'.join([work_dir, 'predictions.tsv']), 'w') as predfile:
         docker_call(tool='mhcii', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=predfile, interactive=True)
+    run_netMHCIIpan = True
     with open(predfile.name, 'r') as predfile:
         for line in predfile:
             if not line.startswith('HLA'):
                 continue
             if line.strip().split('\t')[5] == 'NetMHCIIpan':
-                run_netMHCIIpan = True
                 break
             # If the predictor type is sturniolo then it needs to be processed differently
             elif line.strip().split('\t')[5] == 'Sturniolo':
@@ -1453,8 +1503,9 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
                 predictor = 'Consensus'
             run_netMHCIIpan = False
             break
-    if os.stat(predfile.name).st_size == 0 or run_netMHCIIpan:
-        NetMHCIIpan = job.addChildJobFn(predict_netmhcii_binding, peptfile, allele, univ_options)
+    if run_netMHCIIpan:
+        NetMHCIIpan = job.addChildJobFn(predict_netmhcii_binding, peptfile, allele, univ_options,
+                                        disk='10G')
         return NetMHCIIpan.rv()
     else:
         output_file = job.fileStore.writeGlobalFile(predfile.name)
@@ -1468,6 +1519,7 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options):
 
     This module corresponds to node 19 on the tree
     """
+    job.fileStore.logToMaster('Running netmhciipan on %s' % allele)
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'peptfile.faa': peptfile}
@@ -1502,6 +1554,7 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files):
 
     This module corresponds to node 19 on the tree
     """
+    job.fileStore.logToMaster('Merging MHC calls')
     work_dir = job.fileStore.getLocalTempDir()
     pept_files = {
         '10_mer.faa': transgened_files['transgened_tumor_10_mer_snpeffed.faa'],
@@ -1622,7 +1675,9 @@ def boost_ranks(job, gene_expression, merged_mhc_calls, transgene_out, univ_opti
 
     This module corresponds to node 21 in the tree
     """
-    work_dir = job.fileStore.getLocalTempDir()
+    job.fileStore.logToMaster('Running boost_ranks on %s' % univ_options['patient'])
+    work_dir = os.path.join(job.fileStore.getLocalTempDir(), univ_options['patient'])
+    os.mkdir(work_dir)
     input_files = {
         'rsem_quant.tsv': gene_expression,
         'mhci_merged_files.tsv': merged_mhc_calls['mhci_merged_files.list'],
@@ -1647,14 +1702,7 @@ def boost_ranks(job, gene_expression, merged_mhc_calls, transgene_out, univ_opti
             ''.join([mhc, '_detailed_results.tsv']):
                 job.fileStore.writeGlobalFile(''.join([work_dir, '/', mhc,
                                                        '_merged_files_detailed_results.tsv']))}
-    outdir = os.path.join('/mnt/ephemeral/toil/', univ_options['patient'])
-    os.mkdir(outdir)
-    for filename in ['mhci_merged_files.tsv', 'mhcii_merged_files.tsv',
-                     ''.join(['mhci_merged_files_concise_results.tsv']),
-                     ''.join(['mhci_merged_files_detailed_results.tsv']),
-                     ''.join(['mhcii_merged_files_concise_results.tsv']),
-                     ''.join(['mhcii_merged_files_detailed_results.tsv'])]:
-        shutil.copy(os.path.join(work_dir, filename), os.path.join(outdir, filename))
+    export_results(work_dir, univ_options)
     return output_files
 
 
@@ -1720,8 +1768,8 @@ def prepare_samples(job, fastqs, univ_options):
     1. File extensions can only be fastq or fq (.gz is also allowed)
     2. Forward and reverse reads MUST be in the same folder with the same prefix
     3. The files must be on the form
-                    <prefix_for_file>_1.<fastq/fq>[.gz]
-                    <prefix_for_file>_2.<fastq/fq>[.gz]
+                    <prefix_for_file>1.<fastq/fq>[.gz]
+                    <prefix_for_file>2.<fastq/fq>[.gz]
     The input  dict is:
     tumor_dna: prefix_to_tumor_dna
     tumor_rna: prefix_to_tumor_rna
@@ -1737,6 +1785,7 @@ def prepare_samples(job, fastqs, univ_options):
 
     This module corresponds to node 1 in the tree
     """
+    job.fileStore.logToMaster('Downloading Inputs for %s' % univ_options['patient'])
     allowed_samples = {'tumor_dna_fastq_prefix', 'tumor_rna_fastq_prefix',
                        'normal_dna_fastq_prefix'}
     if set(fastqs.keys()).difference(allowed_samples) != {'patient_id'}:
@@ -1763,24 +1812,25 @@ def prepare_samples(job, fastqs, univ_options):
             # If the file was gzipped, add that to the extension
             if fastqs['gzipped']:
                 extn = ''.join([extn, '.gz'])
-        # Strip the _1 from the prefix.  That is added by the program.
-        if prefix.endswith('_1'):
-            prefix = prefix[:-2]
+        # Handle the R1/R2 identifiers in the prefix.  That is added by the program.
+        assert prefix.endswith('1'), 'Prefix didn\'t end with 1.<fastq/fq>[.gz]: (%s.%s)' % (prefix,
+                                                                                             extn)
+        prefix = prefix[:-1]
         # If it is a weblink, it HAS to be from S3
         if prefix.startswith('http'):
             assert prefix.startswith('https://s3'), 'Not an S3 link'
             fastqs[sample_type] = [
-                get_file_from_s3(job, ''.join([prefix, '_1', extn]), univ_options['sse_key']),
-                get_file_from_s3(job, ''.join([prefix, '_2', extn]), univ_options['sse_key'])]
+                get_file_from_s3(job, ''.join([prefix, '1', extn]), univ_options['sse_key']),
+                get_file_from_s3(job, ''.join([prefix, '2', extn]), univ_options['sse_key'])]
         else:
             # Relies heavily on the assumption that the pair will be in the same
             # folder
-            assert os.path.exists(''.join([prefix, '_1', extn])), 'Bogus input: %s' % prefix
+            assert os.path.exists(''.join([prefix, '1', extn])), 'Bogus input: %s' % prefix
             # Python lists maintain order hence the values are always guaranteed to be
             # [fastq1, fastq2]
             fastqs[sample_type] = [
-                job.fileStore.writeGlobalFile(''.join([prefix, '_1', extn])),
-                job.fileStore.writeGlobalFile(''.join([prefix, '_2', extn]))]
+                job.fileStore.writeGlobalFile(''.join([prefix, '1', extn])),
+                job.fileStore.writeGlobalFile(''.join([prefix, '2', extn]))]
     [fastqs.pop(x) for x in allowed_samples]
     return fastqs
 
@@ -1789,9 +1839,11 @@ def get_files_from_filestore(job, files, work_dir, cache=True, docker=False):
     """
     This is adapted from John Vivian's return_input_paths from the RNA-Seq pipeline.
 
-    Returns the paths of files from the FileStore if they are not present.  If docker=True, return
-    the docker path for the file if the file extension is tar.gz, then tar -zxvf it files is a dict
-    with:
+    Returns the paths of files from the FileStore if they are not present.
+    If docker=True, return the docker path for the file.
+    If the file extension is tar.gz, then tar -zxvf it.
+
+    files is a dict with:
         keys = the name of the file to be returned in toil space
         value = the input value for the file (can be toil temp file)
     work_dir is the location where the file should be stored
@@ -2296,6 +2348,59 @@ def bam2fastq(job, bamfile, univ_options):
     return first_fastq
 
 
+def export_results(file_path, univ_options):
+    """
+    Write out a file to a given location. The location can be either a directory on the local
+    machine, or a folder with a bucket on AWS.
+    TODO: Azure support
+    :param file_path: The path to the file that neeeds to be transferred to the new location.
+    :param univ_options: A dict of the universal options passed to this script. The important dict
+                         entries are ouput_folder and storage_location.
+                         * storage_location: 'Local' or an 'aws:<bucket_name>'.
+                         * output_folder: The folder to store the file. This must exist on the local
+                           machine if storage_location is 'Local'. If the storage_location is an aws
+                           bucket,  this string represents the path to the file in the bucket.  To
+                           keep it in the base directory, specify 'NA'.
+
+    :return: None
+    """
+    try:
+        assert univ_options['output_folder'], 'Need a path to a folder to write out files'
+        assert univ_options['storage_location'], 'Need to know where the files need to go. ' + \
+                                                 'Local or AWS/Azure, etc.'
+    except AssertionError as err:
+        # This isn't a game killer.  Continue the pipeline without erroring out but do inform the
+        # user about it.
+        print('ERROR:', err.message, file=sys.stderr)
+        return
+    assert os.path.exists(file_path), "Can't copy a file that doesn't exist!"
+    if univ_options['output_folder'] == 'NA':
+        if univ_options['storage_location'].lower == 'local':
+            print('ERROR: Cannot have NA as output folder if storage location is Local',
+                  file=sys.stderr)
+            return
+        output_folder = ''
+    else:
+        output_folder = univ_options['output_folder']
+    # Handle Local
+    if univ_options['storage_location'].lower() == 'local':
+        # Create the directory if required
+        try:
+            os.makedirs(univ_options['output_folder'], 755)
+        except OSError as err:
+            if err.errno != errno.EEXIST:
+                raise
+        output_file = os.path.join(output_folder, os.path.basename(file_path))
+        shutil.copy(file_path, output_file)
+    # Handle AWS
+    elif univ_options['storage_location'].startswith('aws'):
+        bucket_name = univ_options['storage_location'].split(':')[-1]
+        write_to_s3(file_path, univ_options['sse_key'], bucket_name, output_folder)
+    # Can't do Azure or google yet.
+    else:
+        print("Currently doesn't support anything but Local and aws.")
+
+
 def file_xext(filepath):
     """
     Get the file extension wrt compression from the filename (is it tar or targz)
@@ -2341,8 +2446,6 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_file', dest='config_file', help='Config file to be used in the' +
                         'run.', type=str, required=True, default=None)
-    parser.add_argument('--use_sudo', dest='use_sudo', help='Should sudo be used to run docker?',
-                        action='store_true', required=False, default=False)
     Job.Runner.addToilOptions(parser)
     params = parser.parse_args()
     START = Job.wrapJobFn(parse_config_file, params.config_file)
