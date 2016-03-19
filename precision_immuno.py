@@ -100,8 +100,7 @@ def parse_config_file(job, config_file):
                              '\n'.join(missing_tools))
     # Start a job for each sample in the sample set
     for patient_id in sample_set.keys():
-        job.addChild(job.wrapJobFn(pipeline_launchpad, sample_set[patient_id], univ_options,
-                                   tool_options))
+        job.addFollowOnJobFn(pipeline_launchpad, sample_set[patient_id], univ_options, tool_options)
     return None
 
 
@@ -1745,20 +1744,36 @@ def tool_specific_param_generator(job, config_file):
             # If a file is of the type file, vcf, tar or fasta, it needs to be downloaded from S3 if
             # reqd, then written to job store.
             if [x for x in ['file', 'vcf', 'tar', 'fasta', 'fai', 'idx', 'dict'] if x in line[0]]:
-                if line[1].startswith('http'):
-                    assert line[1].startswith('https://s3'), line[1] + ' is not an S3 file'
-                    line[1] = get_file_from_s3(job, line[1], write_to_jobstore=False)
-                else:
-                    assert os.path.exists(line[1]), 'Bogus Input : ' + line[1]
-                # If the file isn't a tarball, then it is a single file that is tar.gzipped for the
-                # sake of maximum compression instead of enveloping a folder. Thus it should be
-                # decompressed before writing to job store. Also, this is cool but they will by
-                # default also be dumped into the cache!
-                if 'tar' not in line[0]:
-                    line[1] = untargz(line[1], work_dir)
-                line[1] = job.fileStore.writeGlobalFile(line[1])
-            group_params[line[0]] = line[1]
+                group_params[line[0]] = job.addChildJobFn(get_pipeline_inputs, line[0],
+                                                          line[1]).rv()
+            else:
+                group_params[line[0]] = line[1]
     yield group_name, group_params
+
+
+def get_pipeline_inputs(job, input_flag, input_file):
+    """
+    Get the input file from s3 or disk, untargz if necessary and then write to file job store.
+    :param job: job
+    :param str input_flag: The name of the flag
+    :param str input_file: The value passed in the config file
+    :return: The jobstore ID for the file
+    """
+    work_dir = job.fileStore.getLocalTempDir()
+    job.fileStore.logToMaster('Obtaining file (%s) to the file job store' % os.path.basename(
+            input_file))
+    if input_file.startswith('http'):
+        assert input_file.startswith('https://s3'), input_file + ' is not an S3 file'
+        input_file = get_file_from_s3(job, input_file, write_to_jobstore=False)
+    else:
+        assert os.path.exists(input_file), 'Bogus Input : ' + input_file
+    # If the file isn't a tarball, then it is a single file that is tar.gzipped for the
+    # sake of maximum compression instead of enveloping a folder. Thus it should be
+    # decompressed before writing to job store. Also, this is cool but they will by
+    # default also be dumped into the cache!
+    if 'tar' not in input_flag:
+        input_file = untargz(input_file, work_dir)
+    return job.fileStore.writeGlobalFile(input_file)
 
 
 def prepare_samples(job, fastqs, univ_options):
@@ -1812,6 +1827,8 @@ def prepare_samples(job, fastqs, univ_options):
             # If the file was gzipped, add that to the extension
             if fastqs['gzipped']:
                 extn = ''.join([extn, '.gz'])
+        else:
+            raise ParameterError('Are the inputs for patient (%s) fastq/fq?' % fastqs['patient_id'])
         # Handle the R1/R2 identifiers in the prefix.  That is added by the program.
         assert prefix.endswith('1'), 'Prefix didn\'t end with 1.<fastq/fq>[.gz]: (%s.%s)' % (prefix,
                                                                                              extn)
@@ -1825,7 +1842,8 @@ def prepare_samples(job, fastqs, univ_options):
         else:
             # Relies heavily on the assumption that the pair will be in the same
             # folder
-            assert os.path.exists(''.join([prefix, '1', extn])), 'Bogus input: %s' % prefix
+            assert os.path.exists(''.join([prefix, '1', extn])), 'Bogus input: %s' % ''.join(
+                    [prefix, '1', extn])
             # Python lists maintain order hence the values are always guaranteed to be
             # [fastq1, fastq2]
             fastqs[sample_type] = [
@@ -2448,7 +2466,7 @@ def main():
                         'run.', type=str, required=True, default=None)
     Job.Runner.addToilOptions(parser)
     params = parser.parse_args()
-    START = Job.wrapJobFn(parse_config_file, params.config_file)
+    START = Job.wrapJobFn(parse_config_file, params.config_file).encapsulate()
     Job.Runner.startToil(START, params)
     return None
 
