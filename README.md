@@ -1,4 +1,6 @@
-This repo contains the python script for the Precision Immunology Pipeline developed at UCSC.
+ProTECT — **Pr**ediction **o**f **T**-Cell **E**pitopes for **C**ancer **T**herapy
+
+This repo contains the Python script for the Precision Immunology Pipeline developed at UCSC.
 
 precision_immunology.py - The script for the pipeline.
 input_parameters.list - The config file for the run that contains all the necessary parameters for the run.
