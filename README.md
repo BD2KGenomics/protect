@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/BD2KGenomics/protect.png?label=ready&title=Ready)](https://waffle.io/BD2KGenomics/protect)
 ProTECT — **Pr**ediction **o**f **T**-Cell **E**pitopes for **C**ancer **T**herapy
 
 This repo contains the Python script for the Precision Immunology Pipeline developed at UCSC.
