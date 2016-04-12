@@ -710,7 +710,7 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
     perchrom_radia = defaultdict()
     for chrom in chromosomes:
         perchrom_radia[chrom] = job.addChildJobFn(run_radia, bams, univ_options, radia_options,
-                                                  chrom, disk='60G').rv()
+                                                  chrom, disk='60G', memory='6G').rv()
     return perchrom_radia
 
 
@@ -831,7 +831,7 @@ def run_radia(job, bams, univ_options, radia_options, chrom):
             job.fileStore.writeGlobalFile(radia_file)
     filterradia = job.wrapJobFn(run_filter_radia, bams,
                                 output_files[os.path.basename(radia_output)],
-                                univ_options, radia_options, chrom, disk='60G')
+                                univ_options, radia_options, chrom, disk='60G', memory='6G')
     job.addChild(filterradia)
     return filterradia.rv()
 
@@ -945,7 +945,7 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     for chrom in chromosomes:
         perchrom_mutect[chrom] = job.addChildJobFn(run_mutect, tumor_bam, normal_bam, univ_options,
                                                    mutect_options, chrom, disk='60G',
-                                                   memory='3.5G').rv()
+                                                   memory='6G').rv()
     return perchrom_mutect
 
 
