@@ -15,7 +15,7 @@
 """
 Author : Arjun Arkal Rao
 Affiliation : UCSC BME, UCSC Genomics Institute
-File : PrOTECT/PrOTECT_large.py
+File : protect/ProTECT_large.py
 
 Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .

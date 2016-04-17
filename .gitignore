@@ -1,4 +1,6 @@
 pimmuno.py
 pimmuno_2.py
 *.pyc
-develop_data
+*.egg-info
+develop_data/
+venv/
