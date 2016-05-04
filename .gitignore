@@ -4,3 +4,4 @@ pimmuno_2.py
 *.egg-info
 develop_data/
 venv/
+.cache/

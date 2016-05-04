@@ -45,6 +45,9 @@ These describe options that are used universally by almost all tools/jobs in the
                               files.  It is highly recommeded that the files be uploaded to S3 using
                               [s3am](https://github.com/BD2KGenomics/s3am.git) using the
                               --sse-key-is-master flag.
+    sse_key_is_master       - Were the sample files all encrypted with sse_key (`False`), or were
+                              they encrypted with individual per-file keys hashed from the master
+                              sse_key (`True`)
     cghub_key               - The CGHub credentials to use if the files must be downloaded from
                               CGHub
     storage_location        - Should the intermediate files be stored locally (use `Local`) or in an

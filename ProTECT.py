@@ -26,12 +26,12 @@ from encrypt_files_in_dir_to_s3 import write_to_s3
 from multiprocessing import cpu_count
 from pysam import Samfile
 from toil.job import Job
+from urlparse import urlparse
+
 
 import argparse
-import base64
 import errno
 import gzip
-import hashlib
 import json
 import os
 import re
@@ -87,6 +87,10 @@ def parse_config_file(job, config_file):
                 if len(missing_opts) > 0:
                     raise ParameterError(' The following options have no arguments in the config '
                                          'file :\n' + '\n'.join(missing_opts))
+                if univ_options['sse_key_is_master']:
+                    assert univ_options['sse_key_is_master'] in ('True', 'true', 'False', 'false')
+                    univ_options['sse_key_is_master'] = \
+                        univ_options['sse_key_is_master'] in ('True', 'true')
             # If it isn't any of the above, it's a tool group
             else:
                 tool_options[groupname] = group_params
@@ -1837,8 +1841,10 @@ def prepare_samples(job, fastqs, univ_options):
         if prefix.startswith('http'):
             assert prefix.startswith('https://s3'), 'Not an S3 link'
             fastqs[sample_type] = [
-                get_file_from_s3(job, ''.join([prefix, '1', extn]), univ_options['sse_key']),
-                get_file_from_s3(job, ''.join([prefix, '2', extn]), univ_options['sse_key'])]
+                get_file_from_s3(job, ''.join([prefix, '1', extn]), univ_options['sse_key'],
+                                 per_file_encryption=univ_options['sse_key_is_master']),
+                get_file_from_s3(job, ''.join([prefix, '2', extn]), univ_options['sse_key'],
+                                 per_file_encryption=univ_options['sse_key_is_master'])]
         else:
             # Relies heavily on the assumption that the pair will be in the same
             # folder
@@ -2213,51 +2219,73 @@ def is_gzipfile(filename):
             return False
 
 
-def generate_unique_key(master_key, url):
-    """
-    This module will take a master key and a url, and then make a new key specific to the url, based
-    off the master.
-    """
-    with open(master_key, 'r') as keyfile:
-        master_key = keyfile.read()
-    assert len(master_key) == 32, 'Invalid Key! Must be 32 characters. ' \
-        'Key: {}, Length: {}'.format(master_key, len(master_key))
-    new_key = hashlib.sha256(master_key + url).digest()
-    assert len(new_key) == 32, 'New key is invalid and is not ' + \
-        '32 characters: {}'.format(new_key)
-    return new_key
-
-
-def get_file_from_s3(job, s3_url, encryption_key=None, write_to_jobstore=True):
+def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
+                     write_to_jobstore=True):
     """
     Downloads a supplied URL that points to an unencrypted, unprotected file on Amazon S3. The file
     is downloaded and a subsequently written to the jobstore and the return value is a the path to
     the file in the jobstore.
+
+    :param str s3_url: URL for the file (can be s3 or https)
+    :param str encryption_key: Path to the master key
+    :param bool per_file_encryption: If encrypted, was the file encrypted using the per-file method?
+    :param bool write_to_jobstore: Should the file be written to the job store?
     """
     work_dir = job.fileStore.getLocalTempDir()
+
+    parsed_url = urlparse(s3_url)
+    if parsed_url.scheme == 'https':
+        download_url = 'S3:/' + parsed_url.path  # path contains the second /
+    elif parsed_url.scheme == 's3':
+        download_url = s3_url
+    else:
+        raise RuntimeError('Unexpected url scheme: %s' % s3_url)
+
     filename = '/'.join([work_dir, os.path.basename(s3_url)])
     # This is common to encrypted and unencrypted downloads
-    download_call = ['curl', '-fs', '--retry', '5']
-    # If an encryption key was provided, use it to create teh headers that need to be injected into
-    # the curl script and append to the call
+    download_call = ['s3am', 'download']
+    # If an encryption key was provided, use it.
     if encryption_key:
-        key = generate_unique_key(encryption_key, s3_url)
-        encoded_key = base64.b64encode(key)
-        encoded_key_md5 = base64.b64encode( hashlib.md5(key).digest() )
-        h1 = 'x-amz-server-side-encryption-customer-algorithm:AES256'
-        h2 = 'x-amz-server-side-encryption-customer-key:{}'.format(encoded_key)
-        h3 = 'x-amz-server-side-encryption-customer-key-md5:{}'.format(encoded_key_md5)
-        download_call.extend(['-H', h1, '-H', h2, '-H', h3])
+        download_call.extend(['--sse-key-file', encryption_key])
+        if per_file_encryption:
+            download_call.append('--sse-key-is-master')
     # This is also common to both types of downloads
-    download_call.extend([s3_url, '-o', filename])
+    download_call.extend([download_url, filename])
     try:
-        subprocess.check_call(download_call)
+        with open(work_dir + '/stderr', 'w') as stderr_file:
+            subprocess.check_call(download_call, stderr=stderr_file)
     except subprocess.CalledProcessError:
-        raise RuntimeError('Curl returned a non-zero exit status processing %s. Do you' % s3_url +
-                           'have premssions to access the file?')
+        # The last line of the stderr will have the error
+        with open(stderr_file.name) as stderr_file:
+            for line in stderr_file:
+                line = line.strip()
+                if line:
+                    exception = line
+        if exception.startswith('boto'):
+            exception = exception.split(': ')
+            if exception[-1].startswith('403'):
+                raise RuntimeError('s3am failed with a "403 Forbidden" error  while obtaining (%s).'
+                                   ' Did you use the correct credentials?' % s3_url)
+            elif exception[-1].startswith('400'):
+                raise RuntimeError('s3am failed with a "400 Bad Request" error while obtaining (%s)'
+                                   '. Are you trying to download an encrypted file without a key, '
+                                   'or an unencrypted file with one?' % s3_url)
+            else:
+                raise RuntimeError('s3am failed with (%s) while downloading (%s)' %
+                                   (': '.join(exception), s3_url))
+        elif exception.startswith('AttributeError'):
+            exception = exception.split(': ')
+            if exception[-1].startswith("'NoneType'"):
+                raise RuntimeError('Does (%s) exist on s3?' % s3_url)
+            else:
+                raise RuntimeError('s3am failed with (%s) while downloading (%s)' %
+                                   (': '.join(exception), s3_url))
+        else:
+            raise RuntimeError('Could not diagnose the error while downloading (%s)' % s3_url)
     except OSError:
-        raise RuntimeError('Failed to find "curl". Install via "apt-get install curl"')
+        raise RuntimeError('Failed to find "s3am". Install via "apt-get install --pre s3am"')
     assert os.path.exists(filename)
+    os.remove(stderr_file.name)
     if write_to_jobstore:
         filename = job.fileStore.writeGlobalFile(filename)
     return filename
