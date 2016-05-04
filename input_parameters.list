@@ -50,6 +50,7 @@ tumor_rna_fastq_prefix tum_rna_1
 dockerhub {aarjunrao}
 java_Xmx 20G
 sse_key {master_key}
+sse_key_is_master {True, False}
 cghub_key {cghub_key}
 output_folder output_folder
 storage_location [Local, aws:<bucket_name>]
