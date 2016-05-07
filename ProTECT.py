@@ -717,8 +717,11 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
             'normal_dnai': normal_bam['normal_dna_fix_pg_sorted.bam.bai']}
     # Make a dict object to hold the return values for each of the chromosome jobs.  Then run radia
     # on each chromosome.
-    chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
-    chromosomes = ['chr6']
+    work_dir = job.fileStore.getLocalTempDir()
+    input_files = {'genome.fasta.fai': radia_options['genome_fai']}
+    index_path = get_files_from_filestore(job, input_files, work_dir)
+    chromosomes = faidx2refId(index_path)
+
     perchrom_radia = defaultdict()
     for chrom in chromosomes:
         perchrom_radia[chrom] = job.addChildJobFn(run_radia, bams, univ_options, radia_options,
@@ -750,8 +753,7 @@ def merge_radia(job, perchrom_rvs):
                    for filename, jsid in perchrom_files.items()}
     input_files = get_files_from_filestore(job, input_files, work_dir,
                                            docker=False)
-    chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
-    chromosomes = ['chr6']
+    chromosomes = perchrom_rvs.keys()
     with open('/'.join([work_dir, 'radia_calls.vcf']), 'w') as radfile, \
             open('/'.join([work_dir, 'radia_filter_passing_calls.vcf']), 'w') as radpassfile:
         for chrom in chromosomes:
@@ -953,9 +955,11 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     job.fileStore.logToMaster('Running spawn_mutect on %s' % univ_options['patient'])
     # Make a dict object to hold the return values for each of the chromosome
     # jobs.  Then run mutect on each chromosome.
-    chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
-    # TODO For testing CI we only want chr6
-    chromosomes = ['chr6']
+    work_dir = job.fileStore.getLocalTempDir()
+    input_files = {'genome.fasta.fai': mutect_options['genome_fai']}
+    index_path = get_files_from_filestore(job, input_files, work_dir)
+    chromosomes = faidx2refId(index_path)
+
     perchrom_mutect = defaultdict()
     for chrom in chromosomes:
         perchrom_mutect[chrom] = job.addChildJobFn(run_mutect, tumor_bam, normal_bam, univ_options,
@@ -984,8 +988,7 @@ def merge_mutect(job, perchrom_rvs):
     input_files = {filename: jsid for perchrom_files in perchrom_rvs.values()
                    for filename, jsid in perchrom_files.items()}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
-    chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
-    chromosomes = ['chr6']
+    chromosomes = perchrom_rvs.keys()
     with open('/'.join([work_dir, 'mutect_calls.vcf']), 'w') as mutvcf, \
             open('/'.join([work_dir, 'mutect_calls.out']), 'w') as mutout, \
             open('/'.join([work_dir, 'mutect_passing_calls.vcf']), 'w') as mutpassvcf:
@@ -2487,6 +2490,19 @@ def strip_xext(filepath):
     for i in xrange(0, ext_size):
         filepath = os.path.splitext(filepath)[0]
     return filepath
+
+
+def faidx2refId(filepath):
+    """
+    Reads faidx and returns the sequence names
+    :param filepath: path to faidx
+    :return: list reference Ids
+    """
+    ref_ids = []
+    with open(filepath, 'r') as f:
+        for line in f:
+            ref_ids.append(line.split()[0])
+    return ref_ids
 
 
 # Exception for bad parameters provided
