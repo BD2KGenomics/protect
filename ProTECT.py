@@ -751,7 +751,7 @@ def merge_radia(job, perchrom_rvs):
     input_files = get_files_from_filestore(job, input_files, work_dir,
                                            docker=False)
     chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
-    chromoosmes = ['chr6']
+    chromosomes = ['chr6']
     with open('/'.join([work_dir, 'radia_calls.vcf']), 'w') as radfile, \
             open('/'.join([work_dir, 'radia_filter_passing_calls.vcf']), 'w') as radpassfile:
         for chrom in chromosomes:

@@ -42,8 +42,8 @@ tumor_rna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_t
 
 # Universal_Options
 dockerhub aarjunrao
-java_Xmx 15G
-output_folder /mnt/ephemeral/toil/working/
+java_Xmx 60G
+output_folder /mnt/ephemeral/done
 storage_location Local
 
 ## Tool specific options. You probably don't need to change any of this!
