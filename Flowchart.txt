@@ -21,13 +21,14 @@
                       2--+     +3     4+  +5  +6  7+
                       |  |     ||_____||  ||__||__||
                       9  |_ _ _|_ _| _ |_ |_ _|| _ |_ _,8
-                  ____|____   _____|__         |
-                 /    |    \ /   /    \        |
-                |     |     |   |     |        |
-                10    11   *12  13   14        15
-                |     |     |   |     |        |
-                |     |     16  17    |        |
-                |     |     |___|     |        |
+                  ____|____   _____|__         |   |
+                 /    |    \ /   /    \        |   |
+                |     |     |   |     |        |   |
+                10    11   *12  13   14        15  |
+                |     |     |   |     |        |   |
+                |     |     16  17    |        |   |
+                |     |     |___|     |        |   |
+                |_ _ _|_ _ _ _|_ _ _ _|_ _ _ _ |_ _|_ _,24
                 |     |       |       |        |
                 |     +------18-------+        |
                 |             |                |
@@ -74,3 +75,6 @@
     YY = Predict MHCII peptides for m predicted alleles
     22 = merge MHC:peptide binding predictions
     23 = Rank Boost
+    24 = MHC Pathway assessment
+
+     * = Nodes will have dynamically allocated children

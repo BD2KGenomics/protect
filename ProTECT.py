@@ -21,7 +21,7 @@ Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
 from __future__ import print_function
-from collections import defaultdict
+from collections import defaultdict, Counter
 from encrypt_files_in_dir_to_s3 import write_to_s3
 from multiprocessing import cpu_count
 from pysam import Samfile
@@ -110,71 +110,7 @@ def parse_config_file(job, config_file):
 
 def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     """
-    The precision immuno pipeline begins at this module.  The DAG for the pipeline is as follows
-
-                                   0
-                                   |
-                                   1
-                        ___________|______________
-                       /        |     |    |   |  \
-                      2--+     +3     4+  +5  +6  7+
-                      |  |     ||_____||  ||__||__||
-                      9  |_ _ _|_ _| _ |_ |_ _|| _ |_ _,8
-                  ____|____   _____|__         |
-                 /    |    \ /   /    \        |
-                |     |     |   |     |        |
-                10    11   *12  13   14        15
-                |     |     |   |     |        |
-                |     |     16  17    |        |
-                |     |     |___|     |        |
-                |     |       |       |        |
-                |     +------18-------+        |
-                |             |                |
-                |            19                |
-                |             |                |
-                |            20                |
-                |             |________________|
-                |                      |
-                |                     *21
-                |                 _____|_____
-                |                /           \
-                |               XX           YY
-                |               |_____________|
-                |                      |
-                |                      22
-                |                      |
-                +----------------------23
-
-
-     0 = Start Node
-     1 = Prepare sample (Download if necessary)
-     2 = Process RNA for Adapters (CUTADAPT)
-     3 = Align Tumor DNA (BWA)
-     4 = Align Normal DNA (BWA)
-     5 = Decipher MHC Haplotype Tumor DNA (PHLAT)
-     6 = Decipher MHC Haplotype Normal DNA (PHLAT)
-     7 = Decipher MHC Haplotype Tumor RNA (PHLAT)
-     8 = Delete Fastqs to cleanup space for future jobs
-     9 = Align RNA (STAR)
-    10 = Calculate Gene Expression (RSEM)
-    11 = Identify Fusion Genes (CURRENTLY NOT IMPLEMENTED)
-    12 = Mutation Calling 1 (RADIA)
-    13 = Mutation Calling 2 (Mutect)
-    14 = INDEL Calling (CURRENTLY NOT IMPLEMENTED)
-    15 = Merge PHLAT outputs (PYTHON SCRIPT)
-    16 = Merge radia mutation calls
-    17 = Merge mutect mutation calls
-    18 = Merge Mutation calls (PYTHON SCRIPT)
-    19 = translate to Protein space (SnpEff, Future Translator)
-    20 = Convert AA change to peptides (TRANSGENE)
-    21 = Dynamically spawn mhci prediction on n mhci alleles (XX)
-         and mhcii prediction on m mhcii alleles (YY)
-    XX = Predict MHCI peptides for n predicted alleles
-    YY = Predict MHCII peptides for m predicted alleles
-    22 = merge MHC:peptide binding predictions
-    23 = Rank Boost
-
-     * = Nodes will have dynamically allocated children
+    The precision immuno pipeline begins at this module. The DAG can be viewed in Flowchart.txt
 
     This module corresponds to node 0 on the tree
     """
@@ -210,6 +146,8 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     fastq_deletion = job.wrapJobFn(delete_fastqs, sample_prep.rv())
     rsem = job.wrapJobFn(run_rsem, star.rv(), univ_options, tool_options['rsem'],
                          cores=tool_options['rsem']['n'], disk='80G')
+    mhc_pathway_assessment = job.wrapJobFn(assess_mhc_genes, rsem.rv(), phlat_tumor_rna.rv(),
+                                           univ_options, tool_options['mhc_pathway_assessment'])
     fusions = job.wrapJobFn(run_fusion_caller, star.rv(), univ_options, 'fusion_options')
     Sradia = job.wrapJobFn(spawn_radia, star.rv(), bwa_tumor.rv(),
                            bwa_normal.rv(), univ_options, tool_options['mut_callers']).encapsulate()
@@ -243,53 +181,56 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     sample_prep.addChild(phlat_normal_dna)  # Edge  1->6
     sample_prep.addChild(phlat_tumor_rna)  # Edge  1->7
     # B. cutadapt will be followed by star
-    cutadapt.addChild(star)  # Edge 2->8
+    cutadapt.addChild(star)  # Edge 2->9
     # Ci.  gene expression and fusion detection follow start alignment
-    star.addChild(rsem)  # Edge  8->9
-    star.addChild(fusions)  # Edge  8->10
+    star.addChild(rsem)  # Edge  9->10
+    star.addChild(fusions)  # Edge  9->11
     # Cii.  Radia depends on all 3 alignments
-    star.addChild(Sradia)  # Edge  8->11
-    bwa_tumor.addChild(Sradia)  # Edge  3->11
-    bwa_normal.addChild(Sradia)  # Edge  4->11
+    star.addChild(Sradia)  # Edge  9->12
+    bwa_tumor.addChild(Sradia)  # Edge  3->12
+    bwa_normal.addChild(Sradia)  # Edge  4->12
     # Ciii. mutect and indel calling depends on dna to have been aligned
-    bwa_tumor.addChild(Smutect)  # Edge  3->12
-    bwa_normal.addChild(Smutect)  # Edge  4->12
-    bwa_tumor.addChild(indels)  # Edge  3->13
-    bwa_normal.addChild(indels)  # Edge  4->13
+    bwa_tumor.addChild(Smutect)  # Edge  3->13
+    bwa_normal.addChild(Smutect)  # Edge  4->13
+    bwa_tumor.addChild(indels)  # Edge  3->14
+    bwa_normal.addChild(indels)  # Edge  4->14
     # D. MHC haplotypes will be merged once all 3 samples have been PHLAT-ed
-    phlat_tumor_dna.addChild(merge_phlat)  # Edge  5->14
-    phlat_normal_dna.addChild(merge_phlat)  # Edge  6->14
-    phlat_tumor_rna.addChild(merge_phlat)  # Edge  7->14
+    phlat_tumor_dna.addChild(merge_phlat)  # Edge  5->15
+    phlat_normal_dna.addChild(merge_phlat)  # Edge  6->15
+    phlat_tumor_rna.addChild(merge_phlat)  # Edge  7->15
     # E. Delete the fastqs from the job store since all alignments are complete
-    sample_prep.addChild(fastq_deletion)
-    cutadapt.addChild(fastq_deletion)
-    bwa_normal.addChild(fastq_deletion)
-    bwa_tumor.addChild(fastq_deletion)
-    phlat_normal_dna.addChild(fastq_deletion)
-    phlat_tumor_dna.addChild(fastq_deletion)
-    phlat_tumor_rna.addChild(fastq_deletion)
+    sample_prep.addChild(fastq_deletion)  # Edge 1->8
+    cutadapt.addChild(fastq_deletion)  # Edge 2->8
+    bwa_normal.addChild(fastq_deletion)  # Edge 3->8
+    bwa_tumor.addChild(fastq_deletion)  # Edge 4->8
+    phlat_normal_dna.addChild(fastq_deletion)  # Edge 5->8
+    phlat_tumor_dna.addChild(fastq_deletion)  # Edge 6>8
+    phlat_tumor_rna.addChild(fastq_deletion)  # Edge 7->8
     # F. Mutation calls need to be merged before they can be used
-    Sradia.addChild(Mradia)  # Edge 11->15
-    Smutect.addChild(Mmutect)  # Edge 12->16
+    Sradia.addChild(Mradia)  # Edge 12->16
+    Smutect.addChild(Mmutect)  # Edge 13->17
     # G. All mutations get aggregated when they have finished running
-    fusions.addChild(merge_mutations)  # Edge 10->17
-    Mradia.addChild(merge_mutations)  # Edge 15->17
-    Mmutect.addChild(merge_mutations)  # Edge 16->17
-    indels.addChild(merge_mutations)  # Edge 13->17
+    fusions.addChild(merge_mutations)  # Edge 11->18
+    Mradia.addChild(merge_mutations)  # Edge 16->18
+    Mmutect.addChild(merge_mutations)  # Edge 17->18
+    indels.addChild(merge_mutations)  # Edge 14->18
     # H. Aggregated mutations will be translated to protein space
-    merge_mutations.addChild(snpeff)  # Edge 17->18
+    merge_mutations.addChild(snpeff)  # Edge 18->19
     # I. snpeffed mutations will be converted into peptides
-    snpeff.addChild(transgene)  # Edge 18->19
+    snpeff.addChild(transgene)  # Edge 19->20
     # J. Merged haplotypes and peptides will be converted into jobs and submitted for mhc:peptide
     # binding prediction
-    merge_phlat.addChild(spawn_mhc)  # Edge 14->20
-    transgene.addChild(spawn_mhc)  # Edge 19->20
+    merge_phlat.addChild(spawn_mhc)  # Edge 15->21
+    transgene.addChild(spawn_mhc)  # Edge 20->21
     # K. The results from all the predictions will be merged. This is a follow-on job because
     # spawn_mhc will spawn an undetermined number of children.
-    spawn_mhc.addFollowOn(merge_mhc)  # Edges 20->XX->21 and 20->YY->21
+    spawn_mhc.addFollowOn(merge_mhc)  # Edges 21->XX->22 and 21->YY->22
     # L. Finally, the merged mhc along with the gene expression will be used for rank boosting
-    rsem.addChild(rank_boost)  # Edge  9->22
-    merge_mhc.addChild(rank_boost)  # Edge 21->22
+    rsem.addChild(rank_boost)  # Edge  10->23
+    merge_mhc.addChild(rank_boost)  # Edge 22->23
+    # M. Assess the status of the MHC genes in the patient
+    phlat_tumor_rna.addChild(mhc_pathway_assessment)  # Edge 7->24
+    rsem.addChild(mhc_pathway_assessment)  # Edge 10->24
     return None
 
 
@@ -658,6 +599,81 @@ def run_rsem(job, star_bams, univ_options, rsem_options):
                 dockerhub=univ_options['dockerhub'])
     output_file = \
         job.fileStore.writeGlobalFile('/'.join([work_dir, 'rsem.isoforms.results']))
+    return output_file
+
+
+def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_genes_options):
+    """
+    This module will assess the prevalence of the various genes in the MHC pathway and return a
+    report in the tsv format
+    :param isoform_expression: Isoform expression from run_rsem
+    :param rna_haplotype: PHLAT output from running on rna
+    :param univ_options: Universal options for the pipeline
+    :param mhc_genes_options: options specific to this module
+    """
+    job.fileStore.logToMaster('Running mhc gene assessment on %s' % univ_options['patient'])
+    work_dir = job.fileStore.getLocalTempDir()
+    input_files = {
+        'rsem_quant.tsv': isoform_expression,
+        'rna_haplotype.sum': rna_haplotype,
+        'mhc_genes.json': mhc_genes_options['genes_file']}
+    input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
+
+    # Read in the MHC genes
+    with open(input_files['mhc_genes.json']) as mhc_file:
+        mhc_genes = json.load(mhc_file)
+
+    # Parse the rna phlat file
+    with open(input_files['rna_haplotype.sum']) as rna_mhc:
+        mhc_alleles = {'HLA_A': [], 'HLA_B': [], 'HLA_C': [], 'HLA_DPA': [], 'HLA_DQA': [],
+                       'HLA_DPB': [], 'HLA_DQB': [], 'HLA_DRB': []}
+        mhc_alleles = parse_phlat_file(rna_mhc, mhc_alleles)
+
+    # Process the isoform expressions
+    gene_expressions = Counter()
+    with open(input_files['rsem_quant.tsv']) as rsem_file:
+        line = rsem_file.readline()
+        line = line.strip().split()
+        assert line == ['transcript_id', 'gene_id', 'length', 'effective_length', 'expected_count',
+                        'TPM', 'FPKM', 'IsoPct']
+        for line in rsem_file:
+            line = line.strip().split()
+            gene_expressions[line[1]] += float(line[5])
+
+    with open(os.path.join(work_dir, 'mhc_pathway_report.txt'), 'w') as mpr:
+        for section in mhc_genes:
+            print(section.center(48, ' '), file=mpr)
+            print("{:12}{:12}{:12}{:12}".format("Gene", "Threshold", "Observed", "Result"),
+                  file=mpr)
+            if section == 'MHCI loading':
+                for mhci_allele in 'HLA_A', 'HLA_B', 'HLA_C':
+                    num_alleles = len(mhc_alleles[mhci_allele])
+                    print("{:12}{:12}{:12}{:12}".format(mhci_allele, '2', num_alleles,
+                                                        'FAIL' if num_alleles == 0
+                                                               else 'LOW' if num_alleles == 1
+                                                                          else 'PASS'), file=mpr)
+            elif section == 'MHCII loading':
+                #TODO DP alleles
+                for mhcii_allele in ('HLA_DQA', 'HLA_DQB', 'HLA_DRA', 'HLA_DRB'):
+                    if mhcii_allele != 'HLA_DRA':
+                        num_alleles = len(mhc_alleles[mhcii_allele])
+                        print("{:12}{:12}{:12}{:12}".format(mhcii_allele, 2, num_alleles,
+                              'FAIL' if num_alleles == 0 else 'LOW' if num_alleles == 1 else 'PASS'),
+                              file=mpr)
+                    else:
+                        # FIXME This is hardcoded for now. We need to change this.
+                        print("{:12}{:<12}{:<12}{:12}".format(
+                                    'HLA_DRA', gene_expressions['ENSG00000204287.9'], '69.37',
+                                    'LOW' if gene_expressions['ENSG00000204287.9'] <= 69.37
+                                          else 'PASS'), file=mpr)
+            for gene, ensgene, first_quart in mhc_genes[section]:
+                print("{:12}{:<12}{:<12}{:12}".format(
+                            gene, float(first_quart), gene_expressions[ensgene],
+                            'LOW' if gene_expressions[ensgene] <= float(first_quart) else 'PASS'),
+                      file=mpr)
+            print('', file=mpr)
+    export_results(mpr.name, univ_options)
+    output_file = job.fileStore.writeGlobalFile(mpr.name)
     return output_file
 
 
@@ -1309,21 +1325,7 @@ def merge_phlat_calls(job, tumor_phlat, normal_phlat, rna_phlat):
         mhc_alleles = {'HLA_A': [], 'HLA_B': [], 'HLA_C': [], 'HLA_DPA': [], 'HLA_DQA': [],
                        'HLA_DPB': [], 'HLA_DQB': [], 'HLA_DRB': []}
         for phlatfile in td_file, nd_file, tr_file:
-            for line in phlatfile:
-                if line.startswith('Locus'):
-                    continue
-                line = line.strip().split()
-                if line[0].startswith('HLA_D'):
-                    line[0] = line[0][:-1]  # strip the last character
-                # Sometimes we get an error saying there was insufficient read
-                # converage. We need to drop that line.
-                # E.g. HLA_DQB1 no call due to insufficient reads at this locus
-                if line[1] == 'no':
-                    continue
-                if line[4] != 'NA' and not line[1].endswith('xx'):
-                    mhc_alleles[line[0]].append((line[1], line[4]))
-                if line[5] != 'NA' and not line[2].endswith('xx'):
-                    mhc_alleles[line[0]].append((line[2], line[5]))
+            mhc=alleles = parse_phlat_file(phlatfile, mhc_alleles)
     # Get most probable alleles for each allele group and print to output
     with open(os.path.join(work_dir, 'mhci_alleles.list'), 'w') as mhci_file, \
             open(os.path.join(work_dir, 'mhcii_alleles.list'), 'w') as mhcii_file:
@@ -1670,7 +1672,7 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files):
     return output_files
 
 
-def boost_ranks(job, gene_expression, merged_mhc_calls, transgene_out, univ_options,
+def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_options,
                 rank_boost_options):
     """
     This is the final module in the pipeline.  It will call the rank boosting R
@@ -1682,7 +1684,7 @@ def boost_ranks(job, gene_expression, merged_mhc_calls, transgene_out, univ_opti
     work_dir = os.path.join(job.fileStore.getLocalTempDir(), univ_options['patient'])
     os.mkdir(work_dir)
     input_files = {
-        'rsem_quant.tsv': gene_expression,
+        'rsem_quant.tsv': isoform_expression,
         'mhci_merged_files.tsv': merged_mhc_calls['mhci_merged_files.list'],
         'mhcii_merged_files.tsv': merged_mhc_calls['mhcii_merged_files.list'],
         'mhci_peptides.faa': transgene_out['transgened_tumor_10_mer_snpeffed.faa'],
@@ -1768,6 +1770,8 @@ def get_pipeline_inputs(job, input_flag, input_file):
             input_file))
     if input_file.startswith('http'):
         assert input_file.startswith('https://s3'), input_file + ' is not an S3 file'
+        input_file = get_file_from_s3(job, input_file, write_to_jobstore=False)
+    elif input_file.startswith('S3'):
         input_file = get_file_from_s3(job, input_file, write_to_jobstore=False)
     else:
         assert os.path.exists(input_file), 'Bogus Input : ' + input_file
@@ -2243,7 +2247,7 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
 
     filename = '/'.join([work_dir, os.path.basename(s3_url)])
     # This is common to encrypted and unencrypted downloads
-    download_call = ['s3am', 'download']
+    download_call = ['s3am', 'download', '--download-exists', 'resume']
     # If an encryption key was provided, use it.
     if encryption_key:
         download_call.extend(['--sse-key-file', encryption_key])
@@ -2251,41 +2255,51 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
             download_call.append('--sse-key-is-master')
     # This is also common to both types of downloads
     download_call.extend([download_url, filename])
-    try:
-        with open(work_dir + '/stderr', 'w') as stderr_file:
-            subprocess.check_call(download_call, stderr=stderr_file)
-    except subprocess.CalledProcessError:
-        # The last line of the stderr will have the error
-        with open(stderr_file.name) as stderr_file:
-            for line in stderr_file:
-                line = line.strip()
-                if line:
-                    exception = line
-        if exception.startswith('boto'):
-            exception = exception.split(': ')
-            if exception[-1].startswith('403'):
-                raise RuntimeError('s3am failed with a "403 Forbidden" error  while obtaining (%s).'
-                                   ' Did you use the correct credentials?' % s3_url)
-            elif exception[-1].startswith('400'):
-                raise RuntimeError('s3am failed with a "400 Bad Request" error while obtaining (%s)'
-                                   '. Are you trying to download an encrypted file without a key, '
-                                   'or an unencrypted file with one?' % s3_url)
+    attempt = 0
+    while True:
+        try:
+            with open(work_dir + '/stderr', 'w') as stderr_file:
+                subprocess.check_call(download_call, stderr=stderr_file)
+        except subprocess.CalledProcessError:
+            # The last line of the stderr will have the error
+            with open(stderr_file.name) as stderr_file:
+                for line in stderr_file:
+                    line = line.strip()
+                    if line:
+                        exception = line
+            if exception.startswith('boto'):
+                exception = exception.split(': ')
+                if exception[-1].startswith('403'):
+                    raise RuntimeError('s3am failed with a "403 Forbidden" error  while obtaining '
+                                       '(%s). Did you use the correct credentials?' % s3_url)
+                elif exception[-1].startswith('400'):
+                    raise RuntimeError('s3am failed with a "400 Bad Request" error while obtaining '
+                                       '(%s). Are you trying to download an encrypted file without '
+                                       'a key, or an unencrypted file with one?' % s3_url)
+                else:
+                    raise RuntimeError('s3am failed with (%s) while downloading (%s)' %
+                                       (': '.join(exception), s3_url))
+            elif exception.startswith('AttributeError'):
+                exception = exception.split(': ')
+                if exception[-1].startswith("'NoneType'"):
+                    raise RuntimeError('Does (%s) exist on s3?' % s3_url)
+                else:
+                    raise RuntimeError('s3am failed with (%s) while downloading (%s)' %
+                                       (': '.join(exception), s3_url))
             else:
-                raise RuntimeError('s3am failed with (%s) while downloading (%s)' %
-                                   (': '.join(exception), s3_url))
-        elif exception.startswith('AttributeError'):
-            exception = exception.split(': ')
-            if exception[-1].startswith("'NoneType'"):
-                raise RuntimeError('Does (%s) exist on s3?' % s3_url)
-            else:
-                raise RuntimeError('s3am failed with (%s) while downloading (%s)' %
-                                   (': '.join(exception), s3_url))
+                if attempt < 3:
+                    attempt += 1
+                    continue
+                else:
+                    raise RuntimeError('Could not diagnose the error while downloading (%s)' %
+                                       s3_url)
+        except OSError:
+            raise RuntimeError('Failed to find "s3am". Install via "apt-get install --pre s3am"')
         else:
-            raise RuntimeError('Could not diagnose the error while downloading (%s)' % s3_url)
-    except OSError:
-        raise RuntimeError('Failed to find "s3am". Install via "apt-get install --pre s3am"')
+            break
+        finally:
+            os.remove(stderr_file.name)
     assert os.path.exists(filename)
-    os.remove(stderr_file.name)
     if write_to_jobstore:
         filename = job.fileStore.writeGlobalFile(filename)
     return filename
@@ -2445,6 +2459,34 @@ def export_results(file_path, univ_options):
     # Can't do Azure or google yet.
     else:
         print("Currently doesn't support anything but Local and aws.")
+
+
+def parse_phlat_file(phlatfile, mhc_alleles):
+    """
+    Parse the input phlat file to pull out the alleles it contains
+    :param phlatfile: Open file descriptor for a phlat output sum file
+    :param mhc_alleles: dictionary of alleles.
+    """
+    for line in phlatfile:
+        if line.startswith('Locus'):
+            continue
+        line = line.strip().split()
+        if line[0].startswith('HLA_D'):
+            line[0] = line[0][:-1]  # strip the last character
+        # Sometimes we get an error saying there was insufficient read
+        # converage. We need to drop that line.
+        # E.g. HLA_DQB1 no call due to insufficient reads at this locus
+        if line[1] == 'no':
+            continue
+        if line[4] != 'NA':
+            split_field = line[1].split(':')
+            if len(split_field) >= 2 and not split_field[1] == 'xx':
+                mhc_alleles[line[0]].append((line[1], line[4]))
+        if line[5] != 'NA':
+            split_field = line[2].split(':')
+            if len(split_field) >= 2 and not split_field[1] == 'xx':
+                mhc_alleles[line[0]].append((line[2], line[5]))
+    return mhc_alleles
 
 
 def file_xext(filepath):
