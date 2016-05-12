@@ -36,8 +36,8 @@ BEGIN
 
 # patient
 patient_id PATIENT_ID1
-tumor_dna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/ERR01636X_HCC1954.chr6.1.fq.gz
-normal_dna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/ERR01639X_HCC1954BL.chr6.1.fq.gz
+tumor_dna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/ERR01636X_HCC1954.chr6.half.1.fq.gz
+normal_dna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/ERR01639X_HCC1954BL.chr6.half.1.fq.gz
 tumor_rna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/SRR925710.chr6.1.fastq.gz
 
 # Universal_Options
@@ -58,6 +58,7 @@ index_tar https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/ref
 
 # bwa
 index_tar https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/references/bwa_index_chr6.tar.gz
+index_base hg19
 
 # rsem
 index_tar https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/references/rsem_index_chr6.tar.gz

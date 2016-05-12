@@ -453,16 +453,10 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
         'bwa_index.tar.gz': bwa_options['index_tar']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
 
-    idxbase = 'hg19.fa'
-    #for f in os.listdir(os.path.join(work_dir,  input_files['bwa_index'])):
-    #    if f.endswith('.bwt'):
-    #        idxbase, _ = os.path.splitext(os.path.basename(f))
-    #assert idxbase is not None, 'Could not find BWA index!'
-
     parameters = ['mem',
                   '-t', str(bwa_options['n']),
                   '-v', '1',  # Don't print INFO messages to the stderr
-                  '/'.join([input_files['bwa_index'], idxbase]),
+                  '/'.join([input_files['bwa_index'], bwa_options['index_base']]),
                   input_files['dna_1.fastq'],
                   input_files['dna_2.fastq']]
     with open(''.join([work_dir, '/', sample_type, '_aligned.sam']), 'w') as samfile:
