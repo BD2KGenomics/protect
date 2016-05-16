@@ -216,7 +216,7 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     Mradia = job.wrapJobFn(merge_radia, Sradia.rv())
     Smutect = job.wrapJobFn(spawn_mutect, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                             tool_options['mut_callers']).encapsulate()
-    Mmutect = job.wrapJobFn(merge_mutect, Smutect.rv())
+    Mmutect = job.wrapJobFn(merge_mutect, Smutect.rv(), univ_options)
     indels = job.wrapJobFn(run_indel_caller, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                            'indel_options')
     merge_mutations = job.wrapJobFn(run_mutation_aggregator, fusions.rv(), Mradia.rv(),
@@ -963,7 +963,7 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     return perchrom_mutect
 
 
-def merge_mutect(job, perchrom_rvs):
+def merge_mutect(job, perchrom_rvs, univ_options):
     """
     This module will merge the per-chromosome mutect files created by spawn_mutect into a genome
     vcf.  It will make 2 vcfs, one for PASSing non-germline calls, and one for all calls.
