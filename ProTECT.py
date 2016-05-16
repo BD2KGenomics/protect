@@ -714,7 +714,7 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {'genome.fasta.fai': radia_options['genome_fai']}
     index_path = get_files_from_filestore(job, input_files, work_dir)
-    chromosomes = faidx2refId(index_path)
+    chromosomes = faidx2refId(index_path['genome.fasta.fai'])
 
     perchrom_radia = defaultdict()
     for chrom in chromosomes:
@@ -838,6 +838,7 @@ def run_radia(job, bams, univ_options, radia_options, chrom):
     for radia_file in [radia_output, radia_log]:
         output_files[os.path.basename(radia_file)] = \
             job.fileStore.writeGlobalFile(radia_file)
+        export_results(radia_file, univ_options)	
     filterradia = job.wrapJobFn(run_filter_radia, bams,
                                 output_files[os.path.basename(radia_output)],
                                 univ_options, radia_options, chrom, disk='60G', memory='6G')
@@ -952,7 +953,7 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {'genome.fasta.fai': mutect_options['genome_fai']}
     index_path = get_files_from_filestore(job, input_files, work_dir)
-    chromosomes = faidx2refId(index_path)
+    chromosomes = faidx2refId(index_path['genome.fasta.fai'])
 
     perchrom_mutect = defaultdict()
     for chrom in chromosomes:
@@ -1014,6 +1015,7 @@ def merge_mutect(job, perchrom_rvs):
                         out_header_not_printed = False
                     else:
                         print(line, file=mutout)
+    export_results(mutpassvcf.name, univ_options)
     output_file = job.fileStore.writeGlobalFile(mutpassvcf.name)
     return output_file
 
@@ -1072,6 +1074,7 @@ def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options, chrom):
     output_files = defaultdict()
     for mutect_file in [mutout, mutvcf]:
         output_files[os.path.basename(mutect_file)] = job.fileStore.writeGlobalFile(mutect_file)
+	export_results(mutect_file, univ_options)
     return output_files
 
 
@@ -1135,6 +1138,7 @@ def run_mutation_aggregator(job, fusion_output, radia_output, mutect_output, ind
     with open(''.join([work_dir, '/', univ_options['patient'], '_merged_mutations.vcf']),
               'w') as merged_mut_file:
         for mut_caller in mutcallers:
+	    export_results(os.path.join(work_dir, mut_caller), univ_options)
             caller = mut_caller.rstrip('.vcf')
             vcf_file[caller] = defaultdict()
             with open(input_files[mut_caller], 'r') as mutfile:
@@ -1193,6 +1197,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     with open('/'.join([work_dir, 'snpeffed_mutations.vcf']), 'w') as snpeff_file:
         docker_call(tool='snpeff', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], java_opts=Xmx, outfile=snpeff_file)
+    time.sleep(3600)
     output_file = job.fileStore.writeGlobalFile(snpeff_file.name)
     return output_file
 
@@ -1282,7 +1287,9 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
                   '-p', str(phlat_options['n'])]  # Number of threads
     docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
-    output_file = job.fileStore.writeGlobalFile(''.join([work_dir, '/', sample_type, '_HLA.sum']))
+    output_name = ''.join([work_dir, '/', sample_type, '_HLA.sum'])
+    output_file = job.fileStore.writeGlobalFile(output_name)
+    export_results(output_name, univ_options)
     return output_file
 
 
@@ -1972,6 +1979,7 @@ def merge_vcfs(vcf_file, merged_mut_file):
     mutect_keys = set(vcf_file['mutect'].keys())
     radia_keys = set(vcf_file['radia'].keys())
     common_keys = radia_keys.intersection(mutect_keys)
+    assert len(common_keys) != 0, 'No mutations were found!'
     # Open as append since the header is already written
     with open(merged_mut_file, 'a') as outfile:
         for mutation in common_keys:
