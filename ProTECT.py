@@ -2252,7 +2252,7 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
 
     parsed_url = urlparse(s3_url)
     if parsed_url.scheme == 'https':
-        download_url = 'S3:/' + parsed_url.path  # path contains the second /
+        download_url = 's3:/' + parsed_url.path  # path contains the second /
     elif parsed_url.scheme == 's3':
         download_url = s3_url
     else:
