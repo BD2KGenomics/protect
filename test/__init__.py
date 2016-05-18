@@ -93,6 +93,11 @@ class ProtectTest(unittest.TestCase):
         os.rmdir(path)
         return path
 
+    def _getTestUnivOptions(self):
+        return {'patient': 'test',
+                'output_folder': self._createTempDir(purpose='pipeline_outputs'),
+                'storage_location': 'Local'}
+
 
 try:
     # noinspection PyUnresolvedReferences
