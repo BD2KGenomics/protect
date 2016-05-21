@@ -74,7 +74,7 @@ dbsnp_idx https://s3-us-west-2.amazonaws.com/pimmuno-references/dbsnp_coding.vcf
 java_Xmx 2G
 
 # snpeff
-index_tar https://s3-us-west-2.amazonaws.com/pimmuno-references/snpeff_index.tar.gz
+index_tar s3://pimmuno-references/snpeff_index.tar.gz
 java_Xmx 20G
 
 # transgene

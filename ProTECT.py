@@ -2278,6 +2278,8 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
                 line = line.strip()
                 if line:
                     exception = line
+	print('\nABCDEFG\n{}\n\n'.format(download_url), file=sys.stderr)
+	print('\nABCDEFG\n{}\n\n'.format(exception), file=sys.stderr)
         if exception.startswith('boto'):
             exception = exception.split(': ')
             if exception[-1].startswith('403'):
