@@ -900,11 +900,11 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
                   '-g', docker_path(filterradia_log)]
     docker_call(tool='filterradia', tool_parameters=parameters,
                 work_dir=work_dir, dockerhub=univ_options['dockerhub'])
+    outname = ''.join([work_dir, '/', univ_options['patient'], '_', chrom, '.vcf'])
+    export_results(outname, univ_options)
     output_files = defaultdict()
-    output_files[filterradia_output] = \
-        job.fileStore.writeGlobalFile(''.join([work_dir, '/',
-                                               univ_options['patient'], '_',
-                                               chrom, '.vcf']))
+    output_files[filterradia_output] = job.fileStore.writeGlobalFile(outname)
+
     output_files[os.path.basename(filterradia_log)] = \
         job.fileStore.writeGlobalFile(filterradia_log)
     return output_files

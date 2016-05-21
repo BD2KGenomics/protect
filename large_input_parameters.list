@@ -36,8 +36,8 @@ BEGIN
 
 # patient
 patient_id FULL_READS
-tumor_dna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/ERR01636X_HCC1954_1.fq.gz
-normal_dna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/ERR01639X_HCC1954BL_1.fq.gz
+tumor_dna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/HCC1954_ERR016360-70-71_1.fq.gz
+normal_dna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/HCC1954BL_ERR016390-91-92-93_1.fq.gz
 tumor_rna_fastq_prefix https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/reads/SRR925710_1.fastq.gz
 
 # Universal_Options
