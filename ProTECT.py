@@ -1842,8 +1842,7 @@ def prepare_samples(job, fastqs, univ_options):
                                                                                              extn)
         prefix = prefix[:-1]
         # If it is a weblink, it HAS to be from S3
-        if prefix.startswith('http'):
-            assert prefix.startswith('https://s3'), 'Not an S3 link'
+        if prefix.startswith('https://s3') or prefix.startswith('S3://'):
             fastqs[sample_type] = [
                 get_file_from_s3(job, ''.join([prefix, '1', extn]), univ_options['sse_key'],
                                  per_file_encryption=univ_options['sse_key_is_master']),
