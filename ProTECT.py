@@ -1325,7 +1325,7 @@ def merge_phlat_calls(job, tumor_phlat, normal_phlat, rna_phlat):
         mhc_alleles = {'HLA_A': [], 'HLA_B': [], 'HLA_C': [], 'HLA_DPA': [], 'HLA_DQA': [],
                        'HLA_DPB': [], 'HLA_DQB': [], 'HLA_DRB': []}
         for phlatfile in td_file, nd_file, tr_file:
-            mhc=alleles = parse_phlat_file(phlatfile, mhc_alleles)
+            mhc_alleles = parse_phlat_file(phlatfile, mhc_alleles)
     # Get most probable alleles for each allele group and print to output
     with open(os.path.join(work_dir, 'mhci_alleles.list'), 'w') as mhci_file, \
             open(os.path.join(work_dir, 'mhcii_alleles.list'), 'w') as mhcii_file:
