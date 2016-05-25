@@ -22,11 +22,8 @@ import tempfile
 import unittest
 import shutil
 import re
-import subprocess
 
 from bd2k.util.files import mkdir_p
-
-from toil import toilPackageDirPath
 
 log = logging.getLogger(__name__)
 
@@ -61,9 +58,9 @@ class ProtectTest(unittest.TestCase):
     def tearDownClass(cls):
         if cls._temp_base_dir is None:
             while cls._tempDirs:
-                tempDir = cls._tempDirs.pop()
-                if os.path.exists(tempDir):
-                    shutil.rmtree(tempDir)
+                temp_dir = cls._tempDirs.pop()
+                if os.path.exists(temp_dir):
+                    shutil.rmtree(temp_dir)
         else:
             cls._tempDirs = []
         super(ProtectTest, cls).tearDownClass()
@@ -74,7 +71,8 @@ class ProtectTest(unittest.TestCase):
 
     def _createTempDir(self, purpose=None):
         prefix = ['toil', 'test', self.id()]
-        if purpose: prefix.append(purpose)
+        if purpose:
+            prefix.append(purpose)
         prefix.append('')
         temp_dir_path = tempfile.mkdtemp(dir=self._temp_base_dir, prefix='-'.join(prefix))
         self._tempDirs.append(temp_dir_path)
@@ -97,6 +95,22 @@ class ProtectTest(unittest.TestCase):
         return {'patient': 'test',
                 'output_folder': self._createTempDir(purpose='pipeline_outputs'),
                 'storage_location': 'Local'}
+
+    @classmethod
+    def _projectRootPath(cls):
+        """
+        Returns the path to the project root, i.e. the directory that typically contains the .git
+        and src subdirectories. This method has limited utility. It only works if in "develop"
+        mode, since it assumes the existence of a src subdirectory which, in a regular install
+        wouldn't exist. Then again, in that mode project root has no meaning anyways.
+        """
+        assert re.search(r'__init__\.pyc?$', __file__)
+        project_root_path = os.path.dirname(os.path.abspath(__file__))
+        package_components = __name__.split('.')
+        expected_suffix = os.path.join('src', *package_components)
+        assert project_root_path.endswith(expected_suffix)
+        project_root_path = project_root_path[:-len(expected_suffix)]
+        return project_root_path
 
 
 try:

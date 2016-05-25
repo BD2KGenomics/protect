@@ -1,0 +1,101 @@
+## Copyright 2016 Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+####################################################################################################
+####################################################################################################
+##  This is the input parameter file for the precision immuno pipeline.  The paramters for each of
+##  the tools is provided here.  DO NOT change the commented (#'d) text below the BEGIN statement as
+##  it will affect the parsing function.
+##
+##  You can add comments anywhere in this file by using DOUBLE hashes (##).
+##
+##  [Items in square brackets] denote the choices available for that flag
+##
+##  {Items in curly brackets} denote optional arguments that can be left out if desired.  Unless
+##  specified, all options are mandatory.
+##
+##  Notes: Multiple patients can be specified followed by the trio of tumor_dna, tumor_rna, and
+##         normal dna fastq prefixes.  Prefixes can either be of the form
+##         /path/to/fastqfile_1.fastq or /path/to/fastqfile
+##         Notes about the sample(s) being processed by this config file can be added before the
+##         BEGIN keyword, be starting the line with two # symbols.
+####################################################################################################
+####################################################################################################
+
+patients:
+    TEST:
+        #tumor_dna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Modified_HCC1954_ERR016369-70-71.ci.1.fq.gz
+        #normal_dna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Modified_HCC1954BL_ERR016390-91-92-93.ci.1.fq.gz
+        tumor_dna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Tum_1.fq.gz
+        normal_dna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Norm_1.fq.gz
+        tumor_rna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Rna_1.fq.gz
+
+
+# These are options Which are used by most tools
+Universal_Options:
+    dockerhub: aarjunrao
+    java_Xmx: 20G
+
+    output_folder: /mnt/ephemeral/done
+    storage_location: Local
+
+# These options are for each specific tool. You probably don't need to change any of this!
+cutadapt:
+    a : AGATCGGAAGAG
+    A : AGATCGGAAGAG
+
+star:
+    type : star
+    tool_index : S3://pimmuno-test-data/CI_test_input/references/star_100_index_chr6.tar.gz
+
+bwa:
+    tool_index : S3://pimmuno-test-data/CI_test_input/references/bwa_index_chr6.tar.gz
+
+rsem:
+    tool_index : S3://pimmuno-test-data/CI_test_input/references/rsem_index_chr6.tar.gz
+
+mut_callers:
+    genome_fasta : S3://pimmuno-test-data/CI_test_input/references/chr6.fa.tar.gz
+    genome_fai : S3://pimmuno-test-data/CI_test_input/references/chr6.fa.fai.tar.gz
+    genome_dict : S3://pimmuno-test-data/CI_test_input/references/chr6.dict.tar.gz
+    cosmic_vcf : S3://pimmuno-test-data/CI_test_input/references/CosmicCodingMuts.chr6.vcf.tar.gz
+    cosmic_idx : S3://pimmuno-test-data/CI_test_input/references/CosmicCodingMuts.chr6.vcf.idx.tar.gz
+    dbsnp_vcf : S3://pimmuno-test-data/CI_test_input/references/dbsnp_coding.vcf.gz
+    dbsnp_idx : S3://pimmuno-test-data/CI_test_input/references/dbsnp_coding.chr6.vcf.idx.tar.gz
+    dbsnp_tbi : S3://pimmuno-test-data/CI_test_input/references/dbsnp_coding.vcf.gz.tbi
+    java_Xmx : 2G
+
+snpeff:
+    tool_index : S3://pimmuno-test-data/CI_test_input/references/snpeff_index_chr6.tar.gz
+    java_Xmx : 20G
+
+transgene:
+    gencode_peptide_fasta : S3://pimmuno-test-data/CI_test_input/references/gencode.v19.pc_translations.chr6.fa.tar.gz
+
+phlat:
+    tool_index : S3://pimmuno-references/phlat_index.tar.gz
+
+mhci:
+    method_file : S3://pimmuno-references/mhci_restrictions.json.tar.gz
+    pred : IEDB_recommended
+
+mhcii:
+    method_file : S3://pimmuno-references/mhcii_restrictions.json.tar.gz
+    pred : IEDB_recommended
+
+rank_boost:
+    mhci_combo : 0.0,0.0,0.32,0.0,0.68
+    mhcii_combo : 0.25,0.25,0.25,0.25
+
+mhc_pathway_assessment:
+    genes_file : S3://pimmuno-references/mhc_pathway_genes.json.tar.gz

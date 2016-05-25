@@ -63,40 +63,40 @@ A  AGATCGGAAGAG
 
 # star
 type [star, starlong]
-index_tar S3://pimmuno-references/STAR_100_index.tar.gz
+index_tar S3://cgl-protect-data/hg19_references/STAR_100_index.tar.gz
 
 # bwa
-index_tar S3://pimmuno-references/bwa_index.tar.gz
+index_tar S3://cgl-protect-data/hg19_references/bwa_index.tar.gz
 
 # rsem
-index_tar S3://pimmuno-references/rsem_index.tar.gz
+index_tar S3://cgl-protect-data/hg19_references/rsem_index.tar.gz
 
 # mut_callers
-genome_fasta S3://pimmuno-references/hg19.fa.tar.gz
-genome_fai S3://pimmuno-references/hg19.fa.fai.tar.gz
-genome_dict S3://pimmuno-references/hg19.dict.tar.gz
-cosmic_vcf S3://pimmuno-references/CosmicCodingMuts.vcf.tar.gz
-cosmic_idx S3://pimmuno-references/CosmicCodingMuts.vcf.idx.tar.gz
-dbsnp_vcf S3://pimmuno-references/dbsnp_coding.vcf.tar.gz
-dbsnp_idx S3://pimmuno-references/dbsnp_coding.vcf.idx.tar.gz
+genome_fasta S3://cgl-protect-data/hg19_references/hg19.fa.tar.gz
+genome_fai S3://cgl-protect-data/hg19_references/hg19.fa.fai.tar.gz
+genome_dict S3://cgl-protect-data/hg19_references/hg19.dict.tar.gz
+cosmic_vcf S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.tar.gz
+cosmic_idx S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.idx.tar.gz
+dbsnp_vcf S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.gz
+dbsnp_idx S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.idx.tar.gz
 java_Xmx 2G
 
 # snpeff
-index_tar S3://pimmuno-references/snpeff_index.tar.gz
+index_tar S3://cgl-protect-data/hg19_references/snpeff_index.tar.gz
 java_Xmx 20G
 
 # transgene
-gencode_peptide_fasta S3://pimmuno-references/gencode.v19.pc_translations.fa.tar.gz
+gencode_peptide_fasta S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations.fa.tar.gz
 
 # phlat
-index_tar S3://pimmuno-references/phlat_index.tar.gz
+index_tar S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
 
 # mhci
-method_file S3://pimmuno-references/mhci_restrictions.json.tar.gz
+method_file S3://cgl-protect-data/hg19_references/mhci_restrictions.json.tar.gz
 pred IEDB_recommended
 
 # mhcii
-method_file S3://pimmuno-references/mhcii_restrictions.json.tar.gz
+method_file S3://cgl-protect-data/hg19_references/mhcii_restrictions.json.tar.gz
 pred IEDB_recommended
 
 # rank_boost
@@ -104,4 +104,4 @@ mhci_combo 0.0,0.0,0.32,0.0,0.68
 mhcii_combo 0.25,0.25,0.25,0.25
 
 # mhc_pathway_assessment
-genes_file S3://pimmuno-references/mhc_pathway_genes.json.tar.gz
+genes_file S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz

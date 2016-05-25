@@ -20,13 +20,11 @@ File : protect/test/test_mhc_pathway_assessment.py
 """
 from __future__ import print_function
 from protect.test import ProtectTest
-from protect.ProTECT import get_file_from_s3, assess_mhc_genes, untargz
+from protect.common import get_file_from_s3, untargz
+from protect.addons import assess_mhc_genes
 from toil.job import Job
 
 import os
-import shutil
-import sys
-import unittest
 
 
 class TestMHCPathwayAssessment(ProtectTest):
@@ -44,16 +42,16 @@ class TestMHCPathwayAssessment(ProtectTest):
         """
         univ_options = self._getTestUnivOptions()
         test_src_folder = os.path.dirname(os.path.abspath(__file__))
-        A = Job.wrapJobFn(self._get_test_rsem_file, test_src_folder)
-        B = Job.wrapJobFn(self._get_MHC_file)
-        C = Job.wrapJobFn(self._get_test_haplotype_file, test_src_folder)
-        D = Job.wrapJobFn(assess_mhc_genes, A.rv(), C.rv(), univ_options, B.rv())
-        E = Job.wrapJobFn(self._test_output, D.rv(), univ_options)
-        A.addChild(B)
-        B.addChild(C)
-        C.addChild(D)
-        D.addChild(E)
-        Job.Runner.startToil(A, self.options)
+        a = Job.wrapJobFn(self._get_test_rsem_file, test_src_folder)
+        b = Job.wrapJobFn(self._get_MHC_file)
+        c = Job.wrapJobFn(self._get_test_haplotype_file, test_src_folder)
+        d = Job.wrapJobFn(assess_mhc_genes, a.rv(), c.rv(), univ_options, b.rv())
+        e = Job.wrapJobFn(self._test_output, d.rv(), univ_options)
+        a.addChild(b)
+        b.addChild(c)
+        c.addChild(d)
+        d.addChild(e)
+        Job.Runner.startToil(a, self.options)
 
     @staticmethod
     def _get_test_rsem_file(job, test_src_folder):
@@ -91,7 +89,6 @@ class TestMHCPathwayAssessment(ProtectTest):
         rna_haplotype = untargz(rna_haplotype, os.getcwd())
         return job.fileStore.writeGlobalFile(rna_haplotype)
 
-
     @staticmethod
     def _test_output(job, output_file, univ_options):
         """
@@ -124,7 +121,11 @@ class TestMHCPathwayAssessment(ProtectTest):
         assert expectedpasses.difference(passes) == set([])
 
 
+# noinspection PyProtectedMember
 _get_test_rsem_file = TestMHCPathwayAssessment._get_test_rsem_file
+# noinspection PyProtectedMember
 _get_MHC_file = TestMHCPathwayAssessment._get_MHC_file
+# noinspection PyProtectedMember
 _test_output = TestMHCPathwayAssessment._test_output
+# noinspection PyProtectedMember
 _get_test_haplotype_file = TestMHCPathwayAssessment._get_test_haplotype_file
