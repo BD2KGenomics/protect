@@ -2,125 +2,243 @@ ProTECT is implemented in the [Toil](https://github.com/BD2KGenomics/toil.git) f
 runs the workflow described in [protect/Flowchart.txt](
 https://github.com/BD2KGenomics/protect/blob/master/Flowchart.txt).
 
+#Installation
+
+ProTECT requires Toil and we recommend installing ProTECT and it's requirements in a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
+
+###Method 1 - Using PIP (recommended)
+
+First create a virtualenv at your desired location (Here we create it in the folder ~/venvs)
+
+    virtualenv ~/venvs/protect
+
+Activate the virtualenv
+
+    source ~/venvs/protect/bin/activate
+
+Install ProTECT and all dependencies in the virtualenv
+
+    pip install protect
+
+###Method 2 - Installing from Source
+
+This will install ProTECT in an editable mode.
+
+Obtain the source form Github
+
+    git clone https://www.github.com/BD2KGenomics/protect.git
+
+Create a virtualenv in the project folder
+
+    cd protect
+    virtualenv venv
+
+Activate the virtualenv
+
+    source venv/bin/activate
+
+Install ProTECT
+
+    make develop
+
+
+#Running ProTECT
+
+Running ProTECT requires you to be in the virtualenv where it was installed.
+
+Activate the virtualenv with
+
+    source ~/venvs/protect/bin/activate
+
 Running ProTECT is as simple as:
 
             python ProTECT.py --config config.txt
 
-The config file contains all the relevant information required for a run.
+#Setting up a config file
 
-The file is read starting at the `BEGIN` keyword. Following the `BEGIN` keyword are a number of
-element groups that describe the important flags passed to different tools in the pipeline. Each
-group is prefixed by `#<groupname>` and it is important to not modify and/or delete any of them.
+The config file contains all the relevant information required for a run. The file is written in the
+[YAML format](http://www.yaml.org/start.html) and is relatively simple to fill in. The file is split
+into a number of element groups that describe the important flags passed to different tools in the
+pipeline, and the information on the input samples. All elements before a `:` are keys in the
+dictionary read into ProTECT and should **NOT** be modified. Only values to the right of the `:`
+should be edited.
 
-**# patient**
+
+**patients**
 
 The first group of elements is the list of patients to be processed in the run. Each patient group
-is preceded by `#patient` and contains 4 values. There is no limit to the number of patients that
-can be run in the same workflow.
+is marked with a patient ID, and has 3 values which correspond to the forward fastq read file for
+the Tumor DNA, Normal DNA, and Tumor RNA samples respectively. There is no limit to the number of
+patients that can be run in the same workflow. The paths to the forward read containing file for the
+sample types can either be absolute links to files on the system, or S3 links. The file extensions
+can be .fq, .fq.gz. .fastq, or .fastq.gz and the filenames should be symmetrically named
+< prefix >1.extn and < prefix >2.extn where extn is one of the 4 available extensions mentioned above.
 
-    patient_id              - A string describing a unique Identifier for the patient
-    tumor_dna_fastq_prefix  - The path to the forward read containing file for the tumor dna
-                              (WGS or WXS)
-    normal_dna_fastq_prefix - The path to the forward read containing file for the normal dna
-                              (WGS or WXS)
-    tumor_rna_fastq_prefix  -  The path to the forward read containing file for the tumor rna
+    patients:    -> This is the group name. Do not modify this
+        PRTCT-01:   -> A string describing a unique Identifier for the patient
+            tumor_dna_fastq_1: /path/to/Tum_1.fq
+            normal_dna_fastq_1: /path/to/Norm_1.fq.gz
+            tumor_rna_fastq_1: S3://databucket/datafolder/Rna_1.fq.gz
 
-The allowed values for the 3 input files are `XYZ_1.fastq`, `XYZ_1.fastq.gz`, `XYZ_1.fq`,
-`XYZ_1.fz.gz`, or `XYZ.xml` (Only for samples to be downloaded from CGHub).  All files can also
-either be local files on the system, or links to files in Amazon S3 buckets (should be of the form
- https://s3-us-west-2.amazonaws.com/\<BUCKET\>/KEY).  Encrypted data will be decrypted using
-per-file SSE-C keys hashed from a master sse-key (see `Universal Options`).
+Encrypted data will be decrypted using per-file SSE-C keys hashed from a master sse-key
+(see `Universal_Options`). The backend download and upload from S3 is done using [s3am](https://www.github.com/BD2KGenomics/s3am.git).
 
-**# Universal_Options**
+**Universal_Options**
 
 These describe options that are used universally by almost all tools/jobs in the workflow.
 
-    dockerhub               - All tools used in the pipeline are dockerized to alow for easy
-                              reproducibility across operating systems. ProTECT was rested using the
-                              hub owned by `aarjunrao` but will work with any hub given it contains
-                              the required tools.
-    java_Xmx                - The default Java heap space to be provided to tools. You can specify
-                              per-tool heap space as well.
-    sse_key                 - Used to create per-file SSE-C keys for decrypting S3 hosted input
-                              files.  It is highly recommeded that the files be uploaded to S3 using
-                              [s3am](https://github.com/BD2KGenomics/s3am.git) using the
-                              --sse-key-is-master flag.
-    sse_key_is_master       - Were the sample files all encrypted with sse_key (`False`), or were
-                              they encrypted with individual per-file keys hashed from the master
-                              sse_key (`True`)
-    cghub_key               - The CGHub credentials to use if the files must be downloaded from
-                              CGHub
-    storage_location        - Should the intermediate files be stored locally (use `Local`) or in an
-                              Amazon S3 bucket using SSE-C per-file encryption from the provided
-                              master sse key (use `aws:<bucket_name>`)?
-    output_folder           - A path to a folder where intermediate, and output files (mutation
-                              calls, MHC haplotype, etc).
+    Universal_Options:
+        dockerhub: aarjunrao              -> All tools used in the pipeline are dockerized to allow
+                                             for easy reproducibility across operating systems.
+                                             ProTECT was tested using the hub owned by `aarjunrao`
+                                             but will work with any hub given it contains the
+                                             required tools described in
+                                             `required_docker_tools.txt`.
+        java_Xmx: 20G                     -> The default Java heap space to be provided to tools.
+                                             Per-tool heap space as well overrides this value.
+        sse_key: /path/to/master.key      -> Used to create per-file SSE-C keys for decrypting S3
+                                             hosted input files.  It is highly recommeded that the
+                                             files be uploaded to S3 using s3am using the
+                                             --sse-key-is-master flag.
+        sse_key_is_master: True           -> Were the sample files all encrypted with sse_key
+                                             (`False`), or were they encrypted with individual
+                                             per-file keys hashed from the master sse_key (`True`)
+        cghub_key: /path/to/cghub.key     -> The CGHub credentials to use if the files must be
+                                             downloaded from CGHub (phased out soon)
+        storage_location: aws:protect-out -> Should the intermediate files be stored locally
+                                             (`Local`) or in an Amazon S3 bucket using SSE-C
+                                             per-file encryption from the provided master sse key
+                                             (`aws:<bucket_name>`)?
+        output_folder: /path/to/out       -> A path to a folder where intermediate, and output files
+                                             (mutation calls, MHC haplotype, etc).
 
 
-In reality, for the inexperienced user, those are the only values that need to be modified for a
-run.  Experienced users can provide their own references for better control over the results. Look
-at the help for each tool for details. All ProTECT provided indexes were generated using [Gencode
-release 19 for hg19](http://www.gencodegenes.org/releases/19.html).
+In reality, for the inexperienced user, these are the only values that need to be modified for a
+run.  Experienced users can provide their own references below for better control over the results.
+Look at the help for each tool for details. All ProTECT provided indexes were generated using
+[Gencode release 19 for hg19](http://www.gencodegenes.org/releases/19.html). Any and all paths can
+be substituted with S3 links. Descriptions for creating all files can be found in the file
+`S3://cgl-protect-data/hg19_references/README`.
 
-**# cutadapt**
+**cutadapt**
 
-The flags describe the sequences to use for adapter trimming in the RNA Seq data
+These flags describe the sequences to use for adapter trimming in the RNA Seq data
+
+    cutadapt:
+        a: AGATCGGAAGAG  -> Adapters for trimming forward read
+        A: AGATCGGAAGAG  -> Adapters for trimming reverse read
 
 
-**# star**
+**star**
 
-    type                    - Can be `star` or `starlong` depending on the read size. Refer the STAR
-                              manual for details.
-    index_tar               - The Indexes to use for STAR.  Protect provided indexes created using
-                              edge sizes 100, 150 and 250 in the S3 bucket.
+These flags describe the arguments for aligning the RNA Seq data
 
-**# bwa**
+    star:
+        type: star                             -> Can be `star` or `starlong` depending on the read
+                                                  size. Refer the STAR manual for details.
+        index_tar: /path/to/star_index.tar.gz  -> The Indexes to use for STAR. Protect provides
+                                                  indexes created using edge sizes 50, 75, 100, 150
+                                                  and 250 in the S3 bucket `cgl-protect-data` under
+                                                  the folder `hg19_references`.
 
-    index_tar - The indexes to use for BWA.
+**bwa**
 
-**# rsem**
+These flags describe the arguments for aligning the DNA Seq data
 
-    index_tar - The indexes to use for RSEM.
+    bwa:
+        index_tar: /path/to/bwa_index.tar.gz  -> The Indexes to use for bwa. Protect provides
+                                                 indexes in the S3 bucket `cgl-protect-data` under
+                                                 the folder `hg19_references`.
 
-**# mut_callers**
 
-    genome_fasta            - The genome fasta to use for the mutation callers.
-    genome_fai              - The fai for the genome fasta
-    genome_dict             - The dict for the genome fasta (Refere MuTect)
-    cosmic_vcf              - The Cosmic Coding vcf
-    cosmic_idx              - The idx for the Cosmic vcf
-    dbsnp_vcf               - The dbSNP vcf
-    dbsnp_idx               - The idx for the dbSNP vcf
-    java_Xmx                - The Heap size to use for MuTect per job (i.e. per chromosome)
+**rsem**
 
-**# snpeff**
+These flags describe the arguments for conducting expression calling.
 
-    index_tar               - The indexes to use for SnpEFF.
-    java_Xmx                - The Heap size to use for SnpEFF
+    rsem:
+        index_tar: /path/to/rsem_index.tar.gz  -> The Indexes to use for rsem. Protect provides
+                                                  indexes in the S3 bucket `cgl-protect-data` under
+                                                  the folder `hg19_references`.
 
-**# transgene**
+**mut_callers**
 
-Transgene is our in-house tools to go from mutations to peptides.
+These flags describe the arguments for conducting mutation calling.
 
-    gencode_peptide_fasta   - The corresponding peptide file for the gencode gtf used for the
-                                analysis. (If not gencode, the file must be made to follow the
-                                gencode format for fasta record names)
+    mut_callers:
+        genome_fasta: /path/to/hg19.fa.tar.gz                 -> The genome fasta to use for the
+                                                                 mutation callers.
+        genome_fai: /path/to/hg19.fa.fai.tar.gz               -> The fai for the genome fasta
+        genome_dict: /path/to/hg19.dict.tar.gz                -> The dict for the genome fasta
+        cosmic_vcf: /path/to/CosmicCodingMuts.vcf.tar.gz      -> The Cosmic Coding vcf
+        cosmic_idx: /path/to/CosmicCodingMuts.vcf.idx.tar.gz  -> The idx for the Cosmic vcf
+        dbsnp_vcf: /path/to/dbsnp_coding.vcf.tar.gz           -> The dbSNP vcf
+        dbsnp_idx: /path/to/dbsnp_coding.vcf.idx.tar.gz       -> The idx for the dbSNP vcf
+        java_Xmx: 5G                                          -> The Heap size to use for MuTect
+                                                                 per job (i.e. per chromosome)
 
-**# phlat**
+**snpeff**
 
-    index_tar               - The indexes to use for PHLAT.
+These flags describe the arguments for conducting mutation calling.
 
-**# mhci**
+    snpeff:
+        index_tar: /path/to/snpeff_index.tar.gz  -> The Indexes to use for snpeff. Protect provides
+                                                    indexes in the S3 bucket `cgl-protect-data`
+                                                    under the folder `hg19_references`.
+        java_Xmx: 5G                             -> The Heap size to use for SnpEFF
 
-    method_file             - A json list of allowable methods different MHCs can handle.
-    pred                    - The IEDB method to use (`IEDB_recommended`)
+**transgene**
 
-**# mhcii**
+These flags describe the arguments for conducting mutation translation. Transgene is our in-house
+tool to go from mutations to peptides.
 
-    method_file             - A json list of allowable methods different MHCs can handle.
-    pred                    - The IEDB method to use (`IEDB_recommended`)
+    gencode_peptide_fasta: /path/to/gencode.faa   -> The corresponding peptide file for the gencode
+                                                     gtf used for the analysis. (If not gencode, the
+                                                     file must be made to follow the gencode format
+                                                     for fasta record names)
 
-**# rank_boost**
+**phlat**
 
-    mhci_combo              - Weights used for ranking the predicted MHCI epitopes
-    mhcii_combo             - Weights used for ranking the predicted MHCII epitopes
+These flags describe the arguments for conducting MHC Haplotyping.
+
+    phlat:
+        index_tar: /path/to/snpeff_index.tar.gz  -> The Indexes to use for PHLAT. Protect provides
+                                                    indexes in the S3 bucket `cgl-protect-data`
+                                                    under the folder `hg19_references`.
+
+**mhci**
+
+These flags describe the arguments for conducting MHCI:peptide binding prediction.
+
+    mhci:
+        method_file: /path/to/mhci_restrictions.json.tar.gz -> A json list of allowable MHCs
+                                                               different predictors can handle.
+        pred: IEDB_recommended                              -> The IEDB method to use.
+
+**mhcii**
+
+These flags describe the arguments for conducting MHCII:peptide binding prediction.
+
+    mhcii:
+        method_file: /path/to/mhcii_restrictions.json.tar.gz -> A json list of allowable MHCs
+                                                                different predictors can handle.
+        pred: IEDB_recommended                               -> The IEDB method to use.
+
+**rank_boost**
+
+These flags describe the arguments for ranking the peptide binding calls from the various
+predictors.
+
+    rank_boost:
+        mhci_combo: V,W,X,Y,Z  -> Weights used for ranking the predicted MHCI epitopes
+                                  (V+W+X+Y+Z = 1)
+        mhcii_combo W,X,Y,Z    -> Weights used for ranking the predicted MHCII epitopes
+                                  (W+X+Y+Z = 1)
+
+**mhc_pathway_assessment**
+
+These flags describe the arguments for assessing the state of the MHC pathway in the patient.
+
+    mhc_pathway_assessment:
+        genes_file: /path/to/mhc_pathway_genes.json.tar.gz -> A json file containing the various
+                                                              genes in the MHC pathway, and their
+                                                              TPM expressions in a background set.
