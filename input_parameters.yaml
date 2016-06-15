@@ -1,0 +1,102 @@
+## Copyright 2016 Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+####################################################################################################
+####################################################################################################
+##  This is the input parameter file for the precision immuno pipeline.  The paramters for each of
+##  the tools is provided here.  The file is written in the YAML format.  A nice description of the
+##  format can be found at http://docs.ansible.com/ansible/YAMLSyntax.html
+##
+##  You can add comments anywhere in this file by prefixing it with a '#'
+##
+##  Unless otherwise mentioned, all fields must be filled.
+##
+###################################################################################################
+####################################################################################################
+
+# Any number of patients/samples can be listed here
+patients:
+    # Each group starts with the patient ID
+    PATIENT_ID1:
+        # The paths should point to the forward read of the pair. The pipeline assumes that the
+        # forward and reverse read files share the same prefix
+        tumor_dna_fastq_1 : /path/to/<tumor_dna_prefix>1.fastq.gz
+        normal_dna_fastq_1 : /path/to/<normal_dna_prefix>1.fastq.gz
+        tumor_rna_fastq_1 : /path/to/<tumor_rna_prefix>1.fastq.gz
+    PATIENT_ID2:
+        # The paths can also be to directories on S3 as
+        tumor_dna_fastq_1 : S3://bucket/path/to/<tumor_dna_prefix>1.fastq.gz
+        normal_dna_fastq_1 : S3://bucket/path/to/<tumor_dna_prefix>1.fastq.gz
+        tumor_rna_fastq_1 : https://s3-<region>.awsamazon.com/bucket/path/to/<tumor_dna_prefix>1.fastq.gz
+
+
+# These are options Which are used by most tools
+Universal_Options:
+    dockerhub: aarjunrao  # optional
+    java_Xmx: 20G
+    sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS
+    sse_key_is_master: True # True or False.  Required if using AWS
+    cghub_key: /path/to/cghub.key # Path to the AWS master key.  Optional
+    output_folder: /path/to/results # Path to where the output must go.
+    storage_location: Local # Local or aws:<bucket_name> for where the output must go
+    #storage_location: aws:protect-run-xyz
+
+# These options are for each specific tool. You probably don't need to change any of this!
+cutadapt:
+    a : AGATCGGAAGAG
+    A : AGATCGGAAGAG
+
+star:
+    type : star # use starlong if your reads are > 150bp
+    tool_index : S3://cgl-protect-data/hg19_references/STAR_100_index.tar.gz
+
+bwa:
+    tool_index : S3://cgl-protect-data/hg19_references/bwa_index.tar.gz
+
+rsem:
+    tool_index : S3://cgl-protect-data/hg19_references/rsem_index.tar.gz
+
+mut_callers:
+    genome_fasta : S3://cgl-protect-data/hg19_references/hg19.fa.tar.gz
+    genome_fai : S3://cgl-protect-data/hg19_references/hg19.fa.fai.tar.gz
+    genome_dict : S3://cgl-protect-data/hg19_references/hg19.dict.tar.gz
+    cosmic_vcf : S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.tar.gz
+    cosmic_idx : S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.idx.tar.gz
+    dbsnp_vcf : S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.gz
+    dbsnp_idx : S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.idx.tar.gz
+    java_Xmx : 2G
+
+snpeff:
+    tool_index : S3://cgl-protect-data/hg19_references/snpeff_index.tar.gz
+    java_Xmx : 20G
+
+transgene:
+    gencode_peptide_fasta : S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations.fa.tar.gz
+
+phlat:
+    tool_index : S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
+
+mhci:
+    method_file : S3://cgl-protect-data/hg19_references/mhci_restrictions.json.tar.gz
+    pred : IEDB_recommended
+
+mhcii:
+    method_file : S3://cgl-protect-data/hg19_references/mhcii_restrictions.json.tar.gz
+    pred : IEDB_recommended
+
+rank_boost:
+    mhci_combo : 0.0,0.0,0.32,0.0,0.68
+    mhcii_combo : 0.25,0.25,0.25,0.25
+
+mhc_pathway_assessment:
+    genes_file : S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz

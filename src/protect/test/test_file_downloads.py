@@ -19,12 +19,13 @@ Affiliation : UCSC BME, UCSC Genomics Institute
 File : protect/test/test_file_downloads.py
 """
 from __future__ import print_function
+
+from protect.common import get_file_from_s3
 from protect.test import ProtectTest
-from protect.ProTECT import get_file_from_s3
+
 from toil.job import Job
 
 import os
-import unittest
 
 
 class TestFileDownloads(ProtectTest):
@@ -40,8 +41,8 @@ class TestFileDownloads(ProtectTest):
         """
         Test the functionality of get_file_from_s3
         """
-        A = Job.wrapJobFn(self._download_files)
-        Job.Runner.startToil(A, self.options)
+        a = Job.wrapJobFn(self._download_files)
+        Job.Runner.startToil(a, self.options)
 
     @staticmethod
     def _download_files(job):
@@ -100,4 +101,6 @@ class TestFileDownloads(ProtectTest):
             if 'exist on s3?' not in err.message:
                 raise
 
+
+# noinspection PyProtectedMember
 _download_files = TestFileDownloads._download_files

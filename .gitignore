@@ -1,7 +1,7 @@
 pimmuno.py
 pimmuno_2.py
 *.pyc
-*.egg-info
+/src/*.egg-info/
 develop_data/
 venv/
 .cache/
