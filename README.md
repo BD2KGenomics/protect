@@ -2,15 +2,18 @@
 # ProTECT
 ### **Pr**ediction **o**f **T**-Cell **E**pitopes for **C**ancer **T**herapy
 
-This repo contains the Python script for the Precision Immunology Pipeline developed at UCSC.
+This repo contains the Python libraries for the Precision Immunology Pipeline developed at UCSC.
 
     ProTECT.py             - The python script for running the pipeline.
     ProTECT_large.py       - The python script for running the pipeline on larger input files
                              (>15Gb/fastq).
-    input_parameters.list  - The config file for the run that contains all the necessary parameters
+    input_parameters.yaml  - The config file for the run that contains all the necessary parameters
                              for the run.
     Flowchart.txt          - A (super cool) flowchart describing the flow of the pipeline.
 
+
+ProTECT uses sequencing information from a patient to predict the neo-epitopes produced in their
+tumors that can be used in T-cell based, or peptide vaccine based therapies.
 
 All docker images used in this pipeline are available at
 
