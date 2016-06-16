@@ -116,7 +116,7 @@ These describe options that are used universally by most tools/jobs in the workf
 
 
 In reality, for the inexperienced user, these are the only values that need to be modified for a
-run.  Experienced users can provide their own preferences below for better control over the results.
+run.  Experienced users can provide their own references below for better control over the results.
 Look at the help for each tool for details. All ProTECT provided indexes were generated using
 [Gencode release 19 for hg19](http://www.gencodegenes.org/releases/19.html). Any and all paths can
 be substituted with S3 links. Descriptions for creating all files can be found in the file
@@ -128,7 +128,7 @@ These flags describe the sequences to use for adapter trimming in the RNA Seq da
 
     cutadapt:
         a: AGATCGGAAGAG  -> Adapter for trimming forward read
-        A: AGATCGGAAGAG  -> Adapter for trimming reverse read *FIXME: these really are the same sequence?*
+        A: AGATCGGAAGAG  -> Adapter for trimming reverse read *JUST CHECKING: these really are the same sequence?*
 
 
 **star**
