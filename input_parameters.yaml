@@ -13,7 +13,7 @@
 ## limitations under the License.
 ####################################################################################################
 ####################################################################################################
-##  This is the input parameter file for the precision immuno pipeline.  The paramters for each of
+##  This is the input parameter file for the precision immuno pipeline.  The parameters for each of
 ##  the tools is provided here.  The file is written in the YAML format.  A nice description of the
 ##  format can be found at http://docs.ansible.com/ansible/YAMLSyntax.html
 ##
@@ -29,7 +29,7 @@ patients:
     # Each group starts with the patient ID
     PATIENT_ID1:
         # The paths should point to the forward read of the pair. The pipeline assumes that the
-        # forward and reverse read files share the same prefix
+        # forward and reverse read files have the same prefix
         tumor_dna_fastq_1 : /path/to/<tumor_dna_prefix>1.fastq.gz
         normal_dna_fastq_1 : /path/to/<normal_dna_prefix>1.fastq.gz
         tumor_rna_fastq_1 : /path/to/<tumor_rna_prefix>1.fastq.gz
@@ -40,16 +40,16 @@ patients:
         tumor_rna_fastq_1 : https://s3-<region>.awsamazon.com/bucket/path/to/<tumor_dna_prefix>1.fastq.gz
 
 
-# These are options Which are used by most tools
+# These are options which are used by most tools
 Universal_Options:
     dockerhub: aarjunrao  # optional
     java_Xmx: 20G
     sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS
     sse_key_is_master: True # True or False.  Required if using AWS
     cghub_key: /path/to/cghub.key # Path to the AWS master key.  Optional
-    output_folder: /path/to/results # Path to where the output must go.
     storage_location: Local # Local or aws:<bucket_name> for where the output must go
     #storage_location: aws:protect-run-xyz
+    output_folder: /path/to/results # Path to where the output must go.
 
 # These options are for each specific tool. You probably don't need to change any of this!
 cutadapt:
