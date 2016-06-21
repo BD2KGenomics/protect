@@ -1,12 +1,32 @@
+
+
+#Overveiew
+
 ProTECT is implemented in the [Toil](https://github.com/BD2KGenomics/toil.git) framework and fully
 runs the workflow described in [protect/Flowchart.txt](
 https://github.com/BD2KGenomics/protect/blob/master/Flowchart.txt).
 
+ProTECT accepts Illumina sequencing data from paired Tumor DNA (WGS or WXS), Normal DNA (WGS or
+WXS), and Tumor RNA, and attempts to predict the neo-antigens in the patient's tumor that are most
+likely to stimulate a T-cell based response. Input fastq files from multiple lanes and libraries
+should be combined to yield just 2 files per sample type (T_DNA, N_DNA, T_RNA) having the standard
+naming convention -- XYZ1.fq and XYZ2.fq .
+
 #Installation
 
-ProTECT requires Toil and we recommend installing ProTECT and it's requirements in a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
+ProTECT requires Toil and we recommend installing ProTECT and its requirements in a
+[virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
+
+ProTECT also requires [s3am](https://github.com/BD2KGenomics/sam.git) to download and upload files
+from S3. We recommend installing s3am in its own virtualenv using the directions in the s3am manual,
+then putting the s3am binary on your $PATH.
 
 ###Method 1 - Using PIP (recommended)
+
+NOTE: Installation was tested using pip 7.1.2 and 8.1.1. We have seen issues with the installation
+of pyYAML with lower versions of pip and recommend upgrading pip before installing ProTECT.
+
+    pip install --upgrade pip
 
 First create a virtualenv at your desired location (Here we create it in the folder ~/venvs)
 
@@ -16,6 +36,10 @@ Activate the virtualenv
 
     source ~/venvs/protect/bin/activate
 
+Install Toil (This is a --pre version till Toil v3.2 releases)
+
+    pip install --pre toil[aws]
+
 Install ProTECT and all dependencies in the virtualenv
 
     pip install protect
@@ -24,7 +48,7 @@ Install ProTECT and all dependencies in the virtualenv
 
 This will install ProTECT in an editable mode.
 
-Obtain the source form Github
+Obtain the source from Github
 
     git clone https://www.github.com/BD2KGenomics/protect.git
 
@@ -36,6 +60,10 @@ Create a virtualenv in the project folder
 Activate the virtualenv
 
     source venv/bin/activate
+
+Install Toil (This is a --pre version till Toil v3.2 releases)
+
+    pip install --pre toil[aws]
 
 Install ProTECT
 
@@ -57,12 +85,15 @@ Running ProTECT is as simple as:
 #Setting up a config file
 
 The config file contains all the relevant information required for a run. The file is written in the
-[YAML format](http://www.yaml.org/start.html) and is relatively simple to fill in. The file is split
-into a number of element groups that describe the important flags passed to different tools in the
-pipeline, and the information on the input samples. All elements before a `:` are keys in the
-dictionary read into ProTECT and should **NOT** be modified. Only values to the right of the `:`
-should be edited.
+[YAML format](http://www.yaml.org/start.html) and should be relatively simple to fill in. The file
+is split into a number of element groups that describe the important flags passed to different tools
+in the pipeline, and the information on the input samples. Elements before a `:` are keys in the
+dictionary read into ProTECT and should **NOT** be modified (Barring the patient ID key in the
+patients dictionary). Only values to the right of the `:` should be edited.
 
+Every required reference file is provided in the AWS bucket `cgl-protect-data` under the folder
+`hg19_references`. The `README` file in the same location describes in detail how each file was
+generated.
 
 **patients**
 
@@ -71,11 +102,13 @@ is marked with a patient ID, and has 3 values which correspond to the forward fa
 the Tumor DNA, Normal DNA, and Tumor RNA samples respectively. There is no limit to the number of
 patients that can be run in the same workflow. The paths to the forward read containing file for the
 sample types can either be absolute links to files on the system, or S3 links. The file extensions
-can be .fq, .fq.gz. .fastq, or .fastq.gz and the filenames should be symmetrically named
-< prefix >1.extn and < prefix >2.extn where extn is one of the 4 available extensions mentioned above.
+can be .fq, .fq.gz. .fastq, or .fastq.gz and the file names should be symmetrically named
+< prefix >1.extn and < prefix >2.extn where extn is one of the 4 available extensions mentioned
+above.
 
     patients:    -> This is the group name. Do not modify this
-        PRTCT-01:   -> A string describing a unique Identifier for the patient
+        PRTCT-01:   -> A string describing a unique Identifier for the patient. This is the only key
+                       that can be modified by the user.
             tumor_dna_fastq_1: /path/to/Tum_1.fq
             normal_dna_fastq_1: /path/to/Norm_1.fq.gz
             tumor_rna_fastq_1: S3://databucket/datafolder/Rna_1.fq.gz
@@ -85,7 +118,7 @@ Encrypted data will be decrypted using per-file SSE-C keys hashed from a master 
 
 **Universal_Options**
 
-These describe options that are used universally by almost all tools/jobs in the workflow.
+These describe options that are used universally by most tools/jobs in the workflow.
 
     Universal_Options:
         dockerhub: aarjunrao              -> All tools used in the pipeline are dockerized to allow
@@ -95,22 +128,26 @@ These describe options that are used universally by almost all tools/jobs in the
                                              required tools described in
                                              `required_docker_tools.txt`.
         java_Xmx: 20G                     -> The default Java heap space to be provided to tools.
-                                             Per-tool heap space as well overrides this value.
+                                             Per-tool heap space can be specified for some tools to
+                                             override this value.
         sse_key: /path/to/master.key      -> Used to create per-file SSE-C keys for decrypting S3
-                                             hosted input files.  It is highly recommeded that the
+                                             hosted input files.  It is highly recommended that the
                                              files be uploaded to S3 using s3am using the
                                              --sse-key-is-master flag.
         sse_key_is_master: True           -> Were the sample files all encrypted with sse_key
                                              (`False`), or were they encrypted with individual
                                              per-file keys hashed from the master sse_key (`True`)
         cghub_key: /path/to/cghub.key     -> The CGHub credentials to use if the files must be
-                                             downloaded from CGHub (phased out soon)
+                                             downloaded from CGHub (This will be phased out soon)
         storage_location: aws:protect-out -> Should the intermediate files be stored locally
                                              (`Local`) or in an Amazon S3 bucket using SSE-C
                                              per-file encryption from the provided master sse key
                                              (`aws:<bucket_name>`)?
         output_folder: /path/to/out       -> A path to a folder where intermediate, and output files
-                                             (mutation calls, MHC haplotype, etc).
+                                             (mutation calls, MHC haplotype, etc). This folder will
+                                             be created if it doesn't exist. However, files in the
+                                             folder from a previous run will not be overwritten with
+                                             updated values.
 
 
 In reality, for the inexperienced user, these are the only values that need to be modified for a
@@ -125,8 +162,8 @@ be substituted with S3 links. Descriptions for creating all files can be found i
 These flags describe the sequences to use for adapter trimming in the RNA Seq data
 
     cutadapt:
-        a: AGATCGGAAGAG  -> Adapters for trimming forward read
-        A: AGATCGGAAGAG  -> Adapters for trimming reverse read
+        a: AGATCGGAAGAG  -> Adapter for trimming forward read
+        A: AGATCGGAAGAG  -> Adapter for trimming reverse read
 
 
 **star**
@@ -135,8 +172,8 @@ These flags describe the arguments for aligning the RNA Seq data
 
     star:
         type: star                             -> Can be `star` or `starlong` depending on the read
-                                                  size. Refer the STAR manual for details.
-        index_tar: /path/to/star_index.tar.gz  -> The Indexes to use for STAR. Protect provides
+                                                  size. Refer to the STAR manual for details.
+        index_tar: /path/to/star_index.tar.gz  -> The indexes to use for STAR. Protect provides
                                                   indexes created using edge sizes 50, 75, 100, 150
                                                   and 250 in the S3 bucket `cgl-protect-data` under
                                                   the folder `hg19_references`.
@@ -146,7 +183,7 @@ These flags describe the arguments for aligning the RNA Seq data
 These flags describe the arguments for aligning the DNA Seq data
 
     bwa:
-        index_tar: /path/to/bwa_index.tar.gz  -> The Indexes to use for bwa. Protect provides
+        index_tar: /path/to/bwa_index.tar.gz  -> The indexes to use for bwa. Protect provides
                                                  indexes in the S3 bucket `cgl-protect-data` under
                                                  the folder `hg19_references`.
 
@@ -156,7 +193,7 @@ These flags describe the arguments for aligning the DNA Seq data
 These flags describe the arguments for conducting expression calling.
 
     rsem:
-        index_tar: /path/to/rsem_index.tar.gz  -> The Indexes to use for rsem. Protect provides
+        index_tar: /path/to/rsem_index.tar.gz  -> The indexes to use for rsem. Protect provides
                                                   indexes in the S3 bucket `cgl-protect-data` under
                                                   the folder `hg19_references`.
 
@@ -167,13 +204,17 @@ These flags describe the arguments for conducting mutation calling.
     mut_callers:
         genome_fasta: /path/to/hg19.fa.tar.gz                 -> The genome fasta to use for the
                                                                  mutation callers.
-        genome_fai: /path/to/hg19.fa.fai.tar.gz               -> The fai for the genome fasta
-        genome_dict: /path/to/hg19.dict.tar.gz                -> The dict for the genome fasta
+        genome_fai: /path/to/hg19.fa.fai.tar.gz               -> The corresponding .fai file for the
+                                                                 genome fasta
+        genome_dict: /path/to/hg19.dict.tar.gz                -> The corresponding .dict file for
+                                                                 the genome fasta
         cosmic_vcf: /path/to/CosmicCodingMuts.vcf.tar.gz      -> The Cosmic Coding vcf
-        cosmic_idx: /path/to/CosmicCodingMuts.vcf.idx.tar.gz  -> The idx for the Cosmic vcf
+        cosmic_idx: /path/to/CosmicCodingMuts.vcf.idx.tar.gz  -> The corresponding .idx file for the
+                                                                 Cosmic vcf
         dbsnp_vcf: /path/to/dbsnp_coding.vcf.tar.gz           -> The dbSNP vcf
-        dbsnp_idx: /path/to/dbsnp_coding.vcf.idx.tar.gz       -> The idx for the dbSNP vcf
-        java_Xmx: 5G                                          -> The Heap size to use for MuTect
+        dbsnp_idx: /path/to/dbsnp_coding.vcf.idx.tar.gz       -> The corresponding .idx file for the
+                                                                 dbSNP vcf
+        java_Xmx: 5G                                          -> The heap size to use for MuTect
                                                                  per job (i.e. per chromosome)
 
 **snpeff**
@@ -181,10 +222,10 @@ These flags describe the arguments for conducting mutation calling.
 These flags describe the arguments for conducting mutation calling.
 
     snpeff:
-        index_tar: /path/to/snpeff_index.tar.gz  -> The Indexes to use for snpeff. Protect provides
+        index_tar: /path/to/snpeff_index.tar.gz  -> The indexes to use for snpeff. Protect provides
                                                     indexes in the S3 bucket `cgl-protect-data`
                                                     under the folder `hg19_references`.
-        java_Xmx: 5G                             -> The Heap size to use for SnpEFF
+        java_Xmx: 5G                             -> The heap size to use for SnpEFF
 
 **transgene**
 
@@ -201,7 +242,7 @@ tool to go from mutations to peptides.
 These flags describe the arguments for conducting MHC Haplotyping.
 
     phlat:
-        index_tar: /path/to/snpeff_index.tar.gz  -> The Indexes to use for PHLAT. Protect provides
+        index_tar: /path/to/snpeff_index.tar.gz  -> The indexes to use for PHLAT. Protect provides
                                                     indexes in the S3 bucket `cgl-protect-data`
                                                     under the folder `hg19_references`.
 
