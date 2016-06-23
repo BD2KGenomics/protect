@@ -21,10 +21,14 @@ Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
 from __future__ import print_function
+
+import shutil
 from collections import defaultdict
 from multiprocessing import cpu_count
 
 from urlparse import urlparse
+
+import sys
 
 from protect.addons import run_mhc_gene_assessment
 from protect.alignment.dna import align_dna
@@ -479,17 +483,37 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
     return filename
 
 
+def generate_config_file():
+    """
+    Generate a config file for a ProTECT run on hg19.
+    :return: None
+    """
+    shutil.copy(os.path.join(os.path.dirname(__file__), 'input_parameters.yaml'),
+                os.path.join(os.getcwd(), 'ProTECT_config.yaml'))
+
+
 def main():
     """
     This is the main function for the UCSC Precision Immuno pipeline.
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--config_file', dest='config_file', help='Config file to be used in the' +
-                        'run.', type=str, required=True, default=None)
-    Job.Runner.addToilOptions(parser)
+    parser = argparse.ArgumentParser(prog='ProTECT',
+                                     description='Prediction of T-Cell Epitopes for Cancer Therapy',
+                                     epilog='Contact Arjun Rao (aarao@ucsc.edu) if you encounter '
+                                     'any problems while running ProTECT')
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument('--config_file', dest='config_file', help='Config file to be used in the '
+                        'run.', type=str, default=None)
+    inputs.add_argument('--generate_config', dest='generate_config', help='Generate a config file '
+                        'in the current directory that is pre-filled with references and flags for '
+                        'an hg19 run.', action='store_true', default=False)
     params = parser.parse_args()
-    start = Job.wrapJobFn(parse_config_file, params.config_file)
-    Job.Runner.startToil(start, params)
+    if params.generate_config:
+        generate_config_file()
+    else:
+        Job.Runner.addToilOptions(parser)
+        params = parser.parse_args()
+        start = Job.wrapJobFn(parse_config_file, params.config_file)
+        Job.Runner.startToil(start, params)
     return None
 
 
