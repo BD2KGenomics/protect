@@ -433,7 +433,7 @@ def write_to_s3(file_path, key_path, bucket_name, output_folder):
     :param output_folder: The location in the bucket for the output data
     """
     file_name = os.path.basename(file_path)
-    output_file = os.path.join('S3:/', bucket_name, output_folder.strip('/'), file_name)
+    output_file = os.path.join('S3://', bucket_name, output_folder.strip('/'), file_name)
     subprocess.check_call(['s3am', 'upload', '--sse-key-file', key_path, file_path, output_file])
 
 

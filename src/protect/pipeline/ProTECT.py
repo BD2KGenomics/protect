@@ -506,7 +506,11 @@ def main():
     inputs.add_argument('--generate_config', dest='generate_config', help='Generate a config file '
                         'in the current directory that is pre-filled with references and flags for '
                         'an hg19 run.', action='store_true', default=False)
-    params = parser.parse_args()
+    # We parse the args once to see if the user has asked for a config file to be generated.  In
+    # this case, we don't need a jobstore.  To handle the case where Toil arguments are passed to
+    # ProTECT, we parse known args, and if the used specified config_file instead of generate_config
+    # we re-parse the arguments with the added Toil parser.
+    params, others = parser.parse_known_args()
     if params.generate_config:
         generate_config_file()
     else:
