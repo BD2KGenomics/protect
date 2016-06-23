@@ -21,11 +21,6 @@ Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
 from __future__ import print_function
-from collections import defaultdict
-from encrypt_files_in_dir_to_s3 import write_to_s3
-from multiprocessing import cpu_count
-from pysam import Samfile
-from toil.job import Job
 
 import argparse
 import base64
@@ -33,13 +28,20 @@ import errno
 import gzip
 import hashlib
 import json
-import os
-import re
 import shutil
 import subprocess
 import sys
 import tarfile
 import time
+from collections import defaultdict
+from multiprocessing import cpu_count
+
+from pysam import Samfile
+
+import os
+import re
+from attic.encrypt_files_in_dir_to_s3 import write_to_s3
+from toil.job import Job
 
 
 def parse_config_file(job, config_file):

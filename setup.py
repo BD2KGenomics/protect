@@ -1,40 +1,12 @@
 from __future__ import print_function
 from distutils.version import LooseVersion
+
+import sys
+
 from setuptools import find_packages, setup
-from setuptools.command.install import install as _install
-from setuptools.command.develop import develop as _develop
+from setuptools.command.test import test as TestCommand
 import errno
 import subprocess
-
-
-class install(_install):
-    """
-    This is a custom install class that first checks that the Installed versions of Toil (Hopefully
-    in the same venv as ProTECT) and s3am (Hopefull in its own venv) are compatible with ProTECT.
-    This way, even if we are using s3am and/or Toil from --system-site-packages we won't attempt to
-    overwrite it if the versions are incompatible.
-    """
-    def run(self):
-        # Check Toil version
-        check_tool_version('toil', '3.2.0', binary=False)
-        # Check S3am version
-        check_tool_version('s3am', '2.0', binary=True)
-        _install.run(self)
-
-
-class develop(_develop):
-    """
-    This is a custom develop class that first checks that the Installed versions of Toil (Hopefully
-    in the same venv as ProTECT) and s3am (Hopefull in its own venv) are compatible with ProTECT.
-    This way, even if we are using s3am and/or Toil from --system-site-packages we won't attempt to
-    overwrite it if the versions are incompatible.
-    """
-    def run(self):
-        # Check Toil version
-        check_tool_version('toil', '3.2.0', binary=False)
-        # Check S3am version
-        check_tool_version('s3am', '2.0', binary=True)
-        _develop.run(self)
 
 
 def check_tool_version(tool, required_version, binary=False):
@@ -59,8 +31,8 @@ def check_tool_version(tool, required_version, binary=False):
         try:
             module = __import__(tool + '.version')
         except ImportError:
-            raise RuntimeError('Is %s installed as a library in the same environment as ProTECT?' %
-                               tool)
+            raise RuntimeError('Is %s installed as a library, and is it accessible in the same '
+                               'environment as ProTECT?' % tool)
         try:
             installed_version = getattr(module, 'version').version
         except AttributeError:
@@ -69,6 +41,34 @@ def check_tool_version(tool, required_version, binary=False):
     if LooseVersion(installed_version) < LooseVersion(required_version):
         raise RuntimeError('%s was detected to be version (%s) but ProTECT requires (%s)' %
                            (tool, installed_version, required_version))
+
+
+# Check Toil version
+check_tool_version('toil', '3.2.0', binary=False)
+# Check S3am version
+check_tool_version('s3am', '2.0', binary=True)
+
+
+# Set up a test class
+# noinspection PyAttributeOutsideInit
+class PyTest(TestCommand):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        # Sanitize command line arguments to avoid confusing Toil code attempting to parse them
+        sys.argv[1:] = []
+        err_number = pytest.main(self.pytest_args)
+        sys.exit(err_number)
 
 
 setup(name='protect',
@@ -81,8 +81,13 @@ setup(name='protect',
       install_requires=[
           'PyYAML'
       ],
-      cmdclass={'install': install,
-                'develop': develop},
+      tests_require=[
+          'pytest==2.8.3'],
+      test_suite='protect',
+      entry_points={
+          'console_scripts': [
+              'ProTECT = protect.pipeline.ProTECT:main']},
+      cmdclass={'test': PyTest},
       package_dir={'': 'src'},
       packages=find_packages('src', exclude=['*.test']),
       zip_safe=False)

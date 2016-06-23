@@ -15,7 +15,7 @@
 from __future__ import absolute_import, print_function
 
 import os
-from protect.common import docker_call, get_files_from_filestore, untargz, docker_path
+from protect.common import docker_call, get_files_from_filestore
 
 
 def predict_mhci_binding(job, peptfile, allele, peplen, univ_options,

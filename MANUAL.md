@@ -1,6 +1,6 @@
 
 
-#Overveiew
+#Overview
 
 ProTECT is implemented in the [Toil](https://github.com/BD2KGenomics/toil.git) framework and fully
 runs the workflow described in [protect/Flowchart.txt](
@@ -10,7 +10,7 @@ ProTECT accepts Illumina sequencing data from paired Tumor DNA (WGS or WXS), Nor
 WXS), and Tumor RNA, and attempts to predict the neo-antigens in the patient's tumor that are most
 likely to stimulate a T-cell based response. Input fastq files from multiple lanes and libraries
 should be combined to yield just 2 files per sample type (T_DNA, N_DNA, T_RNA) having the standard
-naming convention -- XYZ1.fq and XYZ2.fq .
+naming convention -- XYZ1.fq and XYZ2.fq . Currently ProTECT only supports paired-end runs.
 
 #Installation
 
@@ -23,11 +23,6 @@ then putting the s3am binary on your $PATH.
 
 ###Method 1 - Using PIP (recommended)
 
-NOTE: Installation was tested using pip 7.1.2 and 8.1.1. We have seen issues with the installation
-of pyYAML with lower versions of pip and recommend upgrading pip before installing ProTECT.
-
-    pip install --upgrade pip
-
 First create a virtualenv at your desired location (Here we create it in the folder ~/venvs)
 
     virtualenv ~/venvs/protect
@@ -36,9 +31,14 @@ Activate the virtualenv
 
     source ~/venvs/protect/bin/activate
 
-Install Toil (This is a --pre version till Toil v3.2 releases)
+NOTE: Installation was tested using pip 7.1.2 and 8.1.1. We have seen issues with the installation
+of pyYAML with lower versions of pip and recommend upgrading pip before installing ProTECT.
 
-    pip install --pre toil[aws]
+    pip install --upgrade pip
+
+Install Toil
+
+    pip install toil[aws]==3.2.0
 
 Install ProTECT and all dependencies in the virtualenv
 
@@ -61,9 +61,9 @@ Activate the virtualenv
 
     source venv/bin/activate
 
-Install Toil (This is a --pre version till Toil v3.2 releases)
+Install Toil
 
-    pip install --pre toil[aws]
+    pip install toil[aws]==3.2.0
 
 Install ProTECT
 
@@ -77,10 +77,12 @@ Running ProTECT requires you to be in the virtualenv where it was installed.
 Activate the virtualenv with
 
     source ~/venvs/protect/bin/activate
+    OR
+    source ~/protect/venv/bin/activate
 
 Running ProTECT is as simple as:
 
-            python ProTECT.py --config config.txt
+            ProTECT --config config.txt
 
 #Setting up a config file
 

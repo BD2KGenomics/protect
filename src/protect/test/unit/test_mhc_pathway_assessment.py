@@ -41,7 +41,7 @@ class TestMHCPathwayAssessment(ProtectTest):
         Test the functionality of assess_mhc_genes
         """
         univ_options = self._getTestUnivOptions()
-        test_src_folder = os.path.dirname(os.path.abspath(__file__))
+        test_src_folder = os.path.join(self._projectRootPath(), 'src', 'protect', 'test')
         a = Job.wrapJobFn(self._get_test_rsem_file, test_src_folder)
         b = Job.wrapJobFn(self._get_MHC_file)
         c = Job.wrapJobFn(self._get_test_haplotype_file, test_src_folder)
@@ -72,9 +72,8 @@ class TestMHCPathwayAssessment(ProtectTest):
         :return: FSID for the MHC file
         """
         mhc_file = get_file_from_s3(job,
-                                    'S3://pimmuno-references/mhc_pathway_genes.json.tar.gz',
+                                    'S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz',
                                     write_to_jobstore=False)
-        mhc_file = untargz(mhc_file, os.getcwd())
         return {
             'genes_file': job.fileStore.writeGlobalFile(mhc_file)}
 
@@ -98,7 +97,8 @@ class TestMHCPathwayAssessment(ProtectTest):
         """
         outfile = job.fileStore.readGlobalFile(output_file, 'mhc_report.txt')
         # Ensure that the exported file exists
-        assert os.path.exists(os.path.join(univ_options['output_folder'], 'mhc_pathway_report.txt'))
+        assert os.path.exists(os.path.join(univ_options['output_folder'], 'reports',
+                                           'mhc_pathway_report.txt'))
         # Ensure that the 2 input genes were processed correctly
         outdict = {}
         with open(outfile) as o_f:

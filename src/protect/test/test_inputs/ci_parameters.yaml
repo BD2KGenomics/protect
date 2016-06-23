@@ -34,11 +34,9 @@
 
 patients:
     TEST:
-        #tumor_dna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Modified_HCC1954_ERR016369-70-71.ci.1.fq.gz
-        #normal_dna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Modified_HCC1954BL_ERR016390-91-92-93.ci.1.fq.gz
-        tumor_dna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Tum_1.fq.gz
-        normal_dna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Norm_1.fq.gz
-        tumor_rna_fastq_1 : S3://pimmuno-test-data/CI_test_input/reads/Rna_1.fq.gz
+        tumor_dna_fastq_1 : S3://cgl-protect-data/ci_references/Tum_1.fq.gz
+        normal_dna_fastq_1 : S3://cgl-protect-data/ci_references/Norm_1.fq.gz
+        tumor_rna_fastq_1 : S3://cgl-protect-data/ci_references/Rna_1.fq.gz
 
 
 # These are options Which are used by most tools
@@ -56,41 +54,41 @@ cutadapt:
 
 star:
     type : star
-    tool_index : S3://pimmuno-test-data/CI_test_input/references/star_100_index_chr6.tar.gz
+    tool_index : S3://cgl-protect-data/ci_references/star_100_index_chr6.tar.gz
 
 bwa:
-    tool_index : S3://pimmuno-test-data/CI_test_input/references/bwa_index_chr6.tar.gz
+    tool_index : S3://cgl-protect-data/ci_references/bwa_index_chr6.tar.gz
 
 rsem:
-    tool_index : S3://pimmuno-test-data/CI_test_input/references/rsem_index_chr6.tar.gz
+    tool_index : S3://cgl-protect-data/ci_references/rsem_index_chr6.tar.gz
 
 mut_callers:
-    genome_fasta : S3://pimmuno-test-data/CI_test_input/references/chr6.fa.tar.gz
-    genome_fai : S3://pimmuno-test-data/CI_test_input/references/chr6.fa.fai.tar.gz
-    genome_dict : S3://pimmuno-test-data/CI_test_input/references/chr6.dict.tar.gz
-    cosmic_vcf : S3://pimmuno-test-data/CI_test_input/references/CosmicCodingMuts.chr6.vcf.tar.gz
-    cosmic_idx : S3://pimmuno-test-data/CI_test_input/references/CosmicCodingMuts.chr6.vcf.idx.tar.gz
-    dbsnp_vcf : S3://pimmuno-test-data/CI_test_input/references/dbsnp_coding.vcf.gz
-    dbsnp_idx : S3://pimmuno-test-data/CI_test_input/references/dbsnp_coding.chr6.vcf.idx.tar.gz
-    dbsnp_tbi : S3://pimmuno-test-data/CI_test_input/references/dbsnp_coding.vcf.gz.tbi
+    genome_fasta : S3://cgl-protect-data/ci_references/chr6.fa.tar.gz
+    genome_fai : S3://cgl-protect-data/ci_references/chr6.fa.fai.tar.gz
+    genome_dict : S3://cgl-protect-data/ci_references/chr6.dict.tar.gz
+    cosmic_vcf : S3://cgl-protect-data/ci_references/CosmicCodingMuts.chr6.vcf.tar.gz
+    cosmic_idx : S3://cgl-protect-data/ci_references/CosmicCodingMuts.chr6.vcf.idx.tar.gz
+    dbsnp_vcf : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz
+    dbsnp_idx : S3://cgl-protect-data/ci_references/dbsnp_coding.chr6.vcf.idx.tar.gz
+    dbsnp_tbi : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz.tbi
     java_Xmx : 2G
 
 snpeff:
-    tool_index : S3://pimmuno-test-data/CI_test_input/references/snpeff_index_chr6.tar.gz
+    tool_index : S3://cgl-protect-data/ci_references/snpeff_index_chr6.tar.gz
     java_Xmx : 20G
 
 transgene:
-    gencode_peptide_fasta : S3://pimmuno-test-data/CI_test_input/references/gencode.v19.pc_translations.chr6.fa.tar.gz
+    gencode_peptide_fasta : S3://cgl-protect-data/ci_references/gencode.v19.pc_translations.chr6.fa.tar.gz
 
 phlat:
-    tool_index : S3://pimmuno-references/phlat_index.tar.gz
+    tool_index : S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
 
 mhci:
-    method_file : S3://pimmuno-references/mhci_restrictions.json.tar.gz
+    method_file : S3://cgl-protect-data/hg19_references/mhci_restrictions.json.tar.gz
     pred : IEDB_recommended
 
 mhcii:
-    method_file : S3://pimmuno-references/mhcii_restrictions.json.tar.gz
+    method_file : S3://cgl-protect-data/hg19_references/mhcii_restrictions.json.tar.gz
     pred : IEDB_recommended
 
 rank_boost:
@@ -98,4 +96,4 @@ rank_boost:
     mhcii_combo : 0.25,0.25,0.25,0.25
 
 mhc_pathway_assessment:
-    genes_file : S3://pimmuno-references/mhc_pathway_genes.json.tar.gz
+    genes_file : S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz
