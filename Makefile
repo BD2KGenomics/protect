@@ -14,7 +14,7 @@
 
 define help
 
-Supported targets: develop, sdist, clean, test, pypi.
+Supported targets: develop, sdist, clean, ci_test, test, pypi.
 
 Please note that all build targets require a virtualenv to be active. 
 
@@ -27,7 +27,11 @@ implemented yet).
 
 The 'clean' target undoes the effect of 'develop', and 'sdist'.
 
-The 'test' target runs ProTECT's unit tests. Set the 'tests' variable to run a particular test, e.g.
+The 'ci_test' target runs the CI test for ProTECT. I.e. it runs the pipeline end-to-end using a test
+dataset.
+
+The 'test' target runs ProTECT's unit tests. These tests mandatorily require Toil to be installed in
+the same virtualenv as ProTECT. Set the 'tests' variable to run a particular test, e.g.
 
 	make test tests=src/protect/test/test_file_downloads.py::TestFileDownloads::test_file_downloads_from_s3
 
@@ -42,13 +46,15 @@ help:
 
 python=python2.7
 pip=pip2.7
-tests=src
+tests=src/protect/test/unit
 extras=
 
 green=\033[0;32m
 normal=\033[0m
 red=\033[0;31m
 
+prepare: check_venv
+	@$(pip) install toil==3.2.0 pytest==2.8.3
 
 develop: check_venv
 	$(pip) install -e .$(extras)
@@ -62,10 +68,21 @@ sdist: check_venv
 clean_sdist:
 	- rm -rf dist
 
+check_build_reqs:
+	@$(python) -c 'import pytest; import toil' \
+		|| ( echo "$(red)Build requirements (pytest or Toil) is missing. Run 'make prepare' to install them.$(normal)" ; false )
+	@s3am --version \
+		|| ( echo "$(red)Build requirement (s3am) is missing. Please install before running ProTECT.$(normal)" ; false )
 
-test: check_venv check_build_reqs
-	$(python) run_tests.py $(tests)
+check_toil_in_venv:
+	@$(python) -c 'import toil; import os; assert toil.__file__.startswith(os.getcwd())' \
+		|| ( echo "$(red)Build requirement (Toil) is not installed in the same venv as ProTECT. Install Toil in the venv before continuing.$(normal)" ; false )
 
+test: check_venv check_toil_in_venv check_build_reqs
+	$(python) -m pytest -vv -pyargs $(tests) --junitxml=test-report.xml
+
+ci_test: check_venv check_build_reqs
+	$(python) -m pytest -vv -pyargs src/protect/test/ci/test_protect.py --junitxml=test-report.xml
 
 pypi: check_venv check_clean_working_copy check_running_on_jenkins
 	set -x \

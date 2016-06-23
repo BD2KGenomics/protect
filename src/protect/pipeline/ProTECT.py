@@ -24,8 +24,6 @@ from __future__ import print_function
 from collections import defaultdict
 from multiprocessing import cpu_count
 
-# noinspection PyUnresolvedReferences
-from pysam import Samfile
 from urlparse import urlparse
 
 from protect.addons import run_mhc_gene_assessment
@@ -99,10 +97,10 @@ def parse_config_file(job, config_file):
             if univ_options['storage_location'].startswith('aws') and 'sse_key' not in univ_options:
                 raise ParameterError('Cannot write results to aws without an sse key.')
             if 'sse_key_is_master' in univ_options:
-                if univ_options['sse_key_is_master'] not in ('True', 'true', 'False', 'false'):
+                if univ_options['sse_key_is_master'] not in (True, False):
+                    print(univ_options['sse_key_is_master'])
+                    print(type(univ_options['sse_key_is_master']))
                     raise ParameterError('sse_key_is_master must be True or False')
-                univ_options['sse_key_is_master'] = \
-                    univ_options['sse_key_is_master'] in ('True', 'true')
             else:
                 univ_options['sse_key_is_master'] = False
             if 'sse_key' not in univ_options:
@@ -127,7 +125,7 @@ def parse_config_file(job, config_file):
         # Add the patient id to the sample set
         sample_set[patient_id]['patient_id'] = patient_id
         job.addFollowOnJobFn(pipeline_launchpad, sample_set[patient_id], univ_options,
-                                          process_tool_inputs.rv())
+                             process_tool_inputs.rv())
     return None
 
 
@@ -366,7 +364,7 @@ def prepare_samples(job, fastqs, univ_options):
         prefix = prefix[:-1]
 
         # If it is a weblink, it HAS to be from S3
-        if prefix.startswith('https://s3') or prefix.startswith('S3://'):
+        if prefix.startswith('https://s3') or prefix.lower().startswith('s3://'):
             fastqs[sample_type] = [
                 get_file_from_s3(job, ''.join([prefix, '1', final_extn]), univ_options['sse_key'],
                                  per_file_encryption=univ_options['sse_key_is_master']),

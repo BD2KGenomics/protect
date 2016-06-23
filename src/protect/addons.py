@@ -83,25 +83,23 @@ def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_g
             if section == 'MHCI loading':
                 for mhci_allele in 'HLA_A', 'HLA_B', 'HLA_C':
                     num_alleles = len(mhc_alleles[mhci_allele])
-                    print("{:12}{:12}{:12}{:12}".format(mhci_allele, '2', num_alleles,
-                                                        'FAIL' if num_alleles == 0
-                                                        else 'LOW' if num_alleles == 1
-                                                        else 'PASS'), file=mpr)
+                    result = 'FAIL' if num_alleles == 0 else 'LOW' if num_alleles == 1 else 'PASS'
+                    print("{:12}{:<12}{:<12}{:12}".format(mhci_allele, 2, num_alleles, result),
+                          file=mpr)
             elif section == 'MHCII loading':
                 # TODO DP alleles
                 for mhcii_allele in ('HLA_DQA', 'HLA_DQB', 'HLA_DRA', 'HLA_DRB'):
                     if mhcii_allele != 'HLA_DRA':
                         num_alleles = len(mhc_alleles[mhcii_allele])
-                        print("{:12}{:12}{:12}{:12}".format(mhcii_allele, 2, num_alleles,
-                                                            'FAIL' if num_alleles == 0 else
-                                                            'LOW' if num_alleles == 1 else
-                                                            'PASS'), file=mpr)
+                        result = 'FAIL' if num_alleles == 0 else 'LOW' if num_alleles == 1 else 'PASS'
+                        print("{:12}{:<12}{:<12}{:12}".format(mhcii_allele, 2, num_alleles, result),
+                              file=mpr)
                     else:
                         # FIXME This is hardcoded for now. We need to change this.
+                        result = 'LOW' if gene_expressions['ENSG00000204287.9'] <= 69.37 else 'PASS'
                         print("{:12}{:<12}{:<12}{:12}".format(
                                     'HLA_DRA', gene_expressions['ENSG00000204287.9'], '69.37',
-                                    'LOW' if gene_expressions['ENSG00000204287.9'] <= 69.37
-                                    else 'PASS'), file=mpr)
+                                    result), file=mpr)
             for gene, ensgene, first_quart in mhc_genes[section]:
                 result = 'LOW' if gene_expressions[ensgene] <= float(first_quart) else 'PASS'
                 print("{:12}{:<12}{:<12}{:12}".format(gene, float(first_quart),
