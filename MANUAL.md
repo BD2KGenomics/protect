@@ -86,7 +86,7 @@ Running ProTECT is as simple as:
 
 Where JobStore is the job store used for the Toil run. The job store can either be a path to a
 directory on the system (e.g. /home/probox/toil/jobstore), or an aws bucket as
-aws:<region>:<bucket_name> (e.g. aws:us-west-2:ProTEST). Refer to the Toil manual for more
+aws:< region >:< bucket_name > (e.g. aws:us-west-2:ProTEST). Refer to the Toil manual for more
 information regarding job stores.
 
 
