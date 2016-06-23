@@ -82,9 +82,21 @@ Activate the virtualenv with
 
 Running ProTECT is as simple as:
 
-            ProTECT --config config.txt
+            ProTECT --config config.txt JobStore
+
+Where JobStore is the job store used for the Toil run. The job store can either be a path to a
+directory on the system (e.g. /home/probox/toil/jobstore), or an aws bucket as
+aws:<region>:<bucket_name> (e.g. aws:us-west-2:ProTEST). Refer to the Toil manual for more
+information regarding job stores.
+
 
 #Setting up a config file
+
+A config file pre-filled with references and options for an HG19 run can be generated with
+
+    ProTECT --generate_config
+
+The file `ProTECT_config.yaml` will be created in the current working directory.
 
 The config file contains all the relevant information required for a run. The file is written in the
 [YAML format](http://www.yaml.org/start.html) and should be relatively simple to fill in. The file
@@ -96,6 +108,8 @@ patients dictionary). Only values to the right of the `:` should be edited.
 Every required reference file is provided in the AWS bucket `cgl-protect-data` under the folder
 `hg19_references`. The `README` file in the same location describes in detail how each file was
 generated.
+
+The following section describes the arguments that can be provided to ProTECT via the config file.
 
 **patients**
 
