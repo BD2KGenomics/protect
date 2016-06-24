@@ -2,9 +2,20 @@
 # A PR may *temporarily* modify this file but a PR will only be merged if this file is identical
 # between the PR branch and the target branch.
 
-# Passing --system-site-packages ensures that Toil is included
-virtualenv --system-site-packages venv
+# Install s3am in a venv
+virtualenv s3am
+s3am/bin/pip install s3am==2.0a1.dev105
+# Expose binaries to the PATH
+mkdir bin
+ln -snf ${PWD}/s3am/bin/s3am bin/
+export PATH=$PATH:${PWD}/bin
+
+# Install Toil in a venv then install ProTECT
+virtualenv venv
 . venv/bin/activate
+
+pip install toil==3.2.0
+pip install pytest==2.8.3
 
 # Install ProTECT and its runtime requirements
 make develop
