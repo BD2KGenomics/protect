@@ -293,7 +293,6 @@ def get_all_tool_inputs(job, tools):
             # reqd, then written to job store.
             if option.split('_')[-1] in ['file', 'vcf', 'index', 'fasta', 'fai', 'idx', 'dict',
                                          'tbi']:
-
                 tools[tool][option] = job.addChildJobFn(get_pipeline_inputs, option,
                                                         tools[tool][option]).rv()
     return tools
