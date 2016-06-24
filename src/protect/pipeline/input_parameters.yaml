@@ -58,7 +58,7 @@ cutadapt:
 
 star:
     type : star # use starlong if your reads are > 150bp
-    tool_index : S3://cgl-protect-data/hg19_references/star_100_index.tar.gz
+    tool_index : S3://cgl-protect-data/hg19_references/star_100_indexes.tar.gz
 
 bwa:
     tool_index : S3://cgl-protect-data/hg19_references/bwa_index.tar.gz
@@ -81,7 +81,7 @@ snpeff:
     java_Xmx : 20G
 
 transgene:
-    gencode_peptide_fasta : S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations.fa.tar.gz
+    gencode_peptide_fasta : S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations_NOPARY.fa.tar.gz
 
 phlat:
     tool_index : S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
