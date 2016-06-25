@@ -515,6 +515,7 @@ def main():
     else:
         Job.Runner.addToilOptions(parser)
         params = parser.parse_args()
+        params.config_file = os.path.abspath(params.config_file)
         start = Job.wrapJobFn(parse_config_file, params.config_file)
         Job.Runner.startToil(start, params)
     return None
