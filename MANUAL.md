@@ -82,13 +82,31 @@ Activate the virtualenv with
 
 Running ProTECT is as simple as:
 
-            ProTECT --config config.txt JobStore
+            ProTECT --config /path/to/config.txt --workDir /path/to/a/workdir JobStore
 
-Where JobStore is the job store used for the Toil run. The job store can either be a path to a
+Where
+
+a) /path/to/config.txt is the absolute path to the config file for the run.   If a relative path is
+provided, ProTECT will attempt to make it an absolute path, however this **might** be an issue on
+OSX because folders like `/tmp` are symlinks to `/private/tmp`.
+
+b) /path/to/a/workdir points to a directory to use as a working directory. This directory is where
+all the worker sandboxes (temp directories) will be set up during the run. If this option is omitted,
+Toil will setup workdir in the sytem $TMPDIR
+
+c) JobStore is the job store used for the Toil run. The job store can either be a path to a
 directory on the system (e.g. /home/probox/toil/jobstore), or an aws bucket as
 aws:< region >:< bucket_name > (e.g. aws:us-west-2:ProTEST). Refer to the Toil manual for more
 information regarding job stores.
 
+**NOTE:** The workdir **MUST** be on a device that has enough space to run a genomics pipeline.
+STAR indexes are usually 25Gb and running star usually takes ~60Gb per sample. You need enough space
+on this device such that concurrent jobs do not run into `Unable to free up enough space for caching`
+errors. If the job store being used is the file job store (points to a directory on the system), and
+if the device hosting the job store is the same one hosting the working directory, you need to
+ensure the device can handle the concurrent writes and the persistent job store files as well.
+
+ **TL;DR:** Use large volumes for workdir and job store
 
 #Setting up a config file
 
