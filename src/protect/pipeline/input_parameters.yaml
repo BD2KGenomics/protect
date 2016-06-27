@@ -74,6 +74,7 @@ mut_callers:
     cosmic_idx : S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.idx.tar.gz
     dbsnp_vcf : S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.gz
     dbsnp_idx : S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.idx.tar.gz
+    dbsnp_tbi : S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.gz.tbi
     java_Xmx : 2G
 
 snpeff:
