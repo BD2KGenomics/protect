@@ -22,13 +22,11 @@ Details can also be obtained by running the script with -h .
 """
 from __future__ import print_function
 
-import shutil
+
 from collections import defaultdict
 from multiprocessing import cpu_count
 
 from urlparse import urlparse
-
-import sys
 
 from protect.addons import run_mhc_gene_assessment
 from protect.alignment.dna import align_dna
@@ -53,10 +51,11 @@ from toil.job import Job
 import argparse
 import os
 import yaml
+import shutil
 import subprocess
 
 
-def parse_config_file(job, config_file):
+def parse_config_file(job, config_file, max_cores=None):
     """
     This module will parse the config file withing params and set up the variables that will be
     passed to the various tools in the pipeline.
@@ -109,6 +108,7 @@ def parse_config_file(job, config_file):
                 univ_options['sse_key_is_master'] = False
             if 'sse_key' not in univ_options:
                 univ_options['sse_key'] = None
+            univ_options['max_cores'] = max_cores
         else:
             tool_options[key] = parsed_config_file[key]
     # Ensure that all tools have been provided options.
@@ -133,6 +133,17 @@ def parse_config_file(job, config_file):
     return None
 
 
+def ascertain_cpu_share(max_cores=None):
+    # Ascertain the number of available CPUs. Jobs will be given fractions of this value.
+    num_cores = cpu_count()
+    # The minimum number of cpus should be at least 6 if possible
+    min_cores = min(num_cores, 6)
+    cpu_share = max(num_cores / 2, min_cores)
+    if max_cores is not None:
+        cpu_share = min(cpu_share, max_cores)
+    return cpu_share
+
+
 def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     """
     The precision immuno pipeline begins at this module. The DAG can be viewed in Flowchart.txt
@@ -146,10 +157,9 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     # Add Patient id to univ_options as is is passed to every major node in the DAG and can be used
     # as a prefix for the logfile.
     univ_options['patient'] = fastqs['patient_id']
-    # Ascertain the number of available CPUs. Jobs will be given fractions of this value.
-    ncpu = cpu_count()
+    # Ascertin number of cpus to use per job
     tool_options['star']['n'] = tool_options['bwa']['n'] = tool_options['phlat']['n'] = \
-        tool_options['rsem']['n'] = ncpu / 3
+        tool_options['rsem']['n'] = ascertain_cpu_share(univ_options['max_cores'])
     # Define the various nodes in the DAG
     # Need a logfile and a way to send it around
     sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options, disk='140G')
@@ -502,6 +512,11 @@ def main():
     inputs = parser.add_mutually_exclusive_group(required=True)
     inputs.add_argument('--config_file', dest='config_file', help='Config file to be used in the '
                         'run.', type=str, default=None)
+    inputs.add_argument('--max-cores-per-job', dest='max_cores', help='Maximum cores to use per '
+                        'job. Aligners and Haplotypers ask for cores dependent on the machine that '
+                        'the launchpad gets assigned to -- In a heterogeneous cluster, this can '
+                        'lead to problems. This value should be set to the number of cpus on the '
+                        'smallest node in a cluster.', type=int, required=False, default=None)
     inputs.add_argument('--generate_config', dest='generate_config', help='Generate a config file '
                         'in the current directory that is pre-filled with references and flags for '
                         'an hg19 run.', action='store_true', default=False)
@@ -516,7 +531,7 @@ def main():
         Job.Runner.addToilOptions(parser)
         params = parser.parse_args()
         params.config_file = os.path.abspath(params.config_file)
-        start = Job.wrapJobFn(parse_config_file, params.config_file)
+        start = Job.wrapJobFn(parse_config_file, params.config_file, params.max_cores)
         Job.Runner.startToil(start, params)
     return None
 
