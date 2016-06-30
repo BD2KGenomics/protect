@@ -162,7 +162,7 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
         tool_options['rsem']['n'] = ascertain_cpu_share(univ_options['max_cores'])
     # Define the various nodes in the DAG
     # Need a logfile and a way to send it around
-    sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options, disk='140G')
+    sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options, disk='40G')
     tumor_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_dna')
     normal_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'normal_dna')
     tumor_rna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_rna')
@@ -316,7 +316,7 @@ def get_pipeline_inputs(job, input_flag, input_file):
     :param str input_file: The value passed in the config file
     :return: The jobstore ID for the file
     """
-    work_dir = job.fileStore.getLocalTempDir()
+    work_dir = os.getcwd()
     job.fileStore.logToMaster('Obtaining file (%s) to the file job store' %
                               os.path.basename(input_file))
     if input_file.startswith('http'):
@@ -367,6 +367,7 @@ def prepare_samples(job, fastqs, univ_options):
             prefix, extn = os.path.splitext(prefix)
             final_extn = extn + final_extn
             if prefix.endswith('1'):
+                prefix = prefix[:-1]
                 job.fileStore.logToMaster('"%s" prefix for "%s" determined to be %s'
                                           % (sample_type, univ_options['patient'], prefix))
                 break
@@ -374,7 +375,6 @@ def prepare_samples(job, fastqs, univ_options):
             raise ParameterError('Could not determine prefix from provided fastq (%s). Is it of '
                                  'The form <fastq_prefix>1.[fq/fastq][.gz]?'
                                  % fastqs[''.join([sample_type, '_fastq_1'])])
-        prefix = prefix[:-1]
 
         # If it is a weblink, it HAS to be from S3
         if prefix.startswith('https://s3') or prefix.lower().startswith('s3://'):
