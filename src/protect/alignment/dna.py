@@ -13,21 +13,46 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, print_function
+from math import ceil
+from protect.alignment.common import index_bamfile, index_disk
+from protect.common import docker_call, docker_path, get_files_from_filestore, is_gzipfile, untargz
+from toil.job import PromisedRequirement
 
 import os
-from protect.alignment.common import index_bamfile
-from protect.common import docker_call, docker_path, get_files_from_filestore, is_gzipfile, untargz
+
+
+# disk for bwa-related functions
+def bwa_disk(dna_fastqs, bwa_index):
+    return 6 * ceil(sum([f.size for f in dna_fastqs]) + 524288) + 2 * ceil(bwa_index.size + 524288)
+
+
+def sam2bam_disk(samfile):
+    return ceil(1.5 * samfile.size + 524288)
+
+
+def reheader_disk(bamfile):
+    return ceil(2 * bamfile.size + 524288)
+
+
+def regroup_disk(reheader_bam):
+    return ceil(4 * reheader_bam.size + 524288)
 
 
 def align_dna(job, fastqs, sample_type, univ_options, bwa_options):
     """
     This is a convenience function that runs the entire dna alignment subgraph
     """
-    bwa = job.wrapJobFn(run_bwa, fastqs, sample_type, univ_options, bwa_options)
-    sam2bam = job.wrapJobFn(bam_conversion, bwa.rv(), sample_type, univ_options, disk='60G')
-    reheader = job.wrapJobFn(fix_bam_header, sam2bam.rv(), sample_type, univ_options, disk='60G')
-    regroup = job.wrapJobFn(add_readgroups, reheader.rv(), sample_type, univ_options, disk='60G')
-    index = job.wrapJobFn(index_bamfile, regroup.rv(), sample_type, univ_options, disk='60G')
+    bwa = job.wrapJobFn(run_bwa, fastqs, sample_type, univ_options, bwa_options,
+                        disk=PromisedRequirement(bwa_disk, fastqs, bwa_options['tool_index']))
+    sam2bam = job.wrapJobFn(bam_conversion, bwa.rv(), sample_type, univ_options,
+                            disk=PromisedRequirement(sam2bam_disk, bwa.rv()))
+    # reheader takes the same disk as sam2bam so we can serialize this on the same worker.
+    reheader = job.wrapJobFn(fix_bam_header, sam2bam.rv(), sample_type, univ_options,
+                             disk=PromisedRequirement(sam2bam_disk, bwa.rv()))
+    regroup = job.wrapJobFn(add_readgroups, reheader.rv(), sample_type, univ_options,
+                            disk=PromisedRequirement(regroup_disk, reheader.rv()))
+    index = job.wrapJobFn(index_bamfile, regroup.rv(), sample_type, univ_options,
+                          disk=PromisedRequirement(index_disk, regroup.rv()))
     job.addChild(bwa)
     bwa.addChild(sam2bam)
     sam2bam.addChild(reheader)
@@ -108,14 +133,14 @@ def bam_conversion(job, samfile, sample_type, univ_options):
     job.fileStore.logToMaster('Running sam2bam on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
-        'aligned.sam': samfile}
+        sample_type + '_aligned.sam': samfile}
     input_files = get_files_from_filestore(job, input_files, work_dir,
                                            docker=True)
-    bamfile = '/'.join([work_dir, 'aligned.bam'])
+    bamfile = '/'.join([work_dir, sample_type + '_aligned.bam'])
     parameters = ['view',
                   '-bS',
                   '-o', docker_path(bamfile),
-                  input_files['aligned.sam']
+                  input_files[sample_type + '_aligned.sam']
                   ]
     docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
@@ -141,24 +166,24 @@ def fix_bam_header(job, bamfile, sample_type, univ_options):
     job.fileStore.logToMaster('Running reheader on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
-        'aligned.bam': bamfile}
+        sample_type + '_aligned.bam': bamfile}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
     parameters = ['view',
                   '-H',
-                  input_files['aligned.bam']]
-    with open('/'.join([work_dir, 'aligned_bam.header']), 'w') as headerfile:
+                  input_files[sample_type + '_aligned.bam']]
+    with open('/'.join([work_dir, sample_type + '_aligned_bam.header']), 'w') as headerfile:
         docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=headerfile)
     with open(headerfile.name, 'r') as headerfile, \
-            open('/'.join([work_dir, 'output_bam.header']), 'w') as outheaderfile:
+            open('/'.join([work_dir, sample_type + '_output_bam.header']), 'w') as outheaderfile:
         for line in headerfile:
             if line.startswith('@PG'):
                 line = '\t'.join([x for x in line.strip().split('\t') if not x.startswith('CL')])
             print(line.strip(), file=outheaderfile)
     parameters = ['reheader',
                   docker_path(outheaderfile.name),
-                  input_files['aligned.bam']]
-    with open('/'.join([work_dir, 'aligned_fixPG.bam']), 'w') as fixpg_bamfile:
+                  input_files[sample_type + '_aligned.bam']]
+    with open('/'.join([work_dir, sample_type + '_aligned_fixPG.bam']), 'w') as fixpg_bamfile:
         docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=fixpg_bamfile)
     output_file = job.fileStore.writeGlobalFile(fixpg_bamfile.name)
@@ -184,12 +209,12 @@ def add_readgroups(job, bamfile, sample_type, univ_options):
                                                                     sample_type))
     work_dir = os.getcwd()
     input_files = {
-        'aligned_fixpg.bam': bamfile}
+        sample_type + '_aligned_fixpg.bam': bamfile}
     get_files_from_filestore(job, input_files, work_dir, docker=True)
     parameters = ['AddOrReplaceReadGroups',
                   'CREATE_INDEX=false',
-                  'I=/data/aligned_fixpg.bam',
-                  'O=/data/aligned_fixpg_sorted_reheader.bam',
+                  'I=/data/' + sample_type + '_aligned_fixpg.bam',
+                  'O=/data/' + sample_type + '_aligned_fixpg_sorted_reheader.bam',
                   'SO=coordinate',
                   'ID=1',
                   ''.join(['LB=', univ_options['patient']]),
@@ -198,8 +223,8 @@ def add_readgroups(job, bamfile, sample_type, univ_options):
                   ''.join(['SM=', sample_type.rstrip('_dna')])]
     docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'])
-    output_file = job.fileStore.writeGlobalFile('/'.join([work_dir,
-                                                          'aligned_fixpg_sorted_reheader.bam']))
+    output_file = job.fileStore.writeGlobalFile(
+        '/'.join([work_dir, sample_type + '_aligned_fixpg_sorted_reheader.bam']))
     # Delete the old bam file
     job.fileStore.deleteGlobalFile(bamfile)
     return output_file

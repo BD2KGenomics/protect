@@ -14,10 +14,18 @@
 # limitations under the License.
 from __future__ import absolute_import, print_function
 from collections import defaultdict
+from math import ceil
+from protect.alignment.common import index_bamfile, index_disk
+from protect.common import docker_call, get_files_from_filestore, is_gzipfile, untargz, docker_path
+from toil.job import PromisedRequirement
 
 import os
-from protect.alignment.common import index_bamfile
-from protect.common import docker_call, get_files_from_filestore, is_gzipfile, untargz, docker_path
+
+
+# disk for star
+def star_disk(rna_fastqs, star_tar):
+    return (4 * ceil(sum([f.size for f in rna_fastqs]) + 524288) + 2 * ceil(star_tar.size +
+                                                                            524288) + 5242880)
 
 
 def align_rna(job, fastqs, univ_options, star_options):
@@ -25,8 +33,12 @@ def align_rna(job, fastqs, univ_options, star_options):
     This is a convenience function that runs the entire rna alignment subgraph
     """
     star = job.wrapJobFn(run_star, fastqs, univ_options, star_options,
-                         cores=star_options['n'], memory='40G', disk='120G')
-    index = job.wrapJobFn(index_star, star.rv(), univ_options, disk='60G')
+                         cores=star_options['n'],
+                         memory=PromisedRequirement(lambda x: 2 * x.size,
+                                                    star_options['tool_index']),
+                         disk=PromisedRequirement(star_disk, fastqs, star_options['tool_index']))
+    index = job.wrapJobFn(index_star, star.rv(), univ_options,
+                          disk=PromisedRequirement(star_disk, fastqs, star_options['tool_index']))
     job.addChild(star)
     star.addChild(index)
     return index.rv()
@@ -105,7 +117,9 @@ def index_star(job, star_bams, univ_options):
     returns a dict of 2 bams
     """
     index = job.wrapJobFn(index_bamfile, star_bams['rnaAligned.sortedByCoord.out.bam'], 'rna',
-                          univ_options, disk='120G')
+                          univ_options,
+                          disk=PromisedRequirement(
+                              index_disk, star_bams['rnaAligned.sortedByCoord.out.bam']))
     job.addChild(index)
     star_bams['rnaAligned.sortedByCoord.out.bam'] = index.rv()
     return star_bams

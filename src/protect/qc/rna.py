@@ -13,9 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import print_function
+from math import ceil
 from protect.common import docker_call, docker_path, get_files_from_filestore, is_gzipfile
 
 import os
+
+
+# disk for cutadapt
+def cutadapt_disk(rna_fastqs):
+    return 2 * ceil(sum([f.size for f in rna_fastqs]) + 524288)
 
 
 def run_cutadapt(job, fastqs, univ_options, cutadapt_options):

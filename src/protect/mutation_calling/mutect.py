@@ -14,13 +14,22 @@
 # limitations under the License.
 from __future__ import print_function
 from collections import defaultdict
-
-import sys
-
-import os
+from math import ceil
 from protect.common import get_files_from_filestore, docker_path, docker_call, export_results, \
     untargz, gunzip
 from protect.mutation_calling.common import sample_chromosomes, merge_perchrom_vcfs
+
+import os
+import sys
+
+
+# disk for mutect.
+from toil.job import PromisedRequirement
+
+
+def mutect_disk(tumor_bam, normal_bam, fasta, dbsnp, cosmic):
+    return (ceil(tumor_bam.size) + ceil(normal_bam.size) + 4 * ceil(fasta.size) +
+            10 * ceil(dbsnp.size) + 2 * ceil(cosmic.size))
 
 
 def run_mutect_with_merge(job, tumor_bam, normal_bam, univ_options, mutect_options):
@@ -30,6 +39,7 @@ def run_mutect_with_merge(job, tumor_bam, normal_bam, univ_options, mutect_optio
     spawn = job.wrapJobFn(run_mutect, tumor_bam, normal_bam, univ_options,
                           mutect_options).encapsulate()
     merge = job.wrapJobFn(merge_perchrom_vcfs, spawn.rv())
+    job.addChild(spawn)
     spawn.addChild(merge)
     return merge.rv()
 
@@ -77,9 +87,14 @@ def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     chromosomes = sample_chromosomes(job, mutect_options['genome_fai'])
     perchrom_mutect = defaultdict()
     for chrom in chromosomes:
-        perchrom_mutect[chrom] = job.addChildJobFn(run_mutect_perchrom, tumor_bam, normal_bam,
-                                                   univ_options, mutect_options, chrom, disk='60G',
-                                                   memory='6G').rv()
+        perchrom_mutect[chrom] = job.addChildJobFn(
+            run_mutect_perchrom, tumor_bam, normal_bam, univ_options, mutect_options, chrom,
+            memory='6G', disk=PromisedRequirement(mutect_disk,
+                                                  tumor_bam['tumor_dna_fix_pg_sorted.bam'],
+                                                  normal_bam['normal_dna_fix_pg_sorted.bam'],
+                                                  mutect_options['genome_fasta'],
+                                                  mutect_options['dbsnp_vcf'],
+                                                  mutect_options['cosmic_vcf'])).rv()
     return perchrom_mutect
 
 

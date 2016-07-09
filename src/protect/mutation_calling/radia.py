@@ -14,12 +14,21 @@
 # limitations under the License.
 from __future__ import print_function
 from collections import defaultdict
-from protect.common import get_files_from_filestore, docker_path, docker_call, export_results, \
-    untargz
+from math import ceil
+from protect.common import (get_files_from_filestore, docker_path, docker_call, export_results,
+                            untargz)
 from protect.mutation_calling.common import sample_chromosomes, merge_perchrom_vcfs
 
 import os
 import sys
+
+
+# disk for radia and filterradia.
+from toil.job import PromisedRequirement
+
+
+def radia_disk(tumor_bam, normal_bam, rna_bam, fasta):
+    return ceil(tumor_bam.size) + ceil(normal_bam.size) + ceil(rna_bam.size) + 4 * ceil(fasta.size)
 
 
 def run_radia_with_merge(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
@@ -27,8 +36,8 @@ def run_radia_with_merge(job, rna_bam, tumor_bam, normal_bam, univ_options, radi
     This is a convenience function that runs the entire mutect sub-graph.
     """
     spawn = job.wrapJobFn(run_radia, rna_bam, tumor_bam, normal_bam, univ_options,
-                          radia_options).encapsulate()
-    merge = job.wrapJobFn(merge_perchrom_vcfs, spawn.rv(), univ_options)
+                          radia_options, disk='100M', memory='100M').encapsulate()
+    merge = job.wrapJobFn(merge_perchrom_vcfs, spawn.rv(), univ_options, disk='100M', memory='100M')
     job.addChild(spawn)
     spawn.addChild(merge)
     return merge.rv()
@@ -84,9 +93,19 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
     perchrom_radia = defaultdict()
     for chrom in chromosomes:
         radia = job.addChildJobFn(run_radia_perchrom, bams, univ_options, radia_options, chrom,
-                                  disk='60G', memory='6G')
+                                  memory='6G',
+                                  disk=PromisedRequirement(
+                                      radia_disk, tumor_bam['tumor_dna_fix_pg_sorted.bam'],
+                                      normal_bam['normal_dna_fix_pg_sorted.bam'],
+                                      rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
+                                      radia_options['genome_fasta']))
         filter_radia = radia.addChildJobFn(run_filter_radia, bams, radia.rv(), univ_options,
-                                           radia_options, chrom, disk='60G', memory='6G')
+                                              radia_options, chrom, memory='6G',
+                                              disk=PromisedRequirement(
+                                                  radia_disk, tumor_bam['tumor_dna_fix_pg_sorted.bam'],
+                                                  normal_bam['normal_dna_fix_pg_sorted.bam'],
+                                                  rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
+                                                  radia_options['genome_fasta']))
         perchrom_radia[chrom] = filter_radia.rv()
     return perchrom_radia
 

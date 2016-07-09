@@ -44,7 +44,7 @@ def check_tool_version(tool, required_version, binary=False):
 
 
 # Check Toil version
-check_tool_version('toil', '3.2.0', binary=False)
+check_tool_version('toil', '3.3.0', binary=False)
 # Check S3am version
 check_tool_version('s3am', '2.0', binary=True)
 
