@@ -13,9 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import
+from math import ceil
+from protect.common import docker_call, get_files_from_filestore, export_results
 
 import os
-from protect.common import docker_call, get_files_from_filestore, export_results
+
+
+# disk for indexing
+def index_disk(bamfile):
+    return ceil(bamfile.size + 524288)
 
 
 def index_bamfile(job, bamfile, sample_type, univ_options):

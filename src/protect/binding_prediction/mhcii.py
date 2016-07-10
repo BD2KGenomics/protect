@@ -57,7 +57,7 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
             break
     if run_netmhciipan:
         netmhciipan = job.addChildJobFn(predict_netmhcii_binding, peptfile, allele, univ_options,
-                                        disk='10G')
+                                        disk='100M', memory='100M', cores=1)
         return netmhciipan.rv()
     else:
         output_file = job.fileStore.writeGlobalFile(predfile.name)

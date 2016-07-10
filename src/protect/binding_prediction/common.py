@@ -116,7 +116,8 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
             predfile = ''.join([stripped_allele, '_', peptfile[:-4], '_mer.pred'])
             mhci_preds[predfile] = job.addChildJobFn(predict_mhci_binding, pept_files[peptfile],
                                                      allele, peplen, univ_options,
-                                                     mhci_options, disk='10G').rv()
+                                                     mhci_options, disk='100M', memory='100M',
+                                                     cores=1).rv()
     for allele in mhcii_alleles:
         stripped_allele = re.sub(strip_allele_re, '_', allele)
         predfile = ''.join([stripped_allele, '_15_mer.pred'])
@@ -124,7 +125,7 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
             continue
         mhcii_preds[predfile] = job.addChildJobFn(predict_mhcii_binding, pept_files['15_mer.faa'],
                                                   allele, univ_options, mhcii_options,
-                                                  disk='10G').rv()
+                                                  disk='100M', memory='100M', cores=1).rv()
     return mhci_preds, mhcii_preds
 
 

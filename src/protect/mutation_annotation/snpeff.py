@@ -13,10 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, print_function
+from math import ceil
+from protect.common import (docker_call, get_files_from_filestore, export_results, untargz,
+                            docker_path)
 
 import os
-from protect.common import docker_call, get_files_from_filestore, export_results, untargz, \
-    docker_path
+
+
+# disk for snpeff.
+def snpeff_disk(snpeff_index):
+    return 6 * ceil(snpeff_index.size + 524288)
 
 
 def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):

@@ -25,18 +25,18 @@ from __future__ import print_function
 
 from collections import defaultdict
 from multiprocessing import cpu_count
-
 from urlparse import urlparse
 
+from math import ceil
+
 from protect.addons import run_mhc_gene_assessment
-from protect.alignment.dna import align_dna
-from protect.alignment.rna import align_rna
+from protect.alignment.dna import align_dna, bwa_disk
+from protect.alignment.rna import align_rna, star_disk
 from protect.binding_prediction.common import spawn_antigen_predictors, merge_mhc_peptide_calls
 from protect.common import delete_fastqs, ParameterError
-from protect.expression_profiling.rsem import wrap_rsem
-from protect.haplotyping.phlat import (merge_phlat_calls,
-                                       run_phlat)
-from protect.mutation_annotation.snpeff import run_snpeff
+from protect.expression_profiling.rsem import rsem_disk, wrap_rsem
+from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
+from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
 from protect.mutation_calling.common import run_mutation_aggregator
 from protect.mutation_calling.fusion import run_fusion_caller
 from protect.mutation_calling.indel import run_indel_caller
@@ -44,9 +44,9 @@ from protect.mutation_calling.muse import run_muse
 from protect.mutation_calling.mutect import run_mutect
 from protect.mutation_calling.radia import run_radia
 from protect.mutation_translation import run_transgene
-from protect.qc.rna import run_cutadapt
+from protect.qc.rna import cutadapt_disk, run_cutadapt
 from protect.rankboost import wrap_rankboost
-from toil.job import Job
+from toil.job import Job, PromisedRequirement
 
 import argparse
 import os
@@ -55,7 +55,7 @@ import shutil
 import subprocess
 
 
-def parse_config_file(job, config_file, max_cores=None):
+def _parse_config_file(job, config_file, max_cores=None):
     """
     This module will parse the config file withing params and set up the variables that will be
     passed to the various tools in the pipeline.
@@ -124,12 +124,31 @@ def parse_config_file(job, config_file, max_cores=None):
     job.fileStore.logToMaster('Obtaining tool inputs')
     process_tool_inputs = job.addChildJobFn(get_all_tool_inputs, tool_options)
     job.fileStore.logToMaster('Obtained tool inputs')
+    return sample_set, univ_options, process_tool_inputs.rv()
+
+
+def parse_config_file(job, config_file, max_cores=None):
+    """
+    This module will parse the config file withing params and set up the variables that will be
+    passed to the various tools in the pipeline.
+
+    ARGUMENTS
+    config_file: string containing path to a config file.  An example config
+                 file is available at
+                        https://s3-us-west-2.amazonaws.com/pimmuno-references
+                        /input_parameters.list
+
+    RETURN VALUES
+    None
+    """
+    sample_set, univ_options, processed_tool_inputs = _parse_config_file(job, config_file,
+                                                                         max_cores=None)
     # Start a job for each sample in the sample set
     for patient_id in sample_set.keys():
         # Add the patient id to the sample set
         sample_set[patient_id]['patient_id'] = patient_id
         job.addFollowOnJobFn(pipeline_launchpad, sample_set[patient_id], univ_options,
-                             process_tool_inputs.rv())
+                             processed_tool_inputs)
     return None
 
 
@@ -162,63 +181,74 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
         tool_options['rsem']['n'] = ascertain_cpu_share(univ_options['max_cores'])
     # Define the various nodes in the DAG
     # Need a logfile and a way to send it around
-    sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options, disk='140G')
-    tumor_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_dna')
-    normal_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'normal_dna')
-    tumor_rna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_rna')
+    sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options, disk='40G')
+    tumor_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_dna', disk='10M')
+    normal_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'normal_dna', disk='10M')
+    tumor_rna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_rna', disk='10M')
     cutadapt = job.wrapJobFn(run_cutadapt, tumor_rna_fqs.rv(), univ_options,
-                             tool_options['cutadapt'], cores=1, disk='80G')
+                             tool_options['cutadapt'], cores=1,
+                             disk=PromisedRequirement(cutadapt_disk, tumor_rna_fqs.rv()
+                                                      ))
     star = job.wrapJobFn(align_rna, cutadapt.rv(), univ_options, tool_options['star'],
-                         cores=tool_options['star']['n'], memory='40G', disk='120G').encapsulate()
+                         cores=1, disk='100M').encapsulate()
     bwa_tumor = job.wrapJobFn(align_dna, tumor_dna_fqs.rv(), 'tumor_dna', univ_options,
-                              tool_options['bwa'], cores=tool_options['bwa']['n'],
-                              disk='120G').encapsulate()
+                              tool_options['bwa'], cores=1, disk='100M'
+                              ).encapsulate()
     bwa_normal = job.wrapJobFn(align_dna, normal_dna_fqs.rv(), 'normal_dna', univ_options,
-                               tool_options['bwa'], cores=tool_options['bwa']['n'],
-                               disk='120G').encapsulate()
+                               tool_options['bwa'], cores=1, disk='100M'
+                               ).encapsulate()
     phlat_tumor_dna = job.wrapJobFn(run_phlat, tumor_dna_fqs.rv(), 'tumor_dna', univ_options,
                                     tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                    disk='60G')
+                                    disk=PromisedRequirement(phlat_disk, tumor_dna_fqs.rv()))
     phlat_normal_dna = job.wrapJobFn(run_phlat, normal_dna_fqs.rv(), 'normal_dna', univ_options,
                                      tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                     disk='60G')
+                                     disk=PromisedRequirement(phlat_disk, normal_dna_fqs.rv()))
     phlat_tumor_rna = job.wrapJobFn(run_phlat, tumor_rna_fqs.rv(), 'tumor_rna', univ_options,
                                     tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                    disk='60G')
-    fastq_deletion_1 = job.wrapJobFn(delete_fastqs, sample_prep.rv())
-    fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()})
+                                    disk=PromisedRequirement(phlat_disk, tumor_rna_fqs.rv()))
+    fastq_deletion_1 = job.wrapJobFn(delete_fastqs, sample_prep.rv(), disk='100M', memory='100M')
+    fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
+                                     disk='100M', memory='100M')
     rsem = job.wrapJobFn(wrap_rsem, star.rv(), univ_options, tool_options['rsem'],
-                         cores=tool_options['rsem']['n'], disk='80G').encapsulate()
+                         cores=tool_options['rsem']['n'], disk='100M').encapsulate()
     mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(), phlat_tumor_rna.rv(),
-                                           univ_options, tool_options['mhc_pathway_assessment'])
-    fusions = job.wrapJobFn(run_fusion_caller, star.rv(), univ_options, 'fusion_options')
+                                           univ_options, tool_options['mhc_pathway_assessment'],
+                                           disk='100M', memory='100M', cores=1)
+    fusions = job.wrapJobFn(run_fusion_caller, star.rv(), univ_options, 'fusion_options',
+                            disk='100M', memory='100M', cores=1)
     radia = job.wrapJobFn(run_radia, star.rv(), bwa_tumor.rv(),
-                          bwa_normal.rv(), univ_options, tool_options['mut_callers']).encapsulate()
+                          bwa_normal.rv(), univ_options, tool_options['mut_callers'],
+                          disk='100M').encapsulate()
     mutect = job.wrapJobFn(run_mutect, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                           tool_options['mut_callers']).encapsulate()
+                           tool_options['mut_callers'], disk='100M').encapsulate()
     muse = job.wrapJobFn(run_muse, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                          tool_options['mut_callers']).encapsulate()
     indels = job.wrapJobFn(run_indel_caller, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                           'indel_options')
+                           'indel_options', disk='100M', memory='100M', cores=1)
     merge_mutations = job.wrapJobFn(run_mutation_aggregator,
                                     {'fusions': fusions.rv(),
                                      'radia': radia.rv(),
                                      'mutect': mutect.rv(),
                                      'indels': indels.rv(),
-                                     'muse': muse.rv()}, univ_options).encapsulate()
+                                     'muse': muse.rv()}, univ_options, disk='100M', memory='100M',
+                                    cores=1).encapsulate()
     snpeff = job.wrapJobFn(run_snpeff, merge_mutations.rv(), univ_options, tool_options['snpeff'],
-                           disk='30G')
+                           disk=PromisedRequirement(snpeff_disk,
+                                                    tool_options['snpeff']['tool_index']))
     transgene = job.wrapJobFn(run_transgene, snpeff.rv(), univ_options, tool_options['transgene'],
-                              disk='5G')
+                              disk='100M', memory='100M', cores=1)
     merge_phlat = job.wrapJobFn(merge_phlat_calls, phlat_tumor_dna.rv(), phlat_normal_dna.rv(),
-                                phlat_tumor_rna.rv(), univ_options, disk='5G')
+                                phlat_tumor_rna.rv(), univ_options, disk='100M', memory='100M',
+                                cores=1)
     spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), merge_phlat.rv(),
                               univ_options, (tool_options['mhci'],
-                                             tool_options['mhcii'])).encapsulate()
+                                             tool_options['mhcii']), disk='100M', memory='100M',
+                              cores=1).encapsulate()
     merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene.rv(), univ_options,
-                              disk='5G')
+                              disk='100M', memory='100M', cores=1)
     rank_boost = job.wrapJobFn(wrap_rankboost, rsem.rv(), merge_mhc.rv(), transgene.rv(),
-                               univ_options, tool_options['rank_boost'], disk='5G')
+                               univ_options, tool_options['rank_boost'], disk='100M', memory='100M',
+                               cores=1)
     # Define the DAG in a static form
     job.addChild(sample_prep)  # Edge  0->1
     # A. The first step is running the alignments and the MHC haplotypers
@@ -316,7 +346,7 @@ def get_pipeline_inputs(job, input_flag, input_file):
     :param str input_file: The value passed in the config file
     :return: The jobstore ID for the file
     """
-    work_dir = job.fileStore.getLocalTempDir()
+    work_dir = os.getcwd()
     job.fileStore.logToMaster('Obtaining file (%s) to the file job store' %
                               os.path.basename(input_file))
     if input_file.startswith('http'):
@@ -367,6 +397,7 @@ def prepare_samples(job, fastqs, univ_options):
             prefix, extn = os.path.splitext(prefix)
             final_extn = extn + final_extn
             if prefix.endswith('1'):
+                prefix = prefix[:-1]
                 job.fileStore.logToMaster('"%s" prefix for "%s" determined to be %s'
                                           % (sample_type, univ_options['patient'], prefix))
                 break
@@ -374,7 +405,6 @@ def prepare_samples(job, fastqs, univ_options):
             raise ParameterError('Could not determine prefix from provided fastq (%s). Is it of '
                                  'The form <fastq_prefix>1.[fq/fastq][.gz]?'
                                  % fastqs[''.join([sample_type, '_fastq_1'])])
-        prefix = prefix[:-1]
 
         # If it is a weblink, it HAS to be from S3
         if prefix.startswith('https://s3') or prefix.lower().startswith('s3://'):

@@ -13,28 +13,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import print_function
-
-import shutil
 from collections import defaultdict
-
-import sys
-
-import time
-
-from protect.common import get_files_from_filestore, docker_path, docker_call, untargz, \
-    export_results
+from math import ceil
+from protect.common import (get_files_from_filestore, docker_path, docker_call, untargz,
+                            export_results)
 from protect.mutation_calling.common import sample_chromosomes, merge_perchrom_vcfs
+from toil.job import PromisedRequirement
 
 import os
+import shutil
+import sys
+import time
+
+
+# disk for muse and muse_sump.
+def muse_disk(tumor_bam, normal_bam, fasta):
+    return ceil(tumor_bam.size) + ceil(normal_bam.size) + 4 * ceil(fasta.size)
+
+
+def muse_sump_disk(dbsnp):
+    return ceil(dbsnp.size) + 524288
 
 
 def run_muse_with_merge(job, tumor_bam, normal_bam, univ_options, muse_options):
     """
     This is a convenience function that runs the entire muse sub-graph.
     """
-    spawn = job.wrapJobFn(run_muse, tumor_bam, normal_bam, univ_options,
-                          muse_options).encapsulate()
-    merge = job.wrapJobFn(merge_perchrom_vcfs, spawn.rv())
+    spawn = job.wrapJobFn(run_muse, tumor_bam, normal_bam, univ_options,muse_options,
+                          disk='100M').encapsulate()
+    merge = job.wrapJobFn(merge_perchrom_vcfs, spawn.rv(), disk='100M')
+    job.addChild(spawn)
     spawn.addChild(merge)
     return merge.rv()
 

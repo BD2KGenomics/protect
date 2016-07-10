@@ -14,14 +14,18 @@
 # limitations under the License.
 from __future__ import absolute_import, print_function
 from collections import defaultdict
-
-import sys
-
-from protect.common import docker_call, get_files_from_filestore, is_gzipfile, untargz, docker_path, \
-    export_results
+from math import ceil
+from protect.common import (docker_call, get_files_from_filestore, is_gzipfile, untargz,
+                            docker_path, export_results)
 
 import os
 import re
+import sys
+
+
+# disk for phlat
+def phlat_disk(rna_fastqs):
+    return ceil(sum([f.size for f in rna_fastqs]) + 524288) + 8053063680
 
 
 def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):

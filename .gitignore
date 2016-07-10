@@ -5,3 +5,5 @@ pimmuno_2.py
 develop_data/
 venv/
 .cache/
+test-report.xml
+__pycache__
