@@ -43,6 +43,7 @@ from protect.mutation_calling.indel import run_indel_caller
 from protect.mutation_calling.muse import run_muse
 from protect.mutation_calling.mutect import run_mutect
 from protect.mutation_calling.radia import run_radia
+from protect.mutation_calling.somaticsniper import run_somaticsniper
 from protect.mutation_translation import run_transgene
 from protect.qc.rna import cutadapt_disk, run_cutadapt
 from protect.rankboost import wrap_rankboost
@@ -221,6 +222,8 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
                            tool_options['mut_callers'], disk='100M').encapsulate()
     muse = job.wrapJobFn(run_muse, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                          tool_options['mut_callers']).encapsulate()
+    somaticsniper = job.wrapJobFn(run_somaticsniper, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
+                                  tool_options['mut_callers']).encapsulate()
     indels = job.wrapJobFn(run_indel_caller, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                            'indel_options', disk='100M', memory='100M', cores=1)
     merge_mutations = job.wrapJobFn(run_mutation_aggregator,
@@ -228,7 +231,9 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
                                      'radia': radia.rv(),
                                      'mutect': mutect.rv(),
                                      'indels': indels.rv(),
-                                     'muse': muse.rv()}, univ_options, disk='100M', memory='100M',
+                                     'muse': muse.rv(),
+                                     'somaticsniper': somaticsniper.rv()}, univ_options,
+                                    disk='100M', memory='100M',
                                     cores=1).encapsulate()
     snpeff = job.wrapJobFn(run_snpeff, merge_mutations.rv(), univ_options, tool_options['snpeff'],
                            disk=PromisedRequirement(snpeff_disk,
@@ -275,6 +280,8 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     bwa_normal.addChild(mutect)  # Edge  4->13
     bwa_tumor.addChild(muse)  # Edge  3->13
     bwa_normal.addChild(muse)  # Edge  4->13
+    bwa_tumor.addChild(somaticsniper)  # Edge  3->13
+    bwa_normal.addChild(somaticsniper)  # Edge  4->13
     bwa_tumor.addChild(indels)  # Edge  3->14
     bwa_normal.addChild(indels)  # Edge  4->14
     # D. MHC haplotypes will be merged once all 3 samples have been PHLAT-ed
@@ -296,6 +303,7 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     radia.addChild(merge_mutations)  # Edge 16->18
     mutect.addChild(merge_mutations)  # Edge 17->18
     muse.addChild(merge_mutations)  # Edge 17->18
+    somaticsniper.addChild(merge_mutations)  # Edge 17->18
     indels.addChild(merge_mutations)  # Edge 14->18
     # H. Aggregated mutations will be translated to protein space
     merge_mutations.addChild(snpeff)  # Edge 18->19

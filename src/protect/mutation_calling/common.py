@@ -35,6 +35,10 @@ def sample_chromosomes(job, genome_fai_file):
     """
     work_dir = os.getcwd()
     genome_fai = untargz(job.fileStore.readGlobalFile(genome_fai_file), work_dir)
+    return chromosomes_from_fai(genome_fai)
+
+
+def chromosomes_from_fai(genome_fai):
     chromosomes = []
     with open(genome_fai) as fai_file:
         for line in fai_file:
@@ -83,15 +87,20 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
     from protect.mutation_calling.muse import process_muse_vcf
     from protect.mutation_calling.mutect import process_mutect_vcf
     from protect.mutation_calling.radia import process_radia_vcf
+    from protect.mutation_calling.somaticsniper import process_somaticsniper_vcf
     mutations.pop('indels')
     mutations.pop('fusions')
     vcf_processor = {'mutect': process_mutect_vcf,
                      'muse': process_muse_vcf,
-                     'radia': process_radia_vcf}
+                     'radia': process_radia_vcf,
+                     'somaticsniper': process_somaticsniper_vcf,
+                     }
     #                 'fusions': lambda x: None,
     #                 'indels': lambda x: None}
-    num_preds = len(mutations)
-    majority = (num_preds + 0.5) / 2
+    # For now, let's just say 2 out of n need to call it.
+    # num_preds = len(mutations)
+    # majority = int((num_preds + 0.5) / 2)
+    majority = 2
     # Get input files
     perchrom_mutations = {caller: vcf_processor[caller](job, mutations[caller][chrom],
                                                         work_dir, univ_options)
