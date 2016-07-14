@@ -101,8 +101,6 @@ def _parse_config_file(job, config_file, max_cores=None):
                 raise ParameterError('Cannot write results to aws without an sse key.')
             if 'sse_key_is_master' in univ_options:
                 if univ_options['sse_key_is_master'] not in (True, False):
-                    print(univ_options['sse_key_is_master'])
-                    print(type(univ_options['sse_key_is_master']))
                     raise ParameterError('sse_key_is_master must be True or False')
             else:
                 univ_options['sse_key_is_master'] = False

@@ -52,7 +52,6 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
     This module corresponds to nodes 5, 6 and 7 on the tree
     """
     job.fileStore.logToMaster('Running phlat on %s:%s' % (univ_options['patient'], sample_type))
-    print(phlat_options, file=sys.stderr)
     work_dir = os.getcwd()
     input_files = {
         'input_1.fastq': fastqs[0],

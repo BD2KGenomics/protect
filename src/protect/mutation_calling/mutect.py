@@ -152,7 +152,6 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
                   '--out', docker_path(mutout),
                   '--vcf', docker_path(mutvcf)
                   ]
-    print(parameters, file=sys.stderr)
     java_xmx = mutect_options['java_Xmx'] if mutect_options['java_Xmx'] \
         else univ_options['java_Xmx']
     docker_call(tool='mutect:1.1.7', tool_parameters=parameters, work_dir=work_dir,

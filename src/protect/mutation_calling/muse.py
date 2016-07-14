@@ -153,13 +153,11 @@ def run_muse_sump_perchrom(job, muse_output, univ_options, muse_options, chrom):
         'dbsnp_coding.vcf.gz.tbi.tmp': muse_options['dbsnp_tbi']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     tbi = os.path.splitext(input_files['dbsnp_coding.vcf.gz.tbi.tmp'])[0]
-    print({x: os.stat(x) for x in os.listdir(work_dir)}, file=sys.stderr)
     time.sleep(2)
     shutil.copy(input_files['dbsnp_coding.vcf.gz.tbi.tmp'], tbi)
     os.chmod(tbi, 0777)
     open(tbi, 'a').close()
     input_files = {key: docker_path(path) for key, path in input_files.items()}
-    print({x: os.stat(x) for x in os.listdir(work_dir)}, file=sys.stderr)
     output_file = ''.join([work_dir, '/', chrom, '.vcf'])
 
     parameters = ['sump',
