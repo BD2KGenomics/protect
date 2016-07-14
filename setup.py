@@ -5,6 +5,7 @@ import sys
 
 from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
+from version import version
 import errno
 import subprocess
 
@@ -72,7 +73,7 @@ class PyTest(TestCommand):
 
 
 setup(name='protect',
-      version='2.0',
+      version=version,
       description='Prediction of T-Cell Epitopes for Cancer Therapy',
       url='http://github.com/BD2KGenomics/protect',
       author='Arjun Arkal Rao',
