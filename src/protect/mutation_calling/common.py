@@ -35,6 +35,10 @@ def sample_chromosomes(job, genome_fai_file):
     """
     work_dir = os.getcwd()
     genome_fai = untargz(job.fileStore.readGlobalFile(genome_fai_file), work_dir)
+    return chromosomes_from_fai(genome_fai)
+
+
+def chromosomes_from_fai(genome_fai):
     chromosomes = []
     with open(genome_fai) as fai_file:
         for line in fai_file:
@@ -80,19 +84,23 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
     :returns dict of merged vcf
     """
     work_dir = os.getcwd()
-    print(mutations, file=sys.stderr)
     from protect.mutation_calling.muse import process_muse_vcf
     from protect.mutation_calling.mutect import process_mutect_vcf
     from protect.mutation_calling.radia import process_radia_vcf
+    from protect.mutation_calling.somaticsniper import process_somaticsniper_vcf
     mutations.pop('indels')
     mutations.pop('fusions')
     vcf_processor = {'mutect': process_mutect_vcf,
                      'muse': process_muse_vcf,
-                     'radia': process_radia_vcf}
+                     'radia': process_radia_vcf,
+                     'somaticsniper': process_somaticsniper_vcf,
+                     }
     #                 'fusions': lambda x: None,
     #                 'indels': lambda x: None}
-    num_preds = len(mutations)
-    majority = (num_preds + 0.5) / 2
+    # For now, let's just say 2 out of n need to call it.
+    # num_preds = len(mutations)
+    # majority = int((num_preds + 0.5) / 2)
+    majority = 2
     # Get input files
     perchrom_mutations = {caller: vcf_processor[caller](job, mutations[caller][chrom],
                                                         work_dir, univ_options)
@@ -100,16 +108,13 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
 
     # Read in each file to a dict
     vcf_lists = {caller: read_vcf(vcf_file) for caller, vcf_file in perchrom_mutations.items()}
-    print(vcf_lists, file=sys.stderr)
     all_positions = list(set(itertools.chain(*vcf_lists.values())))
-    print(all_positions, file=sys.stderr)
     with open(''.join([work_dir, '/', chrom, '.vcf']), 'w') as outfile:
         print('##fileformat=VCFv4.0', file=outfile)
         print('##INFO=<ID=callers,Number=.,Type=String,Description=List of supporting callers.',
               file=outfile)
         print('#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO', file=outfile)
         for position in sorted(all_positions):
-            print(position, file=sys.stderr)
             hits = {caller: position in vcf_lists[caller] for caller in perchrom_mutations.keys()}
             if sum(hits.values()) >= majority:
                 print(position[0], position[1], '.', position[2], position[3], '.', 'PASS',

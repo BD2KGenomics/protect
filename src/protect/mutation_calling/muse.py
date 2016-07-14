@@ -89,9 +89,17 @@ def run_muse(job, tumor_bam, normal_bam, univ_options, muse_options):
     perchrom_muse = defaultdict()
     for chrom in chromosomes:
         call = job.addChildJobFn(run_muse_perchrom, tumor_bam, normal_bam, univ_options,
-                                 muse_options, chrom, disk='60G', memory='6G')
+                                 muse_options, chrom,
+                                 disk=PromisedRequirement(muse_disk,
+                                                          tumor_bam['tumor_dna_fix_pg_sorted.bam'],
+                                                          normal_bam['normal_dna_fix_pg_sorted.bam'],
+                                                          muse_options['genome_fasta']),
+                                 memory='6G')
         sump = call.addChildJobFn(run_muse_sump_perchrom, call.rv(), univ_options, muse_options,
-                                  chrom, disk='60G', memory='6G')
+                                  chrom,
+                                  disk=PromisedRequirement(muse_sump_disk,
+                                                           muse_options['dbsnp_vcf']),
+                                  memory='6G')
         perchrom_muse[chrom] = sump.rv()
     return perchrom_muse
 
@@ -153,13 +161,11 @@ def run_muse_sump_perchrom(job, muse_output, univ_options, muse_options, chrom):
         'dbsnp_coding.vcf.gz.tbi.tmp': muse_options['dbsnp_tbi']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     tbi = os.path.splitext(input_files['dbsnp_coding.vcf.gz.tbi.tmp'])[0]
-    print({x: os.stat(x) for x in os.listdir(work_dir)}, file=sys.stderr)
     time.sleep(2)
     shutil.copy(input_files['dbsnp_coding.vcf.gz.tbi.tmp'], tbi)
     os.chmod(tbi, 0777)
     open(tbi, 'a').close()
     input_files = {key: docker_path(path) for key, path in input_files.items()}
-    print({x: os.stat(x) for x in os.listdir(work_dir)}, file=sys.stderr)
     output_file = ''.join([work_dir, '/', chrom, '.vcf'])
 
     parameters = ['sump',

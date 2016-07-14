@@ -72,7 +72,6 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
     input_files['rsem_index'] = untargz(input_files['rsem_index.tar.gz'], work_dir)
     input_files = {key: docker_path(path) for key, path in input_files.items()}
 
-    print(os.listdir('.'), file=sys.stderr)
     parameters = ['--paired-end',
                   '-p', str(rsem_options['n']),
                   '--bam',
@@ -80,10 +79,8 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
                   '--no-bam-output',
                   '/'.join([input_files['rsem_index'], 'hg19']),
                   'rsem']
-    print(parameters, file=sys.stderr)
     docker_call(tool='rsem', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
-    print(os.listdir('.'), file=sys.stderr)
     output_files = {}
     for filename in ('rsem.genes.results', 'rsem.isoforms.results'):
         output_files[filename] = job.fileStore.writeGlobalFile('/'.join([work_dir, filename]))
