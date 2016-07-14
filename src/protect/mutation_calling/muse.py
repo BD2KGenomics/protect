@@ -89,9 +89,17 @@ def run_muse(job, tumor_bam, normal_bam, univ_options, muse_options):
     perchrom_muse = defaultdict()
     for chrom in chromosomes:
         call = job.addChildJobFn(run_muse_perchrom, tumor_bam, normal_bam, univ_options,
-                                 muse_options, chrom, disk='60G', memory='6G')
+                                 muse_options, chrom,
+                                 disk=PromisedRequirement(muse_disk,
+                                                          tumor_bam['tumor_dna_fix_pg_sorted.bam'],
+                                                          normal_bam['normal_dna_fix_pg_sorted.bam'],
+                                                          muse_options['genome_fasta']),
+                                 memory='6G')
         sump = call.addChildJobFn(run_muse_sump_perchrom, call.rv(), univ_options, muse_options,
-                                  chrom, disk='60G', memory='6G')
+                                  chrom,
+                                  disk=PromisedRequirement(muse_sump_disk,
+                                                           muse_options['dbsnp_vcf']),
+                                  memory='6G')
         perchrom_muse[chrom] = sump.rv()
     return perchrom_muse
 
