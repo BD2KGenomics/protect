@@ -21,7 +21,7 @@ import os
 
 # disk for indexing
 def index_disk(bamfile):
-    return ceil(bamfile.size + 524288)
+    return int(ceil(bamfile.size + 524288))
 
 
 def index_bamfile(job, bamfile, sample_type, univ_options):

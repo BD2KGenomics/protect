@@ -28,8 +28,11 @@ from toil.job import PromisedRequirement
 
 
 def mutect_disk(tumor_bam, normal_bam, fasta, dbsnp, cosmic):
-    return (ceil(tumor_bam.size) + ceil(normal_bam.size) + 4 * ceil(fasta.size) +
-            10 * ceil(dbsnp.size) + 2 * ceil(cosmic.size))
+    return int(ceil(tumor_bam.size) +
+               ceil(normal_bam.size) +
+               4 * ceil(fasta.size) +
+               10 * ceil(dbsnp.size) +
+               2 * ceil(cosmic.size))
 
 
 def run_mutect_with_merge(job, tumor_bam, normal_bam, univ_options, mutect_options):

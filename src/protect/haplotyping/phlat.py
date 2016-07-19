@@ -25,7 +25,8 @@ import sys
 
 # disk for phlat
 def phlat_disk(rna_fastqs):
-    return ceil(sum([f.size for f in rna_fastqs]) + 524288) + 8053063680
+    return int(ceil(sum([f.size for f in rna_fastqs]) + 524288) +
+               8053063680)
 
 
 def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
