@@ -24,8 +24,9 @@ import os
 
 # disk for star
 def star_disk(rna_fastqs, star_tar):
-    return (4 * ceil(sum([f.size for f in rna_fastqs]) + 524288) + 2 * ceil(star_tar.size +
-                                                                            524288) + 5242880)
+    return int(4 * ceil(sum([f.size for f in rna_fastqs]) + 524288) +
+               2 * ceil(star_tar.size + 524288) +
+               5242880)
 
 
 def align_rna(job, fastqs, univ_options, star_options):
