@@ -21,7 +21,7 @@ import os
 
 # disk for cutadapt
 def cutadapt_disk(rna_fastqs):
-    return 2 * ceil(sum([f.size for f in rna_fastqs]) + 524288)
+    return int(2 * ceil(sum([f.size for f in rna_fastqs]) + 524288))
 
 
 def run_cutadapt(job, fastqs, univ_options, cutadapt_options):

@@ -24,7 +24,8 @@ import sys
 # disk for rsem
 def rsem_disk(star_bam, rsem_index):
     star_transcriptome_bam = star_bam['rnaAligned.sortedByCoord.out.bam']['rna_fix_pg_sorted.bam']
-    return 3 * ceil(star_transcriptome_bam.size + 524288) + 4 * ceil(rsem_index.size + 524288)
+    return int(3 * ceil(star_transcriptome_bam.size + 524288) +
+               4 * ceil(rsem_index.size + 524288))
 
 
 def wrap_rsem(job, star_bams, univ_options, rsem_options):

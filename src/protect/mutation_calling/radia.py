@@ -28,7 +28,10 @@ from toil.job import PromisedRequirement
 
 
 def radia_disk(tumor_bam, normal_bam, rna_bam, fasta):
-    return ceil(tumor_bam.size) + ceil(normal_bam.size) + ceil(rna_bam.size) + 4 * ceil(fasta.size)
+    return int(ceil(tumor_bam.size) +
+               ceil(normal_bam.size) +
+               ceil(rna_bam.size) +
+               4 * ceil(fasta.size))
 
 
 def run_radia_with_merge(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):

@@ -22,7 +22,7 @@ import os
 
 # disk for snpeff.
 def snpeff_disk(snpeff_index):
-    return 6 * ceil(snpeff_index.size + 524288)
+    return int(6 * ceil(snpeff_index.size + 524288))
 
 
 def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
