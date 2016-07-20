@@ -23,19 +23,20 @@ import os
 
 # disk for bwa-related functions
 def bwa_disk(dna_fastqs, bwa_index):
-    return 6 * ceil(sum([f.size for f in dna_fastqs]) + 524288) + 2 * ceil(bwa_index.size + 524288)
+    return int(6 * ceil(sum([f.size for f in dna_fastqs]) + 524288) +
+               2 * ceil(bwa_index.size + 524288))
 
 
 def sam2bam_disk(samfile):
-    return ceil(1.5 * samfile.size + 524288)
+    return int(ceil(1.5 * samfile.size + 524288))
 
 
 def reheader_disk(bamfile):
-    return ceil(2 * bamfile.size + 524288)
+    return int(ceil(2 * bamfile.size + 524288))
 
 
 def regroup_disk(reheader_bam):
-    return ceil(4 * reheader_bam.size + 524288)
+    return int(ceil(4 * reheader_bam.size + 524288))
 
 
 def align_dna(job, fastqs, sample_type, univ_options, bwa_options):

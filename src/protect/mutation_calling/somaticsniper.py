@@ -29,15 +29,19 @@ import os
 
 # disk for somatic sniper, and for filtering
 def sniper_disk(tumor_bam, normal_bam, fasta):
-    return ceil(tumor_bam.size) + ceil(normal_bam.size) + 4 * ceil(fasta.size)
+    return int(ceil(tumor_bam.size) +
+               ceil(normal_bam.size) +
+               4 * ceil(fasta.size))
 
 
 def pileup_disk(tumor_bam, fasta):
-    return ceil(tumor_bam.size) + 2 * ceil(fasta.size)
+    return int(ceil(tumor_bam.size) +
+               2 * ceil(fasta.size))
 
 
 def sniper_filter_disk(tumor_bam, fasta):
-    return ceil(tumor_bam.size) + 2 * ceil(fasta.size)
+    return int(ceil(tumor_bam.size) +
+               2 * ceil(fasta.size))
 
 
 # Somatic Sniper is a different tool from the other callers because it is run in full
