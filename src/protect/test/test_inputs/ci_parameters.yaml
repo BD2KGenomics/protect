@@ -72,6 +72,7 @@ mut_callers:
     dbsnp_idx : S3://cgl-protect-data/ci_references/dbsnp_coding.chr6.vcf.idx.tar.gz
     dbsnp_tbi : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz.tbi
     java_Xmx : 2G
+    strelka_config: S3://cgl-protect-data/hg19_references/strelka_bwa_WXS_config.ini.tar.gz
 
 snpeff:
     tool_index : S3://cgl-protect-data/ci_references/snpeff_index_chr6.tar.gz

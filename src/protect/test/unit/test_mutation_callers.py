@@ -24,14 +24,15 @@ from protect.mutation_calling.muse import run_muse
 from protect.mutation_calling.mutect import run_mutect
 from protect.mutation_calling.radia import run_radia
 from protect.mutation_calling.somaticsniper import run_somaticsniper
+from protect.mutation_calling.strelka import run_strelka
 from protect.pipeline.ProTECT import _parse_config_file
 from protect.test import ProtectTest
-
 from toil.job import Job
 
 import os
 import subprocess
 import unittest
+
 
 class TestMutationCallers(ProtectTest):
     def setUp(self):
@@ -50,6 +51,9 @@ class TestMutationCallers(ProtectTest):
 
     def test_somaticsniper(self):
         self._test_dna_based_callers(run_somaticsniper)
+
+    def test_strelka(self):
+        self._test_dna_based_callers(run_strelka)
 
     def _test_dna_based_callers(self, mut_caller_fn):
         """

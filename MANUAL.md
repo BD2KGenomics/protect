@@ -38,7 +38,7 @@ of pyYAML with lower versions of pip and recommend upgrading pip before installi
 
 Install Toil
 
-    pip install toil[aws]==3.2.0
+    pip install toil[aws]==3.3.0
 
 Install ProTECT and all dependencies in the virtualenv
 
@@ -63,7 +63,7 @@ Activate the virtualenv
 
 Install Toil
 
-    pip install toil[aws]==3.2.0
+    pip install toil[aws]==3.3.0
 
 Install ProTECT
 
@@ -106,7 +106,13 @@ errors. If the job store being used is the file job store (points to a directory
 if the device hosting the job store is the same one hosting the working directory, you need to
 ensure the device can handle the concurrent writes and the persistent job store files as well.
 
- **TL;DR:** Use large volumes for workdir and job store
+**NOTE:** It is advisable to setup Docker such that it runs off a large volume as well. The
+following link contains information on how to setup docker such that it stores images and containers
+on another volume.
+
+    http://stackoverflow.com/questions/24309526/how-to-change-the-docker-image-installation-directory
+
+ **TL;DR:** Use large volumes for workdir, job store and Docker.
 
 #Setting up a config file
 
@@ -245,11 +251,16 @@ These flags describe the arguments for conducting mutation calling.
         cosmic_vcf: /path/to/CosmicCodingMuts.vcf.tar.gz      -> The Cosmic Coding vcf
         cosmic_idx: /path/to/CosmicCodingMuts.vcf.idx.tar.gz  -> The corresponding .idx file for the
                                                                  Cosmic vcf
-        dbsnp_vcf: /path/to/dbsnp_coding.vcf.tar.gz           -> The dbSNP vcf
+        dbsnp_vcf: /path/to/dbsnp_coding.vcf.gz               -> The dbSNP vcf
         dbsnp_idx: /path/to/dbsnp_coding.vcf.idx.tar.gz       -> The corresponding .idx file for the
                                                                  dbSNP vcf
+        dbsnp_tbi : /path/to/dbsnp_coding.vcf.gz.tbi          -> The tabix index for dbsnp.gz
         java_Xmx: 5G                                          -> The heap size to use for MuTect
                                                                  per job (i.e. per chromosome)
+        strelka_config: /path/to/strelka_config.ini.tar.gz    -> The Strelka config file for a bwa
+                                                                 run (modified for a WXS run if
+                                                                 necessary)
+
 
 **snpeff**
 
