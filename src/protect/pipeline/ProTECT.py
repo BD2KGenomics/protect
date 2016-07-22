@@ -44,6 +44,7 @@ from protect.mutation_calling.muse import run_muse
 from protect.mutation_calling.mutect import run_mutect
 from protect.mutation_calling.radia import run_radia
 from protect.mutation_calling.somaticsniper import run_somaticsniper
+from protect.mutation_calling.strelka import run_strelka
 from protect.mutation_translation import run_transgene
 from protect.qc.rna import cutadapt_disk, run_cutadapt
 from protect.rankboost import wrap_rankboost
@@ -107,7 +108,7 @@ def _parse_config_file(job, config_file, max_cores=None):
                 univ_options['sse_key_is_master'] = False
             if 'sse_key' not in univ_options:
                 univ_options['sse_key'] = None
-            univ_options['max_cores'] = max_cores
+            univ_options['max_cores'] = cpu_count() if max_cores is None else max_cores
         else:
             tool_options[key] = parsed_config_file[key]
     # Ensure that all tools have been provided options.
@@ -224,12 +225,15 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
                          tool_options['mut_callers']).encapsulate()
     somaticsniper = job.wrapJobFn(run_somaticsniper, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                                   tool_options['mut_callers']).encapsulate()
+    strelka = job.wrapJobFn(run_strelka, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
+                            tool_options['mut_callers']).encapsulate()
     indels = job.wrapJobFn(run_indel_caller, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                            'indel_options', disk='100M', memory='100M', cores=1)
     merge_mutations = job.wrapJobFn(run_mutation_aggregator,
                                     {'fusions': fusions.rv(),
                                      'radia': radia.rv(),
                                      'mutect': mutect.rv(),
+                                     'strelka': strelka.rv(),
                                      'indels': indels.rv(),
                                      'muse': muse.rv(),
                                      'somaticsniper': somaticsniper.rv()}, univ_options,
@@ -282,6 +286,8 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     bwa_normal.addChild(muse)  # Edge  4->13
     bwa_tumor.addChild(somaticsniper)  # Edge  3->13
     bwa_normal.addChild(somaticsniper)  # Edge  4->13
+    bwa_tumor.addChild(strelka)  # Edge  3->13
+    bwa_normal.addChild(strelka)  # Edge  4->13
     bwa_tumor.addChild(indels)  # Edge  3->14
     bwa_normal.addChild(indels)  # Edge  4->14
     # D. MHC haplotypes will be merged once all 3 samples have been PHLAT-ed
@@ -304,6 +310,7 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     mutect.addChild(merge_mutations)  # Edge 17->18
     muse.addChild(merge_mutations)  # Edge 17->18
     somaticsniper.addChild(merge_mutations)  # Edge 17->18
+    strelka.addChild(merge_mutations)  # Edge 17->18
     indels.addChild(merge_mutations)  # Edge 14->18
     # H. Aggregated mutations will be translated to protein space
     merge_mutations.addChild(snpeff)  # Edge 18->19
@@ -338,7 +345,7 @@ def get_all_tool_inputs(job, tools):
             # If a file is of the type file, vcf, tar or fasta, it needs to be downloaded from S3 if
             # reqd, then written to job store.
             if option.split('_')[-1] in ['file', 'vcf', 'index', 'fasta', 'fai', 'idx', 'dict',
-                                         'tbi']:
+                                         'tbi', 'config']:
                 tools[tool][option] = job.addChildJobFn(get_pipeline_inputs, option,
                                                         tools[tool][option]).rv()
     return tools

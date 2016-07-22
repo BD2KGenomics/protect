@@ -96,7 +96,8 @@ class ProtectTest(unittest.TestCase):
                 'output_folder': self._createTempDir(purpose='pipeline_outputs'),
                 'storage_location': 'Local',
                 'dockerhub': 'aarjunrao',
-                'java_Xmx': '20G'}
+                'java_Xmx': '20G',
+                'max_cores': 2}
 
     @classmethod
     def _projectRootPath(cls):
