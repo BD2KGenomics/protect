@@ -91,4 +91,6 @@ setup(name='protect',
       cmdclass={'test': PyTest},
       package_dir={'': 'src'},
       packages=find_packages('src', exclude=['*.test']),
+      package_data={'':['src/protect/pipeline/input_parameters.yaml']},
+      include_package_data=True,
       zip_safe=False)
