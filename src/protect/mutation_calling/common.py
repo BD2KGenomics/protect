@@ -240,6 +240,6 @@ def unmerge(job, input_vcf, tool_name, tool_options, univ_options):
     outdict = {}
     for chrom, chromvcf in read_chromosomes.items():
         chromvcf.close()
-        export_results(job, chromvcf.name, univ_options, subfolder='mutations/' + 'tool_name')
+        export_results(job, chromvcf.name, univ_options, subfolder='mutations/' + tool_name)
         outdict[chrom] = job.fileStore.writeGlobalFile(chromvcf.name)
     return outdict
