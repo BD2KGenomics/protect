@@ -17,9 +17,13 @@ naming convention -- XYZ1.fq and XYZ2.fq . Currently ProTECT only supports paire
 ProTECT requires Toil and we recommend installing ProTECT and its requirements in a
 [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
 
-ProTECT also requires [s3am](https://github.com/BD2KGenomics/sam.git) to download and upload files
+ProTECT also requires [s3am](https://github.com/BD2KGenomics/s3am.git) to download and upload files
 from S3. We recommend installing s3am in its own virtualenv using the directions in the s3am manual,
 then putting the s3am binary on your $PATH.
+
+**NOTE:** We require the most recent stable pre-production build of s3am with the `--version`
+flag support so either use the git master branch, or use the `--pre` flag while pip installing s3am.
+This will be updated in the future when s3am v2.0 releases.
 
 ###Method 1 - Using PIP (recommended)
 
