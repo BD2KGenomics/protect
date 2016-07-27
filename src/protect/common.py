@@ -417,13 +417,13 @@ def export_results(job, file_path, univ_options, subfolder=None):
     # Handle AWS
     elif univ_options['storage_location'].startswith('aws'):
         bucket_name = univ_options['storage_location'].split(':')[-1]
-        write_to_s3(file_path, univ_options['sse_key'], bucket_name, output_folder)
+        write_to_s3(file_path, univ_options['sse_key'], bucket_name, output_folder, overwrite=False)
     # Can't do Azure or google yet.
     else:
         print("Currently doesn't support anything but Local and aws.")
 
 
-def write_to_s3(file_path, key_path, bucket_name, output_folder):
+def write_to_s3(file_path, key_path, bucket_name, output_folder, overwrite=True):
     """
     Write the file to S3.
 
@@ -431,10 +431,14 @@ def write_to_s3(file_path, key_path, bucket_name, output_folder):
     :param key_path: Path to the encryption Key
     :param bucket_name: The bucket where the data will be written
     :param output_folder: The location in the bucket for the output data
+    :param overwrite: Should the data be overwritten if it exists in the bucket?
     """
+    assert overwrite in (True, False)
+    overwrite = 'overwrite' if overwrite else 'skip'
     file_name = os.path.basename(file_path)
     output_file = os.path.join('S3://', bucket_name, output_folder.strip('/'), file_name)
-    subprocess.check_call(['s3am', 'upload', '--sse-key-file', key_path, file_path, output_file])
+    subprocess.check_call(['s3am', 'upload', '--exists=' + overwrite, '--sse-key-file', key_path,
+                           file_path, output_file])
 
 
 def file_xext(filepath):
