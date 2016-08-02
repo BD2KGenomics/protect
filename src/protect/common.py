@@ -397,6 +397,7 @@ def export_results(job, file_path, univ_options, subfolder=None):
         output_folder = ''
     else:
         output_folder = univ_options['output_folder']
+    output_folder = os.path.join(output_folder, univ_options['patient'])
     output_folder = os.path.join(output_folder, subfolder) if subfolder else output_folder
     # Handle Local
     if univ_options['storage_location'].lower() == 'local':
