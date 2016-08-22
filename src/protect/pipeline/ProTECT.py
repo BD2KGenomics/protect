@@ -548,14 +548,15 @@ def main():
     inputs = parser.add_mutually_exclusive_group(required=True)
     inputs.add_argument('--config_file', dest='config_file', help='Config file to be used in the '
                         'run.', type=str, default=None)
-    inputs.add_argument('--max-cores-per-job', dest='max_cores', help='Maximum cores to use per '
-                        'job. Aligners and Haplotypers ask for cores dependent on the machine that '
-                        'the launchpad gets assigned to -- In a heterogeneous cluster, this can '
-                        'lead to problems. This value should be set to the number of cpus on the '
-                        'smallest node in a cluster.', type=int, required=False, default=None)
     inputs.add_argument('--generate_config', dest='generate_config', help='Generate a config file '
                         'in the current directory that is pre-filled with references and flags for '
                         'an hg19 run.', action='store_true', default=False)
+    parser.add_argument('--max-cores-per-job', dest='max_cores', help='Maximum cores to use per '
+                        'job. Aligners and Haplotypers ask for cores dependent on the machine that '
+                        'the launchpad gets assigned to -- In a heterogeneous cluster, this can '
+                        'lead to problems. This value should be set to the number of cpus on the '
+                        'smallest node in a cluster.',
+                        type=int, required=False, default=None)
     # We parse the args once to see if the user has asked for a config file to be generated.  In
     # this case, we don't need a jobstore.  To handle the case where Toil arguments are passed to
     # ProTECT, we parse known args, and if the used specified config_file instead of generate_config
