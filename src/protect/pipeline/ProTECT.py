@@ -30,11 +30,11 @@ from urlparse import urlparse
 from math import ceil
 
 from protect.addons import run_mhc_gene_assessment
-from protect.alignment.dna import align_dna, bwa_disk
-from protect.alignment.rna import align_rna, star_disk
+from protect.alignment.dna import align_dna
+from protect.alignment.rna import align_rna
 from protect.binding_prediction.common import spawn_antigen_predictors, merge_mhc_peptide_calls
 from protect.common import delete_fastqs, ParameterError
-from protect.expression_profiling.rsem import rsem_disk, wrap_rsem
+from protect.expression_profiling.rsem import wrap_rsem
 from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
 from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
 from protect.mutation_calling.common import run_mutation_aggregator
