@@ -30,11 +30,11 @@ from urlparse import urlparse
 from math import ceil
 
 from protect.addons import run_mhc_gene_assessment
-from protect.alignment.dna import align_dna, bwa_disk
-from protect.alignment.rna import align_rna, star_disk
+from protect.alignment.dna import align_dna
+from protect.alignment.rna import align_rna
 from protect.binding_prediction.common import spawn_antigen_predictors, merge_mhc_peptide_calls
 from protect.common import delete_fastqs, ParameterError
-from protect.expression_profiling.rsem import rsem_disk, wrap_rsem
+from protect.expression_profiling.rsem import wrap_rsem
 from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
 from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
 from protect.mutation_calling.common import run_mutation_aggregator
@@ -555,14 +555,15 @@ def main():
     inputs = parser.add_mutually_exclusive_group(required=True)
     inputs.add_argument('--config_file', dest='config_file', help='Config file to be used in the '
                         'run.', type=str, default=None)
-    inputs.add_argument('--max-cores-per-job', dest='max_cores', help='Maximum cores to use per '
-                        'job. Aligners and Haplotypers ask for cores dependent on the machine that '
-                        'the launchpad gets assigned to -- In a heterogeneous cluster, this can '
-                        'lead to problems. This value should be set to the number of cpus on the '
-                        'smallest node in a cluster.', type=int, required=False, default=None)
     inputs.add_argument('--generate_config', dest='generate_config', help='Generate a config file '
                         'in the current directory that is pre-filled with references and flags for '
                         'an hg19 run.', action='store_true', default=False)
+    parser.add_argument('--max-cores-per-job', dest='max_cores', help='Maximum cores to use per '
+                        'job. Aligners and Haplotypers ask for cores dependent on the machine that '
+                        'the launchpad gets assigned to -- In a heterogeneous cluster, this can '
+                        'lead to problems. This value should be set to the number of cpus on the '
+                        'smallest node in a cluster.',
+                        type=int, required=False, default=None)
     # We parse the args once to see if the user has asked for a config file to be generated.  In
     # this case, we don't need a jobstore.  To handle the case where Toil arguments are passed to
     # ProTECT, we parse known args, and if the used specified config_file instead of generate_config
