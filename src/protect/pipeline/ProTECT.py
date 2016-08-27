@@ -55,6 +55,7 @@ import os
 import yaml
 import shutil
 import subprocess
+import sys
 
 
 def _parse_config_file(job, config_file, max_cores=None):
@@ -142,7 +143,7 @@ def parse_config_file(job, config_file, max_cores=None):
     None
     """
     sample_set, univ_options, processed_tool_inputs = _parse_config_file(job, config_file,
-                                                                         max_cores=None)
+                                                                         max_cores)
     # Start a job for each sample in the sample set
     for patient_id in sample_set.keys():
         # Add the patient id to the sample set
@@ -575,6 +576,15 @@ def main():
         Job.Runner.addToilOptions(parser)
         params = parser.parse_args()
         params.config_file = os.path.abspath(params.config_file)
+        if params.maxCores:
+            if not params.max_cores:
+                params.max_cores = int(params.maxCores)
+            else:
+                if params.max_cores > int(params.maxCores):
+                    print("The value provided to max-cores-per-job (%s) was greater than that "
+                          "provided to maxCores (%s). Setting max-cores-per-job = maxCores." %
+                          (params.max_cores, params.maxCores), file=sys.stderr)
+                    params.max_cores = int(params.maxCores)
         start = Job.wrapJobFn(parse_config_file, params.config_file, params.max_cores)
         Job.Runner.startToil(start, params)
     return None
