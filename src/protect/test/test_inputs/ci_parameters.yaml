@@ -54,7 +54,7 @@ cutadapt:
 
 star:
     type : star
-    tool_index : S3://cgl-protect-data/ci_references/star_100_index_chr6.tar.gz
+    tool_index : S3://cgl-protect-data/ci_references/star_50_index_chr6.tar.gz
 
 bwa:
     tool_index : S3://cgl-protect-data/ci_references/bwa_index_chr6.tar.gz

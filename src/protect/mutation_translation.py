@@ -20,7 +20,7 @@ from protect.common import docker_call, get_files_from_filestore, export_results
 import os
 
 
-def run_transgene(job, snpeffed_file, univ_options, transgene_options):
+def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
     """
     This module will run transgene on the input vcf file from the aggregator and produce the
     peptides for MHC prediction
@@ -45,8 +45,11 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
     """
     job.fileStore.logToMaster('Running transgene on %s' % univ_options['patient'])
     work_dir = os.getcwd()
+    rna_bam_key = 'rnaAligned.sortedByCoord.out.bam'  # to reduce next line size
     input_files = {
         'snpeffed_muts.vcf': snpeffed_file,
+        'rna.bam': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
+        'rna.bam.bai': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam.bai'],
         'pepts.fa.tar.gz': transgene_options['gencode_peptide_fasta']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     input_files['pepts.fa'] = untargz(input_files['pepts.fa.tar.gz'], work_dir)
@@ -54,6 +57,7 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
 
     parameters = ['--peptides', input_files['pepts.fa'],
                   '--snpeff', input_files['snpeffed_muts.vcf'],
+                  '--rna_file', input_files['rna.bam'],
                   '--prefix', 'transgened',
                   '--pep_lens', '9,10,15']
     docker_call(tool='transgene', tool_parameters=parameters, work_dir=work_dir,
@@ -66,4 +70,6 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
         export_results(job, mapfile, univ_options, subfolder='peptides')
         output_files[peptfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, peptfile))
         output_files[mapfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, mapfile))
+    os.rename('transgened_transgened.vcf', 'mutations.vcf')
+    export_results(job, 'mutations.vcf', univ_options, subfolder='mutations/transgened')
     return output_files
