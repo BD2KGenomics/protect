@@ -243,8 +243,8 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     snpeff = job.wrapJobFn(run_snpeff, merge_mutations.rv(), univ_options, tool_options['snpeff'],
                            disk=PromisedRequirement(snpeff_disk,
                                                     tool_options['snpeff']['tool_index']))
-    transgene = job.wrapJobFn(run_transgene, snpeff.rv(), univ_options, tool_options['transgene'],
-                              disk='100M', memory='100M', cores=1)
+    transgene = job.wrapJobFn(run_transgene, snpeff.rv(), star.rv(), univ_options,
+                              tool_options['transgene'], disk='100M', memory='100M', cores=1)
     merge_phlat = job.wrapJobFn(merge_phlat_calls, phlat_tumor_dna.rv(), phlat_normal_dna.rv(),
                                 phlat_tumor_rna.rv(), univ_options, disk='100M', memory='100M',
                                 cores=1)
@@ -315,8 +315,10 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     indels.addChild(merge_mutations)  # Edge 14->18
     # H. Aggregated mutations will be translated to protein space
     merge_mutations.addChild(snpeff)  # Edge 18->19
-    # I. snpeffed mutations will be converted into peptides
+    # I. snpeffed mutations will be converted into peptides.
+    # Transgene also accepts the RNA-seq bam and bai so that it can be rna-aware
     snpeff.addChild(transgene)  # Edge 19->20
+    star.addChild(transgene)
     # J. Merged haplotypes and peptides will be converted into jobs and submitted for mhc:peptide
     # binding prediction
     merge_phlat.addChild(spawn_mhc)  # Edge 15->21
