@@ -27,7 +27,7 @@
     transvar:latest
 
 # Mutation Translation
-    transgene:latest
+    transgene:legacy
 
 # MHC:peptide binding prediction
     mhci:latest
