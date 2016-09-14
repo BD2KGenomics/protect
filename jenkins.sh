@@ -15,7 +15,7 @@ ln -snf ${TMPDIR}/s3am/bin/s3am ${TMPDIR}/bin/
 export PATH=$PATH:${TMPDIR}/bin
 
 # Install Toil in a venv then install ProTECT
-virtualenv venv
+virtualenv --never-download venv
 . venv/bin/activate
 
 pip install toil==3.3.0
