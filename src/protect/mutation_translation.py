@@ -56,7 +56,7 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
                   '--snpeff', input_files['snpeffed_muts.vcf'],
                   '--prefix', 'transgened',
                   '--pep_lens', '9,10,15']
-    docker_call(tool='transgene', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='transgene:legacy', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
     output_files = defaultdict()
     for peplen in ['9', '10', '15']:
