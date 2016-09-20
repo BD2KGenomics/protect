@@ -146,8 +146,8 @@ def parse_config_file(job, config_file, max_cores=None):
                                                                          max_cores)
     # Start a job for each sample in the sample set
     for patient_id in sample_set.keys():
-        # Add the patient id to the sample set
-        sample_set[patient_id]['patient_id'] = patient_id
+        # Add the patient id to the sample set.  Typecast to str so cat operations work later on.
+        sample_set[patient_id]['patient_id'] = str(patient_id)
         job.addFollowOnJobFn(pipeline_launchpad, sample_set[patient_id], univ_options,
                              processed_tool_inputs)
     return None
