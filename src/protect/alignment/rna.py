@@ -95,7 +95,8 @@ def run_star(job, fastqs, univ_options, star_options):
                   input_files['rna_cutadapt_2.fastq' + gz],
                   '--outSAMattributes', 'NH', 'HI', 'AS', 'NM', 'MD',
                   '--outSAMtype', 'BAM', 'SortedByCoordinate',
-                  '--quantMode', 'TranscriptomeSAM']
+                  '--quantMode', 'TranscriptomeSAM',
+                  '--limitBAMsortRAM', str(job.memory)]
     if gz:
         parameters.extend(['--readFilesCommand', 'zcat'])
     if star_options['type'] == 'star':
