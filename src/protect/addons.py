@@ -105,6 +105,6 @@ def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_g
                 print("{:12}{:<12}{:<12}{:12}".format(gene, float(first_quart),
                                                       gene_expressions[ensgene], result), file=mpr)
             print('', file=mpr)
-    export_results(job, mpr.name, univ_options, subfolder='reports')
     output_file = job.fileStore.writeGlobalFile(mpr.name)
+    export_results(job, output_file, mpr.name, univ_options, subfolder='reports')
     return output_file

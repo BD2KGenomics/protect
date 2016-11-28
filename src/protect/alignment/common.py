@@ -51,6 +51,7 @@ def index_bamfile(job, bamfile, sample_type, univ_options):
     out_bai = '/'.join([work_dir, in_bamfile + '.bai'])
     output_files = {in_bamfile: bamfile,
                     in_bamfile + '.bai': job.fileStore.writeGlobalFile(out_bai)}
-    export_results(job, os.path.splitext(out_bai)[0], univ_options, subfolder='alignments')
-    export_results(job, out_bai, univ_options, subfolder='alignments')
+    export_results(job, bamfile, os.path.splitext(out_bai)[0], univ_options, subfolder='alignments')
+    export_results(job, output_files[in_bamfile + '.bai'], out_bai, univ_options,
+                   subfolder='alignments')
     return output_files

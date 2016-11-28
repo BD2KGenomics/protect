@@ -159,8 +159,8 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
         else univ_options['java_Xmx']
     docker_call(tool='mutect:1.1.7', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], java_opts=java_xmx)
-    export_results(job, mutvcf, univ_options, subfolder='mutations/mutect')
     output_file = job.fileStore.writeGlobalFile(mutvcf)
+    export_results(job, output_file, mutvcf, univ_options, subfolder='mutations/mutect')
     return output_file
 
 

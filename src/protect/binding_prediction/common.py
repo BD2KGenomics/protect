@@ -247,7 +247,8 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
     output_files = defaultdict()
     for mhc_file in [mhci_resfile.name, mhcii_resfile.name]:
         output_files[os.path.split(mhc_file)[1]] = job.fileStore.writeGlobalFile(mhc_file)
-        export_results(job, mhc_file, univ_options, subfolder='binding_predictions')
+        export_results(job, output_files[os.path.split(mhc_file)[1]], mhc_file, univ_options,
+                       subfolder='binding_predictions')
     return output_files
 
 

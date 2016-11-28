@@ -69,13 +69,15 @@ def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_o
         output_files[mhc] = {}
         if os.path.exists(mhc_concise):
             output_files[os.path.basename(mhc_concise)] = job.fileStore.writeGlobalFile(mhc_concise)
-            export_results(job, mhc_concise, univ_options, subfolder='rankboost')
+            export_results(job, output_files[os.path.basename(mhc_concise)], mhc_concise,
+                           univ_options, subfolder='rankboost')
         else:
             output_files[os.path.basename(mhc_concise)] = None
         if os.path.exists(mhc_detailed):
             output_files[os.path.basename(mhc_detailed)] = \
                 job.fileStore.writeGlobalFile(mhc_detailed)
-            export_results(job, mhc_detailed, univ_options, subfolder='rankboost')
+            export_results(job, output_files[os.path.basename(mhc_detailed)], mhc_detailed,
+                           univ_options, subfolder='rankboost')
         else:
             output_files[os.path.basename(mhc_detailed)] = None
     return output_files

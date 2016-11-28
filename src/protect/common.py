@@ -361,24 +361,24 @@ def bam2fastq(bamfile, univ_options):
     return first_fastq
 
 
-def export_results(job, file_path, univ_options, subfolder=None):
+def export_results(job, fsid, file_path, univ_options, subfolder=None):
     """
     Write out a file to a given location. The location can be either a directory on the local
     machine, or a folder with a bucket on AWS.
     TODO: Azure support
-    :param str file_path: The path to the file that neeeds to be transferred to the new location.
-    :param dict univ_options: A dict of the universal options passed to this script. The important dict
-                         entries are ouput_folder and storage_location.
-                         * storage_location: 'Local' or an 'aws:<bucket_name>'.
-                         * output_folder: The folder to store the file. This must exist on the local
-                           machine if storage_location is 'Local'. If the storage_location is an aws
-                           bucket,  this string represents the path to the file in the bucket.  To
-                           keep it in the base directory, specify 'NA'.
+    :param str fsid: The file store id for the file to be exported
+    :param str file_path: The path to the file that neeeds to be exported
+    :param dict univ_options: A dict of the universal options passed to this script. The important
+           dict entries are ouput_folder and storage_location.
+                * storage_location: 'Local' or an 'aws:<bucket_name>'.
+                * output_folder: The folder to store the file. This must exist on the local machine
+                                 if storage_location is 'Local'. If the storage_location is an aws
+                                 bucket,  this string represents the path to the file in the bucket.
+                                 To keep it in the base directory, specify 'NA'.
     :param str subfolder: A sub folder within the main folder where this data should go
-
     :return: None
     """
-    job.fileStore.logToMaster('Exporting %s to output location' % os.path.basename(file_path))
+    job.fileStore.logToMaster('Exporting %s to output location' % fsid)
     try:
         assert univ_options['output_folder'], 'Need a path to a folder to write out files'
         assert univ_options['storage_location'], 'Need to know where the files need to go. ' + \
@@ -388,40 +388,32 @@ def export_results(job, file_path, univ_options, subfolder=None):
         # user about it.
         print('ERROR:', err.message, file=sys.stderr)
         return
-    assert os.path.exists(file_path), "Can't copy a file that doesn't exist!"
     if univ_options['output_folder'] == 'NA':
-        if univ_options['storage_location'].lower == 'local':
-            print('ERROR: Cannot have NA as output folder if storage location is Local',
-                  file=sys.stderr)
-            return
         output_folder = ''
     else:
         output_folder = univ_options['output_folder']
     output_folder = os.path.join(output_folder, univ_options['patient'])
     output_folder = os.path.join(output_folder, subfolder) if subfolder else output_folder
-    # Handle Local
-    if univ_options['storage_location'].lower() == 'local':
-        # Create the directory if required
+    if univ_options['storage_location'] == 'local':
+        # Handle Local
         try:
+            # Create the directory if required
             os.makedirs(output_folder, 0755)
         except OSError as err:
             if err.errno != errno.EEXIST:
                 raise
-        output_file = os.path.join(output_folder, os.path.basename(file_path))
-        try:
-            shutil.copy(file_path, output_file)
-        except IOError as err:
-            if err.errno == errno.EACCES:
-                job.fileStore.logToMaster('File "%s" exists. Skipping.' % output_file)
-            else:
-                raise
-    # Handle AWS
+        output_url = 'file://' + os.path.join(output_folder, os.path.basename(file_path))
     elif univ_options['storage_location'].startswith('aws'):
+        # Handle AWS
         bucket_name = univ_options['storage_location'].split(':')[-1]
-        write_to_s3(file_path, univ_options['sse_key'], bucket_name, output_folder, overwrite=False)
+
+        file_name = os.path.basename(file_path)
+        output_url = os.path.join('S3://', bucket_name, output_folder.strip('/'), file_name)
     # Can't do Azure or google yet.
     else:
         print("Currently doesn't support anything but Local and aws.")
+        return
+    job.fileStore.exportFile(fsid, output_url)
 
 
 def write_to_s3(file_path, key_path, bucket_name, output_folder, overwrite=True):
