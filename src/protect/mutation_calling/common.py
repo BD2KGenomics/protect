@@ -118,9 +118,9 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
                 print(position[0], position[1], '.', position[2], position[3], '.', 'PASS',
                       'callers=' + ','.join([caller for caller, hit in hits.items() if hit]),
                       sep='\t', file=outfile)
-    export_results(job, outfile.name, univ_options, subfolder='mutations/merged')
-    outfile = job.fileStore.writeGlobalFile(outfile.name)
-    return outfile
+    fsid = job.fileStore.writeGlobalFile(outfile.name)
+    export_results(job, fsid, outfile.name, univ_options, subfolder='mutations/merged')
+    return fsid
 
 
 def read_vcf(vcf_file):
@@ -192,8 +192,8 @@ def merge_perchrom_vcfs(job, perchrom_vcfs, tool_name, univ_options):
                         continue
                     first = False
                     print(line, file=outvcf)
-    export_results(job, outvcf.name, univ_options, subfolder='mutations/' + tool_name)
     output_file = job.fileStore.writeGlobalFile(outvcf.name)
+    export_results(job, output_file, outvcf.name, univ_options, subfolder='mutations/' + tool_name)
     return output_file
 
 
@@ -240,6 +240,7 @@ def unmerge(job, input_vcf, tool_name, tool_options, univ_options):
     outdict = {}
     for chrom, chromvcf in read_chromosomes.items():
         chromvcf.close()
-        export_results(job, chromvcf.name, univ_options, subfolder='mutations/' + tool_name)
         outdict[chrom] = job.fileStore.writeGlobalFile(chromvcf.name)
+        export_results(job, outdict[chrom], chromvcf.name, univ_options,
+                       subfolder='mutations/' + tool_name)
     return outdict

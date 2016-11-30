@@ -234,9 +234,9 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
                 work_dir=work_dir, dockerhub=univ_options['dockerhub'])
     output_file = ''.join([work_dir, '/', chrom, '.vcf'])
     os.rename(''.join([work_dir, '/', univ_options['patient'], '_', chrom, '.vcf']), output_file)
-    export_results(job, output_file, univ_options, subfolder='mutations/radia')
-    output_file = job.fileStore.writeGlobalFile(output_file)
-    return output_file
+    output_fsid = job.fileStore.writeGlobalFile(output_file)
+    export_results(job, output_fsid, output_file, univ_options, subfolder='mutations/radia')
+    return output_fsid
 
 
 def process_radia_vcf(job, radia_vcf, work_dir, univ_options):

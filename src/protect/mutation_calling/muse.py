@@ -178,8 +178,8 @@ def run_muse_sump_perchrom(job, muse_output, univ_options, muse_options, chrom):
 
     docker_call(tool='muse', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
-    export_results(job, output_file, univ_options, subfolder='mutations/muse')
     outfile = job.fileStore.writeGlobalFile(output_file)
+    export_results(job, outfile, output_file, univ_options, subfolder='mutations/muse')
     return outfile
 
 

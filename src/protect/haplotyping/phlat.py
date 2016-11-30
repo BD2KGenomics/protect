@@ -133,8 +133,8 @@ def merge_phlat_calls(job, tumor_phlat, normal_phlat, rna_phlat, univ_options):
     for allele_file in ['mhci_alleles.list', 'mhcii_alleles.list']:
         output_files[allele_file] = job.fileStore.writeGlobalFile(os.path.join(work_dir,
                                                                                allele_file))
-        export_results(job, os.path.join(work_dir, allele_file), univ_options,
-                       subfolder='haplotyping')
+        export_results(job, output_files[allele_file], os.path.join(work_dir, allele_file),
+                       univ_options, subfolder='haplotyping')
     return output_files
 
 

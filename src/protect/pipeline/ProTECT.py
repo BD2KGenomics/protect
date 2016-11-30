@@ -99,7 +99,13 @@ def _parse_config_file(job, config_file, max_cores=None):
             if len(missing_opts) > 0:
                 raise ParameterError(' The following options have no arguments in the config file:'
                                      '\n' + '\n'.join(missing_opts))
-            assert univ_options['storage_location'].startswith(('Local', 'aws'))
+            assert univ_options['storage_location'].startswith(('Local', 'local', 'aws'))
+            if univ_options['storage_location'] in ('Local', 'local'):
+                assert os.path.isabs(univ_options['output_folder']), ('Needs to be absolute if '
+                                                                      'storage_location is Local.')
+                assert univ_options['output_folder'] != 'NA', ('Cannot have NA as output folder if '
+                                                               'storage location is Local.')
+                univ_options['storage_location'] = 'local'
             if univ_options['storage_location'].startswith('aws') and 'sse_key' not in univ_options:
                 raise ParameterError('Cannot write results to aws without an sse key.')
             if 'sse_key_is_master' in univ_options:

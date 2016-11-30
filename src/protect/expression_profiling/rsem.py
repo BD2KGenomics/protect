@@ -85,5 +85,6 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
     output_files = {}
     for filename in ('rsem.genes.results', 'rsem.isoforms.results'):
         output_files[filename] = job.fileStore.writeGlobalFile('/'.join([work_dir, filename]))
-        export_results(job, '/'.join([work_dir, filename]), univ_options, subfolder='expression')
+        export_results(job, output_files[filename], '/'.join([work_dir, filename]), univ_options,
+                       subfolder='expression')
     return output_files

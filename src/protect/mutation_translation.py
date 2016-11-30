@@ -66,10 +66,11 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
     for peplen in ['9', '10', '15']:
         peptfile = '_'.join(['transgened_tumor', peplen, 'mer_snpeffed.faa'])
         mapfile = '_'.join(['transgened_tumor', peplen, 'mer_snpeffed.faa.map'])
-        export_results(job, peptfile, univ_options, subfolder='peptides')
-        export_results(job, mapfile, univ_options, subfolder='peptides')
         output_files[peptfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, peptfile))
         output_files[mapfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, mapfile))
+        export_results(job, output_files[peptfile], peptfile, univ_options, subfolder='peptides')
+        export_results(job, output_files[mapfile], mapfile, univ_options, subfolder='peptides')
     os.rename('transgened_transgened.vcf', 'mutations.vcf')
-    export_results(job, 'mutations.vcf', univ_options, subfolder='mutations/transgened')
+    export_results(job, job.fileStore.writeGlobalFile('mutations.vcf'), 'mutations.vcf',
+                   univ_options, subfolder='mutations/transgened')
     return output_files
