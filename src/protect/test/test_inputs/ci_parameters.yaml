@@ -51,9 +51,15 @@ alignment:
         A : AGATCGGAAGAG
     star:
         type : star
-        index : S3://cgl-pipeline-inputs/protect/ci_references/star_50_index_chr6.tar.gz
+        index : S3://cgl-pipeline-inputs/protect/ci_references/ci_star_fusion_compatible_index.tar.gz
     bwa:
         index : S3://cgl-pipeline-inputs/protect/ci_references/bwa_index_chr6.tar.gz
+
+star:
+    type : star
+
+bwa:
+    tool_index : S3://cgl-protect-data/ci_references/bwa_index_chr6.tar.gz
 
 expression_estimation:
     rsem:

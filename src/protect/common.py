@@ -57,7 +57,7 @@ def get_files_from_filestore(job, files, work_dir, docker=False):
     return files
 
 
-def docker_path(filepath):
+def docker_path(filepath, work_dir=None):
     """
     Given a path, return that files path inside the docker mount directory (/data).
 
@@ -65,7 +65,11 @@ def docker_path(filepath):
     :return: The docker-friendly path for `filepath`
     :rtype: str
     """
-    return os.path.join('/data', os.path.basename(filepath))
+    if work_dir is None:
+        return os.path.join('/data', os.path.basename(filepath))
+    else:
+        work_dir = os.path.abspath(work_dir)
+        return re.sub(work_dir, '/data', filepath)
 
 
 def docker_call(tool, tool_parameters, work_dir, java_xmx=None, outfile=None,

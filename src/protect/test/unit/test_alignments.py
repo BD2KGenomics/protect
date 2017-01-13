@@ -19,7 +19,7 @@ Affiliation : UCSC BME, UCSC Genomics Institute
 File : protect/test/test_file_downloads.py
 """
 from __future__ import print_function
-
+import os
 import subprocess
 
 from protect.alignment.dna import align_dna
@@ -29,7 +29,6 @@ from protect.test import ProtectTest
 
 from toil.job import Job
 
-import os
 
 class TestAlignments(ProtectTest):
     def setUp(self):
@@ -110,6 +109,7 @@ class TestAlignments(ProtectTest):
         subprocess.check_call((base_call + 'Rna_2.fq.gz Rna_2.fq.gz').split(' '))
         return [job.fileStore.writeGlobalFile('Rna_1.fq.gz'),
                 job.fileStore.writeGlobalFile('Rna_2.fq.gz')]
+
 
 # noinspection PyProtectedMember
 _get_all_tools = TestAlignments._get_all_tools
