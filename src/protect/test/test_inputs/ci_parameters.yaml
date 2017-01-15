@@ -33,7 +33,7 @@ patients:
         tumor_dna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Tum_1.fq.gz
         tumor_dna_fastq_2 : S3://cgl-pipeline-inputs/protect/ci_references/Tum_2.fq.gz
         normal_dna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Norm_1.fq.gz
-        tumor_rna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Rna_1.fq.gz
+        tumor_rna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/RNA_CD74_ROS1_1.fq.gz
 
 
 # These are options Which are used by most tools
@@ -55,15 +55,9 @@ alignment:
     bwa:
         index : S3://cgl-pipeline-inputs/protect/ci_references/bwa_index_chr6.tar.gz
 
-star:
-    type : star
-
-bwa:
-    tool_index : S3://cgl-protect-data/ci_references/bwa_index_chr6.tar.gz
-
 expression_estimation:
     rsem:
-        index : https://s3-us-west-2.amazonaws.com/cgl-pipeline-inputs/protect/ci_references/rsem_index_chr6.tar.gz
+        index : https://s3-us-west-2.amazonaws.com/cgl-pipeline-inputs/protect/ci_references/rsem_index_chr5_chr6.tar.gz
 
 mutation_calling:
     indexes:
@@ -87,6 +81,10 @@ mutation_calling:
     strelka:
         config_file: S3://cgl-pipeline-inputs/protect/ci_references/strelka_bwa_WXS_config.ini.tar.gz
 
+    fusion_inspector:
+      run_trinity: False
+
+
 mutation_annotation:
     snpeff:
         index : S3://cgl-pipeline-inputs/protect/ci_references/snpeff_index_chr6.tar.gz
@@ -95,6 +93,9 @@ mutation_annotation:
 mutation_translation:
     transgene:
         gencode_peptide_fasta : S3://cgl-pipeline-inputs/protect/ci_references/gencode.v19.pc_translations.chr6.fa.tar.gz
+        gencode_transcript_fasta: S3://cgl-pipeline-inputs/protect/ci_references/gencode.v19.pc_transcripts.chr6.fa.tar.gz
+        genome_fasta : S3://cgl-pipeline-inputs/protect/ci_references/chr6.fa.tar.gz
+        gencode_annotation_gtf : S3://cgl-pipeline-inputs/protect/ci_references/gencode.v19.chr6.annotation.gtf.tar.gz
 
 haplotyping:
     phlat:

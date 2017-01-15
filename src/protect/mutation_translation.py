@@ -31,7 +31,7 @@ def transgene_disk(rna_bamfiles, tdna_bam=None):
                104857600)
 
 
-def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, tumor_dna_bam=None):
+def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, tumor_dna_bam=None, fusion_calls=None):
     """
     Run transgene on an input snpeffed vcf file and return the peptides for MHC prediction.
 
@@ -77,10 +77,32 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
                   '--prefix', 'transgened',
                   '--pep_lens', '9,10,15',
                   '--cores', str(transgene_options['n'])]
+
     if tumor_dna_bam is not None:
         parameters.extend(['--dna_file', input_files['tumor_dna.bam']])
-    docker_call(tool='transgene', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'], tool_version=transgene_options['version'])
+
+    if fusion_calls:
+        fusion_files = {'fusion_calls': fusion_calls,
+                        'transcripts.fa.tar.gz': transgene_options['gencode_transcript_fasta'],
+                        'annotation.gtf.tar.gz': transgene_options['gencode_annotation_gtf'],
+                        'genome.fa.tar.gz': transgene_options['genome_fasta']}
+
+        fusion_files = get_files_from_filestore(job, fusion_files, work_dir, docker=False)
+        fusion_files['transcripts.fa'] = untargz(fusion_files['transcripts.fa.tar.gz'], work_dir)
+        fusion_files['genome.fa'] = untargz(fusion_files['genome.fa.tar.gz'], work_dir)
+        fusion_files['annotation.gtf'] = untargz(fusion_files['annotation.gtf.tar.gz'], work_dir)
+        fusion_files = {key: docker_path(path) for key, path in fusion_files.items()}
+        parameters += ['--transcripts', fusion_files['transcripts.fa'],
+                       '--fusions', fusion_files['fusion_calls'],
+                       '--genome', fusion_files['genome.fa'],
+                       '--annotation', fusion_files['annotation.gtf']]
+
+    docker_call(tool='transgene',
+                tool_parameters=parameters,
+                work_dir=work_dir,
+                dockerhub=univ_options['dockerhub'],
+                tool_version=transgene_options['version'])
+
     output_files = defaultdict()
     for peplen in ['9', '10', '15']:
         for tissue_type in ['tumor', 'normal']:

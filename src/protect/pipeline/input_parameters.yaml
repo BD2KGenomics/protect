@@ -61,9 +61,9 @@ alignment:
         A: AGATCGGAAGAG
         # version: 1.9.1
     star:
-       type: star # use starlong if your reads are > 150bp
-       index: S3://cgl-protect-data/hg19_references/GRCh37_gencode_v19_CTAT_lib_July272016_ready.tar.gz
-       # version: 2.4.2a
+        type: star # use starlong if your reads are > 150bp
+        index: S3://cgl-protect-data/hg19_references/GRCh37_gencode_v19_CTAT_lib_July272016_ready.tar.gz
+        version: 2.5.2b
     bwa:
        index: S3://cgl-protect-data/hg19_references/bwa_index.tar.gz
         # version: 0.7.9a
@@ -110,6 +110,7 @@ mutation_calling:
         # version: 1.0.15
         config_file: S3://cgl-protect-data/hg19_references/strelka_bwa_WXS_config.ini.tar.gz
 
+
 mutation_annotation:
     snpeff:
         index: S3://cgl-protect-data/hg19_references/snpeff_index.tar.gz
@@ -118,8 +119,11 @@ mutation_annotation:
 
 mutation_translation:
     transgene:
-        gencode_peptide_fasta: S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations_NOPARY.fa.tar.gz
-        # version: 2.1.1
+        gencode_peptide_fasta : S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations_NOPARY.fa.tar.gz
+        gencode_transcript_fasta : S3://cgl-protect-data/hg19_references/gencode.v19.pc_transcripts.fa.tar.gz
+        gencode_annotation_gtf : S3://cgl-protect-data/hg19_references/gencode.v19.annotation_NOPARY.gtf.tar.gz
+        genome_fasta : S3://cgl-protect-data/hg19_references/hg19.fa.tar.gz
+        # version: 2.2.2
 
 haplotyping:
     phlat:

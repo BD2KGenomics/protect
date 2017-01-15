@@ -347,6 +347,13 @@ be substituted with S3 links. Descriptions for creating all files can be found i
             config_file: /path/to/strelka_config.ini.tar.gz       -> The Strelka config file for a
                                                                      bwa run (modified for a WXS run
                                                                      if necessary)
+        star_fusion:
+            run: True                                           -> Switch to skip fusion calling
+            version: 1.0.0
+
+        fusion_inspector:
+            run_trinity: True                                   -> Switch to skip de novo transcript assembly
+            version: 1.0.1
 
     mutation_annotation:
         snpeff:
@@ -367,7 +374,11 @@ be substituted with S3 links. Descriptions for creating all files can be found i
                                                                      file must be made to follow the
                                                                      gencode format for fasta record
                                                                      names
-            version: 2.1.1
+
+            gencode_transcript_fasta : /path/to/gencode_transcripts.faa     -> The transcript file for the gencode gtf.
+            gencode_annotation_gtf : /path/to/gencode_annotation.gtf        -> The gencode genome annotation file.
+            genome_fasta : /path/to/hg19.faa                                -> The gencode genome fasta file
+            version: 2.2.2
 
     haplotyping:
             phlat:

@@ -68,6 +68,7 @@ def run_star(job, fastqs, univ_options, star_options):
                  output_files:
                     |- 'rnaAligned.toTranscriptome.out.bam': fsID
                     +- 'rnaAligned.out.bam': fsID
+                    +- 'rnaChimeric.out.junction': fsID
     :rtype: dict
     """
     assert star_options['type'] in ('star', 'starlong')
@@ -87,10 +88,12 @@ def run_star(job, fastqs, univ_options, star_options):
             input_files[read_file + gz] = input_files[read_file] + gz
     # Untar the index
     input_files['star_index'] = untargz(input_files['star_index.tar.gz'], work_dir)
+
     # Check to see if user is using a STAR-Fusion index
     star_fusion_idx = os.path.join(input_files['star_index'], 'ref_genome.fa.star.idx')
     if os.path.exists(star_fusion_idx):
         input_files['star_index'] = star_fusion_idx
+
     input_files = {key: docker_path(path, work_dir=work_dir) for key, path in input_files.items()}
 
     # Using recommended STAR-Fusion parameters:
@@ -123,12 +126,14 @@ def run_star(job, fastqs, univ_options, star_options):
         docker_call(tool='starlong', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], tool_version=star_options['version'])
     output_files = defaultdict()
-    for bam_file in ['rnaAligned.toTranscriptome.out.bam',
-                     'rnaAligned.sortedByCoord.out.bam',
+    for output_file in ['rnaAligned.toTranscriptome.out.bam',
+                     'rnaAligned.out.bam',
                      'rnaChimeric.out.junction']:
-        output_files[bam_file] = job.fileStore.writeGlobalFile('/'.join([work_dir, bam_file]))
+        output_files[output_file] = job.fileStore.writeGlobalFile('/'.join([work_dir, output_file]))
     export_results(job, output_files['rnaAligned.toTranscriptome.out.bam'], 'rna_transcriptome.bam',
                    univ_options, subfolder='alignments')
+    export_results(job, output_files['rnaChimeric.out.junction'], 'rna_chimeric.junction',
+                   univ_options, subfolder='mutations/fusions')
     return output_files
 
 
@@ -146,6 +151,7 @@ def sort_and_index_star(job, star_bams, univ_options, star_options):
                         +- 'rna_genome':
                                  |- 'rna_sorted.bam': fsID
                                  +- 'rna_sorted.bam.bai': fsID
+                        +- 'rnaChimeric.out.junction': fsID
     :rtype: dict
     """
     star_options['samtools']['n'] = star_options['n']
@@ -158,4 +164,5 @@ def sort_and_index_star(job, star_bams, univ_options, star_options):
     job.addChild(sort)
     sort.addChild(index)
     return {'rna_genome': index.rv(),
-            'rna_transcriptome.bam': star_bams['rnaAligned.toTranscriptome.out.bam']}
+            'rna_transcriptome.bam': star_bams['rnaAligned.toTranscriptome.out.bam'],
+            'rnaChimeric.out.junction': star_bams['rnaChimeric.out.junction']}

@@ -534,9 +534,21 @@ def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile, netmhc=False):
         peptide_names = [neoepitope_info.peptide_name]
     else:
         peptide_names = [x for x, y in peptides.items() if neoepitope_info.pept in y]
+    # Convert named tuple to dict so it can be modified
+    neoepitope_info = neoepitope_info._asdict()
+    # Handle fusion peptides (They are characterized by having all N's as the normal partner)
+    if neoepitope_info['normal_pept'] == 'N' * len(neoepitope_info['pept']):
+        neoepitope_info['normal_pept'] = neoepitope_info['normal_pred'] = 'NA'
     # For each peptide, append the ensembl gene
     for peptide_name in peptide_names:
-        print('{ni.allele}\t{ni.pept}\t{pname}\t{ni.core}\t0\t{ni.tumor_pred}\t{ni.normal_pred}'
-              '\t{pmap}'.format(ni=neoepitope_info, pname=peptide_name, pmap=pepmap[peptide_name]),
-              file=outfile)
+        print('{ni[allele]}\t'
+              '{ni[pept]}\t'
+              '{ni[normal_pept]}\t'
+              '{pname}\t'
+              '{ni[core]}\t'
+              '0\t'
+              '{ni[tumor_pred]}\t'
+              '{ni[normal_pred]}\t'
+              '{pmap}'.format(ni=neoepitope_info, pname=peptide_name,
+                                                  pmap=pepmap[peptide_name]), file=outfile)
     return None
