@@ -121,6 +121,14 @@ check_running_on_jenkins:
 	@test -n "$$BUILD_NUMBER" \
 		|| ( echo "$(red)This target should only be invoked on Jenkins.$(normal)" ; false )
 
+docker:
+	cd docker && make
+
+clean_docker:
+	cd docker && make clean
+
+push_docker:
+	cd docker && make push
 
 .PHONY: help \
 		develop clean_develop \
@@ -131,3 +139,6 @@ check_running_on_jenkins:
 		check_venv \
 		check_clean_working_copy \
 		check_running_on_jenkins \
+		docker \
+		clean_docker \
+		push_docker
