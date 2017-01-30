@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import textwrap
+import uuid
 
 log = logging.getLogger(__name__)
  #TODO: add in comments about default arguments
@@ -120,14 +121,15 @@ class PipelineWrapperBuilder(object):
         args_dict['output_dir'] = mount
         self._config = textwrap.dedent(self._config.format(**args_dict))
         config_path = os.path.join(self._workdir, 'config')
-        command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
-                                          config_path,
-                                          self._workdir) + pipeline_command
+        jobStore = os.path.join(self._workdir, 'jobStore') if not args.autoscale else "aws:us-west-2:protect-%s" % str(uuid.uuid4())
+        command = self._make_prefix(jobStore,
+                                    config_path,
+                                    self._workdir) + pipeline_command
         if self._resume and args.resume:
             command.append('--restart')
         if args.autoscale:
             command.extend(['--maxPreemptableNodes=2', '--maxNodes=0', '--provisioner=aws',
-                            '--preemptableNodeType=c3.8xlarge:1.60'])
+                            '--preemptableNodeType=c3.8xlarge:1.60', '--batchSystem=mesos'])
         self._create_workdir(args)
         with open(config_path, 'w') as f:
             f.write(self._config)
