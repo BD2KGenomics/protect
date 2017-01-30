@@ -125,6 +125,9 @@ class PipelineWrapperBuilder(object):
                                           self._workdir) + pipeline_command
         if self._resume and args.resume:
             command.append('--restart')
+        if args.autoscale:
+            command.extend(['--maxPreemptableNodes=2', '--maxNodes=0', '--provisioner=aws',
+                            '--preemptableNodeType=c3.8xlarge:1.60'])
         self._create_workdir(args)
         with open(config_path, 'w') as f:
             f.write(self._config)

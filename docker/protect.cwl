@@ -86,6 +86,12 @@ inputs:
     inputBinding:
       prefix: --normal-dna2
 
+  autoscale:
+    type: bool
+    doc: "Indicates whether to use Toil's autoscaling capabilities"
+    inputBinding:
+      prefix: --autoscale
+
   star:
     type: File?
     doc: "Absolute path to STAR index tarball."

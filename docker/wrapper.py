@@ -127,6 +127,9 @@ if __name__ == '__main__':
     parser.add_argument('--sse-key', type=str, default='',
                         help='Path to the desired SSE-key, if any.')
 
+    parser.add_argument('--autoscale', type=bool, default=False,
+                        help="Indicates whether to use Toil's autoscaling capabilities")
+
     parser.add_argument('--work-mount', required=True,
                         help='Mount where intermediate files should be written. This directory '
                              'should be mirror mounted into the container.')
