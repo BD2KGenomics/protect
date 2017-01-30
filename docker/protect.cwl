@@ -87,7 +87,7 @@ inputs:
       prefix: --normal-dna2
 
   autoscale:
-    type: bool
+    type: boolean
     doc: "Indicates whether to use Toil's autoscaling capabilities"
     inputBinding:
       prefix: --autoscale
