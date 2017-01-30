@@ -121,7 +121,8 @@ class PipelineWrapperBuilder(object):
         args_dict['output_dir'] = mount
 
         sampleList = []
-        for index, tumor_dna, tumor_rna, normal in enumerate(zip(args.tumor_dna, args.tumor_rna, args.normal_dna)):
+        for index, sampleTuple in enumerate(zip(args.tumor_dna, args.tumor_rna, args.normal_dna)):
+            tumor_dna, tumor_rna, normal = sampleTuple
             sampleList.append(
             """
     PRTCT-{index}:
