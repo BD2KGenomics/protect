@@ -106,19 +106,35 @@ class PipelineWrapperBuilder(object):
         os.mkdir(tumor_dna_dir)
         os.mkdir(tumor_rna_dir)
         os.mkdir(normal_dna_dir)
-        shutil.copy(args.tumor_dna, tumor_dna_dir)
-        shutil.copy(args.tumor_rna, tumor_rna_dir)
-        shutil.copy(args.normal_dna, normal_dna_dir)
-        shutil.copy(args.tumor_dna2, tumor_dna_dir)
-        shutil.copy(args.tumor_rna2, tumor_rna_dir)
-        shutil.copy(args.normal_dna2, normal_dna_dir)
-        args.tumor_dna = os.path.join(tumor_dna_dir, os.path.basename(args.tumor_dna))
-        args.tumor_rna = os.path.join(tumor_rna_dir, os.path.basename(args.tumor_rna))
-        args.normal_dna = os.path.join(normal_dna_dir, os.path.basename(args.normal_dna))
+        for input_type, dest in ((args.tumor_dna, tumor_dna_dir), (args.tumor_rna, tumor_rna_dir),
+                                 (args.normal_dna, normal_dna_dir), (args.tumor_dna2, tumor_dna_dir),
+                                 (args.tumor_rna2, tumor_rna_dir), (args.normal_dna2, normal_dna_dir)):
+            for file in input_type:
+                shutil.copy(file, dest)
+
+        args.tumor_dna = [os.path.join(tumor_dna_dir, os.path.basename(file)) for file in args.tumor_dna]
+        args.tumor_rna = [os.path.join(tumor_rna_dir, os.path.basename(file)) for file in args.tumor_rna]
+        args.normal_dna = [os.path.join(normal_dna_dir, os.path.basename(file)) for file in args.normal_dna]
 
         # prepare config
         args_dict = vars(args)
         args_dict['output_dir'] = mount
+
+        sampleList = []
+        for index, tumor_dna, tumor_rna, normal in enumerate(zip(args.tumor_dna, args.tumor_rna, args.normal_dna)):
+            sampleList.append(
+            """
+    PRTCT-{index}:
+        tumor_dna_fastq_1 : {tumor_dna}
+        normal_dna_fastq_1 : {normal_dna}
+        tumor_rna_fastq_1 : {tumor_rna}
+            """.format(**{'index': index,
+                          'tumor_dna': tumor_dna,
+                          'tumor_rna': tumor_rna,
+                          'normal_dna': normal}
+                       )
+            )
+        args_dict['samples'] = '\n'.join(sampleList)
         self._config = textwrap.dedent(self._config.format(**args_dict))
         config_path = os.path.join(self._workdir, 'config')
         jobStore = os.path.join(self._workdir, 'jobStore') if not args.autoscale else "aws:us-west-2:protect-%s" % str(uuid.uuid4())

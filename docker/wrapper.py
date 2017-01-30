@@ -8,10 +8,7 @@ log = logging.getLogger()
 desc = """UCSC Precision Immuno pipeline"""
 
 config = ("""patients:
-    PRTCT-01:
-        tumor_dna_fastq_1 : {tumor_dna}
-        normal_dna_fastq_1 : {normal_dna}
-        tumor_rna_fastq_1 : {tumor_rna}
+{samples}
 
 Universal_Options:
     dockerhub: aarjunrao
@@ -78,17 +75,17 @@ if __name__ == '__main__':
     wrapper = PipelineWrapperBuilder('ProTECT', desc, config)
     parser = wrapper.get_args()
 
-    parser.add_argument('--tumor-dna', type=str, required=True,
+    parser.add_argument('--tumor-dna', default=[], action="append",
                         help='Path for the tumor fastq.')
-    parser.add_argument('--normal-dna', type=str, required=True,
+    parser.add_argument('--normal-dna',  default=[], action="append",
                         help='Path for the normal fastq.')
-    parser.add_argument('--tumor-rna', type=str, required=True,
+    parser.add_argument('--tumor-rna',  default=[], action="append",
                         help='Path for the tumor RNA fastq.')
-    parser.add_argument('--tumor-dna2', type=str, required=True,
+    parser.add_argument('--tumor-dna2',  default=[], action="append",
                         help='Path for the tumor fastq pair.')
-    parser.add_argument('--normal-dna2', type=str, required=True,
+    parser.add_argument('--normal-dna2',  default=[], action="append",
                         help='Path for the normal fastq.')
-    parser.add_argument('--tumor-rna2', type=str, required=True,
+    parser.add_argument('--tumor-rna2',  default=[], action="append",
                         help='Path for the tumor RNA fastq.')
 
     parser.add_argument('--star-index', type=str, default="S3://cgl-protect-data/hg19_references/star_100_indexes.tar.gz",
