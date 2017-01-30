@@ -127,7 +127,7 @@ if __name__ == '__main__':
     parser.add_argument('--sse-key', type=str, default='',
                         help='Path to the desired SSE-key, if any.')
 
-    parser.add_argument('--autoscale', type=bool, default=False,
+    parser.add_argument('--autoscale', type=bool, default=False, action='store_true',
                         help="Indicates whether to use Toil's autoscaling capabilities")
 
     parser.add_argument('--work-mount', required=True,
