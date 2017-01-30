@@ -1,4 +1,4 @@
-FROM quay.io/ucsc_cgl/toil:3.5.0a1.dev321-6b22036e1bb4227c6d15f2aeda126dfb5cfab716
+FROM quay.io/ucsc_cgl/toil:3.5.1-eb5032ad339a5114b97bd64c6dcd041a078884b5
 
 RUN apt-get update && apt-get install -y \
     git \
