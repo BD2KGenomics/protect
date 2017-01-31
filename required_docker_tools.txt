@@ -1,3 +1,9 @@
+####################################################################################################
+##   All docker tools are available at dockerhum/aarjunrao (hence the default dockerhub in the    ##
+##   config yaml is aarjunrao). The Dockerfiles used to generate all docker images is available   ##
+##   at https://www.github.com/arkal/dockernator                                                  ##
+####################################################################################################
+
 # Alignment
     cutadapt:latest
     bwa:latest
@@ -20,7 +26,10 @@
     filterradia:latest
     muse:latest
     somaticsniper:latest
+    somaticsniper-addons:latest
+    samtools:0.1.8
     strelka:latest
+    bam-readcount:latest
 
 # Mutation Annotation
     snpeff:latest
@@ -31,7 +40,7 @@
 # MHC:peptide binding prediction
     mhci:latest
     mhcii:latest
-    netmhciipan:final:latest
+    netmhciipan:final
 
 # MHC post
     rankboost:latest
