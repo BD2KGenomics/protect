@@ -19,7 +19,8 @@ ProTECT requires Toil and we recommend installing ProTECT and its requirements i
 
 ProTECT also requires [s3am](https://github.com/BD2KGenomics/s3am.git) version 2.0 to download and
 upload files from S3. We recommend installing s3am in its own virtualenv using the directions in
-the s3am manual, then putting the s3am binary on your $PATH.
+the s3am manual, then putting the s3am binary on your $PATH.  ProTECT will NOT attempt to install
+s3am during installation.
 
 ###Method 1 - Using PIP (recommended)
 
