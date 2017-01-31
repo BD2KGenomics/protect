@@ -1,13 +1,12 @@
 from __future__ import print_function
-from distutils.version import LooseVersion
-
-import sys
-
+from pkg_resources import parse_version, SetuptoolsLegacyVersion
 from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
 from version import version
+
 import errno
 import subprocess
+import sys
 
 
 def check_tool_version(tool, required_version, binary=False):
@@ -39,15 +38,19 @@ def check_tool_version(tool, required_version, binary=False):
         except AttributeError:
             raise RuntimeError('Does %s have a version.py?' % tool)
 
-    if LooseVersion(installed_version) < LooseVersion(required_version):
+    if type(parse_version(installed_version)) == SetuptoolsLegacyVersion:
+        print('Detecting that the installed version of "%s"(%s) is probably based off a git commit '
+              'and assuming this build is for testing purposes.  If this is not the case, please '
+              'try again with a valid version of "%s".' % (tool, installed_version, tool))
+    elif parse_version(installed_version) < parse_version(required_version):
         raise RuntimeError('%s was detected to be version (%s) but ProTECT requires (%s)' %
                            (tool, installed_version, required_version))
 
 
 # Check Toil version
-check_tool_version('toil', '3.3.0', binary=False)
+check_tool_version('toil', '3.5.1', binary=False)
 # Check S3am version
-check_tool_version('s3am', '2.0', binary=True)
+check_tool_version('s3am', '2.0.1', binary=True)
 
 
 # Set up a test class

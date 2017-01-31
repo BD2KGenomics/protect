@@ -8,7 +8,7 @@ mkdir /mnt/ephemeral/tmp && export TMPDIR=/mnt/ephemeral/tmp
 
 # Install s3am in a venv
 virtualenv ${TMPDIR}/s3am
-${TMPDIR}/s3am/bin/pip install s3am==2.0a1.dev105
+${TMPDIR}/s3am/bin/pip install s3am==2.0.1
 # Expose binaries to the PATH
 mkdir ${TMPDIR}/bin
 ln -snf ${TMPDIR}/s3am/bin/s3am ${TMPDIR}/bin/
@@ -18,7 +18,7 @@ export PATH=$PATH:${TMPDIR}/bin
 virtualenv --never-download venv
 . venv/bin/activate
 
-pip install toil==3.3.0
+pip install toil==3.5.1
 pip install pytest==2.8.3
 
 # Install ProTECT and its runtime requirements
