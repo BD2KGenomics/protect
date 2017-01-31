@@ -19,12 +19,11 @@
     radia:latest
     filterradia:latest
     muse:latest
-    somaticsniper:latest (proposed)
-    vardict:latest (proposed)
+    somaticsniper:latest
+    strelka:latest
 
 # Mutation Annotation
     snpeff:latest
-    transvar:latest
 
 # Mutation Translation
     transgene:latest
