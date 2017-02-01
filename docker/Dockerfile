@@ -25,12 +25,6 @@ RUN pip install s3am
 # Install ProTECT
 RUN pip install protect==2.3.0
 
-# s3am requires an older version of bd2k-python-lib than ProTECT requires.
-# But s3am will work with the newer version of bd2k-python-lib. Also, if
-# this fix isn't applied after protect is installed, protect will get mad
-# about something with s3am's version or whatever.
-# Related: BD2KGenomics/protect#132
-
 # Install bd2k-python-lib
 RUN pip install bd2k-python-lib==1.14a1.dev29
 
