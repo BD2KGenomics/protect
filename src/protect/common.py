@@ -430,8 +430,9 @@ def write_to_s3(file_path, key_path, bucket_name, output_folder, overwrite=True)
     overwrite = 'overwrite' if overwrite else 'skip'
     file_name = os.path.basename(file_path)
     output_file = os.path.join('S3://', bucket_name, output_folder.strip('/'), file_name)
-    subprocess.check_call(['s3am', 'upload', '--exists=' + overwrite, '--sse-key-file', key_path,
-                           file_path, output_file])
+    # Adding resume doesn't affect a new upload, but protects in failed upload cases.
+    subprocess.check_call(['s3am', 'upload', '--exists=' + overwrite, '--resume',
+                           '--sse-key-file', key_path, file_path, output_file])
 
 
 def file_xext(filepath):
