@@ -1,0 +1,21 @@
+//*
+this is protect.json: however I did not chnage anything yet becuase I am not sure if this applies to rnaseq
+*//
+
+
++{
+ +  "tumor-dna" : {
+ +    "class" : "File",
+ +    "path" : "/root/Tum_1.fq.gz"
+ +  },
+ +  "tumor-rna" : {
+ +    "class" : "File",
+ +    "path" : "/root/Rna_1.fq.gz"
+ +  },
+ +  "normal-dna" : {
+ +    "class" : "File",
+ +    "path" : "/root/Norm_1.fq.gz"
+ +  },
+ +  "work-mount" : "/root/"
+ +}
+View   
