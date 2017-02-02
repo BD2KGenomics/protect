@@ -103,12 +103,12 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
                                       rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
                                       radia_options['genome_fasta']))
         filter_radia = radia.addChildJobFn(run_filter_radia, bams, radia.rv(), univ_options,
-                                              radia_options, chrom, memory='6G',
-                                              disk=PromisedRequirement(
-                                                  radia_disk, tumor_bam['tumor_dna_fix_pg_sorted.bam'],
-                                                  normal_bam['normal_dna_fix_pg_sorted.bam'],
-                                                  rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
-                                                  radia_options['genome_fasta']))
+                                           radia_options, chrom, memory='6G',
+                                           disk=PromisedRequirement(
+                                               radia_disk, tumor_bam['tumor_dna_fix_pg_sorted.bam'],
+                                               normal_bam['normal_dna_fix_pg_sorted.bam'],
+                                               rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
+                                               radia_options['genome_fasta']))
         perchrom_radia[chrom] = filter_radia.rv()
     return perchrom_radia
 
