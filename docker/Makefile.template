@@ -14,7 +14,6 @@ build: Dockerfile
 push: build
 	# Requires ~/.dockercfg
 	docker push ${name}:${tag}
-	docker push ${name}:latest
 
 clean:
 	docker rmi -f ${name}:${tag}
