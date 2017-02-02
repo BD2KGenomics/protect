@@ -116,7 +116,26 @@ class PipelineWrapperBuilder(object):
         args.tumor_rna = [os.path.join(tumor_rna_dir, os.path.basename(file)) for file in args.tumor_rna]
         args.normal_dna = [os.path.join(normal_dna_dir, os.path.basename(file)) for file in args.normal_dna]
 
+        #use: subprocess.call('./ls', cwd='/bin') to call to copy to s3. You want to use s3am to do this, you can look up documentation but it should not be hard. Just make sure that you put it in the right folder python_BOES_blah_blah/protect/universald. Also to copy you need to know where it is being savedf
+        #I would try to figure that out. Noy 100 percent how this works. Ask CJ 
+        #s3am upload \
+        #ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data/NA12878/sequence_read/ERR001268.filt.fastq.gz \ => this needs to be the file directory where the tumor stuff is saved. Remember you need to only worry about three of the things,
+        #s3://foo-bucket/
+        #Copy the entire directory if possible. If not you are going to have to write function that calls the dirc as shown by subprocess.call('./ls', cwd='/bin'), you are going to have to loop through and directory and copy to the UUID directory. 
+        #look at first two links. https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=access+all+files+in+directory+python
+        #use above in combination with http://stackoverflow.com/questions/51520/how-to-get-an-absolute-file-path-in-python
+
         # prepare config
+        listcheck=[]
+        for directory in (tumor_dna_dir,tumor_rna_dir,normal_dna_dir):
+            listx = os.listdir(directory)
+        for file in listx:
+             try:
+            subprocess.check_call(["s3am","upload",os.path.abspath(file),("s3://protect_BD2kGenomics/inputs/"+str(uuid.uuid4()))])
+            except Exception as e:
+                raise CritError(messages.crit_error_bad_command+' '+str(e))
+
+            
         args_dict = vars(args)
         args_dict['output_dir'] = mount
 
