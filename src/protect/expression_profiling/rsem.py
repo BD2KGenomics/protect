@@ -80,7 +80,7 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
                   '--no-bam-output',
                   '/'.join([input_files['rsem_index'], 'hg19']),
                   'rsem']
-    docker_call(tool='rsem', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='rsem:1.2.20', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
     output_files = {}
     for filename in ('rsem.genes.results', 'rsem.isoforms.results'):

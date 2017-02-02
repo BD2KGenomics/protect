@@ -165,7 +165,7 @@ def run_somaticsniper_full(job, tumor_bam, normal_bam, univ_options, somaticsnip
                   input_files['tumor.bam'],
                   input_files['normal.bam'],
                   docker_path(output_file)]
-    docker_call(tool='somaticsniper', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='somaticsniper:1.0.4', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
     outfile = job.fileStore.writeGlobalFile(output_file)
     return outfile
@@ -205,14 +205,14 @@ def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, uni
                   '--snp-file', input_files['input.vcf'],
                   '--indel-file', input_files['pileup.txt']]
     # Creates /data/input.vcf.SNPfilter
-    docker_call(tool='somaticsniper-addons', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='somaticsniper-addons:1.0.4', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
 
     # Run prepare_for_readcount.pl
     parameters = ['prepare_for_readcount.pl',
                   '--snp-file', input_files['input.vcf'] + '.SNPfilter']
     # Creates /data/input.vcf.SNPfilter.pos
-    docker_call(tool='somaticsniper-addons', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='somaticsniper-addons:1.0.4', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
 
     # Run  bam-readcount
@@ -223,7 +223,7 @@ def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, uni
                   input_files['tumor.bam']]
     # Creates the read counts file
     with open(os.path.join(work_dir, 'readcounts.txt'), 'w') as readcounts_file:
-        docker_call(tool='bam-readcount', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='bam-readcount:0.7.4', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=readcounts_file)
 
     # Run fpfilter.pl
@@ -232,7 +232,7 @@ def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, uni
                   '--readcount-file', docker_path(readcounts_file.name)]
 
     # Creates input.vcf.SNPfilter.fp_pass and input.vcf.SNPfilter.fp_fail
-    docker_call(tool='somaticsniper-addons', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='somaticsniper-addons:1.0.4', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
 
     # Run highconfidence.pl
@@ -240,7 +240,7 @@ def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, uni
                   '--snp-file', input_files['input.vcf'] + '.SNPfilter.fp_pass']
 
     # Creates input.vcf.SNPfilter.fp_pass.hc
-    docker_call(tool='somaticsniper-addons', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='somaticsniper-addons:1.0.4', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
 
     outfile = job.fileStore.writeGlobalFile(os.path.join(os.getcwd(),

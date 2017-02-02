@@ -354,7 +354,7 @@ def bam2fastq(bamfile, univ_options):
                   ''.join(['F=/data/', base_name, '_1.fastq']),
                   ''.join(['F2=/data/', base_name, '_2.fastq']),
                   ''.join(['FU=/data/', base_name, '_UP.fastq'])]
-    docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='picard:1.135', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'])
     first_fastq = ''.join([work_dir, '/', base_name, '_1.fastq'])
     assert os.path.exists(first_fastq)

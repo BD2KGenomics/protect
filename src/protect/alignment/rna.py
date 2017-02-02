@@ -100,10 +100,10 @@ def run_star(job, fastqs, univ_options, star_options):
     if gz:
         parameters.extend(['--readFilesCommand', 'zcat'])
     if star_options['type'] == 'star':
-        docker_call(tool='star', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='star:2.4.2a', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'])
     else:
-        docker_call(tool='starlong', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='starlong:2.4.2a', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'])
     output_files = defaultdict()
     for bam_file in ['rnaAligned.toTranscriptome.out.bam',
