@@ -35,7 +35,7 @@ def align_rna(job, fastqs, univ_options, star_options):
     """
     star = job.wrapJobFn(run_star, fastqs, univ_options, star_options,
                          cores=star_options['n'],
-                         memory=PromisedRequirement(lambda x: 1.85 * x.size,
+                         memory=PromisedRequirement(lambda x: int(1.85 * x.size),
                                                     star_options['tool_index']),
                          disk=PromisedRequirement(star_disk, fastqs, star_options['tool_index']))
     index = job.wrapJobFn(index_star, star.rv(), univ_options,
