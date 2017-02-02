@@ -46,7 +46,7 @@ def index_bamfile(job, bamfile, sample_type, univ_options):
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
     parameters = ['index',
                   input_files[in_bamfile]]
-    docker_call(tool='samtools', tool_parameters=parameters,
+    docker_call(tool='samtools:1.2', tool_parameters=parameters,
                 work_dir=work_dir, dockerhub=univ_options['dockerhub'])
     out_bai = '/'.join([work_dir, in_bamfile + '.bai'])
     output_files = {in_bamfile: bamfile,

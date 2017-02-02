@@ -112,7 +112,7 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
                   input_files['dna_1.fastq' + gz],
                   input_files['dna_2.fastq' + gz]]
     with open(''.join([work_dir, '/', sample_type, '_aligned.sam']), 'w') as samfile:
-        docker_call(tool='bwa', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='bwa:0.7.9a', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=samfile)
     # samfile.name retains the path info
     output_file = job.fileStore.writeGlobalFile(samfile.name)
@@ -144,7 +144,7 @@ def bam_conversion(job, samfile, sample_type, univ_options):
                   '-o', docker_path(bamfile),
                   input_files[sample_type + '_aligned.sam']
                   ]
-    docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='samtools:1.2', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
     output_file = job.fileStore.writeGlobalFile(bamfile)
     # The samfile is no longer useful so delete it
@@ -174,7 +174,7 @@ def fix_bam_header(job, bamfile, sample_type, univ_options):
                   '-H',
                   input_files[sample_type + '_aligned.bam']]
     with open('/'.join([work_dir, sample_type + '_aligned_bam.header']), 'w') as headerfile:
-        docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='samtools:1.2', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=headerfile)
     with open(headerfile.name, 'r') as headerfile, \
             open('/'.join([work_dir, sample_type + '_output_bam.header']), 'w') as outheaderfile:
@@ -186,7 +186,7 @@ def fix_bam_header(job, bamfile, sample_type, univ_options):
                   docker_path(outheaderfile.name),
                   input_files[sample_type + '_aligned.bam']]
     with open('/'.join([work_dir, sample_type + '_aligned_fixPG.bam']), 'w') as fixpg_bamfile:
-        docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='samtools:1.2', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=fixpg_bamfile)
     output_file = job.fileStore.writeGlobalFile(fixpg_bamfile.name)
     # The old bam file is now useless.
@@ -223,7 +223,7 @@ def add_readgroups(job, bamfile, sample_type, univ_options):
                   'PL=ILLUMINA',
                   'PU=12345',
                   ''.join(['SM=', sample_type.rstrip('_dna')])]
-    docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='picard:1.135', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'])
     output_file = job.fileStore.writeGlobalFile(
         '/'.join([work_dir, sample_type + '_aligned_fixpg_sorted_reheader.bam']))

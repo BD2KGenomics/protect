@@ -38,7 +38,7 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
                   allele,
                   input_files['peptfile.faa']]
     with open('/'.join([work_dir, 'predictions.tsv']), 'w') as predfile:
-        docker_call(tool='mhcii', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='mhcii:2.13', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=predfile, interactive=True)
     run_netmhciipan = True
     predictor = None
@@ -92,7 +92,7 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options):
                   '-f', input_files['peptfile.faa']]
     # netMHC writes a lot of useless stuff to sys.stdout so we open /dev/null and dump output there.
     with open(os.devnull, 'w') as output_catcher:
-        docker_call(tool='netmhciipan:final', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='netmhciipan:3.1', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=output_catcher)
     output_file = job.fileStore.writeGlobalFile('/'.join([work_dir, 'predictions.tsv']))
     return output_file, 'netMHCIIpan'

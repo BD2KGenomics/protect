@@ -62,7 +62,7 @@ def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_o
                       input_files[''.join([mhc, '_peptides.faa'])],
                       rank_boost_options[''.join([mhc, '_combo'])]
                       ]
-        docker_call(tool='rankboost', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='rankboost:1.0.0', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'])
         mhc_concise = ''.join([work_dir, '/', mhc, '_merged_files_concise_results.tsv'])
         mhc_detailed = ''.join([work_dir, '/', mhc, '_merged_files_detailed_results.tsv'])

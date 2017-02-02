@@ -66,7 +66,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
                   input_files['merged_mutations.vcf']]
     xmx = snpeff_options['java_Xmx'] if snpeff_options['java_Xmx'] else univ_options['java_Xmx']
     with open('/'.join([work_dir, 'mutations.vcf']), 'w') as snpeff_file:
-        docker_call(tool='snpeff', tool_parameters=parameters, work_dir=work_dir,
+        docker_call(tool='snpeff:3.6', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], java_opts=xmx, outfile=snpeff_file)
     export_results(job, snpeff_file.name, univ_options, subfolder='mutations/snpeffed')
     output_file = job.fileStore.writeGlobalFile(snpeff_file.name)

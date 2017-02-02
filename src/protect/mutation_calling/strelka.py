@@ -139,7 +139,7 @@ def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
                   input_files['genome.fa'],
                   str(job.cores)
                   ]
-    docker_call(tool='strelka', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='strelka:1.0.15', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
     output_dict = {}
     for mutation_type in ['snvs', 'indels']:
