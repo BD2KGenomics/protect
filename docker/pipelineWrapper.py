@@ -135,7 +135,7 @@ class PipelineWrapperBuilder(object):
             name_random=str(uuid.uuid4())
             listofnames.append(name_random)
             listx = os.listdir(directory)
-             for file in listx:
+            for file in listx:
                 subprocess.check_call(["s3am","upload",os.path.abspath(file),("s3://protectcgl/inputs/"+name_random+"/")])
 
 
