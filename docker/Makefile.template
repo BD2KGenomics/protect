@@ -8,6 +8,7 @@ short_tag = 2.3.0--DOCKERVER
 build: Dockerfile
 	docker build -t ${name}:${tag} .
 	- docker rmi ${name}:${short_tag}
+	- docker rmi ${name}:latest
 	docker tag ${name}:${tag} ${name}:${short_tag}
 	docker tag ${name}:${tag} ${name}:latest
 	touch ${build_tool}
