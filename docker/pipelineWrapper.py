@@ -1,4 +1,4 @@
-from __future__ import print_function
+ from __future__ import print_function
 
 import tarfile
 import argparse
@@ -116,6 +116,9 @@ class PipelineWrapperBuilder(object):
         args.tumor_rna = [os.path.join(tumor_rna_dir, os.path.basename(file)) for file in args.tumor_rna]
         args.normal_dna = [os.path.join(normal_dna_dir, os.path.basename(file)) for file in args.normal_dna]
 
+
+        
+
         #use: subprocess.call('./ls', cwd='/bin') to call to copy to s3. You want to use s3am to do this, you can look up documentation but it should not be hard. Just make sure that you put it in the right folder python_BOES_blah_blah/protect/universald. Also to copy you need to know where it is being savedf
         #I would try to figure that out. Noy 100 percent how this works. Ask CJ 
         #s3am upload \
@@ -126,14 +129,43 @@ class PipelineWrapperBuilder(object):
         #use above in combination with http://stackoverflow.com/questions/51520/how-to-get-an-absolute-file-path-in-python
 
         # prepare config
-        listcheck=[]
+        
+        listofnames=[]
         for directory in (tumor_dna_dir,tumor_rna_dir,normal_dna_dir):
+            name_random=str(uuid.uuid4())
+            listofnames.append(name_random)
             listx = os.listdir(directory)
-        for file in listx:
-             try:
-            subprocess.check_call(["s3am","upload",os.path.abspath(file),("s3://protect_BD2kGenomics/inputs/"+str(uuid.uuid4()))])
-            except Exception as e:
-                raise CritError(messages.crit_error_bad_command+' '+str(e))
+             for file in listx:
+                subprocess.check_call(["s3am","upload",os.path.abspath(file),("s3://protectcgl/inputs/"+name_random+"/")])
+
+
+
+
+        for i,name in enumerate(args.tumor_dna):
+            filename=os.path.basename(name)
+            args.tumor_dna[i]="s3://protectcgl/inputs/"+listofnames[0]"/"+filename
+
+
+        for i,name in enumerate(args.tumor_rna):
+            filename=os.path.basename(name)
+            args.tumor_rna[i]="s3://protectcgl/inputs/"+listofnames[1]"/"+filename
+
+
+        for i,name in enumerate(args.normal_dna):
+            filename=os.path.basename(name)
+            args.normal_dna[i]="s3://protectcgl/inputs/"+listofnames[2]"/"+filename
+        #for x,names in enumerate(listofnames):
+        #    if (x==0):
+         #      for i,item in enumerate(args.normal_dna):
+          #          args.normal_dna[i]=
+           # if(x==1):
+            #    for i,item in enumerate(args.tumor_dna):
+             #       args.tumor_dna[i]="s3://protectcgl/inputs/"+listofnames[x]"/"+filenames_arg.tumor_dna[i]
+            #if(x==2):
+             #   for i,item in enumerate(args.tumor_rna):
+              #      args.tumor_rna[i]="s3://protectcgl/inputs/"+listofnames[x]"/"+filenames_arg.tumor_rna[i]
+
+                
 
             
         args_dict = vars(args)
@@ -169,6 +201,7 @@ class PipelineWrapperBuilder(object):
         self._create_workdir(args)
         with open(config_path, 'w') as f:
             f.write(self._config)
+        exit (0);
 
         try:
             subprocess.check_call(command)
