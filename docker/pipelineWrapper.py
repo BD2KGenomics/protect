@@ -143,17 +143,17 @@ class PipelineWrapperBuilder(object):
 
         for i,name in enumerate(args.tumor_dna):
             filename=os.path.basename(name)
-            args.tumor_dna[i]="s3://protectcgl/inputs/"+listofnames[0]"/"+filename
+            args.tumor_dna[i]="s3://protectcgl/inputs/"+listofnames[0]+"/"+filename
 
 
         for i,name in enumerate(args.tumor_rna):
             filename=os.path.basename(name)
-            args.tumor_rna[i]="s3://protectcgl/inputs/"+listofnames[1]"/"+filename
+            args.tumor_rna[i]="s3://protectcgl/inputs/"+listofnames[1]+"/"+filename
 
 
         for i,name in enumerate(args.normal_dna):
             filename=os.path.basename(name)
-            args.normal_dna[i]="s3://protectcgl/inputs/"+listofnames[2]"/"+filename
+            args.normal_dna[i]="s3://protectcgl/inputs/"+listofnames[2]+"/"+filename
         #for x,names in enumerate(listofnames):
         #    if (x==0):
          #      for i,item in enumerate(args.normal_dna):
