@@ -44,7 +44,8 @@ def align_dna(job, fastqs, sample_type, univ_options, bwa_options):
     This is a convenience function that runs the entire dna alignment subgraph
     """
     bwa = job.wrapJobFn(run_bwa, fastqs, sample_type, univ_options, bwa_options,
-                        disk=PromisedRequirement(bwa_disk, fastqs, bwa_options['tool_index']))
+                        disk=PromisedRequirement(bwa_disk, fastqs, bwa_options['tool_index']),
+                        cores=bwa_options['n'])
     sam2bam = job.wrapJobFn(bam_conversion, bwa.rv(), sample_type, univ_options,
                             disk=PromisedRequirement(sam2bam_disk, bwa.rv()))
     # reheader takes the same disk as sam2bam so we can serialize this on the same worker.
