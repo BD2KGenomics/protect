@@ -70,6 +70,12 @@ Install ProTECT
 
     make develop
 
+##Method 3 - Using Docker
+
+Dockerized versions of ProTECT can be found at https://quay.io/organization/ucsc_cgl. These Docker containers run the
+ProTECT pipeline in single machine mode. The only difference between the Docker and Python versions of the pipeline
+is that the Docker container takes the config options, described below, as command line arguments as opposed to
+a config file. Running the container without any arguments will list all the available options.
 
 #Running ProTECT
 
@@ -114,6 +120,9 @@ on another volume.
     http://stackoverflow.com/questions/24309526/how-to-change-the-docker-image-installation-directory
 
  **TL;DR:** Use large volumes for workdir, job store and Docker.
+
+Alternatively, the Dockerized pipeline can be run from Dockstore (https://dockstore.org/).
+The protect.cwl file in the /docker/ directory describes the necessary inputs and outputs and should be used if running via Dockstore.
 
 #Setting up a config file
 

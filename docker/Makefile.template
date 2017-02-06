@@ -1,0 +1,23 @@
+# Definitions
+build_tool = runtime-container.DONE
+name = quay.io/ucsc_cgl/protect
+git_commit ?= $(shell git log --pretty=oneline -n 1 | cut -f1 -d " ")
+tag = 2.3.0--DOCKERVER--${git_commit}
+short_tag = 2.3.0--DOCKERVER
+
+build: Dockerfile
+	docker build -t ${name}:${tag} .
+	- docker rmi ${name}:${short_tag}
+	- docker rmi ${name}:latest
+	docker tag ${name}:${tag} ${name}:${short_tag}
+	docker tag ${name}:${tag} ${name}:latest
+	touch ${build_tool}
+
+push: build
+	# Requires ~/.dockercfg
+	docker push ${name}:${tag}
+	docker push ${name}:latest
+
+clean:
+	docker rmi -f ${name}:${tag}
+	rm ${build_tool}

@@ -7,3 +7,5 @@ venv/
 .cache/
 test-report.xml
 __pycache__
+*.DONE
+*.docker
