@@ -16,14 +16,14 @@ from __future__ import print_function
 from math import ceil
 from protect.common import (docker_call, get_files_from_filestore, untargz, docker_path,
                             export_results)
+from toil.job import PromisedRequirement
 
 import os
-import sys
 
 
 # disk for rsem
-def rsem_disk(star_bam, rsem_index):
-    star_transcriptome_bam = star_bam['rnaAligned.sortedByCoord.out.bam']['rna_fix_pg_sorted.bam']
+def rsem_disk(star_bams, rsem_index):
+    star_transcriptome_bam = star_bams['rnaAligned.sortedByCoord.out.bam']['rna_fix_pg_sorted.bam']
     return int(3 * ceil(star_transcriptome_bam.size + 524288) +
                4 * ceil(rsem_index.size + 524288))
 
@@ -33,13 +33,15 @@ def wrap_rsem(job, star_bams, univ_options, rsem_options):
     This is a convenience function that runs rsem from the star outputs.
 
     :param job job: job
-    :param dict rna_bam: dict of results from star
+    :param dict star_bams: dict of results from star
     :param dict univ_options: Universal Options
     :param dict rsem_options: Options specific to rsem
     :return:
     """
     rsem = job.addChildJobFn(run_rsem, star_bams['rnaAligned.toTranscriptome.out.bam'],
-                             univ_options, rsem_options)
+                             univ_options, rsem_options, cores=rsem_options['n'],
+                             disk=PromisedRequirement(rsem_disk, star_bams,
+                                                      rsem_options['tool_index']))
 
     return rsem.rv()
 
