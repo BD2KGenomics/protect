@@ -66,7 +66,7 @@ def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
                   input_files['rna_1.fastq' + gz],
                   input_files['rna_2.fastq' + gz]]
     docker_call(tool='cutadapt', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                dockerhub=univ_options['dockerhub'], tool_version=cutadapt_options['version'])
     output_files = []
     for fastq_file in ['rna_cutadapt_1.fastq.gz', 'rna_cutadapt_2.fastq.gz']:
         output_files.append(job.fileStore.writeGlobalFile('/'.join([work_dir, fastq_file])))

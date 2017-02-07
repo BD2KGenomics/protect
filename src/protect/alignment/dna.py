@@ -44,16 +44,20 @@ def align_dna(job, fastqs, sample_type, univ_options, bwa_options):
     This is a convenience function that runs the entire dna alignment subgraph
     """
     bwa = job.wrapJobFn(run_bwa, fastqs, sample_type, univ_options, bwa_options,
-                        disk=PromisedRequirement(bwa_disk, fastqs, bwa_options['tool_index']),
+                        disk=PromisedRequirement(bwa_disk, fastqs, bwa_options['index']),
                         cores=bwa_options['n'])
     sam2bam = job.wrapJobFn(bam_conversion, bwa.rv(), sample_type, univ_options,
+                            bwa_options['samtools'],
                             disk=PromisedRequirement(sam2bam_disk, bwa.rv()))
     # reheader takes the same disk as sam2bam so we can serialize this on the same worker.
     reheader = job.wrapJobFn(fix_bam_header, sam2bam.rv(), sample_type, univ_options,
+                             bwa_options['samtools'],
                              disk=PromisedRequirement(sam2bam_disk, bwa.rv()))
     regroup = job.wrapJobFn(add_readgroups, reheader.rv(), sample_type, univ_options,
+                            bwa_options['picard'],
                             disk=PromisedRequirement(regroup_disk, reheader.rv()))
     index = job.wrapJobFn(index_bamfile, regroup.rv(), sample_type, univ_options,
+                          bwa_options['samtools'],
                           disk=PromisedRequirement(index_disk, regroup.rv()))
     job.addChild(bwa)
     bwa.addChild(sam2bam)
@@ -77,7 +81,7 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
                 +- 'dockerhub': <dockerhub to use>
     4. bwa_options: Dict of parameters specific to bwa
          bwa_options
-              |- 'tool_index': <JSid for the bwa index tarball>
+              |- 'index': <JSid for the bwa index tarball>
               +- 'n': <number of threads to allocate>
 
     RETURN VALUES
@@ -93,7 +97,7 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
     input_files = {
         'dna_1.fastq': fastqs[0],
         'dna_2.fastq': fastqs[1],
-        'bwa_index.tar.gz': bwa_options['tool_index']}
+        'bwa_index.tar.gz': bwa_options['index']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     # Handle gzipped file
     gz = '.gz' if is_gzipfile(input_files['dna_1.fastq']) else ''
@@ -113,13 +117,14 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
                   input_files['dna_2.fastq' + gz]]
     with open(''.join([work_dir, '/', sample_type, '_aligned.sam']), 'w') as samfile:
         docker_call(tool='bwa', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'], outfile=samfile)
+                    dockerhub=univ_options['dockerhub'], outfile=samfile,
+                    tool_version=bwa_options['version'])
     # samfile.name retains the path info
     output_file = job.fileStore.writeGlobalFile(samfile.name)
     return output_file
 
 
-def bam_conversion(job, samfile, sample_type, univ_options):
+def bam_conversion(job, samfile, sample_type, univ_options, samtools_options):
     """
     This module converts SAMFILE from sam to bam
 
@@ -145,14 +150,14 @@ def bam_conversion(job, samfile, sample_type, univ_options):
                   input_files[sample_type + '_aligned.sam']
                   ]
     docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                dockerhub=univ_options['dockerhub'], tool_version=samtools_options['version'])
     output_file = job.fileStore.writeGlobalFile(bamfile)
     # The samfile is no longer useful so delete it
     job.fileStore.deleteGlobalFile(samfile)
     return output_file
 
 
-def fix_bam_header(job, bamfile, sample_type, univ_options):
+def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options):
     """
     This module modified the header in BAMFILE
 
@@ -175,7 +180,8 @@ def fix_bam_header(job, bamfile, sample_type, univ_options):
                   input_files[sample_type + '_aligned.bam']]
     with open('/'.join([work_dir, sample_type + '_aligned_bam.header']), 'w') as headerfile:
         docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'], outfile=headerfile)
+                    dockerhub=univ_options['dockerhub'], outfile=headerfile,
+                    tool_version=samtools_options['version'])
     with open(headerfile.name, 'r') as headerfile, \
             open('/'.join([work_dir, sample_type + '_output_bam.header']), 'w') as outheaderfile:
         for line in headerfile:
@@ -187,14 +193,15 @@ def fix_bam_header(job, bamfile, sample_type, univ_options):
                   input_files[sample_type + '_aligned.bam']]
     with open('/'.join([work_dir, sample_type + '_aligned_fixPG.bam']), 'w') as fixpg_bamfile:
         docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'], outfile=fixpg_bamfile)
+                    dockerhub=univ_options['dockerhub'], outfile=fixpg_bamfile,
+                    tool_version=samtools_options['version'])
     output_file = job.fileStore.writeGlobalFile(fixpg_bamfile.name)
     # The old bam file is now useless.
     job.fileStore.deleteGlobalFile(bamfile)
     return output_file
 
 
-def add_readgroups(job, bamfile, sample_type, univ_options):
+def add_readgroups(job, bamfile, sample_type, univ_options, picard_options):
     """
     This module adds the appropriate read groups to the bam file
     ARGUMENTS
@@ -224,7 +231,8 @@ def add_readgroups(job, bamfile, sample_type, univ_options):
                   'PU=12345',
                   ''.join(['SM=', sample_type.rstrip('_dna')])]
     docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'])
+                dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'],
+                tool_version=picard_options['version'])
     output_file = job.fileStore.writeGlobalFile(
         '/'.join([work_dir, sample_type + '_aligned_fixpg_sorted_reheader.bam']))
     # Delete the old bam file

@@ -68,7 +68,7 @@ def docker_path(filepath):
 
 
 def docker_call(tool, tool_parameters, work_dir, java_opts=None, outfile=None,
-                dockerhub='aarjunrao', interactive=False):
+                dockerhub='aarjunrao', interactive=False, tool_version='latest'):
     """
     Makes subprocess call of a command to a docker container. work_dir MUST BE AN ABSOLUTE PATH or
     the call will fail.  outfile is an open file descriptor to a writeable file.
@@ -84,12 +84,8 @@ def docker_call(tool, tool_parameters, work_dir, java_opts=None, outfile=None,
         interactive = '-i'
     else:
         interactive = ''
-    # If a tag is passed along with the image, use it.
-    if ':' in tool:
-        docker_tool = '/'.join([dockerhub, tool])
-    # Else use 'latest'
-    else:
-        docker_tool = ''.join([dockerhub, '/', tool, ':latest'])
+    # Set the tool version
+    docker_tool = ''.join([dockerhub, '/', tool, ':', tool_version])
     # Get the docker image on the worker if needed
     call = ['docker', 'images']
     dimg_rv = subprocess.check_output(call)
@@ -277,7 +273,8 @@ def bam2fastq(bamfile, univ_options, picard_options):
                   ''.join(['F2=/data/', base_name, '_2.fastq']),
                   ''.join(['FU=/data/', base_name, '_UP.fastq'])]
     docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'])
+                dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'],
+                tool_version=picard_options['version'])
     first_fastq = ''.join([work_dir, '/', base_name, '_1.fastq'])
     assert os.path.exists(first_fastq)
     return first_fastq

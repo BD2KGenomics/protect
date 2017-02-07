@@ -24,7 +24,7 @@ def index_disk(bamfile):
     return int(ceil(bamfile.size + 524288))
 
 
-def index_bamfile(job, bamfile, sample_type, univ_options):
+def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options):
     """
     This module indexes BAMFILE
     ARGUMENTS
@@ -47,7 +47,8 @@ def index_bamfile(job, bamfile, sample_type, univ_options):
     parameters = ['index',
                   input_files[in_bamfile]]
     docker_call(tool='samtools', tool_parameters=parameters,
-                work_dir=work_dir, dockerhub=univ_options['dockerhub'])
+                work_dir=work_dir, dockerhub=univ_options['dockerhub'],
+                tool_version=samtools_options['version'])
     out_bai = '/'.join([work_dir, in_bamfile + '.bai'])
     output_files = {in_bamfile: bamfile,
                     in_bamfile + '.bai': job.fileStore.writeGlobalFile(out_bai)}

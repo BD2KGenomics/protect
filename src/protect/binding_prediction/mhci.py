@@ -38,6 +38,7 @@ def predict_mhci_binding(job, peptfile, allele, peplen, univ_options,
                   input_files['peptfile.faa']]
     with open('/'.join([work_dir, 'predictions.tsv']), 'w') as predfile:
         docker_call(tool='mhci', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'], outfile=predfile, interactive=True)
+                    dockerhub=univ_options['dockerhub'], outfile=predfile, interactive=True,
+                    tool_version=mhci_options['version'])
     output_file = job.fileStore.writeGlobalFile(predfile.name)
     return output_file

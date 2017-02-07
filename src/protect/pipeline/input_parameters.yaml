@@ -21,7 +21,7 @@
 ##
 ##  Unless otherwise mentioned, all fields must be filled.
 ##
-###################################################################################################
+####################################################################################################
 ####################################################################################################
 
 # Any number of patients/samples can be listed here
@@ -30,75 +30,111 @@ patients:
     PRTCT-01:
         # The paths should point to the forward read of the pair. The pipeline assumes that the
         # forward and reverse read files have the same prefix
-        tumor_dna_fastq_1 : /path/to/<tumor_dna_prefix>1.fastq.gz
-        normal_dna_fastq_1 : /path/to/<normal_dna_prefix>1.fastq.gz
-        tumor_rna_fastq_1 : /path/to/<tumor_rna_prefix>1.fastq.gz
+        tumor_dna_fastq_1: /path/to/<tumor_dna_prefix>1.fastq.gz
+        normal_dna_fastq_1: /path/to/<normal_dna_prefix>1.fastq.gz
+        tumor_rna_fastq_1: /path/to/<tumor_rna_prefix>1.fastq.gz
     PRTCT-02:
         # The paths can also be to directories on S3 as
-        tumor_dna_fastq_1 : S3://bucket/path/to/<tumor_dna_prefix>1.fastq.gz
-        normal_dna_fastq_1 : S3://bucket/path/to/<tumor_dna_prefix>1.fastq.gz
-        tumor_rna_fastq_1 : https://s3-<region>.awsamazon.com/bucket/path/to/<tumor_dna_prefix>1.fastq.gz
+        tumor_dna_fastq_1: S3://bucket/path/to/<tumor_dna_prefix>1.fastq.gz
+        normal_dna_fastq_1: S3://bucket/path/to/<tumor_dna_prefix>1.fastq.gz
+        tumor_rna_fastq_1: https://s3-<region>.awsamazon.com/bucket/path/to/<tumor_dna_prefix>1.fastq.gz
 
 
 # These are options that are used by most tools
 Universal_Options:
-    dockerhub: aarjunrao  # optional
+    dockerhub: aarjunrao
     java_Xmx: 20G
-    sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS
-    sse_key_is_master: True # True or False.  Required if using AWS
-    cghub_key: /path/to/cghub.key # Path to the AWS master key.  Optional
+    sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS else optional
+    sse_key_is_master: True # True or False.  Required if using AWS else optional
     storage_location: Local # Local or aws:<bucket_name> for where the output must go
     #storage_location: aws:protect-run-xyz
     output_folder: /path/to/results # Path to where the output must go.
 
-# These options are for each specific tool. You probably don't need to change any of this!
-cutadapt:
-    a : AGATCGGAAGAG
-    A : AGATCGGAAGAG
 
-star:
-    type : star # use starlong if your reads are > 150bp
-    tool_index : S3://cgl-protect-data/hg19_references/star_100_indexes.tar.gz
+# These options are for each module. You probably don't need to change any of this!
+alignment:
+    cutadapt:
+        a: AGATCGGAAGAG
+        A: AGATCGGAAGAG
+        # version: 1.9.1
+    star:
+       type: star # use starlong if your reads are > 150bp
+       index: S3://cgl-protect-data/hg19_references/star_100_indexes.tar.gz
+       # version: 2.4.2a
+    bwa:
+       index: S3://cgl-protect-data/hg19_references/bwa_index.tar.gz
+        # version: 0.7.9a
+    post:
+        samtools:
+            # version: 1.2
+        picard:
+            # version: 1.135
 
-bwa:
-    tool_index : S3://cgl-protect-data/hg19_references/bwa_index.tar.gz
+expression_estimation:
+    rsem:
+        index: S3://cgl-protect-data/hg19_references/rsem_index.tar.gz
+        # version: 1.2.0
 
-rsem:
-    tool_index : S3://cgl-protect-data/hg19_references/rsem_index.tar.gz
+mutation_calling:
+    indexes:
+        genome_fasta: S3://cgl-protect-data/hg19_references/hg19.fa.tar.gz
+        genome_fai: S3://cgl-protect-data/hg19_references/hg19.fa.fai.tar.gz
+        genome_dict: S3://cgl-protect-data/hg19_references/hg19.dict.tar.gz
+        cosmic_vcf: S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.tar.gz
+        cosmic_idx: S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.idx.tar.gz
+        dbsnp_vcf: S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.gz
+        dbsnp_idx: S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.idx.tar.gz
+        dbsnp_tbi: S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.gz.tbi
+    mutect:
+        java_Xmx: 2G
+        # version: 1.1.7
+    muse:
+        # version: 1.0rc_submission_b391201
+    radia:
+        # version: 398366ef07b5911d8082ed61cbf03d487a41f286
+    somaticsniper:
+        # version: 1.0.4
+        samtools:
+            # version: 0.1.8
+        bam_readcount:
+            # version: 0.7.4
+    strelka:
+        # version: 1.0.15
+        config_file: S3://cgl-protect-data/hg19_references/strelka_bwa_WXS_config.ini.tar.gz
 
-mut_callers:
-    genome_fasta : S3://cgl-protect-data/hg19_references/hg19.fa.tar.gz
-    genome_fai : S3://cgl-protect-data/hg19_references/hg19.fa.fai.tar.gz
-    genome_dict : S3://cgl-protect-data/hg19_references/hg19.dict.tar.gz
-    cosmic_vcf : S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.tar.gz
-    cosmic_idx : S3://cgl-protect-data/hg19_references/CosmicCodingMuts.vcf.idx.tar.gz
-    dbsnp_vcf : S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.gz
-    dbsnp_idx : S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.idx.tar.gz
-    dbsnp_tbi : S3://cgl-protect-data/hg19_references/dbsnp_coding.vcf.gz.tbi
-    java_Xmx : 2G
-    strelka_config: S3://cgl-protect-data/hg19_references/strelka_bwa_WXS_config.ini.tar.gz
+mutation_annotation:
+    snpeff:
+        index: S3://cgl-protect-data/hg19_references/snpeff_index.tar.gz
+        # version: 3.6
+        java_Xmx: 20G
 
-snpeff:
-    tool_index : S3://cgl-protect-data/hg19_references/snpeff_index.tar.gz
-    java_Xmx : 20G
+mutation_translation:
+    transgene:
+        gencode_peptide_fasta: S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations_NOPARY.fa.tar.gz
+        # version: 1.0.0
 
-transgene:
-    gencode_peptide_fasta : S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations_NOPARY.fa.tar.gz
+haplotyping:
+    phlat:
+        index: S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
+        # version: 1.0
 
-phlat:
-    tool_index : S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
+mhc_peptide_binding:
+    mhci:
+        method_file: S3://cgl-protect-data/hg19_references/mhci_restrictions.json.tar.gz
+        pred: IEDB_recommended
+        # version: 2.13
+    mhcii:
+        method_file: S3://cgl-protect-data/hg19_references/mhcii_restrictions.json.tar.gz
+        pred: IEDB_recommended
+        # version: 2.13
+    netmhciipan:
+        # version: 3.1
 
-mhci:
-    method_file : S3://cgl-protect-data/hg19_references/mhci_restrictions.json.tar.gz
-    pred : IEDB_recommended
-
-mhcii:
-    method_file : S3://cgl-protect-data/hg19_references/mhcii_restrictions.json.tar.gz
-    pred : IEDB_recommended
-
-rank_boost:
-    mhci_combo : 0.0,0.0,0.32,0.0,0.68
-    mhcii_combo : 0.25,0.25,0.25,0.25
+prediction_ranking:
+    rankboost:
+        mhci_combo: 0.0,0.0,0.32,0.0,0.68
+        mhcii_combo: 0.25,0.25,0.25,0.25
+        # version: 1.0.0
 
 mhc_pathway_assessment:
-    genes_file : S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz
+    genes_file: S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz

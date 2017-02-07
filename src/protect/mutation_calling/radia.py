@@ -174,8 +174,9 @@ def run_radia_perchrom(job, bams, univ_options, radia_options, chrom):
                   '--disease', 'CANCER',
                   '-l', 'INFO',
                   '-g', docker_path(radia_log)]
-    docker_call(tool='radia', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+    docker_call(tool='radia', tool_parameters=parameters,
+                work_dir=work_dir, dockerhub=univ_options['dockerhub'],
+                tool_version=radia_options['version'])
     output_file = job.fileStore.writeGlobalFile(radia_output)
     return output_file
 
@@ -230,8 +231,9 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
                   '-f', input_files['genome.fa'],
                   '--log=INFO',
                   '-g', docker_path(filterradia_log)]
-    docker_call(tool='filterradia', tool_parameters=parameters,
-                work_dir=work_dir, dockerhub=univ_options['dockerhub'])
+    docker_call(tool='filterradia',
+                tool_parameters=parameters, work_dir=work_dir, dockerhub=univ_options['dockerhub'],
+                tool_version=radia_options['version'])
     output_file = ''.join([work_dir, '/', chrom, '.vcf'])
     os.rename(''.join([work_dir, '/', univ_options['patient'], '_', chrom, '.vcf']), output_file)
     output_fsid = job.fileStore.writeGlobalFile(output_file)

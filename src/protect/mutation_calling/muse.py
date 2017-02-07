@@ -146,7 +146,7 @@ def run_muse_perchrom(job, tumor_bam, normal_bam, univ_options, muse_options, ch
                   input_files['tumor.bam'],
                   input_files['normal.bam']]
     docker_call(tool='muse', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                dockerhub=univ_options['dockerhub'], tool_version=muse_options['version'])
     outfile = job.fileStore.writeGlobalFile(''.join([output_prefix, '.MuSE.txt']))
     return outfile
 
@@ -177,7 +177,7 @@ def run_muse_sump_perchrom(job, muse_output, univ_options, muse_options, chrom):
                   '-E']
 
     docker_call(tool='muse', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                dockerhub=univ_options['dockerhub'], tool_version=muse_options['version'])
     outfile = job.fileStore.writeGlobalFile(output_file)
     export_results(job, outfile, output_file, univ_options, subfolder='mutations/muse')
     return outfile

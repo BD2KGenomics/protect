@@ -39,7 +39,8 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
                   input_files['peptfile.faa']]
     with open('/'.join([work_dir, 'predictions.tsv']), 'w') as predfile:
         docker_call(tool='mhcii', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'], outfile=predfile, interactive=True)
+                    dockerhub=univ_options['dockerhub'], outfile=predfile, interactive=True,
+                    tool_version=mhcii_options['version'])
     run_netmhciipan = True
     predictor = None
     with open(predfile.name, 'r') as predfile:
@@ -57,14 +58,15 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
             break
     if run_netmhciipan:
         netmhciipan = job.addChildJobFn(predict_netmhcii_binding, peptfile, allele, univ_options,
-                                        disk='100M', memory='100M', cores=1)
+                                        mhcii_options['netmhciipan'], disk='100M', memory='100M',
+                                        cores=1)
         return netmhciipan.rv()
     else:
         output_file = job.fileStore.writeGlobalFile(predfile.name)
         return output_file, predictor
 
 
-def predict_netmhcii_binding(job, peptfile, allele, univ_options):
+def predict_netmhcii_binding(job, peptfile, allele, univ_options, netmhciipan_options):
     """
     This module will predict MHC:peptide binding for peptides in the files created in node YY to
     ALLELE.  ALLELE represents an MHCII allele.
@@ -92,7 +94,8 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options):
                   '-f', input_files['peptfile.faa']]
     # netMHC writes a lot of useless stuff to sys.stdout so we open /dev/null and dump output there.
     with open(os.devnull, 'w') as output_catcher:
-        docker_call(tool='netmhciipan:final', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'], outfile=output_catcher)
+        docker_call(tool='netmhciipan', tool_parameters=parameters, work_dir=work_dir,
+                    dockerhub=univ_options['dockerhub'], outfile=output_catcher,
+                    tool_version=netmhciipan_options['version'])
     output_file = job.fileStore.writeGlobalFile('/'.join([work_dir, 'predictions.tsv']))
     return output_file, 'netMHCIIpan'
