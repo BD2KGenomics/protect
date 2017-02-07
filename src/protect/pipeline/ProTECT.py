@@ -27,8 +27,6 @@ from collections import defaultdict
 from multiprocessing import cpu_count
 from urlparse import urlparse
 
-from math import ceil
-
 from protect.addons import run_mhc_gene_assessment
 from protect.alignment.dna import align_dna
 from protect.alignment.rna import align_rna
