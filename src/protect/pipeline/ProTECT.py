@@ -210,8 +210,8 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     fastq_deletion_1 = job.wrapJobFn(delete_fastqs, sample_prep.rv(), disk='100M', memory='100M')
     fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
                                      disk='100M', memory='100M')
-    rsem = job.wrapJobFn(wrap_rsem, star.rv(), univ_options, tool_options['rsem'],
-                         cores=tool_options['rsem']['n'], disk='100M').encapsulate()
+    rsem = job.wrapJobFn(wrap_rsem, star.rv(), univ_options, tool_options['rsem'], cores=1,
+                         disk='100M').encapsulate()
     mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(), phlat_tumor_rna.rv(),
                                            univ_options, tool_options['mhc_pathway_assessment'],
                                            disk='100M', memory='100M', cores=1)
