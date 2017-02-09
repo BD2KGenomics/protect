@@ -1,0 +1,98 @@
+## Copyright 2016 Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+#####################################################################################################
+#####################################################################################################
+##  This file contains the default options for tools used in the ProTECT.  The file is written in
+##  the YAML format.  A nice description of the format can be found at
+##  http://docs.ansible.com/ansible/YAMLSyntax.html
+##
+##  You can modify the default value for an entry in the input file by changing (or adding) the
+## corresponding entry in this file.  The values in the input yaml file will overwrite these values.
+## `patients` cannot be overwritten.
+##
+##  You can add comments anywhere in this file by prefixing it with a '#'
+##
+####################################################################################################
+####################################################################################################
+
+Universal_Options:
+    dockerhub: aarjunrao
+    java_Xmx: 20G
+    sse_key:
+    sse_key_is_master: False
+
+alignment:
+    cutadapt:
+        a: AGATCGGAAGAG
+        A: AGATCGGAAGAG
+        version: 1.9.1
+    star:
+        version: 2.4.2a
+    bwa:
+        version: 0.7.9a
+    post:
+        samtools:
+            version: 1.2
+        picard:
+            version: 1.135
+
+expression_estimation:
+    rsem:
+        version: 1.2.20
+
+mutation_calling:
+    mutect:
+        java_Xmx: 2G
+        version: 1.1.7
+    muse:
+        version: 1.0rc_submission_b391201
+    radia:
+        version: 398366ef07b5911d8082ed61cbf03d487a41f286
+    somaticsniper:
+        version: 1.0.4
+        samtools:
+            version: 0.1.8
+        bam_readcount:
+            version: 0.7.4
+    strelka:
+        version: 1.0.15
+
+mutation_annotation:
+    snpeff:
+        version: 3.6
+        java_Xmx: 20G
+
+mutation_translation:
+    transgene:
+        version: 1.0.0
+
+haplotyping:
+    phlat:
+        version: 1.0
+
+mhc_peptide_binding:
+    mhci:
+        pred: IEDB_recommended
+        version: 2.13
+    mhcii:
+        pred: IEDB_recommended
+        version: 2.13
+    netmhciipan:
+        version: 3.1
+
+prediction_ranking:
+    rankboost:
+        mhci_combo: 0.0,0.0,0.32,0.0,0.68
+        mhcii_combo: 0.25,0.25,0.25,0.25
+        version: 1.0.0

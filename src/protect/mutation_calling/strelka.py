@@ -125,7 +125,7 @@ def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
         'normal.bam.bai': normal_bam['normal_dna_fix_pg_sorted.bam.bai'],
         'genome.fa.tar.gz': strelka_options['genome_fasta'],
         'genome.fa.fai.tar.gz': strelka_options['genome_fai'],
-        'config.ini.tar.gz': strelka_options['strelka_config']
+        'config.ini.tar.gz': strelka_options['config_file']
     }
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
 
@@ -140,7 +140,7 @@ def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
                   str(job.cores)
                   ]
     docker_call(tool='strelka', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                dockerhub=univ_options['dockerhub'], tool_version=strelka_options['version'])
     output_dict = {}
     for mutation_type in ['snvs', 'indels']:
         output_dict[mutation_type] = job.fileStore.writeGlobalFile(os.path.join(

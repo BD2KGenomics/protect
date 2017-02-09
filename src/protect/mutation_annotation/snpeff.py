@@ -38,7 +38,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
                 +- 'dockerhub': <dockerhub to use>
     3. snpeff_options: Dict of parameters specific to snpeff
          snpeff_options
-                +- 'tool_index': <JSid for the snpEff index tarball>
+                +- 'index': <JSid for the snpEff index tarball>
 
     RETURN VALUES
     1. output_file: <JSid for the snpeffed vcf>
@@ -49,7 +49,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     work_dir = os.getcwd()
     input_files = {
         'merged_mutations.vcf': merged_mutation_file,
-        'snpeff_index.tar.gz': snpeff_options['tool_index']}
+        'snpeff_index.tar.gz': snpeff_options['index']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     input_files['snpeff_index'] = untargz(input_files['snpeff_index.tar.gz'], work_dir)
     input_files = {key: docker_path(path) for key, path in input_files.items()}
@@ -67,7 +67,8 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     xmx = snpeff_options['java_Xmx'] if snpeff_options['java_Xmx'] else univ_options['java_Xmx']
     with open('/'.join([work_dir, 'mutations.vcf']), 'w') as snpeff_file:
         docker_call(tool='snpeff', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'], java_opts=xmx, outfile=snpeff_file)
+                    dockerhub=univ_options['dockerhub'], java_opts=xmx, outfile=snpeff_file,
+                    tool_version=snpeff_options['version'])
     output_file = job.fileStore.writeGlobalFile(snpeff_file.name)
     export_results(job, output_file, snpeff_file.name, univ_options, subfolder='mutations/snpeffed')
     return output_file

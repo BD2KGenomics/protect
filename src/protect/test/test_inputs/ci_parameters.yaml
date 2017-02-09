@@ -2,6 +2,10 @@
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
+## Copyright 2016 Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
 ## You may obtain a copy of the License at
 ##
 ##    http://www.apache.org/licenses/LICENSE-2.0
@@ -13,22 +17,14 @@
 ## limitations under the License.
 ####################################################################################################
 ####################################################################################################
-##  This is the input parameter file for the precision immuno pipeline.  The paramters for each of
-##  the tools is provided here.  DO NOT change the commented (#'d) text below the BEGIN statement as
-##  it will affect the parsing function.
+##  This is the input parameter file for the precision immuno pipeline.  The parameters for each of
+##  the tools is provided here.  The file is written in the YAML format.  A nice description of the
+##  format can be found at http://docs.ansible.com/ansible/YAMLSyntax.html
 ##
-##  You can add comments anywhere in this file by using DOUBLE hashes (##).
+##  You can add comments anywhere in this file by prefixing it with a '#'
 ##
-##  [Items in square brackets] denote the choices available for that flag
+##  Unless otherwise mentioned, all fields must be filled.
 ##
-##  {Items in curly brackets} denote optional arguments that can be left out if desired.  Unless
-##  specified, all options are mandatory.
-##
-##  Notes: Multiple patients can be specified followed by the trio of tumor_dna, tumor_rna, and
-##         normal dna fastq prefixes.  Prefixes can either be of the form
-##         /path/to/fastqfile_1.fastq or /path/to/fastqfile
-##         Notes about the sample(s) being processed by this config file can be added before the
-##         BEGIN keyword, be starting the line with two # symbols.
 ####################################################################################################
 ####################################################################################################
 
@@ -48,53 +44,60 @@ Universal_Options:
     storage_location: Local
 
 # These options are for each specific tool. You probably don't need to change any of this!
-cutadapt:
-    a : AGATCGGAAGAG
-    A : AGATCGGAAGAG
+alignment:
+    cutadapt:
+        a : AGATCGGAAGAG
+        A : AGATCGGAAGAG
+    star:
+        type : star
+        index : S3://cgl-protect-data/ci_references/star_50_index_chr6.tar.gz
+    bwa:
+        index : S3://cgl-protect-data/ci_references/bwa_index_chr6.tar.gz
 
-star:
-    type : star
-    tool_index : S3://cgl-protect-data/ci_references/star_50_index_chr6.tar.gz
+expression_estimation:
+    rsem:
+        index : S3://cgl-protect-data/ci_references/rsem_index_chr6.tar.gz
 
-bwa:
-    tool_index : S3://cgl-protect-data/ci_references/bwa_index_chr6.tar.gz
+mutation_calling:
+    indexes:
+        genome_fasta : S3://cgl-protect-data/ci_references/chr6.fa.tar.gz
+        genome_fai : S3://cgl-protect-data/ci_references/chr6.fa.fai.tar.gz
+        genome_dict : S3://cgl-protect-data/ci_references/chr6.dict.tar.gz
+        cosmic_vcf : S3://cgl-protect-data/ci_references/CosmicCodingMuts.chr6.vcf.tar.gz
+        cosmic_idx : S3://cgl-protect-data/ci_references/CosmicCodingMuts.chr6.vcf.idx.tar.gz
+        dbsnp_vcf : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz
+        dbsnp_idx : S3://cgl-protect-data/ci_references/dbsnp_coding.chr6.vcf.idx.tar.gz
+        dbsnp_tbi : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz.tbi
+    mutect:
+        java_Xmx : 2G
+    strelka:
+        config_file: S3://cgl-protect-data/hg19_references/strelka_bwa_WXS_config.ini.tar.gz
 
-rsem:
-    tool_index : S3://cgl-protect-data/ci_references/rsem_index_chr6.tar.gz
+mutation_annotation:
+    snpeff:
+        index : S3://cgl-protect-data/ci_references/snpeff_index_chr6.tar.gz
+        java_Xmx : 20G
 
-mut_callers:
-    genome_fasta : S3://cgl-protect-data/ci_references/chr6.fa.tar.gz
-    genome_fai : S3://cgl-protect-data/ci_references/chr6.fa.fai.tar.gz
-    genome_dict : S3://cgl-protect-data/ci_references/chr6.dict.tar.gz
-    cosmic_vcf : S3://cgl-protect-data/ci_references/CosmicCodingMuts.chr6.vcf.tar.gz
-    cosmic_idx : S3://cgl-protect-data/ci_references/CosmicCodingMuts.chr6.vcf.idx.tar.gz
-    dbsnp_vcf : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz
-    dbsnp_idx : S3://cgl-protect-data/ci_references/dbsnp_coding.chr6.vcf.idx.tar.gz
-    dbsnp_tbi : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz.tbi
-    java_Xmx : 2G
-    strelka_config: S3://cgl-protect-data/hg19_references/strelka_bwa_WXS_config.ini.tar.gz
+mutation_translation:
+    transgene:
+        gencode_peptide_fasta : S3://cgl-protect-data/ci_references/gencode.v19.pc_translations.chr6.fa.tar.gz
 
-snpeff:
-    tool_index : S3://cgl-protect-data/ci_references/snpeff_index_chr6.tar.gz
-    java_Xmx : 20G
+haplotyping:
+    phlat:
+        index : S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
 
-transgene:
-    gencode_peptide_fasta : S3://cgl-protect-data/ci_references/gencode.v19.pc_translations.chr6.fa.tar.gz
+mhc_peptide_binding:
+    mhci:
+        method_file : S3://cgl-protect-data/hg19_references/mhci_restrictions.json.tar.gz
+        pred : IEDB_recommended
+    mhcii:
+        method_file : S3://cgl-protect-data/hg19_references/mhcii_restrictions.json.tar.gz
+        pred : IEDB_recommended
 
-phlat:
-    tool_index : S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
-
-mhci:
-    method_file : S3://cgl-protect-data/hg19_references/mhci_restrictions.json.tar.gz
-    pred : IEDB_recommended
-
-mhcii:
-    method_file : S3://cgl-protect-data/hg19_references/mhcii_restrictions.json.tar.gz
-    pred : IEDB_recommended
-
-rank_boost:
-    mhci_combo : 0.0,0.0,0.32,0.0,0.68
-    mhcii_combo : 0.25,0.25,0.25,0.25
+prediction_ranking:
+    rankboost:
+        mhci_combo : 0.0,0.0,0.32,0.0,0.68
+        mhcii_combo : 0.25,0.25,0.25,0.25
 
 mhc_pathway_assessment:
     genes_file : S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz

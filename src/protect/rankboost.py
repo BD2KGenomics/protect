@@ -18,7 +18,7 @@ import os
 
 
 def wrap_rankboost(job, rsem_files, merged_mhc_calls, transgene_out, univ_options,
-                   rank_boost_options):
+                   rankboost_options):
     """
     This is a convenience function that runs rankboost on pipeline outputs.
 
@@ -27,17 +27,17 @@ def wrap_rankboost(job, rsem_files, merged_mhc_calls, transgene_out, univ_option
     :param dict merged_mhc_calls: dict of results from merging mhc peptide binding predictions
     :param dict transgene_out: dict of results from running transgene
     :param dict univ_options: Universal Options
-    :param dict rank_boost_options: Options specific to rank boost
+    :param dict rankboost_options: Options specific to rank boost
     :return:
     """
     rankboost = job.addChildJobFn(boost_ranks, rsem_files['rsem.isoforms.results'],
-                                  merged_mhc_calls, transgene_out, univ_options, rank_boost_options)
+                                  merged_mhc_calls, transgene_out, univ_options, rankboost_options)
 
     return rankboost.rv()
 
 
 def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_options,
-                rank_boost_options):
+                rankboost_options):
     """
     This is the final module in the pipeline.  It will call the rank boosting R
     script.
@@ -60,10 +60,10 @@ def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_o
                       input_files[''.join([mhc, '_merged_files.tsv'])],
                       input_files['rsem_quant.tsv'],
                       input_files[''.join([mhc, '_peptides.faa'])],
-                      rank_boost_options[''.join([mhc, '_combo'])]
+                      rankboost_options[''.join([mhc, '_combo'])]
                       ]
         docker_call(tool='rankboost', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'])
+                    dockerhub=univ_options['dockerhub'], tool_version=rankboost_options['version'])
         mhc_concise = ''.join([work_dir, '/', mhc, '_merged_files_concise_results.tsv'])
         mhc_detailed = ''.join([work_dir, '/', mhc, '_merged_files_detailed_results.tsv'])
         output_files[mhc] = {}

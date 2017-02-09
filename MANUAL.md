@@ -17,10 +17,14 @@ naming convention -- XYZ1.fq and XYZ2.fq . Currently ProTECT only supports paire
 ProTECT requires Toil and we recommend installing ProTECT and its requirements in a
 [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
 
-ProTECT also requires [s3am](https://github.com/BD2KGenomics/s3am.git) version 2.0 to download and
+ProTECT also requires [s3am](https://github.com/BD2KGenomics/s3am.git) version 2.0.1 to download and
 upload files from S3. We recommend installing s3am in its own virtualenv using the directions in
 the s3am manual, then putting the s3am binary on your $PATH.  ProTECT will NOT attempt to install
 s3am during installation.
+
+Lastly, ProTECT uses [docker](https://www.docker.com/) to run the various sub-tools in a
+reproducible, platform independent manner. ProTECT will NOT attempt to install docker during
+installation.
 
 ###Method 1 - Using PIP (recommended)
 
@@ -39,7 +43,7 @@ of pyYAML with lower versions of pip and recommend upgrading pip before installi
 
 Install Toil
 
-    pip install toil[aws]==3.3.0
+    pip install toil[aws]==3.5.0
 
 Install ProTECT and all dependencies in the virtualenv
 
@@ -64,7 +68,7 @@ Activate the virtualenv
 
 Install Toil
 
-    pip install toil[aws]==3.3.0
+    pip install toil[aws]==3.5.0
 
 Install ProTECT
 
@@ -72,10 +76,11 @@ Install ProTECT
 
 ##Method 3 - Using Docker
 
-Dockerized versions of ProTECT can be found at https://quay.io/organization/ucsc_cgl. These Docker containers run the
-ProTECT pipeline in single machine mode. The only difference between the Docker and Python versions of the pipeline
-is that the Docker container takes the config options, described below, as command line arguments as opposed to
-a config file. Running the container without any arguments will list all the available options.
+Dockerized versions of ProTECT releases can be found at https://quay.io/organization/ucsc_cgl. These
+Docker containers run the ProTECT pipeline in single machine mode. The only difference between the
+Docker and Python versions of the pipeline is that the Docker container takes the config options,
+described below, as command line arguments as opposed to a config file. Running the container
+without any arguments will list all the available options.
 
 #Running ProTECT
 
@@ -107,11 +112,12 @@ aws:< region >:< bucket_name > (e.g. aws:us-west-2:ProTEST). Refer to the Toil m
 information regarding job stores.
 
 **NOTE:** The workdir **MUST** be on a device that has enough space to run a genomics pipeline.
-STAR indexes are usually 25Gb and running star usually takes ~60Gb per sample. You need enough space
-on this device such that concurrent jobs do not run into `Unable to free up enough space for caching`
-errors. If the job store being used is the file job store (points to a directory on the system), and
-if the device hosting the job store is the same one hosting the working directory, you need to
-ensure the device can handle the concurrent writes and the persistent job store files as well.
+STAR indexes for a human genome are usually 25Gb and running star usually takes ~60Gb per sample
+(for hg19).  You need enough space on this device such that concurrent jobs do not run into
+`Unable to free up enough space for caching` errors. If the job store being used is the file job
+store (points to a directory on the system), and if the device hosting the job store is the same
+one hosting the working directory, you need to ensure the device can handle the concurrent writes
+and the persistent job store files as well.
 
 **NOTE:** It is advisable to setup Docker such that it runs off a large volume as well. The
 following link contains information on how to setup docker such that it stores images and containers
@@ -187,8 +193,6 @@ These describe options that are used universally by most tools/jobs in the workf
         sse_key_is_master: True           -> Were the sample files all encrypted with sse_key
                                              (`False`), or were they encrypted with individual
                                              per-file keys hashed from the master sse_key (`True`)
-        cghub_key: /path/to/cghub.key     -> The CGHub credentials to use if the files must be
-                                             downloaded from CGHub (This will be phased out soon)
         storage_location: aws:protect-out -> Should the intermediate files be stored locally
                                              (`Local`) or in an Amazon S3 bucket using SSE-C
                                              per-file encryption from the provided master sse key
@@ -207,134 +211,155 @@ Look at the help for each tool for details. All ProTECT provided indexes were ge
 be substituted with S3 links. Descriptions for creating all files can be found in the file
 `S3://cgl-protect-data/hg19_references/README`.
 
-**cutadapt**
+    alignment:
+        cutadapt:                                             -> RNA-Seq QC
+            a: AGATCGGAAGAG                                       -> Adapter for trimming forward
+                                                                     read
+            A: AGATCGGAAGAG                                       -> Adapter for trimming reverse
+                                                                     read
+            version: 1.2
+        star:                                                 -> RNA-Seq Alignment
+            type: star                                            -> Can be `star` or `starlong`
+                                                                     depending on the read size.
+                                                                     Refer to the STAR manual for
+                                                                     details.
+            index_tar: /path/to/star_index.tar.gz                 -> The indexes to use for STAR.
+                                                                     Protect provides indexes
+                                                                     created using edge sizes 50,
+                                                                     75, 100, 150 and 250 in the S3
+                                                                     bucket `cgl-protect-data`
+                                                                     under the folder
+                                                                     `hg19_references`.
+            version: 2.4.2a
+        bwa:                                                  -> DNA-Seq alignment
+            index_tar: /path/to/bwa_index.tar.gz                  -> The indexes to use for bwa.
+                                                                     Protect provides indexes in the
+                                                                     S3 bucket `cgl-protect-data`
+                                                                     under the folder
+                                                                     `hg19_references`.
+            version: 0.7.9a
+        post:                                                 -> Post-alignment processing tools
+            samtools:                                           -> Indexing, sam to bam conversion,
+                                                                   etc
+                version: 1.2
+            picard:                                             -> Fixing bam headers
+                version: 1.135
 
-These flags describe the sequences to use for adapter trimming in the RNA Seq data
+    expression_estimation:
+        rsem:
+            index_tar: /path/to/rsem_index.tar.gz                 -> The indexes to use for rsem.
+                                                                     Protect provides indexes in the
+                                                                     S3 bucket `cgl-protect-data`
+                                                                     under the folder
+                                                                     `hg19_references`.
+            version: 1.2.0
 
-    cutadapt:
-        a: AGATCGGAAGAG  -> Adapter for trimming forward read
-        A: AGATCGGAAGAG  -> Adapter for trimming reverse read
+    mutation_calling:
+        indexes:
+            genome_fasta: /path/to/hg19.fa.tar.gz                 -> The genome fasta to use for the
+                                                                     mutation callers.
+            genome_fai: /path/to/hg19.fa.fai.tar.gz               -> The corresponding .fai file for
+                                                                     the genome fasta
+            genome_dict: /path/to/hg19.dict.tar.gz                -> The corresponding .dict file
+                                                                     for the genome fasta
+            cosmic_vcf: /path/to/CosmicCodingMuts.vcf.tar.gz      -> The Cosmic Coding vcf
+            cosmic_idx: /path/to/CosmicCodingMuts.vcf.idx.tar.gz  -> The corresponding .idx file for
+                                                                     the Cosmic vcf
+            dbsnp_vcf: /path/to/dbsnp_coding.vcf.gz               -> The dbSNP vcf
+            dbsnp_idx: /path/to/dbsnp_coding.vcf.idx.tar.gz       -> The corresponding .idx file for
+                                                                     the dbSNP vcf
+            dbsnp_tbi : /path/to/dbsnp_coding.vcf.gz.tbi          -> The tabix index for dbsnp.gz
+        mutect:
+            java_Xmx: 5G                                          -> The heap size to use for MuTect
+                                                                     per job (i.e. per chromosome)
+            version: 1.1.7
+        muse:
+            version: 1.0rc_submission_b391201
+        radia:
+            version: 398366ef07b5911d8082ed61cbf03d487a41f286
+        somaticsniper:
+            version: 1.0.4
+            samtools:                                           -> pileup reads
+                version: 0.1.8
+            bam_readcount:                                      -> obtain readcounts
+                version: 0.7.4
+        strelka:
+            version: 1.0.15
+            config_file: /path/to/strelka_config.ini.tar.gz       -> The Strelka config file for a
+                                                                     bwa run (modified for a WXS run
+                                                                     if necessary)
 
+    mutation_annotation:
+        snpeff:
+            index_tar: /path/to/snpeff_index.tar.gz               -> The indexes to use for snpeff.
+                                                                     Protect provides indexes in the
+                                                                     S3 bucket `cgl-protect-data`
+                                                                     under the folder
+                                                                     `hg19_references`.
+            java_Xmx: 5G                                          -> The heap size to use for SnpEFF
+            version: 3.6
 
-**star**
+    mutation_translation:                                     -> Translate events from genomic to
+                                                                 proteomic space
+        transgene:
+            gencode_peptide_fasta: /path/to/gencode.faa           -> The peptide file for the
+                                                                     gencode gtf used in the
+                                                                     analysis. (If not gencode, the
+                                                                     file must be made to follow the
+                                                                     gencode format for fasta record
+                                                                     names
+            version: 1.0.0
 
-These flags describe the arguments for aligning the RNA Seq data
+    haplotyping:
+            phlat:
+                index_tar: /path/to/snpeff_index.tar.gz           -> The indexes to use for PHLAT.
+                                                                     Protect provides indexes in the
+                                                                     S3 bucket `cgl-protect-data`
+                                                                     under the folder
+                                                                     `hg19_references`.
 
-    star:
-        type: star                             -> Can be `star` or `starlong` depending on the read
-                                                  size. Refer to the STAR manual for details.
-        index_tar: /path/to/star_index.tar.gz  -> The indexes to use for STAR. Protect provides
-                                                  indexes created using edge sizes 50, 75, 100, 150
-                                                  and 250 in the S3 bucket `cgl-protect-data` under
-                                                  the folder `hg19_references`.
+    mhc_peptide_binding:
+        mhci:
+            method_file: /path/to/mhci_restrictions.json.tar.gz   -> A json list of allowable MHCs
+                                                                     each predictors can handle.
+            pred: IEDB_recommended                                -> The IEDB method to use.
+            version: 2.13
+        mhcii:
+            method_file: /path/to/mhcii_restrictions.json.tar.gz  -> A json list of allowable MHCs
+                                                                     the predictors can handle.
+            pred: IEDB_recommended                                -> The IEDB method to use.
+            version: 2.13
+        netmhciipan:
+            verison: 3.1
 
-**bwa**
-
-These flags describe the arguments for aligning the DNA Seq data
-
-    bwa:
-        index_tar: /path/to/bwa_index.tar.gz  -> The indexes to use for bwa. Protect provides
-                                                 indexes in the S3 bucket `cgl-protect-data` under
-                                                 the folder `hg19_references`.
-
-
-**rsem**
-
-These flags describe the arguments for conducting expression calling.
-
-    rsem:
-        index_tar: /path/to/rsem_index.tar.gz  -> The indexes to use for rsem. Protect provides
-                                                  indexes in the S3 bucket `cgl-protect-data` under
-                                                  the folder `hg19_references`.
-
-**mut_callers**
-
-These flags describe the arguments for conducting mutation calling.
-
-    mut_callers:
-        genome_fasta: /path/to/hg19.fa.tar.gz                 -> The genome fasta to use for the
-                                                                 mutation callers.
-        genome_fai: /path/to/hg19.fa.fai.tar.gz               -> The corresponding .fai file for the
-                                                                 genome fasta
-        genome_dict: /path/to/hg19.dict.tar.gz                -> The corresponding .dict file for
-                                                                 the genome fasta
-        cosmic_vcf: /path/to/CosmicCodingMuts.vcf.tar.gz      -> The Cosmic Coding vcf
-        cosmic_idx: /path/to/CosmicCodingMuts.vcf.idx.tar.gz  -> The corresponding .idx file for the
-                                                                 Cosmic vcf
-        dbsnp_vcf: /path/to/dbsnp_coding.vcf.gz               -> The dbSNP vcf
-        dbsnp_idx: /path/to/dbsnp_coding.vcf.idx.tar.gz       -> The corresponding .idx file for the
-                                                                 dbSNP vcf
-        dbsnp_tbi : /path/to/dbsnp_coding.vcf.gz.tbi          -> The tabix index for dbsnp.gz
-        java_Xmx: 5G                                          -> The heap size to use for MuTect
-                                                                 per job (i.e. per chromosome)
-        strelka_config: /path/to/strelka_config.ini.tar.gz    -> The Strelka config file for a bwa
-                                                                 run (modified for a WXS run if
-                                                                 necessary)
-
-
-**snpeff**
-
-These flags describe the arguments for conducting mutation calling.
-
-    snpeff:
-        index_tar: /path/to/snpeff_index.tar.gz  -> The indexes to use for snpeff. Protect provides
-                                                    indexes in the S3 bucket `cgl-protect-data`
-                                                    under the folder `hg19_references`.
-        java_Xmx: 5G                             -> The heap size to use for SnpEFF
-
-**transgene**
-
-These flags describe the arguments for conducting mutation translation. Transgene is our in-house
-tool to go from mutations to peptides.
-
-    gencode_peptide_fasta: /path/to/gencode.faa   -> The corresponding peptide file for the gencode
-                                                     gtf used for the analysis. (If not gencode, the
-                                                     file must be made to follow the gencode format
-                                                     for fasta record names)
-
-**phlat**
-
-These flags describe the arguments for conducting MHC Haplotyping.
-
-    phlat:
-        index_tar: /path/to/snpeff_index.tar.gz  -> The indexes to use for PHLAT. Protect provides
-                                                    indexes in the S3 bucket `cgl-protect-data`
-                                                    under the folder `hg19_references`.
-
-**mhci**
-
-These flags describe the arguments for conducting MHCI:peptide binding prediction.
-
-    mhci:
-        method_file: /path/to/mhci_restrictions.json.tar.gz -> A json list of allowable MHCs
-                                                               different predictors can handle.
-        pred: IEDB_recommended                              -> The IEDB method to use.
-
-**mhcii**
-
-These flags describe the arguments for conducting MHCII:peptide binding prediction.
-
-    mhcii:
-        method_file: /path/to/mhcii_restrictions.json.tar.gz -> A json list of allowable MHCs
-                                                                different predictors can handle.
-        pred: IEDB_recommended                               -> The IEDB method to use.
-
-**rank_boost**
-
-These flags describe the arguments for ranking the peptide binding calls from the various
-predictors.
-
-    rank_boost:
-        mhci_combo: V,W,X,Y,Z  -> Weights used for ranking the predicted MHCI epitopes
-                                  (V+W+X+Y+Z = 1)
-        mhcii_combo W,X,Y,Z    -> Weights used for ranking the predicted MHCII epitopes
-                                  (W+X+Y+Z = 1)
-
-**mhc_pathway_assessment**
-
-These flags describe the arguments for assessing the state of the MHC pathway in the patient.
-
+    prediction_ranking:
+        rank_boost:
+            mhci_combo: V,W,X,Y,Z                                 -> Weights used for ranking the
+                                                                     predicted MHCI epitopes
+                                                                     (V+W+X+Y+Z = 1)
+            mhcii_combo W,X,Y,Z                                   -> Weights used for ranking the
+                                                                     predicted MHCII epitopes
+                                                                     (W+X+Y+Z = 1)
+            version: 1.0.0
     mhc_pathway_assessment:
-        genes_file: /path/to/mhc_pathway_genes.json.tar.gz -> A json file containing the various
-                                                              genes in the MHC pathway, and their
-                                                              TPM expressions in a background set.
+        genes_file: /path/to/mhc_pathway_genes.json.tar.gz        -> A json file containing the
+                                                                     various genes in the MHC
+                                                                     pathway, and their mean TPM
+                                                                     expressions across samples in
+                                                                     a background set.
+
+#Default values for config entries (Only in source installations)
+
+If you installed from source, we provide a way to specify default values for all entries in the
+config file (except for the `patients` tab). The file `src/protect/pipeline/defaults.yaml` will be
+used to fill in default values for config entries if the user does not specify them in the input
+config file.
+
+
+#A note on dockerised tools used in pipeline
+
+ProTECT uses dockerised versions of every tool used during the run to ensure reproduciblity of
+results. Every docker image required for the run is described in required_docker_tools.txt. Every
+required tool is also hosted freely on the dockerhub `aarjunrao` (Hence the default value in the
+config). If you wish to use a personal repo instead, ensure that every required version of every
+tool is made available on the repo.

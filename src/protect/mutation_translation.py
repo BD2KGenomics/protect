@@ -61,7 +61,7 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
                   '--prefix', 'transgened',
                   '--pep_lens', '9,10,15']
     docker_call(tool='transgene', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                dockerhub=univ_options['dockerhub'], tool_version=transgene_options['version'])
     output_files = defaultdict()
     for peplen in ['9', '10', '15']:
         peptfile = '_'.join(['transgened_tumor', peplen, 'mer_snpeffed.faa'])

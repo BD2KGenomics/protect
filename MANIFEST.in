@@ -1,2 +1,4 @@
 include version.py
 include src/protect/pipeline/input_parameters.yaml
+include src/protect/pipeline/required_entries.yaml
+include src/protect/pipeline/defaults.yaml

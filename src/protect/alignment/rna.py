@@ -36,10 +36,10 @@ def align_rna(job, fastqs, univ_options, star_options):
     star = job.wrapJobFn(run_star, fastqs, univ_options, star_options,
                          cores=star_options['n'],
                          memory=PromisedRequirement(lambda x: int(1.85 * x.size),
-                                                    star_options['tool_index']),
-                         disk=PromisedRequirement(star_disk, fastqs, star_options['tool_index']))
-    index = job.wrapJobFn(index_star, star.rv(), univ_options,
-                          disk=PromisedRequirement(star_disk, fastqs, star_options['tool_index']))
+                                                    star_options['index']),
+                         disk=PromisedRequirement(star_disk, fastqs, star_options['index']))
+    index = job.wrapJobFn(index_star, star.rv(), univ_options, star_options,
+                          disk=PromisedRequirement(star_disk, fastqs, star_options['index']))
     job.addChild(star)
     star.addChild(index)
     return index.rv()
@@ -56,7 +56,7 @@ def run_star(job, fastqs, univ_options, star_options):
               +- 'dockerhub': <dockerhub to use>
     3. star_options: Dict of parameters specific to STAR
          star_options
-             |- 'tool_index': <JSid for the STAR index tarball>
+             |- 'index': <JSid for the STAR index tarball>
              +- 'n': <number of threads to allocate>
     RETURN VALUES
     1. output_files: Dict of aligned bams
@@ -74,7 +74,7 @@ def run_star(job, fastqs, univ_options, star_options):
     input_files = {
         'rna_cutadapt_1.fastq': fastqs[0],
         'rna_cutadapt_2.fastq': fastqs[1],
-        'star_index.tar.gz': star_options['tool_index']}
+        'star_index.tar.gz': star_options['index']}
     input_files = get_files_from_filestore(job, input_files, work_dir,
                                            docker=False)
     # Handle gzipped file
@@ -101,10 +101,10 @@ def run_star(job, fastqs, univ_options, star_options):
         parameters.extend(['--readFilesCommand', 'zcat'])
     if star_options['type'] == 'star':
         docker_call(tool='star', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'])
+                    dockerhub=univ_options['dockerhub'], tool_version=star_options['version'])
     else:
         docker_call(tool='starlong', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'])
+                    dockerhub=univ_options['dockerhub'], tool_version=star_options['version'])
     output_files = defaultdict()
     for bam_file in ['rnaAligned.toTranscriptome.out.bam',
                      'rnaAligned.sortedByCoord.out.bam']:
@@ -113,13 +113,13 @@ def run_star(job, fastqs, univ_options, star_options):
     return output_files
 
 
-def index_star(job, star_bams, univ_options):
+def index_star(job, star_bams, univ_options, star_options):
     """
     This is a wrapper functiion for index_bamfile in protect.common which is required since run_star
     returns a dict of 2 bams
     """
     index = job.wrapJobFn(index_bamfile, star_bams['rnaAligned.sortedByCoord.out.bam'], 'rna',
-                          univ_options,
+                          univ_options, samtools_options=star_options['samtools'],
                           disk=PromisedRequirement(
                               index_disk, star_bams['rnaAligned.sortedByCoord.out.bam']))
     job.addChild(index)

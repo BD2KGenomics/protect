@@ -41,7 +41,7 @@ def wrap_rsem(job, star_bams, univ_options, rsem_options):
     rsem = job.addChildJobFn(run_rsem, star_bams['rnaAligned.toTranscriptome.out.bam'],
                              univ_options, rsem_options, cores=rsem_options['n'],
                              disk=PromisedRequirement(rsem_disk, star_bams,
-                                                      rsem_options['tool_index']))
+                                                      rsem_options['index']))
 
     return rsem.rv()
 
@@ -57,7 +57,7 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
                 +- 'dockerhub': <dockerhub to use>
     3. rsem_options: Dict of parameters specific to rsem
          rsem_options
-              |- 'tool_index': <JSid for the rsem index tarball>
+              |- 'index': <JSid for the rsem index tarball>
               +- 'n': <number of threads to allocate>
 
     RETURN VALUES
@@ -69,7 +69,7 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
     work_dir = os.getcwd()
     input_files = {
         'star_transcriptome.bam': rna_bam,
-        'rsem_index.tar.gz': rsem_options['tool_index']}
+        'rsem_index.tar.gz': rsem_options['index']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
 
     input_files['rsem_index'] = untargz(input_files['rsem_index.tar.gz'], work_dir)
@@ -83,7 +83,7 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
                   '/'.join([input_files['rsem_index'], 'hg19']),
                   'rsem']
     docker_call(tool='rsem', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                dockerhub=univ_options['dockerhub'], tool_version=rsem_options['version'])
     output_files = {}
     for filename in ('rsem.genes.results', 'rsem.isoforms.results'):
         output_files[filename] = job.fileStore.writeGlobalFile('/'.join([work_dir, filename]))

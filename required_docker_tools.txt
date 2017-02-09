@@ -5,43 +5,42 @@
 ####################################################################################################
 
 # Alignment
-    cutadapt:latest
-    bwa:latest
-    star:latest
-    starlong:latest
+	cutadapt:1.9.1
+	bwa:0.7.9a
+	star:2.4.2a
+	starlong:2.4.2a
 
 # Alignment post
-    samtools:latest
-    picard:latest
+	samtools:1.2
+	picard:1.135
 
 # Expression Estimation
-    rsem:latest
+	rsem:1.2.20
 
 # Haplotyping
-    phlat:latest
+	phlat:1.0
 
 # Mutation Calling
-    mutect:1.1.7
-    radia:latest
-    filterradia:latest
-    muse:latest
-    somaticsniper:latest
-    somaticsniper-addons:latest
-    samtools:0.1.8
-    strelka:latest
-    bam-readcount:latest
+	mutect:1.1.7
+	radia:398366ef07b5911d8082ed61cbf03d487a41f286
+	filterradia:398366ef07b5911d8082ed61cbf03d487a41f286
+	muse:1.0rc_submission_b391201
+	somaticsniper:1.0.4
+	somaticsniper-addons:1.0.4
+	samtools:0.1.8
+	strelka:1.0.15
+	bam-readcount:0.7.4
 
 # Mutation Annotation
-    snpeff:latest
+	snpeff:3.6
 
 # Mutation Translation
-    transgene:latest
+	transgene:1.0.0
 
 # MHC:peptide binding prediction
-    mhci:latest
-    mhcii:latest
-    netmhciipan:final
+	mhci:2.13
+	mhcii:2.13
+	netmhciipan:3.1
 
-# MHC post
-    rankboost:latest
-
+# Prediction Ranking
+	rankboost:1.0.0

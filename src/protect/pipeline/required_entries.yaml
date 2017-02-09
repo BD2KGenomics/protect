@@ -1,0 +1,89 @@
+## Copyright 2016 Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+####################################################################################################
+####################################################################################################
+##  This file lists the required entries in the input yaml for ProTECT.  The file is written in the
+##  YAML format.  A nice description of the format can be found at
+#   http://docs.ansible.com/ansible/YAMLSyntax.html
+##
+##  You can add comments anywhere in this file by prefixing it with a '#'
+##
+##
+###################################################################################################
+####################################################################################################
+
+patients:
+    'test':
+        tumor_dna_fastq_1:
+        normal_dna_fastq_1:
+        tumor_rna_fastq_1:
+
+# These are options that are used by most tools
+Universal_Options:
+    storage_location:
+    output_folder:
+
+# These options are for each module. You probably don't need to change any of this!
+alignment:
+    star:
+       type:
+       index:
+
+    bwa:
+       index:
+
+expression_estimation:
+    rsem:
+        index:
+
+mutation_calling:
+    indexes:
+        genome_fasta:
+        genome_fai:
+        genome_dict:
+        cosmic_vcf:
+        cosmic_idx:
+        dbsnp_vcf:
+        dbsnp_idx:
+        dbsnp_tbi:
+    strelka:
+        config_file:
+
+mutation_annotation:
+    snpeff:
+        index:
+
+mutation_translation:
+    transgene:
+        gencode_peptide_fasta:
+
+haplotyping:
+    phlat:
+        index:
+
+mhc_peptide_binding:
+    mhci:
+        method_file:
+        pred:
+    mhcii:
+        method_file:
+        pred:
+
+prediction_ranking:
+    rankboost:
+        mhci_combo:
+        mhcii_combo:
+
+mhc_pathway_assessment:
+    genes_file:

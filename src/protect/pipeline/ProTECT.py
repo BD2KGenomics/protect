@@ -50,10 +50,95 @@ from toil.job import Job, PromisedRequirement
 
 import argparse
 import os
-import yaml
+import pkg_resources
 import shutil
 import subprocess
 import sys
+import yaml
+
+
+def _ensure_set_contains(test_object, required_object, test_set_name=None):
+    """
+    Ensure that the required entries (set or keys of a dict) are present in the test set or keys
+    of the test dict.
+    :param set|dict test_object: The test set or dict
+    :param set|dict required_object: The entries that need to be present in the test set (keys of
+            input dict if input is dict)
+    :param str test_set_name: Optional name for the set
+    :raises ParameterError: If required entry doesnt exist
+    """
+    assert isinstance(test_object, (set, dict)), '%s,%s' % (test_object, test_set_name)
+    assert isinstance(required_object, (set, dict)), '%s,%s' % (required_object, test_set_name)
+    # set(dict) = set of keys of the dict
+    test_set = set(test_object)
+    required_set = set(required_object)
+    set_name = ' ' if test_set_name is None else ' entry "%s" of ' % test_set_name
+    missing_opts = required_set.difference(test_set)
+    if len(missing_opts) > 0:
+        raise ParameterError('The following entries are missing in%sthe config file:\n%s'
+                             % (set_name, '\n'.join(missing_opts)))
+
+
+def _add_default_entries(input_dict, defaults_dict):
+    """
+    Add the entries in defaults dict into input_dict if they don't exist in input_dict
+
+    This is based on the accepted answer at
+    http://stackoverflow.com/questions/3232943/update-value-of-a-nested-dictionary-of-varying-depth
+
+    :param dict input_dict: The dict to be updated
+    :param dict defaults_dict: Dict containing the defaults for entries in input_dict
+    :return: updated dict
+    :rtype: dict
+    """
+    for key, value in defaults_dict.iteritems():
+        if key == 'patients':
+            print('Cannot default `patients`.')
+            continue
+        if isinstance(value, dict):
+            if key not in input_dict or input_dict[key] is None:
+                # User didn't specify anython for the tool, but the entry was still in there so we
+                # just copy over the whole defaults dict
+                input_dict[key] = value
+            else:
+                r = _add_default_entries(input_dict.get(key, {}), value)
+                input_dict[key] = r
+        else:
+            # Only write if not in input_dict
+            if key not in input_dict or input_dict[key] is None:
+                # Either the user didn't have the entry, or had it without a value
+                input_dict[key] = value
+    return input_dict
+
+
+def _process_group(input_group, required_group, groupname, append_subgroups=None):
+    """
+    Process one group from the input yaml.  Ensure it has the required entries.  If there is a
+    subgroup that should be processed and then appended to the rest of the subgroups in that group,
+    handle it accordingly.
+
+    :param dict input_group: The dict of values of the input group
+    :param dict required_group: The dict of required values for the input group
+    :param str groupname: The name of the group being processed
+    :param list append_group: list of subgroups to append to each, other subgroup in this group
+    :return: dict
+    """
+    if append_subgroups is None:
+        append_subgroups = []
+    tool_options = {}
+    for key in input_group:
+        _ensure_set_contains(input_group[key], required_group.get(key, {}), groupname + '::' + key)
+        if key in append_subgroups:
+            continue
+        else:
+            tool_options[key] = input_group[key]
+    for key in input_group:
+        if key in append_subgroups:
+            continue
+        else:
+            for yek in append_subgroups:
+                tool_options[key].update(input_group[yek])
+    return tool_options
 
 
 def _parse_config_file(job, config_file, max_cores=None):
@@ -76,58 +161,91 @@ def _parse_config_file(job, config_file, max_cores=None):
         raise ParameterError('The config file was not found at specified location. Please verify ' +
                              'and retry.')
     # Initialize variables to hold the sample sets, the universal options, and the per-tool options
-    sample_set = defaultdict()
-    univ_options = defaultdict()
-    tool_options = defaultdict()
-    # Read through the notes and the
+    sample_set = {}
+    univ_options = {}
+    tool_options = {}
+
+
+    # Read in the input yaml
     with open(config_file, 'r') as conf:
-        parsed_config_file = yaml.load(conf.read())
+        input_config = yaml.load(conf.read())
 
-    all_keys = parsed_config_file.keys()
-    assert 'patients' in all_keys
-    assert 'Universal_Options' in all_keys
+    # Read the set of all requried keys
+    required_entries_file = pkg_resources.resource_filename(__name__, "required_entries.yaml")
+    with open(required_entries_file) as ref:
+        required_keys = yaml.load(ref.read())
 
-    for key in parsed_config_file.keys():
+    # Ensure every required entry is present in the file
+    all_keys = set(input_config.keys())
+    _ensure_set_contains(all_keys, required_keys)
+
+    # Now that we are sure that mutation_callers is an entry in the file we can initialise this
+    mutation_caller_list = []
+
+    # Get the default values from the defaults file
+    protect_defaults_file = pkg_resources.resource_filename(__name__, "defaults.yaml")
+    with open(protect_defaults_file) as pdf:
+        protect_defaults = yaml.load(pdf.read())
+
+    # Update the input yaml with defaults
+    input_config = _add_default_entries(input_config, protect_defaults)
+
+    for key in input_config.keys():
         if key == 'patients':
-            sample_set = parsed_config_file['patients']
-        elif key == 'Universal_Options':
-            univ_options = parsed_config_file['Universal_Options']
-            required_options = {'java_Xmx', 'output_folder', 'storage_location'}
-            missing_opts = required_options.difference(set(univ_options.keys()))
-            if len(missing_opts) > 0:
-                raise ParameterError(' The following options have no arguments in the config file:'
-                                     '\n' + '\n'.join(missing_opts))
-            assert univ_options['storage_location'].startswith(('Local', 'local', 'aws'))
-            if univ_options['storage_location'] in ('Local', 'local'):
-                assert os.path.isabs(univ_options['output_folder']), ('Needs to be absolute if '
-                                                                      'storage_location is Local.')
-                assert univ_options['output_folder'] != 'NA', ('Cannot have NA as output folder if '
-                                                               'storage location is Local.')
-                univ_options['storage_location'] = 'local'
-            if univ_options['storage_location'].startswith('aws') and 'sse_key' not in univ_options:
-                raise ParameterError('Cannot write results to aws without an sse key.')
-            if 'sse_key_is_master' in univ_options:
-                if univ_options['sse_key_is_master'] not in (True, False):
-                    raise ParameterError('sse_key_is_master must be True or False')
-            else:
-                univ_options['sse_key_is_master'] = False
-            if 'sse_key' not in univ_options:
-                univ_options['sse_key'] = None
-            univ_options['max_cores'] = cpu_count() if max_cores is None else max_cores
+            # Ensure each patient contains the required entries
+            for sample_name in input_config[key]:
+                patient_keys = input_config[key][sample_name]
+                _ensure_set_contains(patient_keys, required_keys[key]['test'], sample_name)
+            # Add options to the sample_set dictionary
+            sample_set.update(input_config['patients'])
         else:
-            tool_options[key] = parsed_config_file[key]
-    # Ensure that all tools have been provided options.
-    required_tools = {'cutadapt', 'bwa', 'star', 'rsem', 'phlat', 'mut_callers', 'snpeff',
-                      'transgene', 'mhci', 'mhcii', 'rank_boost', 'mhc_pathway_assessment'}
-    # TODO: Fusions and Indels
-    missing_tools = required_tools.difference(set(tool_options.keys()))
-    if len(missing_tools) > 0:
-        raise ParameterError(' The following tools have no arguments in the config file : \n' +
-                             '\n'.join(missing_tools))
-
+            # Ensure the required entries exist for this key
+            _ensure_set_contains(input_config[key], required_keys[key], key)
+            if key == 'Universal_Options':
+                univ_options.update(input_config['Universal_Options'])
+                assert univ_options['storage_location'].startswith(('Local', 'local', 'aws'))
+                if univ_options['storage_location'] in ('Local', 'local'):
+                    assert os.path.isabs(univ_options['output_folder']), ('Needs to be absolute if '
+                                                                          'storage_location is '
+                                                                          'Local.')
+                    assert univ_options['output_folder'] != 'NA', ('Cannot have NA as output '
+                                                                   'folder if storage location is '
+                                                                   'Local.')
+                    univ_options['storage_location'] = 'local'
+                if univ_options['storage_location'].startswith('aws'):
+                    if 'sse_key' not in univ_options:
+                        raise ParameterError('Cannot write results to aws without an sse key.')
+                    if 'sse_key_is_master' in univ_options:
+                        if univ_options['sse_key_is_master'] not in (True, False):
+                            raise ParameterError('sse_key_is_master must be True or False')
+                    else:
+                        univ_options['sse_key_is_master'] = False
+                univ_options['max_cores'] = cpu_count() if max_cores is None else max_cores
+            else:
+                if key == 'mhc_pathway_assessment':
+                    # netmhciipan needs to be handled separately
+                    tool_options[key] = input_config[key]
+                else:
+                    if key == 'alignment':
+                        append_subgroup = ['post']
+                    elif key == 'mutation_calling':
+                        mutation_caller_list = input_config[key].keys()
+                        append_subgroup = []
+                    else:
+                        append_subgroup = []
+                    tool_options.update(_process_group(input_config[key], required_keys[key],
+                                                       key, append_subgroup))
+    # netmhciipan needs to be handled separately
+    tool_options['mhcii']['netmhciipan'] = tool_options['netmhciipan']
+    tool_options.pop('netmhciipan')
     # Get all the tool inputs
     job.fileStore.logToMaster('Obtaining tool inputs')
     process_tool_inputs = job.addChildJobFn(get_all_tool_inputs, tool_options)
+    for mutation_caller in mutation_caller_list:
+        if mutation_caller == 'indexes':
+            continue
+        tool_options[mutation_caller].update(tool_options['indexes'])
+    tool_options.pop('indexes')
     job.fileStore.logToMaster('Obtained tool inputs')
     return sample_set, univ_options, process_tool_inputs.rv()
 
@@ -222,16 +340,16 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     fusions = job.wrapJobFn(run_fusion_caller, star.rv(), univ_options, 'fusion_options',
                             disk='100M', memory='100M', cores=1)
     radia = job.wrapJobFn(run_radia, star.rv(), bwa_tumor.rv(),
-                          bwa_normal.rv(), univ_options, tool_options['mut_callers'],
+                          bwa_normal.rv(), univ_options, tool_options['radia'],
                           disk='100M').encapsulate()
     mutect = job.wrapJobFn(run_mutect, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                           tool_options['mut_callers'], disk='100M').encapsulate()
+                           tool_options['mutect'], disk='100M').encapsulate()
     muse = job.wrapJobFn(run_muse, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                         tool_options['mut_callers']).encapsulate()
+                         tool_options['muse']).encapsulate()
     somaticsniper = job.wrapJobFn(run_somaticsniper, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                                  tool_options['mut_callers']).encapsulate()
+                                  tool_options['somaticsniper']).encapsulate()
     strelka = job.wrapJobFn(run_strelka, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                            tool_options['mut_callers']).encapsulate()
+                            tool_options['strelka']).encapsulate()
     indels = job.wrapJobFn(run_indel_caller, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
                            'indel_options', disk='100M', memory='100M', cores=1)
     merge_mutations = job.wrapJobFn(run_mutation_aggregator,
@@ -246,7 +364,7 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
                                     cores=1).encapsulate()
     snpeff = job.wrapJobFn(run_snpeff, merge_mutations.rv(), univ_options, tool_options['snpeff'],
                            disk=PromisedRequirement(snpeff_disk,
-                                                    tool_options['snpeff']['tool_index']))
+                                                    tool_options['snpeff']['index']))
     transgene = job.wrapJobFn(run_transgene, snpeff.rv(), star.rv(), univ_options,
                               tool_options['transgene'], disk='100M', memory='100M', cores=1)
     merge_phlat = job.wrapJobFn(merge_phlat_calls, phlat_tumor_dna.rv(), phlat_normal_dna.rv(),
@@ -258,8 +376,8 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
                               cores=1).encapsulate()
     merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene.rv(), univ_options,
                               disk='100M', memory='100M', cores=1)
-    rank_boost = job.wrapJobFn(wrap_rankboost, rsem.rv(), merge_mhc.rv(), transgene.rv(),
-                               univ_options, tool_options['rank_boost'], disk='100M', memory='100M',
+    rankboost = job.wrapJobFn(wrap_rankboost, rsem.rv(), merge_mhc.rv(), transgene.rv(),
+                               univ_options, tool_options['rankboost'], disk='100M', memory='100M',
                                cores=1)
     # Define the DAG in a static form
     job.addChild(sample_prep)  # Edge  0->1
@@ -331,8 +449,8 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     # spawn_mhc will spawn an undetermined number of children.
     spawn_mhc.addFollowOn(merge_mhc)  # Edges 21->XX->22 and 21->YY->22
     # L. Finally, the merged mhc along with the gene expression will be used for rank boosting
-    rsem.addChild(rank_boost)  # Edge  10->23
-    merge_mhc.addChild(rank_boost)  # Edge 22->23
+    rsem.addChild(rankboost)  # Edge  10->23
+    merge_mhc.addChild(rankboost)  # Edge 22->23
     # M. Assess the status of the MHC genes in the patient
     phlat_tumor_rna.addChild(mhc_pathway_assessment)  # Edge 7->24
     rsem.addChild(mhc_pathway_assessment)  # Edge 10->24
@@ -349,12 +467,18 @@ def get_all_tool_inputs(job, tools):
     """
     for tool in tools:
         for option in tools[tool]:
-            # If a file is of the type file, vcf, tar or fasta, it needs to be downloaded from S3 if
-            # reqd, then written to job store.
-            if option.split('_')[-1] in ['file', 'vcf', 'index', 'fasta', 'fai', 'idx', 'dict',
-                                         'tbi', 'config']:
-                tools[tool][option] = job.addChildJobFn(get_pipeline_inputs, option,
-                                                        tools[tool][option]).rv()
+            if isinstance(tools[tool][option], dict):
+                tools[tool][option] = get_all_tool_inputs(job,
+                                                          {option: tools[tool][option]})[option]
+            else:
+                # If a file is of the type file, vcf, tar or fasta, it needs to be downloaded from
+                # S3 if reqd, then written to job store.
+                if option.split('_')[-1] in ['file', 'vcf', 'index', 'fasta', 'fai', 'idx', 'dict',
+                                             'tbi']:
+                    tools[tool][option] = job.addChildJobFn(get_pipeline_inputs, option,
+                                                            tools[tool][option]).rv()
+                elif option == 'version':
+                    tools[tool][option] = str(tools[tool][option])
     return tools
 
 
@@ -425,7 +549,7 @@ def prepare_samples(job, fastqs, univ_options):
             raise ParameterError('Could not determine prefix from provided fastq (%s). Is it of '
                                  'The form <fastq_prefix>1.[fq/fastq][.gz]?'
                                  % fastqs[''.join([sample_type, '_fastq_1'])])
-
+        job.fileStore.logToMaster(repr(univ_options))
         # If it is a weblink, it HAS to be from S3
         if prefix.startswith('https://s3') or prefix.lower().startswith('s3://'):
             fastqs[sample_type] = [

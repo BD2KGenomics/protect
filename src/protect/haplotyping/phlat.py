@@ -44,7 +44,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
                 +- 'dockerhub': <dockerhub to use>
     4. phlat_options: Dict of parameters specific to phlat
          phlat_options
-              |- 'tool_index': <JSid for the PHLAT index tarball>
+              |- 'index': <JSid for the PHLAT index tarball>
               +- 'n': <number of threads to allocate>
 
     RETURN VALUES
@@ -57,7 +57,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
     input_files = {
         'input_1.fastq': fastqs[0],
         'input_2.fastq': fastqs[1],
-        'phlat_index.tar.gz': phlat_options['tool_index']}
+        'phlat_index.tar.gz': phlat_options['index']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     # Handle gzipped files
     gz = '.gz' if is_gzipfile(input_files['input_1.fastq']) else ''
@@ -78,7 +78,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
                   '-o', '/data',  # Output directory
                   '-p', str(phlat_options['n'])]  # Number of threads
     docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'])
+                dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
     output_file = job.fileStore.writeGlobalFile(''.join([work_dir, '/', sample_type, '_HLA.sum']))
     return output_file
 
