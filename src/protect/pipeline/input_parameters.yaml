@@ -33,6 +33,7 @@ patients:
         tumor_dna_fastq_1: /path/to/<tumor_dna_prefix>1.fastq.gz
         normal_dna_fastq_1: /path/to/<normal_dna_prefix>1.fastq.gz
         tumor_rna_fastq_1: /path/to/<tumor_rna_prefix>1.fastq.gz
+        # ssec_encrypted: True
     PRTCT-02:
         # The paths can also be to directories on S3 as
         tumor_dna_fastq_1: S3://bucket/path/to/<tumor_dna_prefix>1.fastq.gz
