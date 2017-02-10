@@ -23,7 +23,6 @@ Details can also be obtained by running the script with -h .
 from __future__ import print_function
 
 
-from collections import defaultdict
 from multiprocessing import cpu_count
 from urlparse import urlparse
 
@@ -196,6 +195,11 @@ def _parse_config_file(job, config_file, max_cores=None):
             for sample_name in input_config[key]:
                 patient_keys = input_config[key][sample_name]
                 _ensure_set_contains(patient_keys, required_keys[key]['test'], sample_name)
+                if 'ssec_encrypted' not in patient_keys:
+                    input_config[key][sample_name]['ssec_encrypted'] = False
+                else:
+                    input_config[key][sample_name]['ssec_encrypted'] = \
+                        bool(input_config[key][sample_name]['ssec_encrypted'])
             # Add options to the sample_set dictionary
             sample_set.update(input_config['patients'])
         else:
@@ -482,22 +486,30 @@ def get_all_tool_inputs(job, tools):
     return tools
 
 
-def get_pipeline_inputs(job, input_flag, input_file):
+def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
+                        per_file_encryption=False):
     """
     Get the input file from s3 or disk, untargz if necessary and then write to file job store.
     :param job: job
     :param str input_flag: The name of the flag
     :param str input_file: The value passed in the config file
+    :param str encryption_key: Path to the encryption key
+    :param bool per_file_encryption: If encrypted, was the file encrypted using the per-file method?
     :return: The jobstore ID for the file
+    :rtype: str
     """
     work_dir = os.getcwd()
     job.fileStore.logToMaster('Obtaining file (%s) to the file job store' %
                               os.path.basename(input_file))
     if input_file.startswith('http'):
         assert input_file.startswith('https://s3'), input_file + ' is not an S3 file'
-        input_file = get_file_from_s3(job, input_file, write_to_jobstore=False)
+        input_file = get_file_from_s3(job, input_file, write_to_jobstore=False,
+                                      encryption_key=encryption_key,
+                                      per_file_encryption=per_file_encryption)
     elif input_file.startswith('S3'):
-        input_file = get_file_from_s3(job, input_file, write_to_jobstore=False)
+        input_file = get_file_from_s3(job, input_file, write_to_jobstore=False,
+                                      encryption_key=encryption_key,
+                                      per_file_encryption=per_file_encryption)
     else:
         assert os.path.exists(input_file), 'Bogus Input : ' + input_file
     return job.fileStore.writeGlobalFile(input_file)
@@ -528,47 +540,49 @@ def prepare_samples(job, fastqs, univ_options):
     This module corresponds to node 1 in the tree
     """
     job.fileStore.logToMaster('Downloading Inputs for %s' % univ_options['patient'])
-    allowed_samples = {'tumor_dna_fastq_1', 'tumor_rna_fastq_1', 'normal_dna_fastq_1'}
-    if set(fastqs.keys()).difference(allowed_samples) != {'patient_id'}:
-        raise ParameterError('Sample with the following parameters has an error:\n' +
-                             '\n'.join(fastqs.values()))
     # For each sample type, check if the prefix is an S3 link or a regular file
     # Download S3 files.
+    sample_fastqs = {}
+    if fastqs['ssec_encrypted']:
+        assert univ_options['sse_key'] is not None, 'Cannot read ssec encrypted data without a key.'
     for sample_type in ['tumor_dna', 'tumor_rna', 'normal_dna']:
-        prefix, extn = fastqs[''.join([sample_type, '_fastq_1'])], 'temp'
-        final_extn = ''
-        while extn:
-            prefix, extn = os.path.splitext(prefix)
-            final_extn = extn + final_extn
-            if prefix.endswith('1'):
-                prefix = prefix[:-1]
-                job.fileStore.logToMaster('"%s" prefix for "%s" determined to be %s'
-                                          % (sample_type, univ_options['patient'], prefix))
-                break
+        if sample_type + '_fastq_2' in fastqs.keys():
+            # The user has specified paths to both the _1 and _2 files.
+            file_path_1 = fastqs[sample_type + '_fastq_1']
+            file_path_2 = fastqs[sample_type + '_fastq_2']
         else:
-            raise ParameterError('Could not determine prefix from provided fastq (%s). Is it of '
-                                 'The form <fastq_prefix>1.[fq/fastq][.gz]?'
-                                 % fastqs[''.join([sample_type, '_fastq_1'])])
-        job.fileStore.logToMaster(repr(univ_options))
-        # If it is a weblink, it HAS to be from S3
-        if prefix.startswith('https://s3') or prefix.lower().startswith('s3://'):
-            fastqs[sample_type] = [
-                get_file_from_s3(job, ''.join([prefix, '1', final_extn]), univ_options['sse_key'],
-                                 per_file_encryption=univ_options['sse_key_is_master']),
-                get_file_from_s3(job, ''.join([prefix, '2', final_extn]), univ_options['sse_key'],
-                                 per_file_encryption=univ_options['sse_key_is_master'])]
-        else:
-            # Relies heavily on the assumption that the pair will be in the same
-            # folder
-            assert os.path.exists(''.join([prefix, '1', final_extn])), \
-                'Bogus input: %s' % ''.join([prefix, '1', final_extn])
-            # Python lists maintain order hence the values are always guaranteed to be
-            # [fastq1, fastq2]
-            fastqs[sample_type] = [
-                job.fileStore.writeGlobalFile(''.join([prefix, '1', final_extn])),
-                job.fileStore.writeGlobalFile(''.join([prefix, '2', final_extn]))]
-    [fastqs.pop(x) for x in allowed_samples]
-    return fastqs
+            prefix, extn = fastqs[''.join([sample_type, '_fastq_1'])], 'temp'
+            final_extn = ''
+            while extn:
+                prefix, extn = os.path.splitext(prefix)
+                final_extn = extn + final_extn
+                if prefix.endswith('1'):
+                    prefix = prefix[:-1]
+                    job.fileStore.logToMaster('"%s" prefix for "%s" determined to be %s'
+                                              % (sample_type, univ_options['patient'], prefix))
+                    break
+            else:
+                raise ParameterError('Could not determine prefix from provided fastq (%s). Is it '
+                                     'of the form <fastq_prefix>1.[fq/fastq][.gz]?'
+                                     % fastqs[''.join([sample_type, '_fastq_1'])])
+            if final_extn not in ['.fastq', '.fastq.gz', '.fq', '.fq.gz']:
+                raise ParameterError('If and _2 fastq path is not specified, only .fastq, .fq or '
+                                     'their gzippped extensions are accepted. Could not process '
+                                     '%s:%s.' % (univ_options['patient'], sample_type + '_fastq_1'))
+            file_path_1 = ''.join([prefix, '1', final_extn])
+            file_path_2 = ''.join([prefix, '2', final_extn])
+        sample_fastqs[sample_type] = [
+            get_pipeline_inputs(job, univ_options['patient'] + ':' + sample_type + '_fastq_1',
+                                file_path_1,
+                                encryption_key=(univ_options['sse_key']
+                                                if fastqs['ssec_encrypted'] else None),
+                                per_file_encryption=univ_options['sse_key_is_master']),
+            get_pipeline_inputs(job, univ_options['patient'] + ':' + sample_type + '_fastq_2',
+                                file_path_2,
+                                encryption_key=(univ_options['sse_key']
+                                                if fastqs['ssec_encrypted'] else None),
+                                per_file_encryption=univ_options['sse_key_is_master'])]
+    return sample_fastqs
 
 
 def get_fqs(job, fastqs, sample_type):
