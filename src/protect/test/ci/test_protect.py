@@ -24,6 +24,7 @@ from protect.test import ProtectTest
 import os
 import subprocess
 
+
 class TestProtect(ProtectTest):
     def setUp(self):
         super(TestProtect, self).setUp()
@@ -40,3 +41,82 @@ class TestProtect(ProtectTest):
                         os.path.join(self.test_dir, 'jobstore')]
         # Run ProTECT
         subprocess.check_call(protect_call)
+        self._test_ran_successfully()
+
+    def _test_ran_successfully(self):
+        """
+        Ensure that the test created the correct outputs.
+        :return: True or False
+        """
+        results_dir = '/mnt/ephemeral/done/TEST'
+        results_dir_contents = [(a, sorted(b), sorted(c)) for a, b, c in os.walk(results_dir)]
+        results_dir_contents.sort()
+        # Obtained by running [[(a, sorted(b), sorted(c)) for a, b, c in os.walk(results_dir)]
+        # + .sort() on a successful run.
+        expected_contents = [('/mnt/ephemeral/done/TEST',
+                              ['alignments', 'binding_predictions', 'expression', 'haplotyping',
+                               'mutations', 'peptides', 'rankboost', 'reports'],
+                              []),
+                             ('/mnt/ephemeral/done/TEST/alignments',
+                              [],
+                              ['normal_dna_fix_pg_sorted.bam', 'normal_dna_fix_pg_sorted.bam.bai',
+                               'rna_fix_pg_sorted.bam', 'rna_fix_pg_sorted.bam.bai',
+                               'tumor_dna_fix_pg_sorted.bam', 'tumor_dna_fix_pg_sorted.bam.bai']),
+                             ('/mnt/ephemeral/done/TEST/binding_predictions',
+                              [],
+                              ['mhci_merged_files.list', 'mhcii_merged_files.list']),
+                             ('/mnt/ephemeral/done/TEST/expression',
+                              [],
+                              ['rsem.genes.results', 'rsem.isoforms.results']),
+                             ('/mnt/ephemeral/done/TEST/haplotyping',
+                              [],
+                              ['mhci_alleles.list', 'mhcii_alleles.list']),
+                             ('/mnt/ephemeral/done/TEST/mutations',
+                              ['merged', 'muse', 'mutect', 'radia', 'snpeffed', 'somaticsniper',
+                               'strelka', 'transgened'],
+                              []),
+                             ('/mnt/ephemeral/done/TEST/mutations/merged',
+                              [],
+                              ['all_merged.vcf', 'chr6.vcf']),
+                             ('/mnt/ephemeral/done/TEST/mutations/muse',
+                              [],
+                              ['chr6.vcf']),
+                             ('/mnt/ephemeral/done/TEST/mutations/mutect',
+                              [],
+                              ['chr6.vcf']),
+                             ('/mnt/ephemeral/done/TEST/mutations/radia',
+                              [],
+                              ['chr6.vcf']),
+                             ('/mnt/ephemeral/done/TEST/mutations/snpeffed',
+                              [],
+                              ['mutations.vcf']),
+                             ('/mnt/ephemeral/done/TEST/mutations/somaticsniper',
+                              [],
+                              ['chr6.vcf']),
+                             ('/mnt/ephemeral/done/TEST/mutations/strelka',
+                              [],
+                              ['chr6.vcf']),
+                             ('/mnt/ephemeral/done/TEST/mutations/transgened',
+                              [],
+                              ['mutations.vcf']),
+                             ('/mnt/ephemeral/done/TEST/peptides',
+                              [],
+                              ['transgened_normal_10_mer_snpeffed.faa',
+                               'transgened_normal_15_mer_snpeffed.faa',
+                               'transgened_normal_9_mer_snpeffed.faa',
+                               'transgened_tumor_10_mer_snpeffed.faa',
+                               'transgened_tumor_10_mer_snpeffed.faa.map',
+                               'transgened_tumor_15_mer_snpeffed.faa',
+                               'transgened_tumor_15_mer_snpeffed.faa.map',
+                               'transgened_tumor_9_mer_snpeffed.faa',
+                               'transgened_tumor_9_mer_snpeffed.faa.map']),
+                             ('/mnt/ephemeral/done/TEST/rankboost',
+                              [],
+                              ['mhci_rankboost_concise_results.tsv',
+                               'mhci_rankboost_detailed_results.txt',
+                               'mhcii_rankboost_concise_results.tsv',
+                               'mhcii_rankboost_detailed_results.txt']),
+                             ('/mnt/ephemeral/done/TEST/reports',
+                              [],
+                              ['mhc_pathway_report.txt'])]
+        self.assertEqual(results_dir_contents, expected_contents)
