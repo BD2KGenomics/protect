@@ -64,11 +64,12 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
                 dockerhub=univ_options['dockerhub'], tool_version=transgene_options['version'])
     output_files = defaultdict()
     for peplen in ['9', '10', '15']:
-        peptfile = '_'.join(['transgened_tumor', peplen, 'mer_snpeffed.faa'])
+        for tissue_type in ['tumor', 'normal']:
+            pepfile = '_'.join(['transgened', tissue_type,  peplen, 'mer_snpeffed.faa'])
+            output_files[pepfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, pepfile))
+            export_results(job, output_files[pepfile], pepfile, univ_options, subfolder='peptides')
         mapfile = '_'.join(['transgened_tumor', peplen, 'mer_snpeffed.faa.map'])
-        output_files[peptfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, peptfile))
         output_files[mapfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, mapfile))
-        export_results(job, output_files[peptfile], peptfile, univ_options, subfolder='peptides')
         export_results(job, output_files[mapfile], mapfile, univ_options, subfolder='peptides')
     os.rename('transgened_transgened.vcf', 'mutations.vcf')
     export_results(job, job.fileStore.writeGlobalFile('mutations.vcf'), 'mutations.vcf',

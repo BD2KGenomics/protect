@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, print_function
-from protect.common import docker_call, get_files_from_filestore, untargz, docker_path
+
+from protect.common import docker_call, get_files_from_filestore, read_peptide_file
 
 import os
 import re
@@ -34,9 +35,12 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
     input_files = {
         'peptfile.faa': peptfile}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
+    peptides = read_peptide_file(os.path.join(os.getcwd(), 'peptfile.faa'))
     parameters = [mhcii_options['pred'],
                   allele,
                   input_files['peptfile.faa']]
+    if not peptides:
+        return job.fileStore.writeGlobalFile(job.fileStore.getLocalTempFile()), 'None'
     with open('/'.join([work_dir, 'predictions.tsv']), 'w') as predfile:
         docker_call(tool='mhcii', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=predfile, interactive=True,
@@ -78,6 +82,9 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options, netmhciipan_op
     input_files = {
         'peptfile.faa': peptfile}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
+    peptides = read_peptide_file(os.path.join(os.getcwd(), 'peptfile.faa'))
+    if not peptides:
+        return job.fileStore.writeGlobalFile(job.fileStore.getLocalTempFile()), 'None'
     # netMHCIIpan accepts differently formatted alleles so we need to modify the input alleles
     if allele.startswith('HLA-DQA') or allele.startswith('HLA-DPA'):
         allele = re.sub(r'[*:]', '', allele)

@@ -48,7 +48,7 @@ def check_tool_version(tool, required_version, binary=False):
 
 
 # Check Toil version
-check_tool_version('toil', '3.5.1', binary=False)
+check_tool_version('toil', '3.5.2', binary=False)
 # Check S3am version
 check_tool_version('s3am', '2.0.1', binary=True)
 
@@ -83,7 +83,8 @@ setup(name='protect',
       author_email='aarao@ucsc.edu',
       license='Apache',
       install_requires=[
-          'PyYAML'
+          'PyYAML',
+          'pandas==0.18.1'
       ],
       tests_require=[
           'pytest==2.8.3'],

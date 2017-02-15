@@ -21,6 +21,8 @@ Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
 from __future__ import print_function
+
+from collections import defaultdict
 from urlparse import urlparse
 
 import errno
@@ -407,3 +409,21 @@ class ParameterError(Exception):
     This Error Class will be raised  in the case of a bad parameter provided.
     """
     pass
+
+
+def read_peptide_file(in_peptfile):
+    """
+    This module reads an input peptide fasta file into memory in the form of a dict with
+    key = fasta record name
+    value = corresponding peptide sequence
+    """
+    peptides = defaultdict()
+    pept=None
+    with open(in_peptfile, 'r') as peptfile:
+        for line in peptfile:
+            if line.startswith('>'):
+                pept = line.strip().lstrip('>')
+                peptides[pept] = ''
+            else:
+                peptides[pept] = line.strip()
+    return peptides

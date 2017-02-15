@@ -45,8 +45,7 @@ def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_o
     This module corresponds to node 21 in the tree
     """
     job.fileStore.logToMaster('Running boost_ranks on %s' % univ_options['patient'])
-    work_dir = os.path.abspath(univ_options['patient'])
-    os.mkdir(work_dir)
+    work_dir = os.getcwd()
     input_files = {
         'rsem_quant.tsv': isoform_expression,
         'mhci_merged_files.tsv': merged_mhc_calls['mhci_merged_files.list'],
@@ -56,16 +55,18 @@ def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_o
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
     output_files = {}
     for mhc in ('mhci', 'mhcii'):
-        parameters = [mhc,
-                      input_files[''.join([mhc, '_merged_files.tsv'])],
-                      input_files['rsem_quant.tsv'],
-                      input_files[''.join([mhc, '_peptides.faa'])],
-                      rankboost_options[''.join([mhc, '_combo'])]
+        import re
+        ratios = re.sub("'", '', repr(rankboost_options[''.join([mhc, '_args'])]))
+        parameters = ['--' + mhc,
+                      '--predictions', input_files[''.join([mhc, '_merged_files.tsv'])],
+                      '--expression', input_files['rsem_quant.tsv'],
+                      '--peptides', input_files[''.join([mhc, '_peptides.faa'])],
+                      '--ratios', ratios
                       ]
         docker_call(tool='rankboost', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], tool_version=rankboost_options['version'])
-        mhc_concise = ''.join([work_dir, '/', mhc, '_merged_files_concise_results.tsv'])
-        mhc_detailed = ''.join([work_dir, '/', mhc, '_merged_files_detailed_results.tsv'])
+        mhc_concise = ''.join([work_dir, '/', mhc, '_rankboost_concise_results.tsv'])
+        mhc_detailed = ''.join([work_dir, '/', mhc, '_rankboost_detailed_results.txt'])
         output_files[mhc] = {}
         if os.path.exists(mhc_concise):
             output_files[os.path.basename(mhc_concise)] = job.fileStore.writeGlobalFile(mhc_concise)

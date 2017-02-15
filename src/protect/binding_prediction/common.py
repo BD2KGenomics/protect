@@ -13,15 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, print_function
-from collections import defaultdict
-
-from protect.binding_prediction.mhci import predict_mhci_binding
-from protect.binding_prediction.mhcii import predict_mhcii_binding
-from protect.common import get_files_from_filestore, untargz, docker_path, export_results
 
 import json
 import os
 import re
+from collections import defaultdict
+
+import pandas
+from protect.binding_prediction.mhci import predict_mhci_binding
+from protect.binding_prediction.mhcii import predict_mhcii_binding, predict_netmhcii_binding
+from protect.common import get_files_from_filestore, untargz, export_results, read_peptide_file
 
 
 def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, mhc_options):
@@ -73,9 +74,13 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
     work_dir = os.getcwd()
     mhci_options, mhcii_options = mhc_options
     pept_files = {
-        '9_mer.faa': transgened_files['transgened_tumor_9_mer_snpeffed.faa'],
-        '10_mer.faa': transgened_files['transgened_tumor_10_mer_snpeffed.faa'],
-        '15_mer.faa': transgened_files['transgened_tumor_15_mer_snpeffed.faa']}
+        'T_9_mer.faa': transgened_files['transgened_tumor_9_mer_snpeffed.faa'],
+        'N_9_mer.faa': transgened_files['transgened_normal_9_mer_snpeffed.faa'],
+        'T_10_mer.faa': transgened_files['transgened_tumor_10_mer_snpeffed.faa'],
+        'N_10_mer.faa': transgened_files['transgened_normal_10_mer_snpeffed.faa'],
+        'T_15_mer.faa': transgened_files['transgened_tumor_15_mer_snpeffed.faa'],
+        'N_15_mer.faa': transgened_files['transgened_normal_15_mer_snpeffed.faa']
+    }
     input_files = {
         'mhci_alleles.list': phlat_files['mhci_alleles.list'],
         'mhcii_alleles.list': phlat_files['mhcii_alleles.list'],
@@ -98,44 +103,367 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
         mhci_restrictions = json.load(restfile)
     with open(input_files['mhcii_restrictions.json'], 'r') as restfile:
         mhcii_restrictions = json.load(restfile)
-    # Make a regexp to convert non alphanumeric characters in HLA names to _
-    strip_allele_re = re.compile('[^A-Z0-9]')
     # For each mhci allele:peptfile combination, spawn a job and store the job handle in the dict.
     # Then do the same for mhcii
     mhci_preds, mhcii_preds = {}, {}
     for allele in mhci_alleles:
-        stripped_allele = re.sub(strip_allele_re, '_', allele)
-        for peptfile in ['9_mer.faa', '10_mer.faa']:
-            peplen = peptfile.split('_')[0]
+        for peplen in ['9', '10']:
+            peptfile = peplen + '_mer.faa'
             # Ensure that the allele is among the list of accepted alleles
             try:
                 if not mhci_restrictions[allele][peplen]:
                     continue
             except KeyError:
                 continue
-            predfile = ''.join([stripped_allele, '_', peptfile[:-4], '_mer.pred'])
-            mhci_preds[predfile] = job.addChildJobFn(predict_mhci_binding, pept_files[peptfile],
-                                                     allele, peplen, univ_options,
-                                                     mhci_options, disk='100M', memory='100M',
-                                                     cores=1).rv()
+            mhci_job = job.addChildJobFn(predict_mhci_binding, pept_files['T_' + peptfile], allele,
+                                         peplen, univ_options, mhci_options, disk='100M',
+                                         memory='100M', cores=1)
+            mhci_preds[(allele, peplen)] = mhci_job.addChildJobFn(
+                predict_normal_binding,
+                mhci_job.rv(),
+                {x: y for x, y in pept_files.items() if peplen in x},
+                allele,
+                peplen,
+                univ_options,
+                mhci_options,
+                disk='100M',
+                memory='100M',
+                cores=1).rv()
     for allele in mhcii_alleles:
-        stripped_allele = re.sub(strip_allele_re, '_', allele)
-        predfile = ''.join([stripped_allele, '_15_mer.pred'])
         if allele not in mhcii_restrictions[mhcii_options['pred']]:
             continue
-        mhcii_preds[predfile] = job.addChildJobFn(predict_mhcii_binding, pept_files['15_mer.faa'],
-                                                  allele, univ_options, mhcii_options,
-                                                  disk='100M', memory='100M', cores=1).rv()
+        mhcii_job = job.addChildJobFn(predict_mhcii_binding, pept_files['T_15_mer.faa'],  allele,
+                                      univ_options, mhcii_options, disk='100M', memory='100M',
+                                      cores=1)
+        mhcii_preds[(allele, 15)] = mhcii_job.addFollowOnJobFn(
+            predict_normal_binding,
+            mhcii_job.rv(),
+            {x: y for x, y in pept_files.items() if '15' in x},
+            allele,
+            '15',
+            univ_options,
+            mhcii_options,
+            disk='100M',
+            memory='100M',
+            cores=1).rv()
     return mhci_preds, mhcii_preds
+
+
+def read_fastas(input_files):
+    """
+    Reads the tumor and normal fastas to disk
+
+    :param dict input_files: A dict containing filename:filepath for T_ and N_ transgened files.
+    :return: The read fastas in a dictionary of tuples
+    :rtype: dict
+    """
+    tumor_file = [y for x, y in input_files.items() if x.startswith('T')][0]
+    normal_file = [y for x, y in input_files.items() if x.startswith('N')][0]
+    output_files = defaultdict(list)
+    output_files = _read_fasta(tumor_file, output_files)
+    num_entries = len(output_files)
+    output_files = _read_fasta(normal_file, output_files)
+    assert len(output_files) == num_entries
+    return output_files
+
+
+def _read_fasta(fasta_file, output_dict):
+    """
+    Actually read the peptide fasta.
+
+    :param str fasta_file: The peptide file
+    :param dict output_dict: The dict to appends results to.
+    :return: output_dict
+    :rtype: dict
+    """
+    read_name = None
+    with open(fasta_file, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith('>'):
+                read_name = line.lstrip('>')
+            else:
+                assert read_name is not None, line
+                output_dict[read_name].append(line.strip())
+    return output_dict
+
+
+def _process_consensus_mhcii(mhc_file, normal=False):
+    """
+    Process the results from running IEDB binding predictions using the consensus method into a
+    pandas dataframe.
+
+    :param str mhc_file: Output file containing consensus mhcii:peptide binding predictions
+    :param bool normal: Is this processing the results of a normal?
+    :return: Results in a tabular format
+    :rtype: pandas.DataFrame
+    """
+    core_col = None  # Variable to hold the column number with the core
+    results = pandas.DataFrame(columns=['allele', 'pept', 'tumor_pred', 'core'])
+    with open(mhc_file, 'r') as mf:
+        peptides = set()
+        for line in mf:
+            # Skip header lines
+            if not line.startswith('HLA'):
+                continue
+            line = line.strip().split('\t')
+            allele = line[0]
+            pept = line[4]
+            pred = line[6]
+            if core_col:
+                core = line[core_col]
+            else:
+                methods = line[5].lstrip('Consensus(').rstrip(')')
+                methods = methods.split(',')
+                if 'NN' in methods:
+                    core_col = 13
+                elif 'netMHCIIpan' in methods:
+                    core_col = 17
+                elif 'Sturniolo' in methods:
+                    core_col = 19
+                elif 'SMM' in methods:
+                    core_col = 10
+                core = line[core_col] if core_col else 'NOCORE'
+            if float(pred) > 5.00 and not normal:
+                continue
+            results.loc[len(results)] = [allele, pept, pred, core]
+    results.drop_duplicates(inplace=True)
+    return results
+
+
+def _process_sturniolo_mhcii(mhc_file, normal=False):
+    """
+    Process the results from running IEDB binding predictions using the sturniolo method into a
+    pandas dataframe.
+
+    :param str mhc_file: Output file containing sturniolo mhcii:peptide binding predictions
+    :param bool normal: Is this processing the results of a normal?
+    :return: Results in a tabular format
+    :rtype: pandas.DataFrame
+    """
+    results = pandas.DataFrame(columns=['allele', 'pept', 'tumor_pred', 'core'])
+    with open(mhc_file, 'r') as mf:
+        peptides = set()
+        for line in mf:
+            # Skip header lines
+            if not line.startswith('HLA'):
+                continue
+            line = line.strip().split('\t')
+            allele = line[0]
+            pept = line[5]
+            pred = line[6]
+            core = line[19]
+            if float(pred) > 5.00 and not normal:
+                continue
+            results.loc[len(results)] = [allele, pept, pred, core]
+    results.drop_duplicates(inplace=True)
+    return results
+
+
+def _process_net_mhcii(mhc_file, normal=False):
+    """
+    Process the results from running NetMHCIIpan binding predictions into a pandas dataframe.
+
+    :param str mhc_file: Output file containing netmhciipan mhcii:peptide binding predictions
+    :param bool normal: Is this processing the results of a normal?
+    :return: Results in a tabular format
+    :rtype: pandas.DataFrame
+    """
+    results = pandas.DataFrame(columns=['allele', 'pept', 'tumor_pred', 'core', 'peptide_name'])
+    with open(mhc_file, 'r') as mf:
+        peptides = set()
+        # Get the allele from the first line and skip the second line
+        allele = re.sub('-DQB', '/DQB', mf.readline().strip())
+        _ = mf.readline()
+        for line in mf:
+            line = line.strip().split('\t')
+            pept = line[1]
+            pred = line[5]
+            core = 'NOCORE'
+            peptide_name = line[2]
+            if float(pred) > 5.00 and not normal:
+                continue
+            results.loc[len(results)] = [allele, pept, pred, core, peptide_name]
+    results.drop_duplicates(inplace=True)
+    return results
+
+
+def _process_mhci(mhc_file, normal=False):
+    """
+    Process the results from running IEDB mhci binding predictions into a pandas dataframe
+
+    :param str mhc_file: Output file containing netmhciipan mhci:peptide binding predictions
+    :param bool normal: Is this processing the results of a normal?
+    :return: Results in a tabular format
+    :rtype: pandas.DataFrame
+    """
+    results = pandas.DataFrame(columns=['allele', 'pept', 'tumor_pred', 'core'])
+    with open(mhc_file, 'r') as mf:
+        peptides = set()
+        for line in mf:
+            # Skip header lines
+            if not line.startswith('HLA'):
+                continue
+            line = line.strip().split('\t')
+            allele = line[0]
+            pept = line[5]
+            pred = line[7]
+            if float(pred) > 5.00 and not normal:
+                continue
+            results.loc[len(results)] = [allele, pept, pred, pept]
+    results.drop_duplicates(inplace=True)
+    return results
+
+
+def _get_normal_peptides(mhc_df, iars, peplen):
+    """
+    Get the corresponding normal peptides for the tumor peptides that have already been subjected to
+    mhc:peptide binding prediction.
+
+    :param pandas.DataFrame mhc_df: The dataframe of mhc:peptide binding results
+    :param dict iars: The dict of lists of tumor and normal peptide iar sequences
+    :param str peplen: Length of the peptides to consider.
+    :return: normal peptides and the updated results containing the normal peptides
+    :rtype: tuple(pandas.DataFrame, list)
+    """
+    peplen = int(peplen)
+    normal_peptides = []
+    for pred in mhc_df.itertuples():
+        containing_iars = [i for i, sl in iars.items() if pred.pept in sl[0]]
+        assert len(containing_iars) != 0, "No IARS contained the peptide"
+        if len(containing_iars) > 1:
+            # If there are multiple IARs, they all or none of them have to have a corresponding
+            # normal.
+            assert len(set([len(y) for x, y in iars.items() if x in containing_iars])) == 1
+        if len(iars[containing_iars[0]]) == 1:
+            # This is a fusion and has no corresponding normal
+            normal_peptides.append('N'*peplen)
+        else:
+            tum, norm = iars[containing_iars[0]]
+            pos = tum.find(pred.pept)
+            normal_peptides.append(norm[pos:pos+peplen])
+    mhc_df['normal_pept'] = normal_peptides
+    return mhc_df, normal_peptides
+
+
+def predict_normal_binding(job, binding_result, transgened_files, allele, peplen, univ_options,
+                           mhc_options):
+    """
+    Predict the binding score for the normal counterparts of the peptides in mhc_dict and then
+    return the results in a properly formatted structure.
+
+    :param job: Job
+    :param str binding_result: The results from running predict_mhci_binding or
+           predict_mhcii_binding on a single allele
+    :param dict transgened_files: A dictionary containing the jobstore IDs for "T_<peplen>_mer.faa"
+           and "N_<peplen>_mer.faa"
+    :param str allele: The allele to get binding for
+    :param str peplen: The peptide length
+    :param dict univ_options: Universal options for ProTECT
+                univ_options
+                     +- 'dockerhub': <dockerhub to use>
+    :param dict mhc_options: MHC specific options
+                mhc_options
+                      |- 'mhci'
+                      |     |- 'method_file': <JSid for json file containing data
+                      |     |                  linking alleles, peptide lengths, and
+                      |     |                  prediction methods>
+                      |     +- 'pred': String describing prediction method to use
+                      +- 'mhcii'
+                            |- 'method_file': <JSid for json file containing data
+                            |                  linking alleles and prediction methods>
+                            +- 'pred': String describing prediction method to use
+    :return: A fully filled out mhc_dict with normal information
+    :rtype: dict
+    """
+    job.fileStore.logToMaster('Running predict_normal_binding on %s for allele %s and length %s' %
+                              (univ_options['patient'], allele, peplen))
+    work_dir = os.getcwd()
+    results = pandas.DataFrame(columns=['allele', 'pept', 'tumor_pred', 'core'])
+    input_files = get_files_from_filestore(job, transgened_files, work_dir)
+    iars = read_fastas(input_files)
+    if peplen == '15':  # MHCII
+        mhc_file = job.fileStore.readGlobalFile(binding_result[0],
+                                                os.path.join(work_dir, 'mhci_results'))
+        predictor = binding_result[1]
+        core_col = None  # Variable to hold the column number with the core
+        if predictor == 'Consensus':
+            results = _process_consensus_mhcii(mhc_file)
+            results, peptides = _get_normal_peptides(results, iars, peplen)
+            with open('peptides.faa', 'w') as pfile:
+                for pept in peptides:
+                    print('>', pept, '\n', pept, sep='', file=pfile)
+            peptfile = job.fileStore.writeGlobalFile(pfile.name)
+            with open('results.json', 'w') as rj:
+                json.dump(results.to_json(), rj)
+            return {'tumor': job.fileStore.writeGlobalFile(rj.name),
+                    'normal': job.addChildJobFn(predict_mhcii_binding, peptfile, allele,
+                                                univ_options, mhc_options, disk='100M',
+                                                memory='100M', cores=1).rv(),
+                    'predictor': 'Consensus'}
+        elif predictor == 'Sturniolo':
+            results = _process_sturniolo_mhcii(mhc_file)
+            results, peptides = _get_normal_peptides(results, iars, peplen)
+            with open('peptides.faa', 'w') as pfile:
+                for pept in peptides:
+                    print('>', pept, '\n', pept, sep='', file=pfile)
+            peptfile = job.fileStore.writeGlobalFile(pfile.name)
+            with open('results.json', 'w') as rj:
+                json.dump(results.to_json(), rj)
+            return {'tumor': job.fileStore.writeGlobalFile(rj.name),
+                    'normal': job.addChildJobFn(predict_mhcii_binding, peptfile, allele,
+                                                univ_options, mhc_options, disk='100M',
+                                                memory='100M', cores=1).rv(),
+                    'predictor': 'Sturniolo'}
+        elif predictor == 'netMHCIIpan':
+            results = _process_net_mhcii(mhc_file)
+            results, peptides = _get_normal_peptides(results, iars, peplen)
+            with open('peptides.faa', 'w') as pfile:
+                for pept in peptides:
+                    print('>', pept, '\n', pept, sep='', file=pfile)
+            peptfile = job.fileStore.writeGlobalFile(pfile.name)
+            with open('results.json', 'w') as rj:
+                json.dump(results.to_json(), rj)
+            return {'tumor': job.fileStore.writeGlobalFile(rj.name),
+                    'normal': job.addChildJobFn(predict_netmhcii_binding, peptfile, allele,
+                                                univ_options, mhc_options['netmhciipan'],
+                                                disk='100M', memory='100M',
+                                                cores=1).rv(),
+                    'predictor': 'netMHCIIpan'}
+        else:
+            raise RuntimeError('Shouldn\'t ever see this!!!')
+
+    else:  # MHCI
+        mhc_file = job.fileStore.readGlobalFile(binding_result,
+                                                os.path.join(work_dir, 'mhci_results'))
+        results = _process_mhci(mhc_file)
+        results, peptides = _get_normal_peptides(results, iars, peplen)
+        with open('peptides.faa', 'w') as pfile:
+            for pept in peptides:
+                print('>', pept, '\n', pept, sep='', file=pfile)
+        peptfile = job.fileStore.writeGlobalFile(pfile.name)
+        with open('results.json', 'w') as rj:
+            json.dump(results.to_json(), rj)
+        return {'tumor': job.fileStore.writeGlobalFile(rj.name),
+                'normal': job.addChildJobFn(predict_mhci_binding, peptfile, allele, peplen,
+                                            univ_options, mhc_options, disk='100M', memory='100M',
+                                            cores=1).rv()}
 
 
 def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_options):
     """
-    This module will merge all the calls from nodes 18 and 19, and will filter for the top X%% of
-    binders of each allele.  The module will then call the rank boosting script to finish off the
-    pipeline.
+    Merge all the calls from nodes 18 and 19.
 
     This module corresponds to node 19 on the tree
+
+    :param job: Job
+    :param dict antigen_predictions: The return value from running :meth:`spawn_antigen_predictors`
+    :param dict transgened_files: The transgened peptide files
+    :param dict univ_options: Universal options for ProTECT
+    :return: merged binding predictions
+    :rtype: dict
     """
     job.fileStore.logToMaster('Merging MHC calls')
     work_dir = os.getcwd()
@@ -144,36 +472,29 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
         '10_mer.faa.map': transgened_files['transgened_tumor_10_mer_snpeffed.faa.map'],
         '15_mer.faa': transgened_files['transgened_tumor_15_mer_snpeffed.faa'],
         '15_mer.faa.map': transgened_files['transgened_tumor_15_mer_snpeffed.faa.map']}
-    mhci_preds, mhcii_preds = antigen_predictions
-    mhci_files = get_files_from_filestore(job, mhci_preds, work_dir)
-    # First split mhcii_preds into prediction files and predictors and maintain keys so we can later
-    # reference them in pairs
-    mhcii_predictors = {x: y[1] for x, y in mhcii_preds.items()}
-    mhcii_files = {x: y[0] for x, y in mhcii_preds.items()}
-    mhcii_files = get_files_from_filestore(job, mhcii_files, work_dir)
-    # Get peptide files
     pept_files = get_files_from_filestore(job, pept_files, work_dir)
+    mhci_preds, mhcii_preds = antigen_predictions
 
     # Merge MHCI calls
     # Read 10-mer pepts into memory
     peptides = read_peptide_file(pept_files['10_mer.faa'])
     with open(pept_files['10_mer.faa.map'], 'r') as mapfile:
         pepmap = json.load(mapfile)
-    # Incorporate peptide names into the merged calls
     with open('/'.join([work_dir, 'mhci_merged_files.list']), 'w') as mhci_resfile:
-        for mhcifile in mhci_files.values():
-            with open(mhcifile, 'r') as mf:
-                for line in mf:
-                    # Skip header lines
-                    if not line.startswith('HLA'):
-                        continue
-                    line = line.strip().split('\t')
-                    allele = line[0]
-                    pept = line[5]
-                    pred = line[7]
-                    if float(pred) > 5.00:
-                        continue
-                    print_mhc_peptide((allele, pept, pred, pept), peptides, pepmap, mhci_resfile)
+        for key in mhci_preds:
+            tumor_file = job.fileStore.readGlobalFile(mhci_preds[key]['tumor'])
+            with open(tumor_file) as t_f:
+                tumor_df = pandas.read_json(eval(t_f.read()))
+            if tumor_df.empty:
+                continue
+            # TODO: There must be a better way of doing this
+            normal_df = _process_mhci(job.fileStore.readGlobalFile(mhci_preds[key]['normal']),
+                                      normal=True)
+            normal_dict = normal_df.set_index('pept')['tumor_pred']
+            normal_preds = [normal_dict[x] for x in list(tumor_df['normal_pept'])]
+            tumor_df['normal_pred'] = normal_preds
+            for pred in tumor_df.itertuples():
+                print_mhc_peptide(pred, peptides, pepmap, mhci_resfile)
     # Merge MHCII calls
     # read 15-mer pepts into memory
     peptides = read_peptide_file(pept_files['15_mer.faa'])
@@ -182,68 +503,35 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
     # Incorporate peptide names into the merged calls
     with open('/'.join([work_dir, 'mhcii_merged_files.list']), 'w') as \
             mhcii_resfile:
-        for mhciifile in mhcii_files.keys():
-            core_col = None  # Variable to hold the column number with the core
-            if mhcii_predictors[mhciifile] == 'Consensus':
-                with open(mhcii_files[mhciifile], 'r') as mf:
-                    for line in mf:
-                        # Skip header lines
-                        if not line.startswith('HLA'):
-                            continue
-                        line = line.strip().split('\t')
-                        allele = line[0]
-                        pept = line[4]
-                        pred = line[6]
-                        if core_col:
-                            core = line[core_col] if core_col else 'NOCORE'
-                        else:
-                            methods = line[5].lstrip('Consensus(').rstrip(')')
-                            methods = methods.split(',')
-                            if 'NN' in methods:
-                                core_col = 13
-                            elif 'netMHCIIpan' in methods:
-                                core_col = 17
-                            elif 'Sturniolo' in methods:
-                                core_col = 19
-                            elif 'SMM' in methods:
-                                core_col = 10
-                            core = line[core_col] if core_col else 'NOCORE'
-                        if float(pred) > 5.00:
-                            continue
-                        print_mhc_peptide((allele, pept, pred, core), peptides, pepmap,
-                                          mhcii_resfile)
-            elif mhcii_predictors[mhciifile] == 'Sturniolo':
-                with open(mhcii_files[mhciifile], 'r') as mf:
-                    for line in mf:
-                        # Skip header lines
-                        if not line.startswith('HLA'):
-                            continue
-                        line = line.strip().split('\t')
-                        allele = line[0]
-                        pept = line[5]
-                        pred = line[6]
-                        core = line[19]  #
-                        if float(pred) > 5.00:
-                            continue
-                        print_mhc_peptide((allele, pept, pred, core), peptides, pepmap,
-                                          mhcii_resfile)
-            elif mhcii_predictors[mhciifile] == 'netMHCIIpan':
-                with open(mhcii_files[mhciifile], 'r') as mf:
-                    # Get the allele from the first line and skip the second line
-                    allele = re.sub('-DQB', '/DQB', mf.readline().strip())
-                    _ = mf.readline()
-                    for line in mf:
-                        line = line.strip().split('\t')
-                        pept = line[1]
-                        pred = line[5]
-                        core = 'NOCORE'
-                        peptide_name = line[2]
-                        if float(pred) > 5.00:
-                            continue
-                        print(allele, pept, peptide_name, core, '0', pred, pepmap[peptide_name],
-                              sep='\t', file=mhcii_resfile)
+        for key in mhcii_preds:
+            if mhcii_preds[key]['predictor'] == 'None':
+                continue
+            tumor_file = job.fileStore.readGlobalFile(mhcii_preds[key]['tumor'])
+            with open(tumor_file) as t_f:
+                tumor_df = pandas.read_json(eval(t_f.read()))
+            if tumor_df.empty:
+                continue
+            # TODO: There must be a better way of doing this
+            if mhcii_preds[key]['predictor'] == 'Consensus':
+                normal_df = _process_consensus_mhcii(
+                    job.fileStore.readGlobalFile(mhcii_preds[key]['normal'][0]),
+                    normal=True)
+            elif mhcii_preds[key]['predictor'] == 'Sturniolo':
+                normal_df = _process_sturniolo_mhcii(
+                    job.fileStore.readGlobalFile(mhcii_preds[key]['normal'][0]),
+                    normal=True)
+            elif mhcii_preds[key]['predictor'] == 'netMHCIIpan':
+                normal_df = _process_net_mhcii(
+                    job.fileStore.readGlobalFile(mhcii_preds[key]['normal'][0]),
+                    normal=True)
             else:
-                raise RuntimeError('Shouldn\'t ever see this!!!')
+                assert False
+            normal_dict = normal_df.set_index('pept')['tumor_pred']
+            normal_preds = [normal_dict[x] for x in list(tumor_df['normal_pept'])]
+            tumor_df['normal_pred'] = normal_preds
+            for pred in tumor_df.itertuples():
+                print_mhc_peptide(pred, peptides, pepmap, mhcii_resfile,
+                                  netmhc=mhcii_preds[key]['predictor'] == 'netMHCIIpan')
     output_files = defaultdict()
     for mhc_file in [mhci_resfile.name, mhcii_resfile.name]:
         output_files[os.path.split(mhc_file)[1]] = job.fileStore.writeGlobalFile(mhc_file)
@@ -252,13 +540,12 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
     return output_files
 
 
-def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile):
+def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile, netmhc=False):
     """
     To reduce code redundancy, this module will accept data from merge_mhc_peptide_calls for a given
     neoepitope and print it to outfile
     ARGUMENTS
-    1. neoepitope_info: Tuple of (<allele>, <peptide_sequence>,
-                                  <binding_prediction>)
+    1. neoepitope_info: pandas.core.frame with allele, pept, pred, core, normal_pept, normal_pred
     2. peptides: Dict of all IARS considered
            peptides
               |- 'neoepitope_1': <peptide_sequence>
@@ -274,27 +561,13 @@ def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile):
                      'ensembl_gene\thugo_gene\tcomma_sep_transcript_mutations'
 
     """
-    allele, pept, pred, core = neoepitope_info
-    peptide_names = [x for x, y in peptides.items() if pept in y]
+    if netmhc:
+        peptide_names = [neoepitope_info.peptide_name]
+    else:
+        peptide_names = [x for x, y in peptides.items() if neoepitope_info.pept in y]
     # For each peptide, append the ensembl gene
     for peptide_name in peptide_names:
-        print(allele, pept, peptide_name, core, '0', pred, pepmap[peptide_name], sep='\t',
+        print('{ni.allele}\t{ni.pept}\t{pname}\t{ni.core}\t0\t{ni.tumor_pred}\t{ni.normal_pred}'
+              '\t{pmap}'.format(ni=neoepitope_info, pname=peptide_name, pmap=pepmap[peptide_name]),
               file=outfile)
     return None
-
-
-def read_peptide_file(in_peptfile):
-    """
-    This module reads an input peptide fasta file into memory in the form of a dict with
-    key = fasta record name
-    value = corresponding peptide sequence
-    """
-    peptides = defaultdict()
-    with open(in_peptfile, 'r') as peptfile:
-        for line in peptfile:
-            if line.startswith('>'):
-                pept = line.strip().lstrip('>')
-                peptides[pept] = ''
-            else:
-                peptides[pept] = line.strip()
-    return peptides
