@@ -60,7 +60,7 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
                   '--rna_file', input_files['rna.bam'],
                   '--prefix', 'transgened',
                   '--pep_lens', '9,10,15']
-    docker_call(tool='transgene:1.0.0', tool_parameters=parameters, work_dir=work_dir,
+    docker_call(tool='transgene:2.0.0', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'])
     output_files = defaultdict()
     for peplen in ['9', '10', '15']:
