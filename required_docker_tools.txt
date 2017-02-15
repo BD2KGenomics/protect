@@ -35,7 +35,7 @@
 	snpeff:3.6
 
 # Mutation Translation
-	transgene:1.0.0
+	transgene:2.0.0
 
 # MHC:peptide binding prediction
 	mhci:2.13

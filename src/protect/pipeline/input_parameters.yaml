@@ -112,7 +112,7 @@ mutation_annotation:
 mutation_translation:
     transgene:
         gencode_peptide_fasta: S3://cgl-protect-data/hg19_references/gencode.v19.pc_translations_NOPARY.fa.tar.gz
-        # version: 1.0.0
+        # version: 2.0.0
 
 haplotyping:
     phlat:
