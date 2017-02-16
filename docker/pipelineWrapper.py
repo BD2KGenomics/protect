@@ -39,12 +39,59 @@ class PipelineWrapperBuilder(object):
         to be set with arg_builder, and command_builder respectively before this method can be
         invoked.
         """
-        def make_tarfile(output_dir, source_dir):
-            for dir in os.listdir(source_dir):
-                outTar = os.path.join(output_dir, dir + '.tar.gz')
-                subDir = os.path.join(source_dir, dir)
-                with tarfile.open(outTar, "w:gz") as tar:
-                    tar.add(subDir)
+
+        # output that must be moved but not renamed
+        consistentNaming = ['alignments/normal_dna_fix_pg_sorted.bam',
+                           'alignments/normal_dna_fix_pg_sorted.bam.bai',
+                           'alignments/rna_fix_pg_sorted.bam',
+                           'alignments/rna_fix_pg_sorted.bam.bai',
+                           'alignments/tumor_dna_fix_pg_sorted.bam',
+                           'alignments/tumor_dna_fix_pg_sorted.bam.bai',
+                           'mutations/merged/all_merged.vcf',
+                           'rankboost/mhcii_merged_files_concise_results.tsv',
+                           'rankboost/mhci_merged_files_concise_results.tsv',
+                           ]
+
+        # output that must be renamed as well as moved
+        # map of the original name to the final name
+        renamingNeeded = {'binding_predictions': 'binding_predictions.tar',
+                         'expression': 'expression.tar',
+                         'haplotyping': 'haplotyping.tar',
+                         'peptides': 'peptides.tar',
+                         'rankboost': 'rankboost.tar',
+                         'reports': 'reports.tar',
+                         'mutations/snpeffed/mutations.vcf': 'all_snpeffed.vcf',
+                         'mutations/transgened/mutations.vcf': 'all_transgened.vcf',
+                         'mutations/merged': 'merged_perchrom.tar',
+                         'mutations/muse': 'muse_perchrom.tar',
+                         'mutations/mutect': 'mutect_perchrom.tar',
+                         'mutations/radia': 'radia_perchrom.tar',
+                         'mutations/somaticsniper': 'somaticsniper_perchrom.tar',
+                         'mutations/strelka': 'strelka_perchrom.tar'}
+
+        def make_output(output_dir, source_dir):
+            """
+            :param output_dir: dir to write the output to
+            :param source_dir: dir containing the directory structure to be parsed
+            :return:
+            """
+            def make_tar(dir, tar):
+                with tarfile.open(tar, "w:gz") as tar:
+                    tar.add(dir)
+            # the output dir is where the real output directories are written
+            protect_outputs = os.listdir(source_dir)
+            for protectOut in protect_outputs:
+                def getName(fileName):
+                    return os.path.join(os.path.join(source_dir, protectOut), fileName)
+                # move individual files out
+                for fileName in consistentNaming:
+                    shutil.copyfile(getName(fileName), os.path.join(output_dir, os.path.basename(fileName)))
+                for src, dst in renamingNeeded.iteritems():
+                    if dst.endswith('.tar'):
+                        make_tar(getName(src), os.path.join(output_dir, dst))
+                    else:
+                        shutil.copyfile(getName(src), os.path.join(output_dir, dst))
+
 
         # prepare workdir
         mount = self._prepare_mount(args)
@@ -91,7 +138,7 @@ class PipelineWrapperBuilder(object):
             stat = os.stat(self._mount)
             subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid),
                                    self._mount])
-            make_tarfile(self._mount, os.path.join(self._mount, 'output'))
+            make_output(self._mount, os.path.join(self._mount, 'output'))
             if self._no_clean and args.no_clean:
                 log.info('Flag "--no-clean" was used, therefore %s was not deleted.', self._workdir)
             else:

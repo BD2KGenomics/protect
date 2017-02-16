@@ -211,68 +211,189 @@ inputs:
     prefix: --sse-key-is-master
 
 outputs:
-  alignments:
-    type:
-      type: array
-      items: File
-    outputBinding:
-      glob: 'alignments.tar.gz'
-    doc: "Result files Protect CGL pipeline"
 
   binding_predictions:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'binding_predictions.tar.gz'
-    doc: "Result files Protect CGL pipeline"
+      glob: 'binding_predictions.tar'
+    doc: "Result files from ProTECT"
 
   expression:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'expression.tar.gz'
-    doc: "Result files Protect CGL pipeline"
+      glob: 'expression.tar'
+    doc: "Result files from ProTECT"
 
   haplotyping:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'haplotyping.tar.gz'
-    doc: "Result files Protect CGL pipeline"
+      glob: 'haplotyping.tar'
+    doc: "Result files from ProTECT"
 
-  mutations:
+  merged_perchrom:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'mutations.tar.gz'
-    doc: "Result files Protect CGL pipeline"
+      glob: 'merged_perchrom.tar'
+    doc: "Result files from ProTECT"
+
+  muse_perchrom:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'muse_perchrom.tar'
+    doc: "Result files from ProTECT"
+
+  mutect_perchrom:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'mutect_perchrom.tar'
+    doc: "Result files from ProTECT"
 
   peptides:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'peptides.tar.gz'
-    doc: "Result files Protect CGL pipeline"
+      glob: 'peptides.tar'
+    doc: "Result files from ProTECT"
+
+  radia_perchrom:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'radia_perchrom.tar'
+    doc: "Result files from ProTECT"
+
+  somaticsniper_perchrom:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'somaticsniper_perchrom.tar'
+    doc: "Result files from ProTECT"
+
+  strelka_perchrom:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'strelka_perchrom.tar'
+    doc: "Result files from ProTECT"
 
   rankboost:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'rankboost.tar.gz'
-    doc: "Result files Protect CGL pipeline"
+      glob: 'rankboost.tar'
+    doc: "Result files from ProTECT"
 
   reports:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'reports.tar.gz'
-    doc: "Result files Protect CGL pipeline"
+      glob: 'reports.tar'
+    doc: "Result files from ProTECT"
+
+  normal_alignment:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'normal_dna_fix_pg_sorted.bam'
+    doc: "Result files from ProTECT"
+
+  normal_index:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'normal_dna_fix_pg_sorted.bam.bai'
+    doc: "Result files from ProTECT"
+
+  tumor_alignment:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'tumor_dna_fix_pg_sorted.bam'
+    doc: "Result files from ProTECT"
+
+  tumor_index:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'tumor_dna_fix_pg_sorted.bam.bai'
+    doc: "Result files from ProTECT"
+
+  rna_alignment:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'rna_fix_pg_sorted.bam'
+    doc: "Result files from ProTECT"
+
+  rna_index:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'rna_fix_pg_sorted.bam.bai'
+    doc: "Result files from ProTECT"
+
+  all_merged:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'all_merged.vcf'
+    doc: "Result files from ProTECT"
+
+  mhci_merged:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'mhci_merged_files_concise_results.tsv'
+    doc: "Result files from ProTECT"
+
+  mhcii_merged:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'mhcii_merged_files_concise_results.tsv'
+    doc: "Result files from ProTECT"
+
+  all_snpeffed:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'all_snpeffed.vcf'
+    doc: "Result files from ProTECT"
+
+  all_transgened:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'all_transgened.vcf'
+    doc: "Result files from ProTECT"
 
 baseCommand: ["--no-clean"]
