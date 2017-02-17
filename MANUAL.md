@@ -43,7 +43,7 @@ of pyYAML with lower versions of pip and recommend upgrading pip before installi
 
 Install Toil
 
-    pip install toil[aws]==3.5.0
+    pip install toil[aws]==3.5.2
 
 Install ProTECT and all dependencies in the virtualenv
 
@@ -68,7 +68,7 @@ Activate the virtualenv
 
 Install Toil
 
-    pip install toil[aws]==3.5.0
+    pip install toil[aws]==3.5.2
 
 Install ProTECT
 
@@ -308,7 +308,7 @@ be substituted with S3 links. Descriptions for creating all files can be found i
                                                                      file must be made to follow the
                                                                      gencode format for fasta record
                                                                      names
-            version: 1.0.0
+            version: 2.1.0
 
     haplotyping:
             phlat:
@@ -334,13 +334,26 @@ be substituted with S3 links. Descriptions for creating all files can be found i
 
     prediction_ranking:
         rank_boost:
-            mhci_combo: V,W,X,Y,Z                                 -> Weights used for ranking the
-                                                                     predicted MHCI epitopes
-                                                                     (V+W+X+Y+Z = 1)
-            mhcii_combo W,X,Y,Z                                   -> Weights used for ranking the
-                                                                     predicted MHCII epitopes
-                                                                     (W+X+Y+Z = 1)
-            version: 1.0.0
+            mhci_args:                                        -> Weights for the mhci ranking
+                npa: 0.0                                          -> Number of peptides in an IAR
+                nph: 0.0                                          -> Number of "good" (top 1%)
+                                                                     peptides in an IAR
+                nMHC: 0.32                                        -> Number of MHCs stimulated by
+                                                                     the IAR
+                TPM: 0.0                                          -> Expression of the gene
+                                                                     containing the IAR
+                overlap: 0.68                                     -> Number of 9/10-mer overlap
+                                                                     events in the IAR
+                tndelta: 0.0                                      -> The number of "good" (>1.5%)
+                                                                     altered-self events seen in the
+                                                                     IAR
+            mhcii_args:                                       -> Weights for the mhci ranking
+                npa: 0.2
+                nph: 0.2
+                nMHC: 0.2
+                TPM: 0.2
+                tndelta: 0.2
+            version: 2.0.1
     mhc_pathway_assessment:
         genes_file: /path/to/mhc_pathway_genes.json.tar.gz        -> A json file containing the
                                                                      various genes in the MHC

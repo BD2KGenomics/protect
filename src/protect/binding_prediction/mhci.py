@@ -15,7 +15,8 @@
 from __future__ import absolute_import, print_function
 
 import os
-from protect.common import docker_call, get_files_from_filestore
+
+from protect.common import docker_call, get_files_from_filestore, read_peptide_file
 
 
 def predict_mhci_binding(job, peptfile, allele, peplen, univ_options,
@@ -32,6 +33,9 @@ def predict_mhci_binding(job, peptfile, allele, peplen, univ_options,
     input_files = {
         'peptfile.faa': peptfile}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
+    peptides = read_peptide_file(os.path.join(os.getcwd(), 'peptfile.faa'))
+    if not peptides:
+        return job.fileStore.writeGlobalFile(job.fileStore.getLocalTempFile())
     parameters = [mhci_options['pred'],
                   allele,
                   peplen,

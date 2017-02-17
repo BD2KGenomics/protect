@@ -40,11 +40,13 @@
                 |                   \______________________/       |
                 |\_ _ _ _ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ __\_ _
                 |                              |                        _\__
-                |                              25                      | 26 |
-                |                         _____|_____                  +----+
-                |                        /           \
-                |                       XX           YY
-                |                       |_____________|
+                |                              |                       | 25 |
+                |                              26                      +----+
+                |                  ____________|_____________
+                |                 /     /              \     \
+                |               MIN   MIT             MIIN  MIIT
+                |                |     |                |     |
+                |                 \_____\______________/_____/
                 |                              |
                 |                              27
                 |                             _|__
@@ -76,11 +78,13 @@
     22 = INDEL Calling (CURRENTLY NOT IMPLEMENTED)
     23 = translate to Protein space (SnpEff, Future Translator)
     24 = Convert AA change to peptides (TRANSGENE)
-   +25 = Spawn mhci prediction on n mhci alleles (XX)
-         and mhcii prediction on m mhcii alleles (YY)
-    XX = Predict MHCI peptides for n predicted alleles
-    YY = Predict MHCII peptides for m predicted alleles
-    26 = MHC Pathway assessment
+    25 = MHC Pathway assessment
+   +26 = Spawn mhci prediction on n mhci alleles (MI)
+         and mhcii prediction on m mhcii alleles (MII)
+    MIN = Predict normal peptides binding to n predicted MHCI alleles
+    MIT = Predict tumor peptides binding to n predicted MHCI alleles
+    MIIN = Predict normal peptides binding to n predicted MHCII alleles
+    MIIT = Predict tumor peptides binding to n predicted MHCII alleles
     27 = merge MHC:peptide binding predictions
     28 = Rank Boost
 
@@ -88,4 +92,4 @@
     * = Nodes will dynamically spawn 1 child per input chromosome in input fai
     + = Nodes will dynamically spawn 1 child per predicted mhc (I and II)
 
-    Numbers in boxes represent terminal node of the DAG
+    Numbers in boxes represent terminal nodes of the DAG

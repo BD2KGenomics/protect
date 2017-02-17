@@ -75,7 +75,7 @@ mutation_annotation:
 
 mutation_translation:
     transgene:
-        version: 2.0.0
+        version: 2.1.0
 
 haplotyping:
     phlat:
@@ -93,6 +93,17 @@ mhc_peptide_binding:
 
 prediction_ranking:
     rankboost:
-        mhci_combo: 0.0,0.0,0.32,0.0,0.68
-        mhcii_combo: 0.25,0.25,0.25,0.25
-        version: 1.0.0
+        mhci_args:
+            npa: 0.0
+            nph: 0.0
+            nMHC: 0.32
+            TPM: 0.0
+            overlap: 0.68
+            tndelta: 0.0
+        mhcii_args:
+            npa: 0.2
+            nph: 0.2
+            nMHC: 0.2
+            TPM: 0.2
+            tndelta: 0.2
+        version: 2.0.2

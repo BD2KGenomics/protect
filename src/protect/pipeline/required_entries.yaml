@@ -82,8 +82,19 @@ mhc_peptide_binding:
 
 prediction_ranking:
     rankboost:
-        mhci_combo:
-        mhcii_combo:
+        mhci_args:
+            npa:
+            nph:
+            nMHC:
+            TPM:
+            overlap:
+            tndelta:
+        mhcii_args:
+            npa:
+            nph:
+            nMHC:
+            TPM:
+            tndelta:
 
 mhc_pathway_assessment:
     genes_file:

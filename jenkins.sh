@@ -18,7 +18,7 @@ export PATH=$PATH:${TMPDIR}/bin
 virtualenv --never-download venv
 . venv/bin/activate
 
-pip install toil==3.5.1
+pip install toil==3.5.2
 pip install pytest==2.8.3
 
 # Install ProTECT and its runtime requirements

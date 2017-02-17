@@ -54,7 +54,7 @@ normal=\033[0m
 red=\033[0;31m
 
 prepare: check_venv
-	@$(pip) install toil==3.5.1 pytest==2.8.3
+	@$(pip) install toil==3.5.2 pytest==2.8.3
 
 develop: check_venv
 	$(pip) install -e .$(extras)
