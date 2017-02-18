@@ -33,6 +33,7 @@ patients:
 Universal_Options:
     storage_location:
     output_folder:
+    reference_build:
 
 # These options are for each module. You probably don't need to change any of this!
 alignment:

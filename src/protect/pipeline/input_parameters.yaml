@@ -45,6 +45,7 @@ patients:
 Universal_Options:
     dockerhub: aarjunrao
     java_Xmx: 20G
+    reference_build: hg19 # Acceptable options are hg19, hg38, GRCh37, GRCh38
     sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS else optional
     sse_key_is_master: True # True or False.  Required if using AWS else optional
     storage_location: Local # Local or aws:<bucket_name> for where the output must go

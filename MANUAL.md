@@ -186,6 +186,8 @@ These describe options that are used universally by most tools/jobs in the workf
         java_Xmx: 20G                     -> The default Java heap space to be provided to tools.
                                              Per-tool heap space can be specified for some tools to
                                              override this value.
+        reference_build: hg19             -> The reference build used in this run. Can be hg19,
+                                             hg38, GRCh37 or GRCh38.
         sse_key: /path/to/master.key      -> Used to create per-file SSE-C keys for decrypting S3
                                              hosted input files.  It is highly recommended that the
                                              files be uploaded to S3 using s3am using the

@@ -209,6 +209,12 @@ def _parse_config_file(job, config_file, max_cores=None):
             _ensure_set_contains(input_config[key], required_keys[key], key)
             if key == 'Universal_Options':
                 univ_options.update(input_config['Universal_Options'])
+                if univ_options['reference_build'].lower() in ['hg19', 'grch37']:
+                    univ_options['ref'] = 'hg19'
+                elif univ_options['reference_build'].lower() in ['hg38', 'grch38']:
+                    univ_options['ref'] = 'hg38'
+                else:
+                    raise ParameterError('reference_build can only be hg19, hg38, GRCh37 or GRCh38')
                 assert univ_options['storage_location'].startswith(('Local', 'local', 'aws'))
                 if univ_options['storage_location'] in ('Local', 'local'):
                     assert os.path.isabs(univ_options['output_folder']), ('Needs to be absolute if '

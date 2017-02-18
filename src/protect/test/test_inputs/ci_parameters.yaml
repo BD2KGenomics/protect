@@ -40,7 +40,7 @@ patients:
 Universal_Options:
     dockerhub: aarjunrao
     java_Xmx: 20G
-
+    reference_build: 'hg19'
     output_folder: /mnt/ephemeral/done
     storage_location: Local
 
