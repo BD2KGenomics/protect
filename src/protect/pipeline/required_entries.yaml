@@ -60,6 +60,13 @@ mutation_calling:
         dbsnp_tbi:
     strelka:
         config_file:
+    radia:
+        cosmic_beds:
+        dbsnp_beds:
+        retrogene_beds:
+        pseudogene_beds:
+        gencode_beds:
+
 
 mutation_annotation:
     snpeff:

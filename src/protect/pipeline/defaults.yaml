@@ -58,7 +58,7 @@ mutation_calling:
     muse:
         version: 1.0rc_submission_b391201
     radia:
-        version: 398366ef07b5911d8082ed61cbf03d487a41f286
+        version: bcda721fc1f9c28d8b9224c2f95c440759cd3a03
     somaticsniper:
         version: 1.0.4
         samtools:

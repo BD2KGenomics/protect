@@ -277,8 +277,14 @@ be substituted with S3 links. Descriptions for creating all files can be found i
             version: 1.1.7
         muse:
             version: 1.0rc_submission_b391201
-        radia:
-            version: 398366ef07b5911d8082ed61cbf03d487a41f286
+        radia:                                                -> Radia uses perchrom bed files in
+                                                                 folders as references.
+            cosmic_beds: /path/to/radia_cosmic.tar.gz
+            dbsnp_beds: /path/to/radia_dbsnp.tar.gz
+            retrogene_beds: /path/to/radia_retrogenes.tar.gz
+            pseudogene_beds: /path/to/radia_pseudogenes.tar.gz
+            gencode_beds: /path/to/radia_gencode.tar.gz
+            version: bcda721fc1f9c28d8b9224c2f95c440759cd3a03
         somaticsniper:
             version: 1.0.4
             samtools:                                           -> pileup reads

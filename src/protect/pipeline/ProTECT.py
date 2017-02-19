@@ -485,7 +485,7 @@ def get_all_tool_inputs(job, tools):
                 # If a file is of the type file, vcf, tar or fasta, it needs to be downloaded from
                 # S3 if reqd, then written to job store.
                 if option.split('_')[-1] in ['file', 'vcf', 'index', 'fasta', 'fai', 'idx', 'dict',
-                                             'tbi']:
+                                             'tbi', 'beds']:
                     tools[tool][option] = job.addChildJobFn(get_pipeline_inputs, option,
                                                             tools[tool][option]).rv()
                 elif option == 'version':

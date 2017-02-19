@@ -206,11 +206,20 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
         'normal.bam.bai': bams['normal_dnai'],
         'radia.vcf': radia_file,
         'genome.fa.tar.gz': radia_options['genome_fasta'],
-        'genome.fa.fai.tar.gz': radia_options['genome_fai']}
+        'genome.fa.fai.tar.gz': radia_options['genome_fai'],
+        'cosmic_beds': radia_options['cosmic_beds'],
+        'dbsnp_beds': radia_options['dbsnp_beds'],
+        'retrogene_beds': radia_options['retrogene_beds'],
+        'pseudogene_beds': radia_options['pseudogene_beds'],
+        'gencode_beds': radia_options['gencode_beds']
+    }
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
 
     for key in ('genome.fa', 'genome.fa.fai'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
+    for key in ('cosmic_beds', 'dbsnp_beds', 'retrogene_beds', 'pseudogene_beds', 'gencode_beds'):
+        input_files[key] = untargz(input_files[key], work_dir)
+
     input_files = {key: docker_path(path) for key, path in input_files.items()}
 
     filterradia_log = ''.join([work_dir, '/radia_filtered_', chrom, '_radia.log'])
@@ -219,11 +228,11 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
                   input_files['radia.vcf'],
                   '/data',
                   '/home/radia/scripts',
-                  '-d', '/home/radia/data/hg19/snp135',
-                  '-r', '/home/radia/data/hg19/retroGenes/',
-                  '-p', '/home/radia/data/hg19/pseudoGenes/',
-                  '-c', '/home/radia/data/hg19/cosmic/',
-                  '-t', '/home/radia/data/hg19/gaf/2_1',
+                  '-d', input_files['dbsnp_beds'],
+                  '-r', input_files['retrogene_beds'],
+                  '-p', input_files['pseudogene_beds'],
+                  '-c', input_files['cosmic_beds'],
+                  '-t', input_files['gencode_beds'],
                   '--noSnpEff',
                   '--noBlacklist',
                   '--noTargets',

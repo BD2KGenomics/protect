@@ -22,8 +22,8 @@
 
 # Mutation Calling
 	mutect:1.1.7
-	radia:398366ef07b5911d8082ed61cbf03d487a41f286
-	filterradia:398366ef07b5911d8082ed61cbf03d487a41f286
+	radia:bcda721fc1f9c28d8b9224c2f95c440759cd3a03
+	filterradia:bcda721fc1f9c28d8b9224c2f95c440759cd3a03
 	muse:1.0rc_submission_b391201
 	somaticsniper:1.0.4
 	somaticsniper-addons:1.0.4
