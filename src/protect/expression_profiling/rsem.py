@@ -80,7 +80,7 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
                   '--bam',
                   input_files['star_transcriptome.bam'],
                   '--no-bam-output',
-                  '/'.join([input_files['rsem_index'], 'hg19']),
+                  '/'.join([input_files['rsem_index'], univ_options['ref']]),
                   'rsem']
     docker_call(tool='rsem', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=rsem_options['version'])

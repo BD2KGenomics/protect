@@ -167,7 +167,7 @@ def run_radia_perchrom(job, bams, univ_options, radia_options, chrom):
                   ''.join(['--rnaTumorFasta=', input_files['genome.fa']]),
                   '-f', input_files['genome.fa'],
                   '-o', docker_path(radia_output),
-                  '-i', 'hg19_M_rCRS',
+                  '-i', univ_options['ref'],
                   '-m', input_files['genome.fa'],
                   '-d', 'aarjunrao@soe.ucsc.edu',
                   '-q', 'Illumina',

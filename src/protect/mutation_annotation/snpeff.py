@@ -56,13 +56,14 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
 
     parameters = ['eff',
                   '-dataDir', input_files['snpeff_index'],
-                  '-c', '/'.join([input_files['snpeff_index'], 'snpEff_hg19_gencode.config']),
+                  '-c', '/'.join([input_files['snpeff_index'], 'snpEff_' + univ_options['ref'] +
+                                  '_gencode.config']),
                   '-no-intergenic',
                   '-no-downstream',
                   '-no-upstream',
                   # '-canon',
                   '-noStats',
-                  'hg19_gencode',
+                  univ_options['ref'] + '_gencode',
                   input_files['merged_mutations.vcf']]
     xmx = snpeff_options['java_Xmx'] if snpeff_options['java_Xmx'] else univ_options['java_Xmx']
     with open('/'.join([work_dir, 'mutations.vcf']), 'w') as snpeff_file:

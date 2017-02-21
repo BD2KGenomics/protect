@@ -112,7 +112,7 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
     parameters = ['mem',
                   '-t', str(bwa_options['n']),
                   '-v', '1',  # Don't print INFO messages to the stderr
-                  '/'.join([input_files['bwa_index'], 'hg19']),
+                  '/'.join([input_files['bwa_index'], univ_options['ref']]),
                   input_files['dna_1.fastq' + gz],
                   input_files['dna_2.fastq' + gz]]
     with open(''.join([work_dir, '/', sample_type, '_aligned.sam']), 'w') as samfile:
