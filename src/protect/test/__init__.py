@@ -97,7 +97,8 @@ class ProtectTest(unittest.TestCase):
                 'storage_location': 'Local',
                 'dockerhub': 'aarjunrao',
                 'java_Xmx': '20G',
-                'max_cores': 2}
+                'max_cores': 2,
+                'ref': 'hg19'}
 
     @classmethod
     def _projectRootPath(cls):
