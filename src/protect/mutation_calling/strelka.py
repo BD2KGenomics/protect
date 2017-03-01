@@ -169,7 +169,7 @@ def wrap_unmerge(job, strelka_out, strelka_options, univ_options):
     :param dict strelka_options:
     :param dict univ_options:
     """
-    return {'snvs': job.addChildJobFn(unmerge, strelka_out['snvs'], 'strelka', strelka_options,
+    return {'snvs': job.addChildJobFn(unmerge, strelka_out['snvs'], 'strelka/snv', strelka_options,
                                       univ_options).rv(),
-            'indels': job.addChildJobFn(unmerge, strelka_out['indels'], 'strelka', strelka_options,
-                                        univ_options).rv()}
+            'indels': job.addChildJobFn(unmerge, strelka_out['indels'], 'strelka/indel',
+                                        strelka_options, univ_options).rv()}
