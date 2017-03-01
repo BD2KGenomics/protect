@@ -316,7 +316,7 @@ be substituted with S3 links. Descriptions for creating all files can be found i
                                                                      file must be made to follow the
                                                                      gencode format for fasta record
                                                                      names
-            version: 2.1.0
+            version: 2.1.1
 
     haplotyping:
             phlat:

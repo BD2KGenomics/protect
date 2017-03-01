@@ -7,7 +7,7 @@
 # Alignment
 	cutadapt:1.9.1
 	bwa:0.7.9a
-	star:2.4.2a
+	star:2.5.2b
 	starlong:2.4.2a
 
 # Alignment post
@@ -35,7 +35,7 @@
 	snpeff:3.6
 
 # Mutation Translation
-	transgene:2.1.0
+	transgene:2.1.1
 
 # MHC:peptide binding prediction
 	mhci:2.13
