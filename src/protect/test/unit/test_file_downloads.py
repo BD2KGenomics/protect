@@ -21,6 +21,7 @@ File : protect/test/test_file_downloads.py
 from __future__ import print_function
 
 from protect.common import get_file_from_s3
+from protect.common import get_file_from_url
 from protect.test import ProtectTest
 
 from toil.job import Job
@@ -101,6 +102,77 @@ class TestFileDownloads(ProtectTest):
             if 'exist on s3?' not in err.message:
                 raise
 
+    def test_file_downloads_from_https(self):
+        """
+        Test the functionality of get_file_from_url https
+        """
+        a = Job.wrapJobFn(self._download_https_files)
+        Job.Runner.startToil(a, self.options)
+
+    @staticmethod
+    def _download_https_files(job):
+        """
+       Attempts to download an unencrypted file, a file encrypted with a key.
+
+        """
+        http_base = 'https://google.com'
+        get_file_from_url(job, http_base, write_to_jobstore=False)
+
+    def test_file_downloads_from_http(self):
+        """
+        Test the functionality of get_file_from_url http
+        """
+        a = Job.wrapJobFn(self._download_http_files)
+        Job.Runner.startToil(a, self.options)
+
+    @staticmethod
+    def _download_http_files(job):
+        """
+        Attempts to download an unencrypted file
+
+        """
+        http_base = 'http://link.aps.org'
+        get_file_from_url(job, http_base, write_to_jobstore=False)
+
+
+    def test_file_downloads_from_ftp(self):
+        """
+        Test the functionality of get_file_from_url https
+        """
+        a = Job.wrapJobFn(self._download_ftp_files)
+        Job.Runner.startToil(a, self.options)
+
+    @staticmethod
+    def _download_ftp_files(job):
+        """
+        Attempts to download an unencrypted file, a file encrypted with a key.
+        """
+        http_base = 'ftp://ftp.debian.org/debian/README'
+        get_file_from_url(job, http_base, write_to_jobstore=False)
+
+    def test_file_downloads_from_https_S3(self):
+        """
+        Test the functionality of the catch function of get_file_from_url https
+        """
+        a = Job.wrapJobFn(self._download_https_S3_files)
+        Job.Runner.startToil(a, self.options)
+
+    @staticmethod
+    def _download_https_S3_files(job):
+        """
+        Attempts to download an unencrypted file, a file encrypted with a key.
+        """
+        http_base = 'https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references' \
+                    '/rsem_index_chr6.tar.gz'
+        get_file_from_url(job, http_base, write_to_jobstore=False)
 
 # noinspection PyProtectedMember
 _download_files = TestFileDownloads._download_files
+# noinspection PyProtectedMember
+_download_https_files = TestFileDownloads._download_https_files
+# noinspection PyProtectedMember
+_download_http_files = TestFileDownloads._download_http_files
+# noinspection PyProtectedMember
+_download_https_S3_files = TestFileDownloads._download_https_S3_files
+# noinspection PyProtectedMember
+_download_ftp_files = TestFileDownloads._download_ftp_files

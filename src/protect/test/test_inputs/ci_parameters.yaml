@@ -57,7 +57,7 @@ alignment:
 
 expression_estimation:
     rsem:
-        index : S3://cgl-protect-data/ci_references/rsem_index_chr6.tar.gz
+        index : https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/rsem_index_chr6.tar.gz
 
 mutation_calling:
     indexes:

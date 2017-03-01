@@ -46,6 +46,8 @@ from protect.mutation_translation import run_transgene
 from protect.qc.rna import cutadapt_disk, run_cutadapt
 from protect.rankboost import wrap_rankboost
 from toil.job import Job, PromisedRequirement
+from protect.common import get_file_from_s3
+from protect.common import get_file_from_url
 
 import argparse
 import os
@@ -500,12 +502,10 @@ def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
     work_dir = os.getcwd()
     job.fileStore.logToMaster('Obtaining file (%s) to the file job store' %
                               os.path.basename(input_file))
-    if input_file.startswith('http'):
-        assert input_file.startswith('https://s3'), input_file + ' is not an S3 file'
-        input_file = get_file_from_s3(job, input_file, write_to_jobstore=False,
-                                      encryption_key=encryption_key,
-                                      per_file_encryption=per_file_encryption)
-    elif input_file.startswith('S3'):
+    if input_file.startswith(('http', 'https', 'ftp')):
+        input_file=get_file_from_url(job, input_file,encryption_key=encryption_key,
+                        per_file_encryption=per_file_encryption, write_to_jobstore=False)
+    elif input_file.startswith(('S3','s3')):
         input_file = get_file_from_s3(job, input_file, write_to_jobstore=False,
                                       encryption_key=encryption_key,
                                       per_file_encryption=per_file_encryption)
@@ -594,89 +594,6 @@ def get_fqs(job, fastqs, sample_type):
     :return: fastqs[sample_type]
     """
     return fastqs[sample_type]
-
-
-def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
-                     write_to_jobstore=True):
-    """
-    Downloads a supplied URL that points to an unencrypted, unprotected file on Amazon S3. The file
-    is downloaded and a subsequently written to the jobstore and the return value is a the path to
-    the file in the jobstore.
-
-    :param str s3_url: URL for the file (can be s3 or https)
-    :param str encryption_key: Path to the master key
-    :param bool per_file_encryption: If encrypted, was the file encrypted using the per-file method?
-    :param bool write_to_jobstore: Should the file be written to the job store?
-    """
-    work_dir = job.fileStore.getLocalTempDir()
-
-    parsed_url = urlparse(s3_url)
-    if parsed_url.scheme == 'https':
-        download_url = 'S3:/' + parsed_url.path  # path contains the second /
-    elif parsed_url.scheme == 's3':
-        download_url = s3_url
-    else:
-        raise RuntimeError('Unexpected url scheme: %s' % s3_url)
-
-    filename = '/'.join([work_dir, os.path.basename(s3_url)])
-    # This is common to encrypted and unencrypted downloads
-    download_call = ['s3am', 'download', '--download-exists', 'resume']
-    # If an encryption key was provided, use it.
-    if encryption_key:
-        download_call.extend(['--sse-key-file', encryption_key])
-        if per_file_encryption:
-            download_call.append('--sse-key-is-master')
-    # This is also common to both types of downloads
-    download_call.extend([download_url, filename])
-    attempt = 0
-    exception = ''
-    while True:
-        try:
-            with open(work_dir + '/stderr', 'w') as stderr_file:
-                subprocess.check_call(download_call, stderr=stderr_file)
-        except subprocess.CalledProcessError:
-            # The last line of the stderr will have the error
-            with open(stderr_file.name) as stderr_file:
-                for line in stderr_file:
-                    line = line.strip()
-                    if line:
-                        exception = line
-            if exception.startswith('boto'):
-                exception = exception.split(': ')
-                if exception[-1].startswith('403'):
-                    raise RuntimeError('s3am failed with a "403 Forbidden" error  while obtaining '
-                                       '(%s). Did you use the correct credentials?' % s3_url)
-                elif exception[-1].startswith('400'):
-                    raise RuntimeError('s3am failed with a "400 Bad Request" error while obtaining '
-                                       '(%s). Are you trying to download an encrypted file without '
-                                       'a key, or an unencrypted file with one?' % s3_url)
-                else:
-                    raise RuntimeError('s3am failed with (%s) while downloading (%s)' %
-                                       (': '.join(exception), s3_url))
-            elif exception.startswith('AttributeError'):
-                exception = exception.split(': ')
-                if exception[-1].startswith("'NoneType'"):
-                    raise RuntimeError('Does (%s) exist on s3?' % s3_url)
-                else:
-                    raise RuntimeError('s3am failed with (%s) while downloading (%s)' %
-                                       (': '.join(exception), s3_url))
-            else:
-                if attempt < 3:
-                    attempt += 1
-                    continue
-                else:
-                    raise RuntimeError('Could not diagnose the error while downloading (%s)' %
-                                       s3_url)
-        except OSError:
-            raise RuntimeError('Failed to find "s3am". Install via "apt-get install --pre s3am"')
-        else:
-            break
-        finally:
-            os.remove(stderr_file.name)
-    assert os.path.exists(filename)
-    if write_to_jobstore:
-        filename = job.fileStore.writeGlobalFile(filename)
-    return filename
 
 
 def generate_config_file():

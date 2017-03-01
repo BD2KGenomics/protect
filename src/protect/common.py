@@ -34,6 +34,8 @@ import subprocess
 import sys
 import tarfile
 import time
+import urllib2
+import uuid
 
 
 def get_files_from_filestore(job, files, work_dir, docker=False):
@@ -190,7 +192,7 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
     parsed_url = urlparse(s3_url)
     if parsed_url.scheme == 'https':
         download_url = 'S3:/' + parsed_url.path  # path contains the second /
-    elif parsed_url.scheme == 's3':
+    elif parsed_url.scheme in ('s3','S3'):
         download_url = s3_url
     else:
         raise RuntimeError('Unexpected url scheme: %s' % s3_url)
@@ -206,13 +208,13 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
     # This is also common to both types of downloads
     download_call.extend([download_url, filename])
     attempt = 0
+    exception = ''
     while True:
         try:
             with open(work_dir + '/stderr', 'w') as stderr_file:
                 subprocess.check_call(download_call, stderr=stderr_file)
         except subprocess.CalledProcessError:
             # The last line of the stderr will have the error
-            exception = ''
             with open(stderr_file.name) as stderr_file:
                 for line in stderr_file:
                     line = line.strip()
@@ -251,6 +253,42 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
         finally:
             os.remove(stderr_file.name)
     assert os.path.exists(filename)
+    if write_to_jobstore:
+        filename = job.fileStore.writeGlobalFile(filename)
+    return filename
+
+
+def get_file_from_url(job, any_url, encryption_key=None, per_file_encryption=True,
+                      write_to_jobstore=True):
+    """
+    Downloads a supplied URL (ftp,http,https) that points to a file. The file
+    is downloaded and a subsequently written to the jobstore and the return value is a the path to
+    the file in the jobstore. If URL link is invalid the function will raise an error.
+
+    :param str any_url: URL for the file
+    :param bool write_to_jobstore: Should the file be written to the job store?
+    """
+
+    work_dir = job.fileStore.getLocalTempDir()
+
+    filename = '/'.join([work_dir, str(uuid.uuid4())])
+    url = any_url
+    parsed_url = urlparse(any_url)
+    try:
+        response = urllib2.urlopen(url)
+
+    except urllib2.HTTPError:
+        if (parsed_url.netloc).startswith(('s3', 'S3')):
+            job.fileStore.logToMaster("Detected https link is for an encrypted s3 file.")
+            return get_file_from_s3(job, any_url, encryption_key=encryption_key,
+                                    per_file_encryption=per_file_encryption,
+                                    write_to_jobstore=write_to_jobstore)
+        else:
+            raise
+    else:
+        with open(filename, 'w') as f:
+            f.write(response.read())
+
     if write_to_jobstore:
         filename = job.fileStore.writeGlobalFile(filename)
     return filename
