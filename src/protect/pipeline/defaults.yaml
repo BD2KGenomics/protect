@@ -38,7 +38,7 @@ alignment:
         A: AGATCGGAAGAG
         version: 1.9.1
     star:
-        version: 2.4.2a
+        version: 2.5.2b
     bwa:
         version: 0.7.9a
     post:
@@ -58,7 +58,7 @@ mutation_calling:
     muse:
         version: 1.0rc_submission_b391201
     radia:
-        version: 398366ef07b5911d8082ed61cbf03d487a41f286
+        version: bcda721fc1f9c28d8b9224c2f95c440759cd3a03
     somaticsniper:
         version: 1.0.4
         samtools:
@@ -75,7 +75,7 @@ mutation_annotation:
 
 mutation_translation:
     transgene:
-        version: 2.1.0
+        version: 2.1.1
 
 haplotyping:
     phlat:

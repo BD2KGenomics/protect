@@ -40,7 +40,7 @@ patients:
 Universal_Options:
     dockerhub: aarjunrao
     java_Xmx: 20G
-
+    reference_build: 'hg19'
     output_folder: /mnt/ephemeral/done
     storage_location: Local
 
@@ -71,6 +71,13 @@ mutation_calling:
         dbsnp_tbi : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz.tbi
     mutect:
         java_Xmx : 2G
+    radia:
+        cosmic_beds: S3://cgl-protect-data/hg19_references/radia_cosmic.tar.gz
+        dbsnp_beds: S3://cgl-protect-data/hg19_references/radia_dbsnp.tar.gz
+        retrogene_beds: S3://cgl-protect-data/hg19_references/radia_retrogenes.tar.gz
+        pseudogene_beds: S3://cgl-protect-data/hg19_references/radia_pseudogenes.tar.gz
+        gencode_beds: S3://cgl-protect-data/hg19_references/radia_gencode.tar.gz
+
     strelka:
         config_file: S3://cgl-protect-data/hg19_references/strelka_bwa_WXS_config.ini.tar.gz
 

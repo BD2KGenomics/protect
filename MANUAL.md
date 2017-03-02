@@ -186,6 +186,8 @@ These describe options that are used universally by most tools/jobs in the workf
         java_Xmx: 20G                     -> The default Java heap space to be provided to tools.
                                              Per-tool heap space can be specified for some tools to
                                              override this value.
+        reference_build: hg19             -> The reference build used in this run. Can be hg19,
+                                             hg38, GRCh37 or GRCh38.
         sse_key: /path/to/master.key      -> Used to create per-file SSE-C keys for decrypting S3
                                              hosted input files.  It is highly recommended that the
                                              files be uploaded to S3 using s3am using the
@@ -275,8 +277,14 @@ be substituted with S3 links. Descriptions for creating all files can be found i
             version: 1.1.7
         muse:
             version: 1.0rc_submission_b391201
-        radia:
-            version: 398366ef07b5911d8082ed61cbf03d487a41f286
+        radia:                                                -> Radia uses perchrom bed files in
+                                                                 folders as references.
+            cosmic_beds: /path/to/radia_cosmic.tar.gz
+            dbsnp_beds: /path/to/radia_dbsnp.tar.gz
+            retrogene_beds: /path/to/radia_retrogenes.tar.gz
+            pseudogene_beds: /path/to/radia_pseudogenes.tar.gz
+            gencode_beds: /path/to/radia_gencode.tar.gz
+            version: bcda721fc1f9c28d8b9224c2f95c440759cd3a03
         somaticsniper:
             version: 1.0.4
             samtools:                                           -> pileup reads
@@ -308,7 +316,7 @@ be substituted with S3 links. Descriptions for creating all files can be found i
                                                                      file must be made to follow the
                                                                      gencode format for fasta record
                                                                      names
-            version: 2.1.0
+            version: 2.1.1
 
     haplotyping:
             phlat:

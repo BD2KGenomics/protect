@@ -7,7 +7,7 @@
 # Alignment
 	cutadapt:1.9.1
 	bwa:0.7.9a
-	star:2.4.2a
+	star:2.5.2b
 	starlong:2.4.2a
 
 # Alignment post
@@ -22,8 +22,8 @@
 
 # Mutation Calling
 	mutect:1.1.7
-	radia:398366ef07b5911d8082ed61cbf03d487a41f286
-	filterradia:398366ef07b5911d8082ed61cbf03d487a41f286
+	radia:bcda721fc1f9c28d8b9224c2f95c440759cd3a03
+	filterradia:bcda721fc1f9c28d8b9224c2f95c440759cd3a03
 	muse:1.0rc_submission_b391201
 	somaticsniper:1.0.4
 	somaticsniper-addons:1.0.4
@@ -35,7 +35,7 @@
 	snpeff:3.6
 
 # Mutation Translation
-	transgene:2.1.0
+	transgene:2.1.1
 
 # MHC:peptide binding prediction
 	mhci:2.13
