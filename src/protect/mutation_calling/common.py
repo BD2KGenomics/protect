@@ -14,6 +14,7 @@
 # limitations under the License.
 from __future__ import absolute_import, print_function
 from collections import defaultdict
+
 from protect.common import export_results, get_files_from_filestore, untargz
 
 import itertools
@@ -22,11 +23,11 @@ import os
 
 def sample_chromosomes(job, genome_fai_file):
     """
-    Get a list of chromosomes in the input data
+    Get a list of chromosomes in the input data.
 
-    :param job: job
     :param string genome_fai_file: Job store file ID for the genome fai file
-    :returns list: Chromosomes in the sample
+    :return: Chromosomes in the sample
+    :rtype: list[str]
     """
     work_dir = os.getcwd()
     genome_fai = untargz(job.fileStore.readGlobalFile(genome_fai_file), work_dir)
@@ -34,6 +35,13 @@ def sample_chromosomes(job, genome_fai_file):
 
 
 def chromosomes_from_fai(genome_fai):
+    """
+    Read a fasta index (fai) file and parse the input chromosomes.
+
+    :param str genome_fai: Path to the fai file.
+    :return: list of input chromosomes
+    :rtype: list[str]
+    """
     chromosomes = []
     with open(genome_fai) as fai_file:
         for line in fai_file:
@@ -44,20 +52,17 @@ def chromosomes_from_fai(genome_fai):
 
 def run_mutation_aggregator(job, mutation_results, univ_options):
     """
-    This module will aggregate all the mutations called in the previous steps
+    Aggregate all the called mutations.
 
-    :param job: job
     :param dict mutation_results: Dict of dicts of the various mutation callers in a per chromosome
-                                  format
-    :param dict univ_options: Universal Options
-    :param int numthreads: number of threads to use in the merge step
-    :returns: job store file id fo rthe merged mutations file
-
-    This module corresponds to node 15 on the tree
+           format
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :returns: fsID for the merged mutations file
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Aggregating mutations for %s' % univ_options['patient'])
-    # Setup an input data structure for the merge function
 
+    # Setup an input data structure for the merge function
     out = {}
     for chrom in mutation_results['mutect'].keys():
         out[chrom] = job.addChildJobFn(merge_perchrom_mutations, chrom, mutation_results,
@@ -68,15 +73,14 @@ def run_mutation_aggregator(job, mutation_results, univ_options):
 
 def merge_perchrom_mutations(job, chrom, mutations, univ_options):
     """
-    This module will accept job store ids for vcf files for all snvs, and will merge the calls for a
-    single provided chromosome.
+    Merge the mutation calls for a single chromosome.
 
-    :param job: job
     :param str chrom: Chromosome to process
     :param dict mutations: dict of dicts of the various mutation caller names as keys, and a dict of
-                           per chromosome job store ids for vcfs as value
-    :param dict univ_options: Universal Options
-    :returns dict of merged vcf
+           per chromosome job store ids for vcfs as value
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :returns fsID for vcf contaning merged calls for the given chromosome
+    :rtype: toil.fileStore.FileID
     """
     work_dir = os.getcwd()
     from protect.mutation_calling.muse import process_muse_vcf
@@ -125,10 +129,11 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
 
 def read_vcf(vcf_file):
     """
-    Reads a vcf file to a list of lists
+    Read a vcf file to a dict of lists.
 
-    :param vcf_file:
-    :return:
+    :param str vcf_file: Path to a vcf file.
+    :return: dict of lists of vcf records
+    :rtype: dict
     """
     vcf_dict = []
     with open(vcf_file, 'r') as invcf:
@@ -142,17 +147,18 @@ def read_vcf(vcf_file):
 
 def chrom_sorted(in_chroms):
     """
-    This module will sort a list of chromosomes in the order 1..22, X, Y, M.
-    :param list in_chroms: input chromsomes
-    :return: sorted chromosomes
-    :rtype: list
+    Sort a list of chromosomes in the order 1..22, X, Y, M.
+
+    :param list in_chroms: Input chromsomes
+    :return: Sorted chromosomes
+    :rtype: list[str]
     """
     chr_prefix = False
     if in_chroms[0].startswith('chr'):
         in_chroms = [x.lstrip('chr') for x in in_chroms]
         chr_prefix = True
-    assert in_chroms[0] in [str(x) for x in range(1,23)] + ['X', 'Y', 'M']
-    in_chroms = sorted(in_chroms, key=lambda x: int(x) if x not in ('X', 'Y', 'M') else x)
+    assert in_chroms[0] in [str(x) for x in range(1, 23)] + ['X', 'Y', 'M']
+    in_chroms = sorted(in_chroms, key=lambda c: int(c) if c not in ('X', 'Y', 'M') else c)
     try:
         m_index = in_chroms.index('M')
     except ValueError:
@@ -168,13 +174,13 @@ def chrom_sorted(in_chroms):
 
 def merge_perchrom_vcfs(job, perchrom_vcfs, tool_name, univ_options):
     """
-    This module will merge per-chromosome vcf files into a single genome level vcf.
+    Merge per-chromosome vcf files into a single genome level vcf.
 
-    :param dict perchrom_vcfs: Dictionary with chromosome name as key and jobstore ID of
-                               corresponding vcf as value
+    :param dict perchrom_vcfs: Dictionary with chromosome name as key and fsID of the corresponding
+           vcf as value
     :param str tool_name: Name of the tool that generated the vcfs
-
-    :returns: Job Store File ID for the merged vcf
+    :returns: fsID for the merged vcf
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running merge_perchrom_vcfs  for %s' % tool_name)
     work_dir = os.getcwd()
@@ -199,13 +205,13 @@ def merge_perchrom_vcfs(job, perchrom_vcfs, tool_name, univ_options):
 
 def unmerge(job, input_vcf, tool_name, tool_options, univ_options):
     """
-    Un-merges a vcf file into a file per chromosome.
+    Un-merge a vcf file into per-chromosome vcfs.
 
     :param str input_vcf: Input vcf
     :param str tool_name: The name of the mutation caller
-    :param dict tool_options: Options specific to Somatic Sniper
-    :param dict univ_options: Universal options
-    :returns: dict of jsIDs, onr for each chromosomal vcf
+    :param dict tool_options: Options specific to the mutation caller
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: dict of fsIDs, one for each chromosomal vcf
     :rtype: dict
     """
     work_dir = os.getcwd()

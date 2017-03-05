@@ -13,35 +13,40 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, print_function
+
 from collections import defaultdict
-from protect.common import docker_call, get_files_from_filestore, export_results, untargz, \
-    docker_path
+
+from protect.common import (docker_call,
+                            get_files_from_filestore,
+                            export_results,
+                            untargz,
+                            docker_path)
 
 import os
 
 
 def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
     """
-    This module will run transgene on the input vcf file from the aggregator and produce the
-    peptides for MHC prediction
+    Run transgene on an input snpeffed vcf filereturn the peptides for MHC prediction.
 
-    ARGUMENTS
-    1. snpeffed_file: <JSid for snpeffed vcf>
-    2. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    3. transgene_options: Dict of parameters specific to transgene
-         transgene_options
-                +- 'gencode_peptide_fasta': <JSid for the gencode protein fasta>
 
-    RETURN VALUES
-    1. output_files: Dict of transgened n-mer peptide fastas
-         output_files
-                |- 'transgened_tumor_9_mer_snpeffed.faa': <JSid>
-                |- 'transgened_tumor_10_mer_snpeffed.faa': <JSid>
-                +- 'transgened_tumor_15_mer_snpeffed.faa': <JSid>
-
-    This module corresponds to node 17 on the tree
+    :param toil.fileStore.FileID snpeffed_file: fsID for snpeffed vcf
+    :param dict rna_bam: The dict of bams returned by running star
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict transgene_options: Options specific to Transgene
+    :return: A dictionary of 9 files (9-, 10-, and 15-mer peptides each for Tumor and Normal and the
+             corresponding .map files for the 3 Tumor fastas)
+             output_files:
+                 |- 'transgened_normal_10_mer_snpeffed.faa': fsID
+                 |- 'transgened_normal_15_mer_snpeffed.faa': fsID
+                 |- 'transgened_normal_9_mer_snpeffed.faa': fsID
+                 |- 'transgened_tumor_10_mer_snpeffed.faa': fsID
+                 |- 'transgened_tumor_10_mer_snpeffed.faa.map': fsID
+                 |- 'transgened_tumor_15_mer_snpeffed.faa': fsID
+                 |- 'transgened_tumor_15_mer_snpeffed.faa.map': fsID
+                 |- 'transgened_tumor_9_mer_snpeffed.faa': fsID
+                 +- 'transgened_tumor_9_mer_snpeffed.faa.map': fsID
+    :rtype: dict
     """
     job.fileStore.logToMaster('Running transgene on %s' % univ_options['patient'])
     work_dir = os.getcwd()

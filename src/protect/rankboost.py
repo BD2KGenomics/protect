@@ -20,15 +20,20 @@ import os
 def wrap_rankboost(job, rsem_files, merged_mhc_calls, transgene_out, univ_options,
                    rankboost_options):
     """
-    This is a convenience function that runs rankboost on pipeline outputs.
+    A wrapper for boost_ranks.
 
-    :param job job: job
-    :param dict rsem_files: dict of results from rsem
-    :param dict merged_mhc_calls: dict of results from merging mhc peptide binding predictions
-    :param dict transgene_out: dict of results from running transgene
-    :param dict univ_options: Universal Options
-    :param dict rankboost_options: Options specific to rank boost
-    :return:
+    :param dict rsem_files: Dict of results from rsem
+    :param dict merged_mhc_calls: Dict of results from merging mhc peptide binding predictions
+    :param dict transgene_out: Dict of results from running Transgene
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict rankboost_options: Options specific to rankboost
+    :return: Dict of concise and detailed results for mhci and mhcii
+             output_files:
+                |- 'mhcii_rankboost_concise_results.tsv': fsID
+                |- 'mhcii_rankboost_detailed_results.txt': fsID
+                |- 'mhci_rankboost_concise_results.tsv': fsID
+                +- 'mhci_rankboost_detailed_results.txt': fsID
+    :rtype: dict
     """
     rankboost = job.addChildJobFn(boost_ranks, rsem_files['rsem.isoforms.results'],
                                   merged_mhc_calls, transgene_out, univ_options, rankboost_options)
@@ -39,10 +44,20 @@ def wrap_rankboost(job, rsem_files, merged_mhc_calls, transgene_out, univ_option
 def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_options,
                 rankboost_options):
     """
-    This is the final module in the pipeline.  It will call the rank boosting R
-    script.
+    Boost the ranks of the predicted peptides:MHC combinations.
 
-    This module corresponds to node 21 in the tree
+    :param toil.fileStore.FileID isoform_expression: fsID of rsem isoform expression file
+    :param dict merged_mhc_calls: Dict of results from merging mhc peptide binding predictions
+    :param dict transgene_out: Dict of results from running Transgene
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict rankboost_options: Options specific to rankboost
+    :return: Dict of concise and detailed results for mhci and mhcii
+             output_files:
+                |- 'mhcii_rankboost_concise_results.tsv': fsID
+                |- 'mhcii_rankboost_detailed_results.txt': fsID
+                |- 'mhci_rankboost_concise_results.tsv': fsID
+                +- 'mhci_rankboost_detailed_results.txt': fsID
+    :rtype: dict
     """
     job.fileStore.logToMaster('Running boost_ranks on %s' % univ_options['patient'])
     work_dir = os.getcwd()

@@ -14,6 +14,7 @@
 # limitations under the License.
 from __future__ import print_function
 from math import ceil
+
 from protect.common import docker_call, docker_path, get_files_from_filestore, is_gzipfile
 
 import os
@@ -26,24 +27,13 @@ def cutadapt_disk(rna_fastqs):
 
 def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
     """
-    This module runs cutadapt on the input RNA fastq files and then calls the RNA aligners.
+    Runs cutadapt on the input RNA fastq files.
 
-    ARGUMENTS
-    1. fastqs: List of input RNA-Seq fastqs [<JSid for 1.fastq> , <JSid for 2.fastq>]
-    2. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-              +- 'dockerhub': <dockerhub to use>
-    3. cutadapt_options: Dict of parameters specific to cutadapt
-         cutadapt_options
-              |- 'a': <sequence of 3' adapter to trim from fwd read>
-              +- 'A': <sequence of 3' adapter to trim from rev read>
-    RETURN VALUES
-    1. output_files: Dict of cutadapted fastqs
-         output_files
-             |- 'rna_cutadapt_1.fastq': <JSid>
-             +- 'rna_cutadapt_2.fastq': <JSid>
-
-    This module corresponds to node 2 on the tree
+    :param list fastqs: List of fsIDs for input an RNA-Seq fastq pair
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict cutadapt_options: Options specific to cutadapt
+    :return: List of fsIDs of cutadapted fastqs
+    :rtype: list[toil.fileStore.FileID]
     """
     job.fileStore.logToMaster('Running cutadapt on %s' % univ_options['patient'])
     work_dir = os.getcwd()

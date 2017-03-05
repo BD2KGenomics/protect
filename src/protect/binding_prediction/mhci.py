@@ -14,18 +14,23 @@
 # limitations under the License.
 from __future__ import absolute_import, print_function
 
-import os
-
 from protect.common import docker_call, get_files_from_filestore, read_peptide_file
 
+import os
 
-def predict_mhci_binding(job, peptfile, allele, peplen, univ_options,
-                         mhci_options):
+
+def predict_mhci_binding(job, peptfile, allele, peplen, univ_options, mhci_options):
     """
-    This module will predict MHC:peptide binding for peptides in the files created in node XX to
-    ALLELE.  ALLELE represents an MHCI allele.
+    Predict binding for each peptide in `peptfile` to `allele` using the IEDB mhci binding
+    prediction tool.
 
-    This module corresponds to node 18 on the tree
+    :param toil.fileStore.FileID peptfile: The input peptide fasta
+    :param str allele: Allele to predict binding against
+    :param str peplen: Length of peptides to process
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict mhci_options: Options specific to mhci binding prediction
+    :return: fsID for file containing the predictions
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running mhci on %s:%s:%s' % (univ_options['patient'], allele,
                                                             peplen))

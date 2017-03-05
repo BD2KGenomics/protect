@@ -13,7 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import print_function
+
 from collections import Counter
+
 from protect.common import export_results, get_files_from_filestore, untargz
 from protect.haplotyping.phlat import parse_phlat_file
 
@@ -23,13 +25,14 @@ import os
 
 def run_mhc_gene_assessment(job, rsem_files, rna_haplotype, univ_options, mhc_genes_options):
     """
-    This is a convenience function that runs assess_mhc_genes.
-    :param job job:
+    A wrapper for assess_mhc_genes.
+
     :param dict rsem_files: Results form running rsem
     :param str rna_haplotype: The job store id for the rna haplotype file
-    :param dict univ_options: Universal Options
+    :param dict univ_options: Dict of universal options used by almost all tools
     :param dict mhc_genes_options: Options specific to assessing the MHC genes
     :return: The results of running assess_mhc_genes
+    :rtype: toil.fileStore.FileID
     """
     return job.addChildJobFn(assess_mhc_genes, rsem_files['rsem.isoforms.results'], rna_haplotype,
                              univ_options, mhc_genes_options).rv()
@@ -37,12 +40,15 @@ def run_mhc_gene_assessment(job, rsem_files, rna_haplotype, univ_options, mhc_ge
 
 def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_genes_options):
     """
-    This module will assess the prevalence of the various genes in the MHC pathway and return a
-    report in the tsv format
-    :param isoform_expression: Isoform expression from run_rsem
-    :param rna_haplotype: PHLAT output from running on rna
-    :param univ_options: Universal options for the pipeline
-    :param mhc_genes_options: options specific to this module
+    Assess the prevalence of the various genes in the MHC pathway and return a report in the tsv
+    format.
+
+    :param toil.fileStore.FileID isoform_expression: fsID for the rsem isoform expression file
+    :param toil.fileStore.FileID rna_haplotype: fsID for the RNA PHLAT file
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict mhc_genes_options: Options specific to assessing the MHC genes
+    :return: The fsID for the mhc pathway report file
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running mhc gene assessment on %s' % univ_options['patient'])
     work_dir = os.getcwd()
@@ -91,7 +97,9 @@ def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_g
                 for mhcii_allele in ('HLA_DQA', 'HLA_DQB', 'HLA_DRA', 'HLA_DRB'):
                     if mhcii_allele != 'HLA_DRA':
                         num_alleles = len(mhc_alleles[mhcii_allele])
-                        result = 'FAIL' if num_alleles == 0 else 'LOW' if num_alleles == 1 else 'PASS'
+                        result = ('FAIL' if num_alleles == 0 else
+                                  'LOW' if num_alleles == 1 else
+                                  'PASS')
                         print("{:12}{:<12}{:<12}{:12}".format(mhcii_allele, 2, num_alleles, result),
                               file=mpr)
                     else:

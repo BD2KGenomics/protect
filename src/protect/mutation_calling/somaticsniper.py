@@ -15,12 +15,13 @@
 from __future__ import print_function
 from collections import defaultdict
 from math import ceil
-from protect.common import (get_files_from_filestore,
-                            docker_path,
+
+from protect.common import (docker_path,
                             docker_call,
+                            get_files_from_filestore,
                             untargz)
-from protect.mutation_calling.common import (unmerge,
-                                             sample_chromosomes)
+from protect.mutation_calling.common import (sample_chromosomes,
+                                             unmerge)
 from toil.job import PromisedRequirement
 
 import os
@@ -43,10 +44,18 @@ def sniper_filter_disk(tumor_bam, fasta):
                2 * ceil(fasta.size))
 
 
-# Somatic Sniper is a different tool from the other callers because it is run in full
+# Somatic Sniper is a different tool from the other callers because it is run in full.  Certain
+# redundant modules in this file are kept to maintain a similar naming schema to other callers.
 def run_somaticsniper_with_merge(job, tumor_bam, normal_bam, univ_options, somaticsniper_options):
     """
-    This is a convenience function that runs the entire somaticsniper sub-graph.
+    A wrapper for the the entire SomaticSniper sub-graph.
+
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict somaticsniper_options: Options specific to SomaticSniper
+    :return: fsID to the merged SomaticSniper calls
+    :rtype: toil.fileStore.FileID
     """
     spawn = job.wrapJobFn(run_somaticsniper, tumor_bam, normal_bam, univ_options,
                           somaticsniper_options, split=False).encapsulate()
@@ -56,40 +65,24 @@ def run_somaticsniper_with_merge(job, tumor_bam, normal_bam, univ_options, somat
 
 def run_somaticsniper(job, tumor_bam, normal_bam, univ_options, somaticsniper_options, split=True):
     """
-    This module will spawn a somaticsniper job for each chromosome on the DNA bams.
+    Run the SomaticSniper subgraph on the DNA bams.  Optionally split the results into
+    per-chromosome vcfs.
 
-    ARGUMENTS
-    1. tumor_bam: Dict of input tumor WGS/WSQ bam + bai
-         tumor_bam
-              |- 'tumor_fix_pg_sorted.bam': <JSid>
-              +- 'tumor_fix_pg_sorted.bam.bai': <JSid>
-    2. normal_bam: Dict of input normal WGS/WSQ bam + bai
-         normal_bam
-              |- 'normal_fix_pg_sorted.bam': <JSid>
-              +- 'normal_fix_pg_sorted.bam.bai': <JSid>
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    4. somaticsniper_options: Dict of parameters specific to somaticsniper
-         somaticsniper_options
-              |- 'dbsnp_vcf': <JSid for dnsnp vcf file>
-              |- 'dbsnp_idx': <JSid for dnsnp vcf index file>
-              |- 'cosmic_vcf': <JSid for cosmic vcf file>
-              |- 'cosmic_idx': <JSid for cosmic vcf index file>
-              |- 'genome_fasta': <JSid for genome fasta file>
-              +- 'genome_dict': <JSid for genome fasta dict file>
-              +- 'genome_fai': <JSid for genome fasta index file>
-
-    RETURN VALUES
-    1. perchrom_somaticsniper: Dict of results of somaticsniper per chromosome
-         perchrom_somaticsniper
-              |- 'chr1'
-              |   +- <JSid for somaticsniper_chr1.vcf>
-              |- 'chr2'
-              |   +- <JSid for somaticsniper_chr2.vcf>
-             etc...
-
-    This module corresponds to node 11 on the tree
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict somaticsniper_options: Options specific to SomaticSniper
+    :param bool split: Should the results be split into perchrom vcfs?
+    :return: Either the fsID to the genome-level vcf or a dict of results from running SomaticSniper
+             on every chromosome
+             perchrom_somaticsniper:
+                 |- 'chr1': fsID
+                 |- 'chr2' fsID
+                 |
+                 |-...
+                 |
+                 +- 'chrM': fsID
+    :rtype: toil.fileStore.FileID|dict
     """
     # Get a list of chromosomes to handle
     chromosomes = sample_chromosomes(job, somaticsniper_options['genome_fai'])
@@ -128,19 +121,16 @@ def run_somaticsniper(job, tumor_bam, normal_bam, univ_options, somaticsniper_op
 
 def run_somaticsniper_full(job, tumor_bam, normal_bam, univ_options, somaticsniper_options):
     """
-    This module will run somaticsniper on the DNA bams.
+    Run SomaticSniper on the DNA bams.
 
-    ARGUMENTS
-    :param dict tumor_bam: REFER ARGUMENTS of spawn_somaticsniper()
-    :param dict normal_bam: REFER ARGUMENTS of spawn_somaticsniper()
-    :param dict univ_options: REFER ARGUMENTS of spawn_somaticsniper()
-    :param dict somaticsniper_options: REFER ARGUMENTS of spawn_somaticsniper()
-
-    RETURN VALUES
-    :returns: dict of output vcfs for each chromosome
-    :rtype: dict
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict somaticsniper_options: Options specific to SomaticSniper
+    :return: fsID to the genome-level vcf
+    :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running somaticsniper on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Running SomaticSniper on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -174,18 +164,17 @@ def run_somaticsniper_full(job, tumor_bam, normal_bam, univ_options, somaticsnip
 def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, univ_options,
                          somaticsniper_options):
     """
-    This module will filter the somaticsniper output for a single chromosome
+    Filter SomaticSniper calls.
 
-    :param toil.Job job: Job
-    :param dict tumor_bam: Tumor bam file and it's bai
-    :param str somaticsniper_output: jsID from somatic sniper
-    :param str tumor_pileup: jsID for pileup file for this chromsome
-    :param dict univ_options: Universal options
-    :param dict somaticsniper_options: Options specific to Somatic Sniper
-    :returns: filtered chromsome vcf
-    :rtype: str
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param toil.fileStore.FileID somaticsniper_output: SomaticSniper output vcf
+    :param toil.fileStore.FileID tumor_pileup: Pileup generated for the tumor bam
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict somaticsniper_options: Options specific to SomaticSniper
+    :returns: fsID for the filtered genome-level vcf
+    :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Filtering somaticsniper for %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Filtering SomaticSniper for %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -251,12 +240,15 @@ def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, uni
 
 def process_somaticsniper_vcf(job, somaticsniper_vcf, work_dir, univ_options):
     """
-    This does nothing for now except to download and return the somaticsniper vcfs
-    :param job: job
-    :param str somaticsniper_vcf: Job Store ID corresponding to a somaticsniper vcf for 1 chromosome
-    :param univ_options: Universal options
-    :returns dict: Dict with chromosomes as keys and path to the corresponding somaticsniper vcfs as
-    values
+    Process the SomaticSniper vcf for accepted calls.  Since the calls are pre-filtered, we just
+    obtain the file from the file store and return it.
+
+    :param toil.fileStore.FileID somaticsniper_vcf: fsID for a SomaticSniper generated chromosome
+           vcf
+    :param str work_dir: Working directory
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: Path to the processed vcf
+    :rtype: str
     """
     return job.fileStore.readGlobalFile(somaticsniper_vcf)
 
@@ -265,11 +257,11 @@ def run_pileup(job, tumor_bam, univ_options, somaticsniper_options):
     """
     Runs a samtools pileup on the tumor bam.
 
-    :param toil.Job job: job
-    :param dict tumor_bam: Tumor bam file
-    :param dict univ_options: Universal Options
-    :returns: jsID for the chromsome pileup file
-    :rtype: str
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict somaticsniper_options: Options specific to SomaticSniper
+    :return: fsID for the pileup file
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster(
         'Running samtools pileup on %s' % univ_options['patient'])

@@ -17,10 +17,14 @@ from __future__ import print_function
 
 def run_indel_caller(job, tumor_bam, normal_bam, univ_options, indel_options):
     """
-    This module will run an indel caller on the DNA bams.  This module will be
-    implemented in the future.
+    Run an indel caller on the DNA bams.  This module will be implemented in the future.
 
-    This module corresponds to node 13 on the tree
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict indel_options: Options specific to indel calling
+    :return: fsID to the merged fusion calls
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running INDEL on %s' % univ_options['patient'])
     job.fileStore.logToMaster('INDELs are currently unsupported.... Skipping.')

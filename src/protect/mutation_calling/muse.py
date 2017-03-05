@@ -15,14 +15,17 @@
 from __future__ import print_function
 from collections import defaultdict
 from math import ceil
-from protect.common import (get_files_from_filestore, docker_path, docker_call, untargz,
-                            export_results)
-from protect.mutation_calling.common import sample_chromosomes, merge_perchrom_vcfs
+
+from protect.common import (docker_call,
+                            docker_path,
+                            export_results,
+                            get_files_from_filestore,
+                            untargz)
+from protect.mutation_calling.common import merge_perchrom_vcfs, sample_chromosomes
 from toil.job import PromisedRequirement
 
 import os
 import shutil
-import sys
 import time
 
 
@@ -39,9 +42,16 @@ def muse_sump_disk(dbsnp):
 
 def run_muse_with_merge(job, tumor_bam, normal_bam, univ_options, muse_options):
     """
-    This is a convenience function that runs the entire muse sub-graph.
+    A wrapper for the the entire MuSE sub-graph.
+
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict muse_options: Options specific to MuSE
+    :return: fsID to the merged MuSE calls
+    :rtype: toil.fileStore.FileID
     """
-    spawn = job.wrapJobFn(run_muse, tumor_bam, normal_bam, univ_options,muse_options,
+    spawn = job.wrapJobFn(run_muse, tumor_bam, normal_bam, univ_options, muse_options,
                           disk='100M').encapsulate()
     merge = job.wrapJobFn(merge_perchrom_vcfs, spawn.rv(), disk='100M')
     job.addChild(spawn)
@@ -51,51 +61,32 @@ def run_muse_with_merge(job, tumor_bam, normal_bam, univ_options, muse_options):
 
 def run_muse(job, tumor_bam, normal_bam, univ_options, muse_options):
     """
-    This module will spawn a muse job for each chromosome on the DNA bams.
+    Spawn a MuSE job for each chromosome on the DNA bams.
 
-    ARGUMENTS
-    1. tumor_bam: Dict of input tumor WGS/WSQ bam + bai
-         tumor_bam
-              |- 'tumor_fix_pg_sorted.bam': <JSid>
-              +- 'tumor_fix_pg_sorted.bam.bai': <JSid>
-    2. normal_bam: Dict of input normal WGS/WSQ bam + bai
-         normal_bam
-              |- 'normal_fix_pg_sorted.bam': <JSid>
-              +- 'normal_fix_pg_sorted.bam.bai': <JSid>
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    4. muse_options: Dict of parameters specific to muse
-         muse_options
-              |- 'dbsnp_vcf': <JSid for dnsnp vcf file>
-              |- 'dbsnp_idx': <JSid for dnsnp vcf index file>
-              |- 'cosmic_vcf': <JSid for cosmic vcf file>
-              |- 'cosmic_idx': <JSid for cosmic vcf index file>
-              |- 'genome_fasta': <JSid for genome fasta file>
-              +- 'genome_dict': <JSid for genome fasta dict file>
-              +- 'genome_fai': <JSid for genome fasta index file>
-
-    RETURN VALUES
-    1. perchrom_muse: Dict of results of muse per chromosome
-         perchrom_muse
-              |- 'chr1'
-              |   +- <JSid for muse_chr1.vcf>
-              |- 'chr2'
-              |   +- <JSid for muse_chr2.vcf>
-             etc...
-
-    This module corresponds to node 11 on the tree
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict muse_options: Options specific to MuSE
+    :return: Dict of results from running MuSE on every chromosome
+             perchrom_muse:
+                 |- 'chr1': fsID
+                 |- 'chr2' fsID
+                 |
+                 |-...
+                 |
+                 +- 'chrM': fsID
+    :rtype: dict
     """
     # Get a list of chromosomes to handle
     chromosomes = sample_chromosomes(job, muse_options['genome_fai'])
     perchrom_muse = defaultdict()
     for chrom in chromosomes:
         call = job.addChildJobFn(run_muse_perchrom, tumor_bam, normal_bam, univ_options,
-                                 muse_options, chrom,
-                                 disk=PromisedRequirement(muse_disk,
-                                                          tumor_bam['tumor_dna_fix_pg_sorted.bam'],
-                                                          normal_bam['normal_dna_fix_pg_sorted.bam'],
-                                                          muse_options['genome_fasta']),
+                                 muse_options, chrom, disk=PromisedRequirement(
+                                     muse_disk,
+                                     tumor_bam['tumor_dna_fix_pg_sorted.bam'],
+                                     normal_bam['normal_dna_fix_pg_sorted.bam'],
+                                     muse_options['genome_fasta']),
                                  memory='6G')
         sump = call.addChildJobFn(run_muse_sump_perchrom, call.rv(), univ_options, muse_options,
                                   chrom,
@@ -108,21 +99,17 @@ def run_muse(job, tumor_bam, normal_bam, univ_options, muse_options):
 
 def run_muse_perchrom(job, tumor_bam, normal_bam, univ_options, muse_options, chrom):
     """
-    This module will run muse on the DNA bams
+    Run MuSE call on a single chromosome in the input bams.
 
-    ARGUMENTS
-    1. tumor_bam: REFER ARGUMENTS of spawn_muse()
-    2. normal_bam: REFER ARGUMENTS of spawn_muse()
-    3. univ_options: REFER ARGUMENTS of spawn_muse()
-    4. muse_options: REFER ARGUMENTS of spawn_muse()
-    5. chrom: String containing chromosome name with chr appended
-
-    RETURN VALUES
-    1. output_files: <JSid for CHROM.MuSe.txt>
-
-    This module corresponds to node 12 on the tree
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict muse_options: Options specific to MuSE
+    :param str chrom: Chromosome to process
+    :return: fsID for the chromsome vcf
+    :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running muse on %s:%s' % (univ_options['patient'], chrom))
+    job.fileStore.logToMaster('Running MuSE on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -153,9 +140,16 @@ def run_muse_perchrom(job, tumor_bam, normal_bam, univ_options, muse_options, ch
 
 def run_muse_sump_perchrom(job, muse_output, univ_options, muse_options, chrom):
     """
-    This module will run muse sump on the muse output
+    Run MuSE sump on the MuSE call generated vcf.
+
+    :param toil.fileStore.FileID muse_output: vcf generated by MuSE call
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict muse_options: Options specific to MuSE
+    :param str chrom: Chromosome to process
+    :return: fsID for the chromsome vcf
+    :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running muse sump on %s:%s' % (univ_options['patient'], chrom))
+    job.fileStore.logToMaster('Running MuSE sump on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
     input_files = {
         'MuSE.txt': muse_output,
@@ -185,11 +179,13 @@ def run_muse_sump_perchrom(job, muse_output, univ_options, muse_options, chrom):
 
 def process_muse_vcf(job, muse_vcf, work_dir, univ_options):
     """
-    This does nothing for now except to download and return the muse vcfs
-    :param job: job
-    :param str muse_vcf: Job Store ID corresponding to a muse vcf for 1 chromosome
-    :param univ_options: Universal options
-    :returns dict: Dict with chromosomes as keys and path to the corresponding muse vcfs as values
+    Process the MuSE vcf for accepted calls.
+
+    :param toil.fileStore.FileID muse_vcf: fsID for a MuSE generated chromosome vcf
+    :param str work_dir: Working directory
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: Path to the processed vcf
+    :rtype: str
     """
     muse_vcf = job.fileStore.readGlobalFile(muse_vcf)
 
