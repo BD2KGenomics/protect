@@ -15,18 +15,20 @@
 from __future__ import print_function
 from collections import defaultdict
 from math import ceil
-from protect.common import (get_files_from_filestore, docker_path, docker_call, export_results,
+
+from protect.common import (docker_path,
+                            docker_call,
+                            export_results,
+                            get_files_from_filestore,
                             untargz)
 from protect.mutation_calling.common import sample_chromosomes, merge_perchrom_vcfs
+from toil.job import PromisedRequirement
 
 import os
 import sys
 
 
 # disk for radia and filterradia.
-from toil.job import PromisedRequirement
-
-
 def radia_disk(tumor_bam, normal_bam, rna_bam, fasta):
     return int(ceil(tumor_bam.size) +
                ceil(normal_bam.size) +
@@ -36,10 +38,20 @@ def radia_disk(tumor_bam, normal_bam, rna_bam, fasta):
 
 def run_radia_with_merge(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
     """
-    This is a convenience function that runs the entire mutect sub-graph.
+    A wrapper for the the entire RADIA sub-graph.
+
+    :param dict rna_bam: Dict dicts of bam and bai for tumor RNA-Seq obtained by running STAR within
+           ProTECT.
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict radia_options: Options specific to RADIA
+    :return: fsID to the merged RADIA calls
+    :rtype: toil.fileStore.FileID
     """
-    spawn = job.wrapJobFn(run_radia, rna_bam, tumor_bam, normal_bam, univ_options,
-                          radia_options, disk='100M', memory='100M').encapsulate()
+    spawn = job.wrapJobFn(run_radia, rna_bam['rnaAligned.sortedByCoord.out.bam'], tumor_bam,
+                          normal_bam, univ_options, radia_options, disk='100M',
+                          memory='100M').encapsulate()
     merge = job.wrapJobFn(merge_perchrom_vcfs, spawn.rv(), univ_options, disk='100M', memory='100M')
     job.addChild(spawn)
     spawn.addChild(merge)
@@ -48,45 +60,43 @@ def run_radia_with_merge(job, rna_bam, tumor_bam, normal_bam, univ_options, radi
 
 def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
     """
-    This module will spawn a radia job for each chromosome, on the RNA and DNA.
+    Spawn a RADIA job for each chromosome on the input bam trios.
 
-    ARGUMENTS
-    1. rna_bam: Dict of input STAR bams
-         rna_bam
-              |- 'rnaAligned.sortedByCoord.out.bam': REFER run_star()
-                                |- 'rna_fix_pg_sorted.bam': <JSid>
-                                +- 'rna_fix_pg_sorted.bam.bai': <JSid>
-    2. tumor_bam: Dict of input tumor WGS/WSQ bam + bai
-         tumor_bam
-              |- 'tumor_fix_pg_sorted.bam': <JSid>
-              +- 'tumor_fix_pg_sorted.bam.bai': <JSid>
-    3. normal_bam: Dict of input normal WGS/WSQ bam + bai
-         normal_bam
-              |- 'normal_fix_pg_sorted.bam': <JSid>
-              +- 'normal_fix_pg_sorted.bam.bai': <JSid>
-    4. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    5. radia_options: Dict of parameters specific to radia
-         radia_options
-              |- 'genome_fasta': <JSid for genome fasta file>
-              +- 'genome_fai': <JSid for genome fai file>
-
-    RETURN VALUES
-    1. perchrom_radia: Dict of results of radia per chromosome
-         perchrom_radia
-              |- 'chr1'
-              |   +- 'radia_filtered_chr1.vcf': <JSid>
-              |- 'chr2'
-              |   +- 'radia_filtered_chr2.vcf': <JSid>
-             etc...
-
-    This module corresponds to node 11 on the tree
+    :param dict rna_bam: Dict of bam and bai for tumor DNA-Seq.  It can be one of two formats
+           rna_bam:   # Just the genomic bam and bai
+                |- 'rna_fix_pg_sorted.bam': fsID
+                +- 'rna_fix_pg_sorted.bam.bai': fsID
+           OR
+           rna_bam:   # The output from run_star
+               |- 'rnaAligned.toTranscriptome.out.bam': fsID
+               |- 'rnaAligned.sortedByCoord.out.bam':     # Only this part will be used
+                                |- 'rna_fix_pg_sorted.bam': fsID
+                                +- 'rna_fix_pg_sorted.bam.bai': fsID
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict radia_options: Options specific to RADIA
+    :return: Dict of results from running RADIA on every chromosome
+             perchrom_radia:
+                 |- 'chr1': fsID
+                 |- 'chr2' fsID
+                 |
+                 |-...
+                 |
+                 +- 'chrM': fsID
+    :rtype: dict
     """
     job.fileStore.logToMaster('Running spawn_radia on %s' % univ_options['patient'])
-    rna_bam_key = 'rnaAligned.sortedByCoord.out.bam'  # to reduce next line size
-    bams = {'tumor_rna': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
-            'tumor_rnai': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam.bai'],
+    if set(rna_bam.keys()) == {'rnaAligned.toTranscriptome.out.bam',
+                               'rnaAligned.sortedByCoord.out.bam'}:
+        rna_bam = rna_bam['rnaAligned.sortedByCoord.out.bam']
+    elif set(rna_bam.keys()) == {'rna_fix_pg_sorted.bam', 'rna_fix_pg_sorted.bam.bai'}:
+        pass
+    else:
+        raise RuntimeError('An improperly formatted dict was passed to rna_bam.')
+        
+    bams = {'tumor_rna': rna_bam['rna_fix_pg_sorted.bam'],
+            'tumor_rnai': rna_bam['rna_fix_pg_sorted.bam.bai'],
             'tumor_dna': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
             'tumor_dnai': tumor_bam['tumor_dna_fix_pg_sorted.bam.bai'],
             'normal_dna': normal_bam['normal_dna_fix_pg_sorted.bam'],
@@ -100,14 +110,14 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
                                   disk=PromisedRequirement(
                                       radia_disk, tumor_bam['tumor_dna_fix_pg_sorted.bam'],
                                       normal_bam['normal_dna_fix_pg_sorted.bam'],
-                                      rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
+                                      rna_bam['rna_fix_pg_sorted.bam'],
                                       radia_options['genome_fasta']))
         filter_radia = radia.addChildJobFn(run_filter_radia, bams, radia.rv(), univ_options,
                                            radia_options, chrom, memory='6G',
                                            disk=PromisedRequirement(
                                                radia_disk, tumor_bam['tumor_dna_fix_pg_sorted.bam'],
                                                normal_bam['normal_dna_fix_pg_sorted.bam'],
-                                               rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
+                                               rna_bam['rna_fix_pg_sorted.bam'],
                                                radia_options['genome_fasta']))
         perchrom_radia[chrom] = filter_radia.rv()
     return perchrom_radia
@@ -115,30 +125,14 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
 
 def run_radia_perchrom(job, bams, univ_options, radia_options, chrom):
     """
-    This module will run radia on the RNA and DNA bams
+    Run RADIA call on a single chromosome in the input bams.
 
-    ARGUMENTS
-    1. bams: Dict of bams and their indexes
-        bams
-         |- 'tumor_rna': <JSid>
-         |- 'tumor_rnai': <JSid>
-         |- 'tumor_dna': <JSid>
-         |- 'tumor_dnai': <JSid>
-         |- 'normal_dna': <JSid>
-         +- 'normal_dnai': <JSid>
-    2. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    3. radia_options: Dict of parameters specific to radia
-         radia_options
-              |- 'dbsnp_vcf': <JSid for dnsnp vcf file>
-              +- 'genome': <JSid for genome fasta file>
-    4. chrom: String containing chromosome name with chr appended
-
-    RETURN VALUES
-    1. Dict of filtered radia output vcf and logfile (Nested return)
-        |- 'radia_filtered_CHROM.vcf': <JSid>
-        +- 'radia_filtered_CHROM_radia.log': <JSid>
+    :param dict bams: Dict of bam and bai for tumor DNA-Seq, normal DNA-Seq and tumor RNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict radia_options: Options specific to RADIA
+    :param str chrom: Chromosome to process
+    :return: fsID for the chromsome vcf
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running radia on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
@@ -183,17 +177,15 @@ def run_radia_perchrom(job, bams, univ_options, radia_options, chrom):
 
 def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
     """
-    This module will run filterradia on the RNA and DNA bams.
+    Run filterradia on the RADIA output.
 
-    ARGUMENTS
-    1. bams: REFER ARGUMENTS of run_radia()
-    2. univ_options: REFER ARGUMENTS of run_radia()
-    3. radia_file: <JSid of vcf generated by run_radia()>
-    3. radia_options: REFER ARGUMENTS of run_radia()
-    4. chrom: REFER ARGUMENTS of run_radia()
-
-    RETURN VALUES
-    1. output_file: <JSid of radia_filtered_CHROM.vcf>
+    :param dict bams: Dict of bam and bai for tumor DNA-Seq, normal DNA-Seq and tumor RNA-Seq
+    :param toil.fileStore.FileID radia_file: The vcf from runnning RADIA
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict radia_options: Options specific to RADIA
+    :param str chrom: Chromosome to process
+    :return: fsID for the filtered chromsome vcf
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running filter-radia on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
@@ -252,14 +244,14 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
 
 def process_radia_vcf(job, radia_vcf, work_dir, univ_options):
     """
-    This function will parse the vcf to detect sites having multiple alt alleles and pick out on the
-    most likely ones.
+    Process the RADIA vcf to for passing calls and additionally sites having multiple alt alleles
+    to pick out on the most likely ones.
 
-    :param job: job
-    :param str radia_vcf: Job Store ID corresponding to a radia vcf for 1 chromosome
-    :param univ_options: Universal options
-    :returns dict: Dict with chromosomes as keys and path to the corresponding parsed radia vcfs as
-                   values
+    :param toil.fileStore.FileID radia_vcf: fsID for a RADIA generated chromosome vcf
+    :param str work_dir: Working directory
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: Path to the processed vcf
+    :rtype: str
     """
     radia_vcf = job.fileStore.readGlobalFile(radia_vcf)
     with open(radia_vcf, 'r') as infile, open(radia_vcf + 'radia_parsed.tmp', 'w') as outfile:
@@ -373,4 +365,3 @@ def process_radia_vcf(job, radia_vcf, work_dir, univ_options):
                 else:
                     pass
     return outfile.name
-

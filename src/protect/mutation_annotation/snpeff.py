@@ -14,9 +14,12 @@
 # limitations under the License.
 from __future__ import absolute_import, print_function
 from math import ceil
-from protect.common import (docker_call, get_files_from_filestore, export_results, untargz,
-                            docker_path)
 
+from protect.common import (docker_call,
+                            docker_path,
+                            export_results,
+                            get_files_from_filestore,
+                            untargz)
 import os
 
 
@@ -27,23 +30,13 @@ def snpeff_disk(snpeff_index):
 
 def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     """
-    This module will run snpeff on the aggregated mutation calls.  Currently the only mutations
-    called are SNPs hence SnpEff suffices. This node will be replaced in the future with another
-    translator.
+    Run snpeff on an input vcf.
 
-    ARGUMENTS
-    1. merged_mutation_file: <JSid for merged vcf>
-    2. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    3. snpeff_options: Dict of parameters specific to snpeff
-         snpeff_options
-                +- 'index': <JSid for the snpEff index tarball>
-
-    RETURN VALUES
-    1. output_file: <JSid for the snpeffed vcf>
-
-    This node corresponds to node 16 on the tree
+    :param toil.fileStore.FileID merged_mutation_file: fsID for input vcf
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict snpeff_options: Options specific to snpeff
+    :return: fsID for the snpeffed vcf
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running snpeff on %s' % univ_options['patient'])
     work_dir = os.getcwd()
@@ -56,8 +49,8 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
 
     parameters = ['eff',
                   '-dataDir', input_files['snpeff_index'],
-                  '-c', '/'.join([input_files['snpeff_index'], 'snpEff_' + univ_options['ref'] +
-                                  '_gencode.config']),
+                  '-c', '/'.join([input_files['snpeff_index'],
+                                  'snpEff_' + univ_options['ref'] + '_gencode.config']),
                   '-no-intergenic',
                   '-no-downstream',
                   '-no-upstream',
@@ -68,7 +61,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     xmx = snpeff_options['java_Xmx'] if snpeff_options['java_Xmx'] else univ_options['java_Xmx']
     with open('/'.join([work_dir, 'mutations.vcf']), 'w') as snpeff_file:
         docker_call(tool='snpeff', tool_parameters=parameters, work_dir=work_dir,
-                    dockerhub=univ_options['dockerhub'], java_opts=xmx, outfile=snpeff_file,
+                    dockerhub=univ_options['dockerhub'], java_xmx=xmx, outfile=snpeff_file,
                     tool_version=snpeff_options['version'])
     output_file = job.fileStore.writeGlobalFile(snpeff_file.name)
     export_results(job, output_file, snpeff_file.name, univ_options, subfolder='mutations/snpeffed')

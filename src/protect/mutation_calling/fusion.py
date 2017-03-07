@@ -17,10 +17,13 @@ from __future__ import print_function
 
 def run_fusion_caller(job, star_bam, univ_options, fusion_options):
     """
-    This module will run a fusion caller on DNA bams.  This module will be
-    implemented in the future.
+    Run a fusion caller on DNA bams.  This module will be implemented in the future.
 
-    This module corresponds to node 10 on the tree
+    :param toil.fileStore.FileID star_bam: The input RNA-Seq bam
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict fusion_options: Options specific to fusion calling
+    :return: fsID to the merged fusion calls
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running FUSION on %s' % univ_options['patient'])
     job.fileStore.logToMaster('Fusions are currently unsupported.... Skipping.')

@@ -14,6 +14,7 @@
 # limitations under the License.
 from __future__ import absolute_import, print_function
 from math import ceil
+
 from protect.alignment.common import index_bamfile, index_disk
 from protect.common import docker_call, docker_path, get_files_from_filestore, is_gzipfile, untargz
 from toil.job import PromisedRequirement
@@ -41,7 +42,17 @@ def regroup_disk(reheader_bam):
 
 def align_dna(job, fastqs, sample_type, univ_options, bwa_options):
     """
-    This is a convenience function that runs the entire dna alignment subgraph
+    A wrapper for the entire dna alignment subgraph.
+
+    :param list fastqs: The input fastqs for alignment
+    :param str sample_type: Description of the sample to inject into the filename
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict bwa_options: Options specific to bwa
+    :return: Dict containing output bam and bai
+             output_files:
+                 |- '<sample_type>_fix_pg_sorted.bam': fsID
+                 +- '<sample_type>_fix_pg_sorted.bam.bai': fsID
+    :rtype: dict
     """
     bwa = job.wrapJobFn(run_bwa, fastqs, sample_type, univ_options, bwa_options,
                         disk=PromisedRequirement(bwa_disk, fastqs, bwa_options['index']),
@@ -69,28 +80,14 @@ def align_dna(job, fastqs, sample_type, univ_options, bwa_options):
 
 def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
     """
-    This module aligns the SAMPLE_TYPE dna fastqs to the reference
+    Align a pair of fastqs with bwa.
 
-    ARGUMENTS -- <ST> depicts the sample type. Substitute with 'tumor'/'normal'
-    1. fastqs: Dict of list of input WGS/WXS fastqs
-         fastqs
-              +- '<ST>_dna': [<JSid for 1.fastq> , <JSid for 2.fastq>]
-    2. sample_type: string of 'tumor_dna' or 'normal_dna'
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    4. bwa_options: Dict of parameters specific to bwa
-         bwa_options
-              |- 'index': <JSid for the bwa index tarball>
-              +- 'n': <number of threads to allocate>
-
-    RETURN VALUES
-    1. output_files: Dict of aligned bam + reference (nested return)
-         output_files
-             |- '<ST>_fix_pg_sorted.bam': <JSid>
-             +- '<ST>_fix_pg_sorted.bam.bai': <JSid>
-
-    This module corresponds to nodes 3 and 4 on the tree
+    :param list fastqs: The input fastqs for alignment
+    :param str sample_type: Description of the sample to inject into the filename
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict bwa_options: Options specific to bwa
+    :return: fsID for the generated sam
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running bwa on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
@@ -126,16 +123,14 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
 
 def bam_conversion(job, samfile, sample_type, univ_options, samtools_options):
     """
-    This module converts SAMFILE from sam to bam
+    Convert a sam to a bam.
 
-    ARGUMENTS
-    1. samfile: <JSid for a sam file>
-    2. sample_type: string of 'tumor_dna' or 'normal_dna'
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    RETURN VALUES
-    1. output_files: REFER output_files in run_bwa()
+    :param dict samfile: The input sam file
+    :param str sample_type: Description of the sample to inject into the filename
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict samtools_options: Options specific to samtools
+    :return: fsID for the generated bam
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running sam2bam on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
@@ -159,16 +154,15 @@ def bam_conversion(job, samfile, sample_type, univ_options, samtools_options):
 
 def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options):
     """
-    This module modified the header in BAMFILE
+    Fix the bam header to remove the command line call.  Failing to do this causes Picard to reject
+    the bam.
 
-    ARGUMENTS
-    1. bamfile: <JSid for a bam file>
-    2. sample_type: string of 'tumor_dna' or 'normal_dna'
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    RETURN VALUES
-    1. output_files: REFER output_files in run_bwa()
+    :param dict bamfile: The input bam file
+    :param str sample_type: Description of the sample to inject into the filename
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict samtools_options: Options specific to samtools
+    :return: fsID for the output bam
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running reheader on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
@@ -203,16 +197,14 @@ def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options):
 
 def add_readgroups(job, bamfile, sample_type, univ_options, picard_options):
     """
-    This module adds the appropriate read groups to the bam file
-    ARGUMENTS
-    1. bamfile: <JSid for a bam file>
-    2. sample_type: string of 'tumor_dna' or 'normal_dna'
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                |- 'dockerhub': <dockerhub to use>
-                +- 'java_Xmx': value for max heap passed to java
-    RETURN VALUES
-    1. output_files: REFER output_files in run_bwa()
+    Add read groups to the bam.
+
+    :param dict bamfile: The input bam file
+    :param str sample_type: Description of the sample to inject into the filename
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict picard_options: Options specific to picard
+    :return: fsID for the output bam
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running add_read_groups on %s:%s' % (univ_options['patient'],
                                                                     sample_type))
@@ -231,7 +223,7 @@ def add_readgroups(job, bamfile, sample_type, univ_options, picard_options):
                   'PU=12345',
                   ''.join(['SM=', sample_type.rstrip('_dna')])]
     docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'],
+                dockerhub=univ_options['dockerhub'], java_xmx=univ_options['java_Xmx'],
                 tool_version=picard_options['version'])
     output_file = job.fileStore.writeGlobalFile(
         '/'.join([work_dir, sample_type + '_aligned_fixpg_sorted_reheader.bam']))

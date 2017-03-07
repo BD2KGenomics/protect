@@ -14,7 +14,7 @@
 # limitations under the License.
 from __future__ import absolute_import
 from math import ceil
-from protect.common import docker_call, get_files_from_filestore, export_results
+from protect.common import docker_call,  export_results, get_files_from_filestore
 
 import os
 
@@ -28,14 +28,15 @@ def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options):
     """
     This module indexes BAMFILE
     ARGUMENTS
-    1. bamfile: <JSid for a bam file>
-    2. sample_type: string of 'tumor_dna' or 'normal_dna'
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    RETURN VALUES
-    1. output_files: REFER output_files in run_bwa(). This module is the one is
-                     the one that generates the files.
+    :param toil.fileStore.FileID bamfile: fsID for the bam file
+    :param str sample_type: Description of the sample to inject into the filename
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict samtools_options: Options specific to samtools
+    :return: Dict containing input bam and the generated index (.bam.bai)
+             output_files:
+                 |- '<sample_type>_fix_pg_sorted.bam': fsID
+                 +- '<sample_type>_fix_pg_sorted.bam.bai': fsID
+    :rtype: dict
     """
     job.fileStore.logToMaster('Running samtools-index on %s:%s' % (univ_options['patient'],
                                                                    sample_type))

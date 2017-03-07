@@ -15,18 +15,20 @@
 from __future__ import print_function
 from collections import defaultdict
 from math import ceil
-from protect.common import get_files_from_filestore, docker_path, docker_call, export_results, \
-    untargz, gunzip
+
+from protect.common import (docker_call,
+                            docker_path,
+                            export_results,
+                            get_files_from_filestore,
+                            gunzip,
+                            untargz)
 from protect.mutation_calling.common import sample_chromosomes, merge_perchrom_vcfs
+from toil.job import PromisedRequirement
 
 import os
-import sys
 
 
 # disk for mutect.
-from toil.job import PromisedRequirement
-
-
 def mutect_disk(tumor_bam, normal_bam, fasta, dbsnp, cosmic):
     return int(ceil(tumor_bam.size) +
                ceil(normal_bam.size) +
@@ -37,7 +39,14 @@ def mutect_disk(tumor_bam, normal_bam, fasta, dbsnp, cosmic):
 
 def run_mutect_with_merge(job, tumor_bam, normal_bam, univ_options, mutect_options):
     """
-    This is a convenience function that runs the entire mutect sub-graph.
+    A wrapper for the the entire MuTect sub-graph.
+
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict mutect_options: Options specific to MuTect
+    :return: fsID to the merged MuTect calls
+    :rtype: toil.fileStore.FileID
     """
     spawn = job.wrapJobFn(run_mutect, tumor_bam, normal_bam, univ_options,
                           mutect_options).encapsulate()
@@ -49,42 +58,21 @@ def run_mutect_with_merge(job, tumor_bam, normal_bam, univ_options, mutect_optio
 
 def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     """
-    This module will spawn a mutect job for each chromosome on the DNA bams.
+    Spawn a MuTect job for each chromosome on the DNA bams.
 
-    ARGUMENTS
-    1. tumor_bam: Dict of input tumor WGS/WSQ bam + bai
-         tumor_bam
-              |- 'tumor_fix_pg_sorted.bam': <JSid>
-              +- 'tumor_fix_pg_sorted.bam.bai': <JSid>
-    2. normal_bam: Dict of input normal WGS/WSQ bam + bai
-         normal_bam
-              |- 'normal_fix_pg_sorted.bam': <JSid>
-              +- 'normal_fix_pg_sorted.bam.bai': <JSid>
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    4. mutect_options: Dict of parameters specific to mutect
-         mutect_options
-              |- 'dbsnp_vcf': <JSid for dnsnp vcf file>
-              |- 'dbsnp_idx': <JSid for dnsnp vcf index file>
-              |- 'cosmic_vcf': <JSid for cosmic vcf file>
-              |- 'cosmic_idx': <JSid for cosmic vcf index file>
-              |- 'genome_fasta': <JSid for genome fasta file>
-              +- 'genome_dict': <JSid for genome fasta dict file>
-              +- 'genome_fai': <JSid for genome fasta index file>
-
-    RETURN VALUES
-    1. perchrom_mutect: Dict of results of mutect per chromosome
-         perchrom_mutect
-              |- 'chr1'
-              |   +- 'mutect_chr1.vcf': <JSid>
-              |   +- 'mutect_chr1.out': <JSid>
-              |- 'chr2'
-              |   |- 'mutect_chr2.vcf': <JSid>
-              |   +- 'mutect_chr2.out': <JSid>
-             etc...
-
-    This module corresponds to node 11 on the tree
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict mutect_options: Options specific to MuTect
+    :return: Dict of results from running MuTect on every chromosome
+             perchrom_mutect:
+                 |- 'chr1': fsID
+                 |- 'chr2' fsID
+                 |
+                 |-...
+                 |
+                 +- 'chrM': fsID
+    :rtype: dict
     """
     # Get a list of chromosomes to handle
     chromosomes = sample_chromosomes(job, mutect_options['genome_fai'])
@@ -103,24 +91,17 @@ def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
 
 def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options, chrom):
     """
-    This module will run mutect on the DNA bams
+    Run MuTect call on a single chromosome in the input bams.
 
-    ARGUMENTS
-    1. tumor_bam: REFER ARGUMENTS of spawn_mutect()
-    2. normal_bam: REFER ARGUMENTS of spawn_mutect()
-    3. univ_options: REFER ARGUMENTS of spawn_mutect()
-    4. mutect_options: REFER ARGUMENTS of spawn_mutect()
-    5. chrom: String containing chromosome name with chr appended
-
-    RETURN VALUES
-    1. output_files: Dict of results of mutect for chromosome
-            output_files
-              |- 'mutect_CHROM.vcf': <JSid>
-              +- 'mutect_CHROM.out': <JSid>
-
-    This module corresponds to node 12 on the tree
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict mutect_options: Options specific to MuTect
+    :param str chrom: Chromosome to process
+    :return: fsID for the chromsome vcf
+    :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running mutect on %s:%s' % (univ_options['patient'], chrom))
+    job.fileStore.logToMaster('Running MuTect on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -158,7 +139,7 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
     java_xmx = mutect_options['java_Xmx'] if mutect_options['java_Xmx'] \
         else univ_options['java_Xmx']
     docker_call(tool='mutect', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'], java_opts=java_xmx,
+                dockerhub=univ_options['dockerhub'], java_xmx=java_xmx,
                 tool_version=mutect_options['version'])
     output_file = job.fileStore.writeGlobalFile(mutvcf)
     export_results(job, output_file, mutvcf, univ_options, subfolder='mutations/mutect')
@@ -167,12 +148,13 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
 
 def process_mutect_vcf(job, mutect_vcf, work_dir, univ_options):
     """
-    This will process all the mutect vcfs to return only passing calls
-    :param job: job
-    :param str mutect_vcf: Job Store ID corresponding to a mutect vcf for 1 chromosome
-    :param univ_options: Universal options
-    :returns dict: Dict with chromosomes as keys and path to the corresponding parsed mutect vcfs as
-                   values
+    Process the MuTect vcf for accepted calls.
+
+    :param toil.fileStore.FileID mutect_vcf: fsID for a MuTect generated chromosome vcf
+    :param str work_dir: Working directory
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: Path to the processed vcf
+    :rtype: str
     """
     mutect_vcf = job.fileStore.readGlobalFile(mutect_vcf)
 

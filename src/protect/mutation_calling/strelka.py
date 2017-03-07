@@ -14,6 +14,7 @@
 # limitations under the License.
 from __future__ import print_function
 from math import ceil
+
 from protect.common import (docker_call,
                             docker_path,
                             get_files_from_filestore,
@@ -32,10 +33,18 @@ def strelka_disk(tumor_bam, normal_bam, fasta):
                4 * ceil(fasta.size))
 
 
-# Strelka is a different tool from the other callers because it is run in full
+# Strelka is a different tool from the other callers because it is run in full.  Certain
+# redundant modules in this file are kept to maintain a similar naming schema to other callers.
 def run_strelka_with_merge(job, tumor_bam, normal_bam, univ_options, strelka_options):
     """
-    This is a convenience function that runs the entire strelka sub-graph.
+    A wrapper for the the entire strelka sub-graph.
+
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict strelka_options: Options specific to strelka
+    :return: fsID to the merged strelka calls
+    :rtype: toil.fileStore.FileID
     """
     spawn = job.wrapJobFn(run_strelka, tumor_bam, normal_bam, univ_options,
                           strelka_options, split=False).encapsulate()
@@ -45,42 +54,29 @@ def run_strelka_with_merge(job, tumor_bam, normal_bam, univ_options, strelka_opt
 
 def run_strelka(job, tumor_bam, normal_bam, univ_options, strelka_options, split=True):
     """
-    This module will spawn a strelka job for each chromosome on the DNA bams.
+    Run the strelka subgraph on the DNA bams.  Optionally split the results into per-chromosome
+    vcfs.
 
-    ARGUMENTS
-    1. tumor_bam: Dict of input tumor WGS/WSQ bam + bai
-         tumor_bam
-              |- 'tumor_fix_pg_sorted.bam': <JSid>
-              +- 'tumor_fix_pg_sorted.bam.bai': <JSid>
-    2. normal_bam: Dict of input normal WGS/WSQ bam + bai
-         normal_bam
-              |- 'normal_fix_pg_sorted.bam': <JSid>
-              +- 'normal_fix_pg_sorted.bam.bai': <JSid>
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    4. strelka_options: Dict of parameters specific to strelka
-         strelka_options
-              |- 'dbsnp_vcf': <JSid for dnsnp vcf file>
-              |- 'dbsnp_idx': <JSid for dnsnp vcf index file>
-              |- 'cosmic_vcf': <JSid for cosmic vcf file>
-              |- 'cosmic_idx': <JSid for cosmic vcf index file>
-              |- 'genome_fasta': <JSid for genome fasta file>
-              +- 'genome_dict': <JSid for genome fasta dict file>
-              +- 'genome_fai': <JSid for genome fasta index file>
-
-    RETURN VALUES
-    1. perchrom_strelka: Dict of results of strelka per chromosome
-         perchrom_strelka
-              |- 'chr1'
-              |   +- 'strelka_chr1.vcf': <JSid>
-              |   +- 'strelka_chr1.out': <JSid>
-              |- 'chr2'
-              |   |- 'strelka_chr2.vcf': <JSid>
-              |   +- 'strelka_chr2.out': <JSid>
-             etc...
-
-    This module corresponds to node 11 on the tree
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict strelka_options: Options specific to strelka
+    :param bool split: Should the results be split into perchrom vcfs?
+    :return: Either the fsID to the genome-level vcf or a dict of results from running strelka
+             on every chromosome
+             perchrom_strelka:
+                 |- 'chr1':
+                 |      |-'snvs': fsID
+                 |      +-'indels': fsID
+                 |- 'chr2':
+                 |      |-'snvs': fsID
+                 |      +-'indels': fsID
+                 |-...
+                 |
+                 +- 'chrM':
+                        |-'snvs': fsID
+                        +-'indels': fsID
+    :rtype: toil.fileStore.FileID|dict
     """
     chromosomes = sample_chromosomes(job, strelka_options['genome_fai'])
     num_cores = min(len(chromosomes), univ_options['max_cores'])
@@ -104,16 +100,16 @@ def run_strelka(job, tumor_bam, normal_bam, univ_options, strelka_options, split
 
 def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
     """
-    This module will run strelka on the DNA bams.
+    Run strelka on the DNA bams.
 
-    ARGUMENTS
-    :param dict tumor_bam: REFER ARGUMENTS of spawn_strelka()
-    :param dict normal_bam: REFER ARGUMENTS of spawn_strelka()
-    :param dict univ_options: REFER ARGUMENTS of spawn_strelka()
-    :param dict strelka_options: REFER ARGUMENTS of spawn_strelka()
-
-    RETURN VALUES
-    :returns: dict of output vcfs for each chromosome
+    :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
+    :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict strelka_options: Options specific to strelka
+    :return: Dict of fsIDs snv and indel prediction files
+             output_dict:
+                 |-'snvs': fsID
+                 +-'indels': fsID
     :rtype: dict
     """
     job.fileStore.logToMaster('Running strelka on %s' % univ_options['patient'])
@@ -150,24 +146,38 @@ def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
 
 def process_strelka_vcf(job, strelka_vcf, work_dir, univ_options):
     """
-    This will process all the strelka vcfs to return only passing calls
-    :param job: job
-    :param str strelka_vcf: Job Store ID corresponding to a strelka vcf for 1 chromosome
-    :param univ_options: Universal options
-    :returns dict: Dict with chromosomes as keys and path to the corresponding parsed strelka vcfs as
-                   values
+    Process the strelka vcf for accepted calls. Since the calls are pre-filtered, we just obtain the
+    file from the file store and return it.
+
+    :param toil.fileStore.FileID strelka_vcf: fsID for a strelka generated chromosome vcf
+    :param str work_dir: Working directory
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: Path to the processed vcf
+    :rtype: str
     """
     return job.fileStore.readGlobalFile(strelka_vcf)
 
 
 def wrap_unmerge(job, strelka_out, strelka_options, univ_options):
     """
-    This is a convenience function that wraps the unmerge for strelkas snvs and indels
+    A wwrapper to unmerge the strelka snvs and indels
 
-    :param toil.Job job: job
-    :param dict strelka_out:
-    :param dict strelka_options:
-    :param dict univ_options:
+    :param dict strelka_out: Results from run_strelka
+    :param dict strelka_options: Options specific to strelka
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: Dict of dicts containing the fsIDs for the per-chromosome snv and indel calls
+             output:
+               |- 'snvs':
+               |      |- 'chr1': fsID
+               |      |- 'chr2': fsID
+               |      |- ...
+               |      +- 'chrM': fsID
+               +- 'indels':
+                      |- 'chr1': fsID
+                      |- 'chr2': fsID
+                      |- ...
+                      +- 'chrM': fsID
+    :rtype: dict
     """
     return {'snvs': job.addChildJobFn(unmerge, strelka_out['snvs'], 'strelka/snv', strelka_options,
                                       univ_options).rv(),

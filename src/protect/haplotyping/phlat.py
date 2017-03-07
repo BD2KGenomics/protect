@@ -15,12 +15,16 @@
 from __future__ import absolute_import, print_function
 from collections import defaultdict
 from math import ceil
-from protect.common import (docker_call, get_files_from_filestore, is_gzipfile, untargz,
-                            docker_path, export_results)
+
+from protect.common import (docker_call,
+                            docker_path,
+                            export_results,
+                            get_files_from_filestore,
+                            is_gzipfile,
+                            untargz)
 
 import os
 import re
-import sys
 
 
 # disk for phlat
@@ -31,26 +35,14 @@ def phlat_disk(rna_fastqs):
 
 def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
     """
-    This module will run PHLAT on SAMPLE_TYPE fastqs.
+    Run PHLAT on a pair of input fastqs of type `sample_type`.
 
-    ARGUMENTS -- <ST> depicts the sample type. Substitute with 'tumor_dna',
-                 'normal_dna', or 'tumor_rna'
-    1. fastqs: Dict of list of input WGS/WXS fastqs
-         fastqs
-              +- '<ST>': [<JSid for 1.fastq> , <JSid for 2.fastq>]
-    2. sample_type: string of 'tumor' or 'normal'
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    4. phlat_options: Dict of parameters specific to phlat
-         phlat_options
-              |- 'index': <JSid for the PHLAT index tarball>
-              +- 'n': <number of threads to allocate>
-
-    RETURN VALUES
-    1. output_file: <JSid for the allele predictions for ST>
-
-    This module corresponds to nodes 5, 6 and 7 on the tree
+    :param list fastqs: List of input fastq files
+    :param str sample_type: Description of the sample type to inject into the file name.
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict phlat_options: Options specific to PHLAT
+    :return: fsID for the HLA haplotype called from teh input fastqs
+    :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster('Running phlat on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
@@ -85,21 +77,17 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
 
 def merge_phlat_calls(job, tumor_phlat, normal_phlat, rna_phlat, univ_options):
     """
-    This module will merge the results form running PHLAT on the 3 input fastq
-    pairs.
+    Merge tumor, normal and tumor rna Haplotypes into consensus calls.
 
-    ARGUMENTS
-    1. tumor_phlat: <JSid for tumor DNA called alleles>
-    2. normal_phlat: <JSid for normal DNA called alleles>
-    3. rna_phlat: <JSid for tumor RNA called alleles>
-
-    RETURN VALUES
-    1. output_files: Dict of JSids for consensus MHCI and MHCII alleles
+    :param toil.fileStore.FileID tumor_phlat: fsID for HLA haplotypes called from tumor DNA
+    :param toil.fileStore.FileID normal_phlat: fsID for HLA haplotypes called from normal DNA
+    :param toil.fileStore.FileID rna_phlat: fsID for HLA haplotypes called from tumor RNA
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: Dict of fsIDs for consensus MHCI and MHCII alleles
              output_files
-                    |- 'mhci_alleles.list': <JSid>
-                    +- 'mhcii_alleles.list': <JSid>
-
-    This module corresponds to node 14 on the tree
+                    |- 'mhci_alleles.list': fsID
+                    +- 'mhcii_alleles.list': fsID
+    :rtype: dict
     """
     job.fileStore.logToMaster('Merging Phlat calls')
     work_dir = os.getcwd()
@@ -140,9 +128,12 @@ def merge_phlat_calls(job, tumor_phlat, normal_phlat, rna_phlat, univ_options):
 
 def parse_phlat_file(phlatfile, mhc_alleles):
     """
-    Parse the input phlat file to pull out the alleles it contains
-    :param phlatfile: Open file descriptor for a phlat output sum file
-    :param mhc_alleles: dictionary of alleles.
+    Parse an input phlat file to identify predicted HLA alleles.
+
+    :param file phlatfile: Open file descriptor for a phlat output sum file
+    :param dict mhc_alleles: Dict of alleles.
+    :return: Updated dict of alleles
+    :rtype: dict
     """
     for line in phlatfile:
         if line.startswith('Locus'):
@@ -168,8 +159,11 @@ def parse_phlat_file(phlatfile, mhc_alleles):
 
 def most_probable_alleles(allele_list):
     """
-    This module accepts a list of tuples of (allele, p_value) pairs. It returns the 2 most probable
-    alleles for that group.
+    Identify the most probable haplotype in a list
+
+    :param list allele_list: List of tuples of (allele, p_value)
+    :return: List of 2 most probable alleles in the group
+    :rtype: list[str]
     """
     all_alleles = defaultdict()
     # First collect all the keys.  Make a dict with allele as key and list of pvalues as value

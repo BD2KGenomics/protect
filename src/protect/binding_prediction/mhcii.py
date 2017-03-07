@@ -22,13 +22,15 @@ import re
 
 def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
     """
-    This module will predict MHC:peptide binding for peptides in the files created in node YY to
-    ALLELE.  ALLELE represents an MHCII allele.
+    Predict binding for each peptide in `peptfile` to `allele` using the IEDB mhcii binding
+    prediction tool.
 
-    The module returns (PREDFILE, PREDICTOR) where PREDFILE contains the predictions and PREDICTOR
-    is the predictor used (Consensus, NetMHCIIpan, or Sturniolo).
-
-    This module corresponds to node 19 on the tree
+    :param toil.fileStore.FileID peptfile: The input peptide fasta
+    :param str allele: Allele to predict binding against
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict mhcii_options: Options specific to mhcii binding prediction
+    :return: tuple of fsID for file containing the predictions and the predictor used
+    :rtype: tuple(toil.fileStore.FileID, str)
     """
     job.fileStore.logToMaster('Running mhcii on %s:%s' % (univ_options['patient'], allele))
     work_dir = os.getcwd()
@@ -72,10 +74,14 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
 
 def predict_netmhcii_binding(job, peptfile, allele, univ_options, netmhciipan_options):
     """
-    This module will predict MHC:peptide binding for peptides in the files created in node YY to
-    ALLELE.  ALLELE represents an MHCII allele.
+    Predict binding for each peptide in `peptfile` to `allele` using netMHCIIpan.
 
-    This module corresponds to node 19 on the tree
+    :param toil.fileStore.FileID peptfile: The input peptide fasta
+    :param str allele: Allele to predict binding against
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict netmhciipan_options: Options specific to netmhciipan binding prediction
+    :return: tuple of fsID for file containing the predictions and the predictor used (netMHCIIpan)
+    :rtype: tuple(toil.fileStore.FileID, str)
     """
     job.fileStore.logToMaster('Running netmhciipan on %s' % allele)
     work_dir = os.getcwd()

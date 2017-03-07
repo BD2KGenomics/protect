@@ -28,29 +28,23 @@ from urlparse import urlparse
 import errno
 import gzip
 import os
-import re
-import shutil
 import subprocess
 import sys
 import tarfile
-import time
 import urllib2
 import uuid
 
 
 def get_files_from_filestore(job, files, work_dir, docker=False):
     """
-    This is adapted from John Vivian's return_input_paths from the RNA-Seq pipeline.
+    Download a dict of files to the given directory and modify the path to a docker-friendly one if
+    requested.
 
-    Returns the paths of files from the FileStore if they are not present.
-    If docker=True, return the docker path for the file.
-    If the file extension is tar.gz, then tar -zxvf it.
-
-    files is a dict with:
-        keys = the name of the file to be returned in toil space
-        value = the input value for the file (can be toil temp file)
-    work_dir is the location where the file should be stored
-    cache indiciates whether caching should be used
+    :param dict files: A dictionary of filenames: fsIDs
+    :param str work_dir: The destination directory
+    :param bool docker: Should the file path be converted to our standard docker '/data/filename'?
+    :return: Dict of files: (optionallly docker-friendly) fileepaths
+    :rtype: dict
     """
     for name in files.keys():
         outfile = job.fileStore.readGlobalFile(files[name], '/'.join([work_dir, name]))
@@ -65,17 +59,29 @@ def get_files_from_filestore(job, files, work_dir, docker=False):
 
 def docker_path(filepath):
     """
-    Given a path, returns that files path inside the docker mount directory
-    (/data).
+    Given a path, return that files path inside the docker mount directory (/data).
+
+    :param str filepath: The path to a file
+    :return: The docker-friendly path for `filepath`
+    :rtype: str
     """
     return os.path.join('/data', os.path.basename(filepath))
 
 
-def docker_call(tool, tool_parameters, work_dir, java_opts=None, outfile=None,
+def docker_call(tool, tool_parameters, work_dir, java_xmx=None, outfile=None,
                 dockerhub='aarjunrao', interactive=False, tool_version='latest'):
     """
-    Makes subprocess call of a command to a docker container. work_dir MUST BE AN ABSOLUTE PATH or
-    the call will fail.  outfile is an open file descriptor to a writeable file.
+    Make a subprocess call of a command to a docker container.
+
+    :param str tool: The tool to run
+    :param list tool_parameters: Parameters passed to `tool`
+    :param str work_dir: The absolute path to the working directory to be mounted into the container
+    :param str java_xmx: The heap space in human readable format to provide java ('20G' will pass
+           -Xmx20G to java)
+    :param file outfile: The file object to dump stdout
+    :param str dockerhub: The dockerhub from where the tool will be pulled
+    :param bool interactive: Should the docker container be run in interactive mode?
+    :param str tool_version: What dockerised tool version should be used?
     """
     # If an outifle has been provided, then ensure that it is of type file, it is writeable, and
     # that it is open.
@@ -106,8 +112,8 @@ def docker_call(tool, tool_parameters, work_dir, java_opts=None, outfile=None,
             raise RuntimeError('docker not found on system. Install on all' +
                                ' nodes.')
     # If java options have been provided, it needs to be in the docker call
-    if java_opts:
-        base_docker_call = ' docker run -e JAVA_OPTS=-Xmx{} '.format(java_opts) + '--rm=true ' + \
+    if java_xmx:
+        base_docker_call = ' docker run -e JAVA_OPTS=-Xmx{} '.format(java_xmx) + '--rm=true ' + \
             '-v {}:/data --log-driver=none '.format(work_dir) + interactive
     else:
         base_docker_call = ' docker run --rm=true -v {}:/data '.format(work_dir) + \
@@ -124,12 +130,14 @@ def docker_call(tool, tool_parameters, work_dir, java_opts=None, outfile=None,
 
 def untargz(input_targz_file, untar_to_dir):
     """
-    This module accepts a tar.gz archive and untars it.
+    Accept a tar.gz archive and untar it to the given location.  The archive can have either one
+    file, or many files in a single directory.
 
-    RETURN VALUE: path to the untar-ed directory/file
+    :param str input_targz_file: Path to a tar.gz archive
+    :param str untar_to_dir: The directory where untared files will be dumped
 
-    NOTE: this module expects the multiple files to be in a directory before
-          being tar-ed.
+    :return: path to the untar-ed directory/file
+    :rtype: str
     """
     assert tarfile.is_tarfile(input_targz_file), 'Not a tar file.'
     tarball = tarfile.open(input_targz_file)
@@ -142,8 +150,10 @@ def untargz(input_targz_file, untar_to_dir):
 def gunzip(input_gzip_file, block_size=1024):
     """
     Gunzips the input file to the same directory
+
     :param input_gzip_file: File to be gunzipped
     :return: path to the gunzipped file
+    :rtype: str
     """
     assert os.path.splitext(input_gzip_file)[1] == '.gz'
     assert is_gzipfile(input_gzip_file)
@@ -160,10 +170,15 @@ def gunzip(input_gzip_file, block_size=1024):
 
 def is_gzipfile(filename):
     """
-    This function attempts to ascertain the gzip status of a file based on the "magic signatures" of
-    the file. This was taken from the stack overflow
+    Attempt to ascertain the gzip status of a file based on the "magic signatures" of the file.
+
+    This was taken from the stack overflow post
     http://stackoverflow.com/questions/13044562/python-mechanism-to-identify-compressed-file-type\
         -and-uncompress
+
+    :param str filename: A path to a file
+    :return: True if the file appears to be gzipped else false
+    :rtype: bool
     """
     assert os.path.exists(filename), 'Input {} does not '.format(filename) + \
         'point to a file.'
@@ -178,21 +193,24 @@ def is_gzipfile(filename):
 def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
                      write_to_jobstore=True):
     """
-    Downloads a supplied URL that points to an unencrypted, unprotected file on Amazon S3. The file
-    is downloaded and a subsequently written to the jobstore and the return value is a the path to
-    the file in the jobstore.
+    Download a supplied URL that points to a file on Amazon S3.  If the file is encrypted using
+    sse-c (with the user-provided key or with a hash of the usesr provided master key) then the
+    encryption keys will be used when downloading.  The file is downloaded and written to the
+    jobstore if requested.
 
-    :param str s3_url: URL for the file (can be s3 or https)
+    :param str s3_url: URL for the file (can be s3, S3 or https)
     :param str encryption_key: Path to the master key
     :param bool per_file_encryption: If encrypted, was the file encrypted using the per-file method?
     :param bool write_to_jobstore: Should the file be written to the job store?
+    :return: Path to the downloaded file or fsID (if write_to_jobstore was True)
+    :rtype: str|toil.fileStore.FileID
     """
     work_dir = job.fileStore.getLocalTempDir()
 
     parsed_url = urlparse(s3_url)
     if parsed_url.scheme == 'https':
         download_url = 'S3:/' + parsed_url.path  # path contains the second /
-    elif parsed_url.scheme in ('s3','S3'):
+    elif parsed_url.scheme in ('s3', 'S3'):
         download_url = s3_url
     else:
         raise RuntimeError('Unexpected url scheme: %s' % s3_url)
@@ -261,14 +279,18 @@ def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
 def get_file_from_url(job, any_url, encryption_key=None, per_file_encryption=True,
                       write_to_jobstore=True):
     """
-    Downloads a supplied URL (ftp,http,https) that points to a file. The file
-    is downloaded and a subsequently written to the jobstore and the return value is a the path to
-    the file in the jobstore. If URL link is invalid the function will raise an error.
+    Download a supplied URL that points to a file on an http, https or ftp server.  If the file is
+    found to be an https s3 link then the file is downloaded using `get_file_from_s3`. The file is
+    downloaded and written to the jobstore if requested.
+    Encryption arguments are for passing to `get_file_from_s3` if required.
 
     :param str any_url: URL for the file
+    :param str encryption_key: Path to the master key
+    :param bool per_file_encryption: If encrypted, was the file encrypted using the per-file method?
     :param bool write_to_jobstore: Should the file be written to the job store?
+    :return: Path to the downloaded file or fsID (if write_to_jobstore was True)
+    :rtype: str|toil.fileStore.FileID
     """
-
     work_dir = job.fileStore.getLocalTempDir()
 
     filename = '/'.join([work_dir, str(uuid.uuid4())])
@@ -276,9 +298,8 @@ def get_file_from_url(job, any_url, encryption_key=None, per_file_encryption=Tru
     parsed_url = urlparse(any_url)
     try:
         response = urllib2.urlopen(url)
-
     except urllib2.HTTPError:
-        if (parsed_url.netloc).startswith(('s3', 'S3')):
+        if parsed_url.netloc.startswith(('s3', 'S3')):
             job.fileStore.logToMaster("Detected https link is for an encrypted s3 file.")
             return get_file_from_s3(job, any_url, encryption_key=encryption_key,
                                     per_file_encryption=per_file_encryption,
@@ -296,14 +317,13 @@ def get_file_from_url(job, any_url, encryption_key=None, per_file_encryption=Tru
 
 def bam2fastq(bamfile, univ_options, picard_options):
     """
-    split an input bam to paired fastqs.
+    Split an input bam to paired fastqs.
 
-    ARGUMENTS
-    1. bamfile: Path to a bam file
-    2. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                |- 'dockerhub': <dockerhub to use>
-                +- 'java_Xmx': value for max heap passed to java
+    :param str bamfile: Path to a bam file
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict picard_options: Dict of options specific to Picard
+    :return: Path to the _1.fastq file
+    :rtype: str
     """
     work_dir = os.path.split(bamfile)[0]
     base_name = os.path.split(os.path.splitext(bamfile)[0])[1]
@@ -313,31 +333,27 @@ def bam2fastq(bamfile, univ_options, picard_options):
                   ''.join(['F2=/data/', base_name, '_2.fastq']),
                   ''.join(['FU=/data/', base_name, '_UP.fastq'])]
     docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'], java_opts=univ_options['java_Xmx'],
+                dockerhub=univ_options['dockerhub'], java_xmx=univ_options['java_Xmx'],
                 tool_version=picard_options['version'])
     first_fastq = ''.join([work_dir, '/', base_name, '_1.fastq'])
     assert os.path.exists(first_fastq)
     return first_fastq
 
 
-def export_results(job, fsid, file_path, univ_options, subfolder=None):
+def export_results(job, fsid, file_name, univ_options, subfolder=None):
     """
     Write out a file to a given location. The location can be either a directory on the local
     machine, or a folder with a bucket on AWS.
-    TODO: Azure support
+
     :param str fsid: The file store id for the file to be exported
-    :param str file_path: The path to the file that neeeds to be exported
-    :param dict univ_options: A dict of the universal options passed to this script. The important
-           dict entries are ouput_folder and storage_location.
-                * storage_location: 'Local' or an 'aws:<bucket_name>'.
-                * output_folder: The folder to store the file. This must exist on the local machine
-                                 if storage_location is 'Local'. If the storage_location is an aws
-                                 bucket,  this string represents the path to the file in the bucket.
-                                 To keep it in the base directory, specify 'NA'.
+    :param str file_name: The name of the file that neeeds to be exported (path to file is also
+           acceptable)
+    :param dict univ_options: Dict of universal options used by almost all tools
     :param str subfolder: A sub folder within the main folder where this data should go
     :return: None
     """
     job.fileStore.logToMaster('Exporting %s to output location' % fsid)
+    file_name = os.path.basename(file_name)
     try:
         assert univ_options['output_folder'], 'Need a path to a folder to write out files'
         assert univ_options['storage_location'], 'Need to know where the files need to go. ' + \
@@ -361,75 +377,24 @@ def export_results(job, fsid, file_path, univ_options, subfolder=None):
         except OSError as err:
             if err.errno != errno.EEXIST:
                 raise
-        output_url = 'file://' + os.path.join(output_folder, os.path.basename(file_path))
+        output_url = 'file://' + os.path.join(output_folder, file_name)
     elif univ_options['storage_location'].startswith('aws'):
         # Handle AWS
         bucket_name = univ_options['storage_location'].split(':')[-1]
-
-        file_name = os.path.basename(file_path)
         output_url = os.path.join('S3://', bucket_name, output_folder.strip('/'), file_name)
     # Can't do Azure or google yet.
     else:
+        # TODO: Azure support
         print("Currently doesn't support anything but Local and aws.")
         return
     job.fileStore.exportFile(fsid, output_url)
 
 
-def write_to_s3(file_path, key_path, bucket_name, output_folder, overwrite=True):
-    """
-    Write the file to S3.
-
-    :param file_path: The file to be written
-    :param key_path: Path to the encryption Key
-    :param bucket_name: The bucket where the data will be written
-    :param output_folder: The location in the bucket for the output data
-    :param overwrite: Should the data be overwritten if it exists in the bucket?
-    """
-    assert overwrite in (True, False)
-    overwrite = 'overwrite' if overwrite else 'skip'
-    file_name = os.path.basename(file_path)
-    output_file = os.path.join('S3://', bucket_name, output_folder.strip('/'), file_name)
-    # Adding resume doesn't affect a new upload, but protects in failed upload cases.
-    subprocess.check_call(['s3am', 'upload', '--exists=' + overwrite, '--resume',
-                           '--sse-key-file', key_path, file_path, output_file])
-
-
-def file_xext(filepath):
-    """
-    Get the file extension wrt compression from the filename (is it tar or targz)
-    :param str filepath: Path to the file
-    :return str ext: Compression extension name
-    """
-    ext = os.path.splitext(filepath)[1]
-    if ext == '.gz':
-        xext = os.path.splitext(os.path.splitext(filepath)[0])[1]
-        if xext == '.tar':
-            ext = xext + ext
-    elif ext == '.tar':
-        pass  # ext is already .tar
-    else:
-        ext = ''
-    return ext
-
-
-def strip_xext(filepath):
-    """
-    Strips the compression extension from the filename
-    :param filepath: Path to compressed file.
-    :return str filepath: Path to the file with the compression extension stripped off.
-    """
-    ext_size = len(file_xext(filepath).split('.')) - 1
-    for i in xrange(0, ext_size):
-        filepath = os.path.splitext(filepath)[0]
-    return filepath
-
-
 def delete_fastqs(job, fastqs):
     """
-    This module will delete the fastqs from the job Store once their purpose has been achieved (i.e.
-    after all mapping steps)
+    This module will delete the fastqs from the job Store once their purpose has been achieved
+    (i.e. after all mapping steps)
 
-    ARGUMENTS
     :param dict fastqs: Dict of list of input fastqs
     """
     for key in fastqs.keys():
@@ -451,12 +416,14 @@ class ParameterError(Exception):
 
 def read_peptide_file(in_peptfile):
     """
-    This module reads an input peptide fasta file into memory in the form of a dict with
-    key = fasta record name
-    value = corresponding peptide sequence
+    Reads an input peptide fasta file into memory in the form of a dict of fasta record: sequence
+
+    :param str in_peptfile: Path to a peptide fasta
+    :return: Dict of fasta record: sequence
+    :rtype: dict
     """
     peptides = defaultdict()
-    pept=None
+    pept = None
     with open(in_peptfile, 'r') as peptfile:
         for line in peptfile:
             if line.startswith('>'):

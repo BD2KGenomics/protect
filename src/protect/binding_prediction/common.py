@@ -13,62 +13,49 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, print_function
+from collections import defaultdict
+
+from protect.binding_prediction.mhci import predict_mhci_binding
+from protect.binding_prediction.mhcii import predict_mhcii_binding, predict_netmhcii_binding
+from protect.common import get_files_from_filestore, export_results, read_peptide_file, untargz
 
 import json
 import os
-import re
-from collections import defaultdict
-
 import pandas
-from protect.binding_prediction.mhci import predict_mhci_binding
-from protect.binding_prediction.mhcii import predict_mhcii_binding, predict_netmhcii_binding
-from protect.common import get_files_from_filestore, untargz, export_results, read_peptide_file
+import re
 
 
 def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, mhc_options):
     """
-    Based on the number of alleles obtained from node 14, this module will spawn callers to predict
-    MHCI:peptide and MHCII:peptide binding on the peptide files from node 17.  Once all MHC:peptide
-    predictions are made, merge them via a follow-on job.
+    Spawn a job to predict MHCI:peptide and MHCII:peptide binding on the input peptide file for each
+    allele in in the input haplotype (phlat) files.
 
-    ARGUMENTS
-    1. transgened_files: REFER RETURN VALUE of run_transgene()
-    2. phlat_files: REFER RETURN VALUE of merge_phlat_calls()
-    3. univ_options: Dict of universal arguments used by almost all tools
-         univ_options
-                +- 'dockerhub': <dockerhub to use>
-    4. mhc_options: Dict of dicts of parameters specific to mhci and mhcii
-                    respectively
-         mhc_options
-              |- 'mhci'
-              |     |- 'method_file': <JSid for json file containing data
-              |     |                  linking alleles, peptide lengths, and
-              |     |                  prediction methods>
-              |     +- 'pred': String describing prediction method to use
-              +- 'mhcii'
-                    |- 'method_file': <JSid for json file containing data
-                    |                  linking alleles and prediction methods>
-                    +- 'pred': String describing prediction method to use
-
-    RETURN VALUES
-    1. tuple of (mhci_preds, mhcii_preds)
-         mhci_preds: Dict of return value from running predictions on a given
-                     mhc for all peptides of length 9 and 10.
-             mhci_preds
-                |- <MHC molecule 1>_9_mer.faa: <PromisedJobReturnValue>
-                |- <MHC molecule 1>_10_mer.faa: <PromisedJobReturnValue>
-                |
-                ..
-                +- <MHC molecule n>_10_mer.faa: <PromisedJobReturnValue>
-         mhcii_preds: Dict of return value from running predictions on a given
-                     mhc for all peptides of length 15.
-             mhci_preds
-                |- <MHC molecule 1>_15_mer.faa: <PromisedJobReturnValue>
-                |
-                ..
-                +- <MHC molecule n>_15_mer.faa: <PromisedJobReturnValue>
-
-    This module corresponds to node 18 on the tree
+    :param dict transgened_files: Dict of tumor and normal peptide fsIDs and the tumor .map fsIDs
+    :param dict phlat_files: Dict of MHCI and MHCII haplotypes
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param tuple mhc_options: Options specific to mhci and mhcii binding predictions
+    :return: Tuple of dicts of mhci and mhcii predictions
+                (mhci_preds, mhcii_preds)
+                      |          |- <allele>:
+                      |          |     |- 'tumor': fsID
+                      |          |     +- 'normal': (fsID, str)
+                      |          |
+                      |          |- ...
+                      |          |
+                      |          +- <allele>:
+                      |                |- 'tumor': fsID
+                      |                +- 'normal': (fsID, str)
+                      |
+                      |- <allele>:
+                      |     |- 'tumor': fsID
+                      |     +- 'normal': fsID
+                      |
+                      |- ...
+                      |
+                      +- <allele>:
+                            |- 'tumor': fsID
+                            +- 'normal': fsID
+    :rtype: tuple(dict, dict)
     """
     job.fileStore.logToMaster('Running spawn_anti on %s' % univ_options['patient'])
     work_dir = os.getcwd()
@@ -151,9 +138,9 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
 
 def read_fastas(input_files):
     """
-    Reads the tumor and normal fastas to disk
+    Read the tumor and normal fastas into a joint dict.
 
-    :param dict input_files: A dict containing filename:filepath for T_ and N_ transgened files.
+    :param dict input_files: A dict containing filename: filepath for T_ and N_ transgened files.
     :return: The read fastas in a dictionary of tuples
     :rtype: dict
     """
@@ -169,7 +156,7 @@ def read_fastas(input_files):
 
 def _read_fasta(fasta_file, output_dict):
     """
-    Actually read the peptide fasta.
+    Read the peptide fasta into an existing dict.
 
     :param str fasta_file: The peptide file
     :param dict output_dict: The dict to appends results to.
@@ -192,8 +179,8 @@ def _read_fasta(fasta_file, output_dict):
 
 def _process_consensus_mhcii(mhc_file, normal=False):
     """
-    Process the results from running IEDB binding predictions using the consensus method into a
-    pandas dataframe.
+    Process the results from running IEDB MHCII binding predictions using the consensus method into
+    a pandas dataframe.
 
     :param str mhc_file: Output file containing consensus mhcii:peptide binding predictions
     :param bool normal: Is this processing the results of a normal?
@@ -235,8 +222,8 @@ def _process_consensus_mhcii(mhc_file, normal=False):
 
 def _process_sturniolo_mhcii(mhc_file, normal=False):
     """
-    Process the results from running IEDB binding predictions using the sturniolo method into a
-    pandas dataframe.
+    Process the results from running IEDB MHCII binding predictions using the sturniolo method into
+    a pandas dataframe.
 
     :param str mhc_file: Output file containing sturniolo mhcii:peptide binding predictions
     :param bool normal: Is this processing the results of a normal?
@@ -292,7 +279,7 @@ def _process_net_mhcii(mhc_file, normal=False):
 
 def _process_mhci(mhc_file, normal=False):
     """
-    Process the results from running IEDB mhci binding predictions into a pandas dataframe
+    Process the results from running IEDB MHCI binding predictions into a pandas dataframe.
 
     :param str mhc_file: Output file containing netmhciipan mhci:peptide binding predictions
     :param bool normal: Is this processing the results of a normal?
@@ -354,28 +341,18 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
     Predict the binding score for the normal counterparts of the peptides in mhc_dict and then
     return the results in a properly formatted structure.
 
-    :param job: Job
     :param str binding_result: The results from running predict_mhci_binding or
            predict_mhcii_binding on a single allele
     :param dict transgened_files: A dictionary containing the jobstore IDs for "T_<peplen>_mer.faa"
            and "N_<peplen>_mer.faa"
     :param str allele: The allele to get binding for
     :param str peplen: The peptide length
-    :param dict univ_options: Universal options for ProTECT
-                univ_options
-                     +- 'dockerhub': <dockerhub to use>
-    :param dict mhc_options: MHC specific options
-                mhc_options
-                      |- 'mhci'
-                      |     |- 'method_file': <JSid for json file containing data
-                      |     |                  linking alleles, peptide lengths, and
-                      |     |                  prediction methods>
-                      |     +- 'pred': String describing prediction method to use
-                      +- 'mhcii'
-                            |- 'method_file': <JSid for json file containing data
-                            |                  linking alleles and prediction methods>
-                            +- 'pred': String describing prediction method to use
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict mhc_options: Options specific to mhci or mhcii binding predictions
     :return: A fully filled out mhc_dict with normal information
+             output_dict:
+                |- 'tumor': fsID
+                +- 'normal': fsID or (fsID, str)     -- Depending on MHCI or MHCII
     :rtype: dict
     """
     job.fileStore.logToMaster('Running predict_normal_binding on %s for allele %s and length %s' %
@@ -454,15 +431,15 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
 
 def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_options):
     """
-    Merge all the calls from nodes 18 and 19.
+    Merge all the calls generated by spawn_antigen_predictors.
 
-    This module corresponds to node 19 on the tree
-
-    :param job: Job
     :param dict antigen_predictions: The return value from running :meth:`spawn_antigen_predictors`
     :param dict transgened_files: The transgened peptide files
     :param dict univ_options: Universal options for ProTECT
     :return: merged binding predictions
+             output_files:
+                 |- 'mhcii_merged_files.list': fsID
+                 +- 'mhci_merged_files.list': fsID
     :rtype: dict
     """
     job.fileStore.logToMaster('Merging MHC calls')
@@ -542,24 +519,16 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
 
 def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile, netmhc=False):
     """
-    To reduce code redundancy, this module will accept data from merge_mhc_peptide_calls for a given
-    neoepitope and print it to outfile
-    ARGUMENTS
-    1. neoepitope_info: pandas.core.frame with allele, pept, pred, core, normal_pept, normal_pred
-    2. peptides: Dict of all IARS considered
-           peptides
-              |- 'neoepitope_1': <peptide_sequence>
-              ..
-              |- 'neoepitope_n': <peptide_sequence>
-    3. pepmap: Info correlating neoepitope with the gene and transcript level
-               mutations.
-           peptides
-              |- 'neoepitope_1':
-              |      'ensembl_gene\thugo_gene\tcomma_sep_transcript_mutations'
-              ..
-              +- 'neoepitope_n':
-                     'ensembl_gene\thugo_gene\tcomma_sep_transcript_mutations'
+    Accept data about one neoepitope from merge_mhc_peptide_calls and print it to outfile.  This is
+    a generic module to reduce code redundancy.
 
+    :param pandas.core.frame neoepitope_info: object containing with allele, pept, pred, core,
+           normal_pept, normal_pred
+    :param dict peptides: Dict of pepname: pep sequence for all IARS considered
+    :param dict pepmap: Dict containing teh contents from the peptide map file.
+    :param file outfile: An open file descriptor to the output file
+    :param bool netmhc: Does this record correspond to a netmhcIIpan record? These are processed
+           differently.
     """
     if netmhc:
         peptide_names = [neoepitope_info.peptide_name]

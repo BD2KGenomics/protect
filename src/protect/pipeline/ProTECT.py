@@ -21,16 +21,13 @@ Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
 from __future__ import print_function
-
-
 from multiprocessing import cpu_count
-from urlparse import urlparse
 
 from protect.addons import run_mhc_gene_assessment
 from protect.alignment.dna import align_dna
 from protect.alignment.rna import align_rna
-from protect.binding_prediction.common import spawn_antigen_predictors, merge_mhc_peptide_calls
-from protect.common import delete_fastqs, ParameterError
+from protect.binding_prediction.common import merge_mhc_peptide_calls, spawn_antigen_predictors
+from protect.common import delete_fastqs, get_file_from_s3, get_file_from_url, ParameterError
 from protect.expression_profiling.rsem import wrap_rsem
 from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
 from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
@@ -46,14 +43,11 @@ from protect.mutation_translation import run_transgene
 from protect.qc.rna import cutadapt_disk, run_cutadapt
 from protect.rankboost import wrap_rankboost
 from toil.job import Job, PromisedRequirement
-from protect.common import get_file_from_s3
-from protect.common import get_file_from_url
 
 import argparse
 import os
 import pkg_resources
 import shutil
-import subprocess
 import sys
 import yaml
 
@@ -62,6 +56,7 @@ def _ensure_set_contains(test_object, required_object, test_set_name=None):
     """
     Ensure that the required entries (set or keys of a dict) are present in the test set or keys
     of the test dict.
+
     :param set|dict test_object: The test set or dict
     :param set|dict required_object: The entries that need to be present in the test set (keys of
             input dict if input is dict)
@@ -121,8 +116,9 @@ def _process_group(input_group, required_group, groupname, append_subgroups=None
     :param dict input_group: The dict of values of the input group
     :param dict required_group: The dict of required values for the input group
     :param str groupname: The name of the group being processed
-    :param list append_group: list of subgroups to append to each, other subgroup in this group
-    :return: dict
+    :param list append_subgroups: list of subgroups to append to each, other subgroup in this group
+    :return: processed dict of entries for the group
+    :rtype: dict
     """
     if append_subgroups is None:
         append_subgroups = []
@@ -144,17 +140,12 @@ def _process_group(input_group, required_group, groupname, append_subgroups=None
 
 def _parse_config_file(job, config_file, max_cores=None):
     """
-    This module will parse the config file withing params and set up the variables that will be
-    passed to the various tools in the pipeline.
+    Parse the input yaml config file and download all tool inputs into the file store.
 
-    ARGUMENTS
-    config_file: string containing path to a config file.  An example config
-                 file is available at
-                        https://s3-us-west-2.amazonaws.com/pimmuno-references
-                        /input_parameters.list
-
-    RETURN VALUES
-    None
+    :param str config_file: Path to the input config file
+    :param int max_cores: The maximum cores to use for any single high-compute job.
+    :return: tuple of dict of sample dicts, dict of universal options, dict of dicts of tool options
+    :rtype: tuple(dict, dict, dict)
     """
     job.fileStore.logToMaster('Parsing config file')
     config_file = os.path.abspath(config_file)
@@ -165,7 +156,6 @@ def _parse_config_file(job, config_file, max_cores=None):
     sample_set = {}
     univ_options = {}
     tool_options = {}
-
 
     # Read in the input yaml
     with open(config_file, 'r') as conf:
@@ -264,17 +254,10 @@ def _parse_config_file(job, config_file, max_cores=None):
 
 def parse_config_file(job, config_file, max_cores=None):
     """
-    This module will parse the config file withing params and set up the variables that will be
-    passed to the various tools in the pipeline.
+    Parse the config file and spawn a ProTECT job for every input sample.
 
-    ARGUMENTS
-    config_file: string containing path to a config file.  An example config
-                 file is available at
-                        https://s3-us-west-2.amazonaws.com/pimmuno-references
-                        /input_parameters.list
-
-    RETURN VALUES
-    None
+    :param str config_file: Path to the input config file
+    :param int max_cores: The maximum cores to use for any single high-compute job.
     """
     sample_set, univ_options, processed_tool_inputs = _parse_config_file(job, config_file,
                                                                          max_cores)
@@ -282,12 +265,19 @@ def parse_config_file(job, config_file, max_cores=None):
     for patient_id in sample_set.keys():
         # Add the patient id to the sample set.  Typecast to str so cat operations work later on.
         sample_set[patient_id]['patient_id'] = str(patient_id)
-        job.addFollowOnJobFn(pipeline_launchpad, sample_set[patient_id], univ_options,
+        job.addFollowOnJobFn(launch_protect, sample_set[patient_id], univ_options,
                              processed_tool_inputs)
     return None
 
 
 def ascertain_cpu_share(max_cores=None):
+    """
+    Ascertain the number of cpus allowed for each high-compte job instance (bwa, star, rsem, phlat).
+
+    :param max_cores: The user-specified max
+    :return: The number of cpus allowed for each high-compte job instance
+    :rtype: int
+    """
     # Ascertain the number of available CPUs. Jobs will be given fractions of this value.
     num_cores = cpu_count()
     # The minimum number of cpus should be at least 6 if possible
@@ -298,15 +288,13 @@ def ascertain_cpu_share(max_cores=None):
     return cpu_share
 
 
-def pipeline_launchpad(job, fastqs, univ_options, tool_options):
+def launch_protect(job, fastqs, univ_options, tool_options):
     """
-    The precision immuno pipeline begins at this module. The DAG can be viewed in Flowchart.txt
+    The launchpad for ProTECT. The DAG for ProTECT can be viewed in Flowchart.txt.
 
-    :param job job: job
-    :param dict fastqs: Dict of lists of fastq files
-    :param univ_options: Universal Options
-    :param tool_options: Options for the various tools
-    :return: None
+    :param dict fastqs: Dict of lists of fastq files and the patient ID
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict tool_options: Options for the various tools
     """
     # Add Patient id to univ_options as is is passed to every major node in the DAG and can be used
     # as a prefix for the logfile.
@@ -391,90 +379,90 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
                               univ_options, tool_options['rankboost'], disk='100M', memory='100M',
                               cores=1)
     # Define the DAG in a static form
-    job.addChild(sample_prep)  # Edge  0->1
+    job.addChild(sample_prep)
     # A. The first step is running the alignments and the MHC haplotypers
-    sample_prep.addChild(tumor_dna_fqs)  # Edge  1->2
-    sample_prep.addChild(normal_dna_fqs)  # Edge  1->2
-    sample_prep.addChild(tumor_rna_fqs)  # Edge  1->2
+    sample_prep.addChild(tumor_dna_fqs)
+    sample_prep.addChild(normal_dna_fqs)
+    sample_prep.addChild(tumor_rna_fqs)
 
-    tumor_rna_fqs.addChild(cutadapt)  # Edge  1->2
-    tumor_dna_fqs.addChild(bwa_tumor)  # Edge  1->3
-    normal_dna_fqs.addChild(bwa_normal)  # Edge  1->4
+    tumor_rna_fqs.addChild(cutadapt)
+    tumor_dna_fqs.addChild(bwa_tumor)
+    normal_dna_fqs.addChild(bwa_normal)
 
-    tumor_dna_fqs.addChild(phlat_tumor_dna)  # Edge  1->5
-    normal_dna_fqs.addChild(phlat_normal_dna)  # Edge  1->6
-    tumor_rna_fqs.addChild(phlat_tumor_rna)  # Edge  1->7
+    tumor_dna_fqs.addChild(phlat_tumor_dna)
+    normal_dna_fqs.addChild(phlat_normal_dna)
+    tumor_rna_fqs.addChild(phlat_tumor_rna)
     # B. cutadapt will be followed by star
-    cutadapt.addChild(star)  # Edge 2->9
+    cutadapt.addChild(star)
     # Ci.  gene expression and fusion detection follow start alignment
-    star.addChild(rsem)  # Edge  9->10
-    star.addChild(fusions)  # Edge  9->11
+    star.addChild(rsem)
+    star.addChild(fusions)
     # Cii.  Radia depends on all 3 alignments
-    star.addChild(radia)  # Edge  9->12
-    bwa_tumor.addChild(radia)  # Edge  3->12
-    bwa_normal.addChild(radia)  # Edge  4->12
+    star.addChild(radia)
+    bwa_tumor.addChild(radia)
+    bwa_normal.addChild(radia)
     # Ciii. mutect and indel calling depends on dna to have been aligned
-    bwa_tumor.addChild(mutect)  # Edge  3->13
-    bwa_normal.addChild(mutect)  # Edge  4->13
-    bwa_tumor.addChild(muse)  # Edge  3->13
-    bwa_normal.addChild(muse)  # Edge  4->13
-    bwa_tumor.addChild(somaticsniper)  # Edge  3->13
-    bwa_normal.addChild(somaticsniper)  # Edge  4->13
-    bwa_tumor.addChild(strelka)  # Edge  3->13
-    bwa_normal.addChild(strelka)  # Edge  4->13
-    bwa_tumor.addChild(indels)  # Edge  3->14
-    bwa_normal.addChild(indels)  # Edge  4->14
+    bwa_tumor.addChild(mutect)
+    bwa_normal.addChild(mutect)
+    bwa_tumor.addChild(muse)
+    bwa_normal.addChild(muse)
+    bwa_tumor.addChild(somaticsniper)
+    bwa_normal.addChild(somaticsniper)
+    bwa_tumor.addChild(strelka)
+    bwa_normal.addChild(strelka)
+    bwa_tumor.addChild(indels)
+    bwa_normal.addChild(indels)
     # D. MHC haplotypes will be merged once all 3 samples have been PHLAT-ed
-    phlat_tumor_dna.addChild(merge_phlat)  # Edge  5->15
-    phlat_normal_dna.addChild(merge_phlat)  # Edge  6->15
-    phlat_tumor_rna.addChild(merge_phlat)  # Edge  7->15
+    phlat_tumor_dna.addChild(merge_phlat)
+    phlat_normal_dna.addChild(merge_phlat)
+    phlat_tumor_rna.addChild(merge_phlat)
     # E. Delete the fastqs from the job store since all alignments are complete
-    sample_prep.addChild(fastq_deletion_1)  # Edge 1->8
-    cutadapt.addChild(fastq_deletion_1)  # Edge 2->8
-    bwa_normal.addChild(fastq_deletion_1)  # Edge 3->8
-    bwa_tumor.addChild(fastq_deletion_1)  # Edge 4->8
-    phlat_normal_dna.addChild(fastq_deletion_1)  # Edge 5->8
-    phlat_tumor_dna.addChild(fastq_deletion_1)  # Edge 6>8
-    phlat_tumor_rna.addChild(fastq_deletion_1)  # Edge 7->8
+    sample_prep.addChild(fastq_deletion_1)
+    cutadapt.addChild(fastq_deletion_1)
+    bwa_normal.addChild(fastq_deletion_1)
+    bwa_tumor.addChild(fastq_deletion_1)
+    phlat_normal_dna.addChild(fastq_deletion_1)
+    phlat_tumor_dna.addChild(fastq_deletion_1)
+    phlat_tumor_rna.addChild(fastq_deletion_1)
     star.addChild(fastq_deletion_2)
     # F. Mutation calls need to be merged before they can be used
     # G. All mutations get aggregated when they have finished running
-    fusions.addChild(merge_mutations)  # Edge 11->18
-    radia.addChild(merge_mutations)  # Edge 16->18
-    mutect.addChild(merge_mutations)  # Edge 17->18
-    muse.addChild(merge_mutations)  # Edge 17->18
-    somaticsniper.addChild(merge_mutations)  # Edge 17->18
-    strelka.addChild(merge_mutations)  # Edge 17->18
-    indels.addChild(merge_mutations)  # Edge 14->18
+    fusions.addChild(merge_mutations)
+    radia.addChild(merge_mutations)
+    mutect.addChild(merge_mutations)
+    muse.addChild(merge_mutations)
+    somaticsniper.addChild(merge_mutations)
+    strelka.addChild(merge_mutations)
+    indels.addChild(merge_mutations)
     # H. Aggregated mutations will be translated to protein space
-    merge_mutations.addChild(snpeff)  # Edge 18->19
+    merge_mutations.addChild(snpeff)
     # I. snpeffed mutations will be converted into peptides.
     # Transgene also accepts the RNA-seq bam and bai so that it can be rna-aware
-    snpeff.addChild(transgene)  # Edge 19->20
+    snpeff.addChild(transgene)
     star.addChild(transgene)
     # J. Merged haplotypes and peptides will be converted into jobs and submitted for mhc:peptide
     # binding prediction
-    merge_phlat.addChild(spawn_mhc)  # Edge 15->21
-    transgene.addChild(spawn_mhc)  # Edge 20->21
+    merge_phlat.addChild(spawn_mhc)
+    transgene.addChild(spawn_mhc)
     # K. The results from all the predictions will be merged. This is a follow-on job because
     # spawn_mhc will spawn an undetermined number of children.
-    spawn_mhc.addFollowOn(merge_mhc)  # Edges 21->XX->22 and 21->YY->22
+    spawn_mhc.addFollowOn(merge_mhc)
     # L. Finally, the merged mhc along with the gene expression will be used for rank boosting
-    rsem.addChild(rankboost)  # Edge  10->23
-    merge_mhc.addChild(rankboost)  # Edge 22->23
+    rsem.addChild(rankboost)
+    merge_mhc.addChild(rankboost)
     # M. Assess the status of the MHC genes in the patient
-    phlat_tumor_rna.addChild(mhc_pathway_assessment)  # Edge 7->24
-    rsem.addChild(mhc_pathway_assessment)  # Edge 10->24
+    phlat_tumor_rna.addChild(mhc_pathway_assessment)
+    rsem.addChild(mhc_pathway_assessment)
     return None
 
 
 def get_all_tool_inputs(job, tools):
     """
-    This function will iterate through all the tool options and download the rquired file from their
-    remote locations.
+    Iterate through all the tool options and download required files from their remote locations.
 
     :param dict tools: A dict of dicts of all tools, and their options
-    :returns dict: The fully resolved tool dictionary
+    :return: The fully resolved tool dictionary
+    :rtype: dict
     """
     for tool in tools:
         for option in tools[tool]:
@@ -496,22 +484,23 @@ def get_all_tool_inputs(job, tools):
 def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
                         per_file_encryption=False):
     """
-    Get the input file from s3 or disk, untargz if necessary and then write to file job store.
-    :param job: job
+    Get the input file from s3 or disk and write to file store.
+
     :param str input_flag: The name of the flag
     :param str input_file: The value passed in the config file
-    :param str encryption_key: Path to the encryption key
+    :param str encryption_key: Path to the encryption key if encrypted with sse-c
     :param bool per_file_encryption: If encrypted, was the file encrypted using the per-file method?
-    :return: The jobstore ID for the file
-    :rtype: str
+    :return: fsID for the file
+    :rtype: toil.fileStore.FileID
     """
     work_dir = os.getcwd()
     job.fileStore.logToMaster('Obtaining file (%s) to the file job store' %
                               os.path.basename(input_file))
     if input_file.startswith(('http', 'https', 'ftp')):
-        input_file=get_file_from_url(job, input_file,encryption_key=encryption_key,
-                        per_file_encryption=per_file_encryption, write_to_jobstore=False)
-    elif input_file.startswith(('S3','s3')):
+        input_file = get_file_from_url(job, input_file, encryption_key=encryption_key,
+                                       per_file_encryption=per_file_encryption,
+                                       write_to_jobstore=False)
+    elif input_file.startswith(('S3', 's3')):
         input_file = get_file_from_s3(job, input_file, write_to_jobstore=False,
                                       encryption_key=encryption_key,
                                       per_file_encryption=per_file_encryption)
@@ -522,27 +511,28 @@ def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
 
 def prepare_samples(job, fastqs, univ_options):
     """
-    This module will accept a dict object holding the 3 input prefixes and the patient id and will
-    attempt to store the fastqs to the jobstore.  The input files must satisfy the following
-    1. File extensions can only be fastq or fq (.gz is also allowed)
-    2. Forward and reverse reads MUST be in the same folder with the same prefix
-    3. The files must be on the form
+    Obtain the 6 input fastqs and write them to the file store.  The input files must satisfy the
+    following conditions:
+    1. Files must be on the form
                     <prefix_for_file>1.<fastq/fq>[.gz]
                     <prefix_for_file>2.<fastq/fq>[.gz]
-    The input  dict is:
-    tumor_dna: prefix_to_tumor_dna
-    tumor_rna: prefix_to_tumor_rna
-    normal_dna: prefix_to_normal_dna
-    patient_id: patient ID
+    2. Forward and reverse reads MUST be in the same folder with the same prefix
 
-    The input dict is updated to
-    tumor_dna: [jobStoreID_for_fastq1, jobStoreID_for_fastq2]
-    tumor_rna: [jobStoreID_for_fastq1, jobStoreID_for_fastq2]
-    normal_dna: [jobStoreID_for_fastq1, jobStoreID_for_fastq2]
-    patient_id: patient ID
-    gzipped: True/False
-
-    This module corresponds to node 1 in the tree
+    :param dict fastqs: The input fastq dict
+           fastqs:
+               |- 'tumor_dna': str
+               |- 'tumor_rna': str
+               |- 'normal_dna': str
+               +- 'patient_id': str
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :return: Updated fastq dict
+             sample_fastqs:
+                 |-  'tumor_dna': [fsID, fsID]
+                 |-  'normal_dna': [fsID, fsID]
+                 |-  'tumor_rna': [fsID, fsID]
+                 +- 'gzipped': bool
+                 +- 'patient_id': str
+    :rtype: dict
     """
     job.fileStore.logToMaster('Downloading Inputs for %s' % univ_options['patient'])
     # For each sample type, check if the prefix is an S3 link or a regular file
@@ -594,10 +584,10 @@ def get_fqs(job, fastqs, sample_type):
     """
     Convenience function to return only a list of tumor_rna, tumor_dna or normal_dna fqs
 
-    :param job: job
     :param dict fastqs: dict of list of fq files
     :param str sample_type: key in sample_type to return
     :return: fastqs[sample_type]
+    :rtype: list[toil.fileStore.FileID]
     """
     return fastqs[sample_type]
 
@@ -605,6 +595,7 @@ def get_fqs(job, fastqs, sample_type):
 def generate_config_file():
     """
     Generate a config file for a ProTECT run on hg19.
+
     :return: None
     """
     shutil.copy(os.path.join(os.path.dirname(__file__), 'input_parameters.yaml'),
@@ -613,7 +604,7 @@ def generate_config_file():
 
 def main():
     """
-    This is the main function for the UCSC Precision Immuno pipeline.
+    This is the main function for ProTECT.
     """
     parser = argparse.ArgumentParser(prog='ProTECT',
                                      description='Prediction of T-Cell Epitopes for Cancer Therapy',
