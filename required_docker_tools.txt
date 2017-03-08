@@ -1,5 +1,5 @@
 ####################################################################################################
-##   All docker tools are available at dockerhum/aarjunrao (hence the default dockerhub in the    ##
+##   All docker tools are available at dockerhub/aarjunrao (hence the default dockerhub in the    ##
 ##   config yaml is aarjunrao). The Dockerfiles used to generate all docker images is available   ##
 ##   at https://www.github.com/arkal/dockernator                                                  ##
 ####################################################################################################
