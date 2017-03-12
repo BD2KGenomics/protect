@@ -43,4 +43,4 @@
 	netmhciipan:3.1
 
 # Prediction Ranking
-	rankboost:2.0.2
+	rankboost:2.0.3
