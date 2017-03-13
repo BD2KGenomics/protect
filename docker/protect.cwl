@@ -104,18 +104,6 @@ inputs:
     inputBinding:
         prefix: --nodeType
 
-  storage_location:
-    type:string
-    doc:"Sets the destination where output should be held"
-    inputBinding:
-        prefix: --storage-location
-
-  output_folder:
-    type:string
-    doc:"Sets the source from where output is coming."
-    inputBinding:
-        prefix: --output-folder
-
   star:
     type: File?
     doc: "Absolute path to STAR index tarball."

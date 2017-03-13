@@ -154,13 +154,13 @@ class PipelineWrapperBuilder(object):
                 log.info('Cleaning up temporary directory: %s', self._workdir)
                 shutil.rmtree(self._workdir)
 
-    def download_s3(self, output_path, args):
-        try:
-            subprocess.check_call('aws s3 sync' + output_path + args.storage_location)
-        except Exception:
-            raise
-        else:
-            return args.storage_location
+    #def download_s3(self, output_path, args):
+    #    try:
+    #        subprocess.check_call('aws s3 sync' + output_path + args.storage_location)
+    #    except Exception:
+    #       raise
+    #    else:
+    #        return args.storage_location
 
     def get_args(self):
         """

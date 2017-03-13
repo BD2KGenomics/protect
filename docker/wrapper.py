@@ -128,12 +128,6 @@ if __name__ == '__main__':
     parser.add_argument('--autoscale', dest='autoscale', action='store_true',
                         help="Indicates whether to use Toil's autoscaling capabilities")
 
-    parser.add_arguement('--storage-location', type=str,
-                         help="Sets the destination where output should be held")
-
-    parser.add_arguement('--output-folder', type=str,
-                         help="Sets the source from where output is coming.")
-
     parser.add_argument('--work-mount', required=True,
                         help='Mount where intermediate files should be written. This directory '
                              'should be mirror mounted into the container.')
