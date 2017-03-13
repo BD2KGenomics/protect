@@ -104,17 +104,17 @@ inputs:
     inputBinding:
         prefix: --nodeType
 
-  storage-location:
+  storage_location:
     type:string
     doc:"Sets the destination where output should be held"
     inputBinding:
-        prefix: --storage_location
+        prefix: --storage-location
 
-  output-folder:
+  output_folder:
     type:string
     doc:"Sets the source from where output is coming."
     inputBinding:
-        prefix: --output_folder
+        prefix: --output-folder
 
   star:
     type: File?
