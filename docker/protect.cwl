@@ -92,6 +92,30 @@ inputs:
     inputBinding:
       prefix: --autoscale
 
+  provisioner:
+    type:string
+    doc: "Sets up where autoscaling is going to happen"
+    inputBinding:
+        prefix: --provisioner
+
+  nodeType:
+    type:string
+    doc: "Sets the type of node used to help with the clustering"
+    inputBinding:
+        prefix: --nodeType
+
+  storage-location:
+    type:string
+    doc:"Sets the destination where output should be held"
+    inputBinding:
+        prefix: --storage_location
+
+  output-folder:
+    type:string
+    doc:"Sets the source from where output is coming."
+    inputBinding:
+        prefix: --output_folder
+
   star:
     type: File?
     doc: "Absolute path to STAR index tarball."
@@ -401,5 +425,7 @@ outputs:
     outputBinding:
       glob: 'all_transgened.vcf'
     doc: "Result files from ProTECT"
+
+
 
 baseCommand: ["--no-clean"]

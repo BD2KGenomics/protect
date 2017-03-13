@@ -16,8 +16,8 @@ Universal_Options:
     sse_key: {sse_key}
     sse_key_is_master: {sse_key_is_master}
     cghub_key:
-    storage_location: Local
-    output_folder: {work_mount}/output
+    storage_location: {storage-location}
+    output_folder: {output-folder}
 
 # These options are for each specific tool. You probably don't need to change any of this!
 cutadapt:
@@ -121,15 +121,28 @@ if __name__ == '__main__':
 
     parser.add_argument('--sse-key-is-master', type=str, default='False',
                         help='Indicates if the passed sse-key is the master key.')
+
     parser.add_argument('--sse-key', type=str, default='',
                         help='Path to the desired SSE-key, if any.')
 
     parser.add_argument('--autoscale', dest='autoscale', action='store_true',
                         help="Indicates whether to use Toil's autoscaling capabilities")
 
+    parser.add_arguement('--storage-location', type=str,
+                         help="Sets the destination where output should be held")
+
+    parser.add_arguement('--output-folder', type=str,
+                         help="Sets the source from where output is coming.")
+
     parser.add_argument('--work-mount', required=True,
                         help='Mount where intermediate files should be written. This directory '
                              'should be mirror mounted into the container.')
+
+    parser.add_argument('--provisioner', type=str, default= "aws",
+                        help='Sets the location to where the autoscale should be held')
+
+    parser.add_argument('--nodeType', type=str, default='aws',
+                        help="sets the type of node used to help with the clustering")
 
     args = parser.parse_args()
     command = []

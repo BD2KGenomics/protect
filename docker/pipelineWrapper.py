@@ -70,6 +70,8 @@ class PipelineWrapperBuilder(object):
                          'mutations/somaticsniper': 'somaticsniper_perchrom.tar',
                          'mutations/strelka': 'strelka_perchrom.tar'}
 
+
+
         def make_output(output_dir, source_dir):
             """
             :param output_dir: dir to write the output to
@@ -106,104 +108,35 @@ class PipelineWrapperBuilder(object):
         os.mkdir(tumor_dna_dir)
         os.mkdir(tumor_rna_dir)
         os.mkdir(normal_dna_dir)
-        for input_type, dest in ((args.tumor_dna, tumor_dna_dir), (args.tumor_rna, tumor_rna_dir),
-                                 (args.normal_dna, normal_dna_dir), (args.tumor_dna2, tumor_dna_dir),
-                                 (args.tumor_rna2, tumor_rna_dir), (args.normal_dna2, normal_dna_dir)):
-            for file in input_type:
-                shutil.copy(file, dest)
-
-        args.tumor_dna = [os.path.join(tumor_dna_dir, os.path.basename(file)) for file in args.tumor_dna]
-        args.tumor_rna = [os.path.join(tumor_rna_dir, os.path.basename(file)) for file in args.tumor_rna]
-        args.normal_dna = [os.path.join(normal_dna_dir, os.path.basename(file)) for file in args.normal_dna]
-
-
-        
-
-        #use: subprocess.call('./ls', cwd='/bin') to call to copy to s3. You want to use s3am to do this, you can look up documentation but it should not be hard. Just make sure that you put it in the right folder python_BOES_blah_blah/protect/universald. Also to copy you need to know where it is being savedf
-        #I would try to figure that out. Noy 100 percent how this works. Ask CJ 
-        #s3am upload \
-        #ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data/NA12878/sequence_read/ERR001268.filt.fastq.gz \ => this needs to be the file directory where the tumor stuff is saved. Remember you need to only worry about three of the things,
-        #s3://foo-bucket/
-        #Copy the entire directory if possible. If not you are going to have to write function that calls the dirc as shown by subprocess.call('./ls', cwd='/bin'), you are going to have to loop through and directory and copy to the UUID directory. 
-        #look at first two links. https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=access+all+files+in+directory+python
-        #use above in combination with http://stackoverflow.com/questions/51520/how-to-get-an-absolute-file-path-in-python
+        shutil.copy(args.tumor_dna, tumor_dna_dir)
+        shutil.copy(args.tumor_rna, tumor_rna_dir)
+        shutil.copy(args.normal_dna, normal_dna_dir)
+        shutil.copy(args.tumor_dna2, tumor_dna_dir)
+        shutil.copy(args.tumor_rna2, tumor_rna_dir)
+        shutil.copy(args.normal_dna2, normal_dna_dir)
+        args.tumor_dna = os.path.join(tumor_dna_dir, os.path.basename(args.tumor_dna))
+        args.tumor_rna = os.path.join(tumor_rna_dir, os.path.basename(args.tumor_rna))
+        args.normal_dna = os.path.join(normal_dna_dir, os.path.basename(args.normal_dna))
 
         # prepare config
-        
-        listofnames=[]
-        for directory in (tumor_dna_dir,tumor_rna_dir,normal_dna_dir):
-            name_random=str(uuid.uuid4())
-            listofnames.append(name_random)
-            listx = os.listdir(directory)
-            for file in listx:
-                subprocess.check_call(["s3am","upload",os.path.abspath(file),("s3://protectcgl/inputs/"+name_random+"/")])
-
-
-
-
-        for i,name in enumerate(args.tumor_dna):
-            filename=os.path.basename(name)
-            args.tumor_dna[i]="s3://protectcgl/inputs/"+listofnames[0]+"/"+filename
-
-
-        for i,name in enumerate(args.tumor_rna):
-            filename=os.path.basename(name)
-            args.tumor_rna[i]="s3://protectcgl/inputs/"+listofnames[1]+"/"+filename
-
-
-        for i,name in enumerate(args.normal_dna):
-            filename=os.path.basename(name)
-            args.normal_dna[i]="s3://protectcgl/inputs/"+listofnames[2]+"/"+filename
-        #for x,names in enumerate(listofnames):
-        #    if (x==0):
-         #      for i,item in enumerate(args.normal_dna):
-          #          args.normal_dna[i]=
-           # if(x==1):
-            #    for i,item in enumerate(args.tumor_dna):
-             #       args.tumor_dna[i]="s3://protectcgl/inputs/"+listofnames[x]"/"+filenames_arg.tumor_dna[i]
-            #if(x==2):
-             #   for i,item in enumerate(args.tumor_rna):
-              #      args.tumor_rna[i]="s3://protectcgl/inputs/"+listofnames[x]"/"+filenames_arg.tumor_rna[i]
-
-                
-
-            
         args_dict = vars(args)
-        args_dict['output_dir'] = mount
-
-        sampleList = []
-        for index, sampleTuple in enumerate(zip(args.tumor_dna, args.tumor_rna, args.normal_dna)):
-            tumor_dna, tumor_rna, normal = sampleTuple
-            sampleList.append(
-            """
-    PRTCT-{index}:
-        tumor_dna_fastq_1 : {tumor_dna}
-        normal_dna_fastq_1 : {normal_dna}
-        tumor_rna_fastq_1 : {tumor_rna}
-            """.format(**{'index': index,
-                          'tumor_dna': tumor_dna,
-                          'tumor_rna': tumor_rna,
-                          'normal_dna': normal}
-                       )
-            )
-        args_dict['samples'] = '\n'.join(sampleList)
+        output_path = 'http://s3-us-west-2.amazonaws.com/cgl-protect-output/' + \
+                       str(uuid.uuid4()) + "/"
+        args_dict['output_dir'] = output_path
         self._config = textwrap.dedent(self._config.format(**args_dict))
         config_path = os.path.join(self._workdir, 'config')
-        jobStore = os.path.join(self._workdir, 'jobStore') if not args.autoscale else "aws:us-west-2:protect-%s" % str(uuid.uuid4())
-        command = self._make_prefix(jobStore,
-                                    config_path,
-                                    self._workdir) + pipeline_command
+        command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
+                                    config_path,self._workdir) + pipeline_command
+
         if self._resume and args.resume:
             command.append('--restart')
-        if args.autoscale:
-            command.extend(['--maxPreemptableNodes=2', '--maxNodes=0', '--provisioner=aws',
-                            '--preemptableNodeType=c3.8xlarge:1.60', '--batchSystem=mesos'])
+
         self._create_workdir(args)
         with open(config_path, 'w') as f:
             f.write(self._config)
-        exit (0);
 
         try:
+            # execution of pipeline here
             subprocess.check_call(command)
         except subprocess.CalledProcessError as e:
             print(e, file=sys.stderr)
@@ -212,12 +145,22 @@ class PipelineWrapperBuilder(object):
             stat = os.stat(self._mount)
             subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid),
                                    self._mount])
-            make_output(self._mount, os.path.join(self._mount, 'output'))
+
+            # make_output(self._mount, os.path.join(self._mount, 'output'))
+            make_output(self._mount, self.download_s3(output_path, args))
             if self._no_clean and args.no_clean:
                 log.info('Flag "--no-clean" was used, therefore %s was not deleted.', self._workdir)
             else:
                 log.info('Cleaning up temporary directory: %s', self._workdir)
                 shutil.rmtree(self._workdir)
+
+    def download_s3(self, output_path, args):
+        try:
+            subprocess.check_call('aws s3 sync' + output_path + args.storage_location)
+        except Exception:
+            raise
+        else:
+            return args.storage_location
 
     def get_args(self):
         """

@@ -2,6 +2,7 @@
   "tumor-dna" : {
     "class" : "File",
     "path" : "/root/Tum_1.fq.gz"
+
   },
   "tumor-rna" : {
     "class" : "File",
@@ -11,5 +12,9 @@
     "class" : "File",
     "path" : "/root/Norm_1.fq.gz"
   },
+
   "work-mount" : "/root/"
+
+
+
 }
