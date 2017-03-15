@@ -128,6 +128,7 @@ if __name__ == '__main__':
     parser.add_argument('--autoscale', dest='autoscale', action='store_true',
                         help="Indicates whether to use Toil's autoscaling capabilities")
 
+    #there is a type in the CWL file but not here?
     parser.add_argument('--work-mount', required=True,
                         help='Mount where intermediate files should be written. This directory '
                              'should be mirror mounted into the container.')

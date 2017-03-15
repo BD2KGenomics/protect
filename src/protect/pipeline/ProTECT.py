@@ -78,7 +78,7 @@ def _ensure_set_contains(test_object, required_object, test_set_name=None):
                              % (set_name, '\n'.join(missing_opts)))
 
 
-def _add_default_entries(input_dict, defaults_dict):
+def _add_default_entries(input_dict , defaults_dict):
     """
     Add the entries in defaults dict into input_dict if they don't exist in input_dict
 
