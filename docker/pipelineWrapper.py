@@ -97,66 +97,66 @@ class PipelineWrapperBuilder(object):
 
 
         # prepare workdir
-        if args.autoscale:
-            if "https" not in args.work_mount:
-                raise Exception
-        if args.autoscale:
-            mount = self._prepare_mount(args)
-            self._workdir = os.path.join(mount, 'Toil-' + self._name)
+        #if args.autscale:
+            #if "https" not in args.work_mount:
+                #raise Exception
+
+        mount = self._prepare_mount(args)
+        self._workdir = os.path.join(mount, 'Toil-' + self._name)
         # insure the pairs are in the same directory, as protect expects
         # This is made more complicated by the fact CWLTool mounts inputs into random, read-only dirs
         # to get around this we copy all inputs into their own directories that we own
-            tumor_dna_dir = os.path.expanduser('~/tumorDNA')
-            tumor_rna_dir = os.path.expanduser('~/tumorRNA')
-            normal_dna_dir = os.path.expanduser('~/normalDNA')
-            os.mkdir(tumor_dna_dir)
-            os.mkdir(tumor_rna_dir)
-            os.mkdir(normal_dna_dir)
-            shutil.copy(args.tumor_dna, tumor_dna_dir)
-            shutil.copy(args.tumor_rna, tumor_rna_dir)
-            shutil.copy(args.normal_dna, normal_dna_dir)
-            shutil.copy(args.tumor_dna2, tumor_dna_dir)
-            shutil.copy(args.tumor_rna2, tumor_rna_dir)
-            shutil.copy(args.normal_dna2, normal_dna_dir)
-            args.tumor_dna = os.path.join(tumor_dna_dir, os.path.basename(args.tumor_dna))
-            args.tumor_rna = os.path.join(tumor_rna_dir, os.path.basename(args.tumor_rna))
-            args.normal_dna = os.path.join(normal_dna_dir, os.path.basename(args.normal_dna))
+        tumor_dna_dir = os.path.expanduser('~/tumorDNA')
+        tumor_rna_dir = os.path.expanduser('~/tumorRNA')
+        normal_dna_dir = os.path.expanduser('~/normalDNA')
+        os.mkdir(tumor_dna_dir)
+        os.mkdir(tumor_rna_dir)
+        os.mkdir(normal_dna_dir)
+        shutil.copy(args.tumor_dna, tumor_dna_dir)
+        shutil.copy(args.tumor_rna, tumor_rna_dir)
+        shutil.copy(args.normal_dna, normal_dna_dir)
+        shutil.copy(args.tumor_dna2, tumor_dna_dir)
+        shutil.copy(args.tumor_rna2, tumor_rna_dir)
+        shutil.copy(args.normal_dna2, normal_dna_dir)
+        args.tumor_dna = os.path.join(tumor_dna_dir, os.path.basename(args.tumor_dna))
+        args.tumor_rna = os.path.join(tumor_rna_dir, os.path.basename(args.tumor_rna))
+        args.normal_dna = os.path.join(normal_dna_dir, os.path.basename(args.normal_dna))
 
         # prepare config
-            args_dict = vars(args)
-            output_path = 'http://s3-us-west-2.amazonaws.com/cgl-protect-output/' + \
-                           str(uuid.uuid4()) + "/"
-            args_dict['output_dir'] = output_path
-            self._config = textwrap.dedent(self._config.format(**args_dict))
-            config_path = os.path.join(self._workdir, 'config')
-            command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
+        args_dict = vars(args)
+        output_path = 'http://s3-us-west-2.amazonaws.com/cgl-protect-output/' + \
+                       str(uuid.uuid4()) + "/"
+        args_dict['output_dir'] = output_path
+        self._config = textwrap.dedent(self._config.format(**args_dict))
+        config_path = os.path.join(self._workdir, 'config')
+        command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
                                     config_path, self._workdir) + pipeline_command
 
-            if self._resume and args.resume:
-                command.append('--restart')
+        if self._resume and args.resume:
+            command.append('--restart')
 
-            self._create_workdir(args)
-            with open(config_path, 'w') as f:
-                f.write(self._config)
+        self._create_workdir(args)
+        with open(config_path, 'w') as f:
+            f.write(self._config)
 
-            try:
+        try:
             # execution of pipeline here
-                subprocess.check_call(command)
-            except subprocess.CalledProcessError as e:
-                print(e, file=sys.stderr)
-            finally:
-                log.info('Pipeline terminated, changing ownership of output files from root to user.')
-                stat = os.stat(self._mount)
-                subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid),
-                                    self._mount])
+            subprocess.check_call(command)
+        except subprocess.CalledProcessError as e:
+            print(e, file=sys.stderr)
+        finally:
+            log.info('Pipeline terminated, changing ownership of output files from root to user.')
+            stat = os.stat(self._mount)
+            subprocess.check_call(['chown', '-R', '{}:{}'.format(stat.st_uid, stat.st_gid),
+                                   self._mount])
 
             # make_output(self._mount, os.path.join(self._mount, 'output'))
-                make_output(self._mount, self.download_s3(output_path, args))
-                if self._no_clean and args.no_clean:
-                    log.info('Flag "--no-clean" was used, therefore %s was not deleted.', self._workdir)
-                else:
-                    log.info('Cleaning up temporary directory: %s', self._workdir)
-                    shutil.rmtree(self._workdir)
+            make_output(self._mount, self.download_s3(output_path, args))
+            if self._no_clean and args.no_clean:
+                log.info('Flag "--no-clean" was used, therefore %s was not deleted.', self._workdir)
+            else:
+                log.info('Cleaning up temporary directory: %s', self._workdir)
+                shutil.rmtree(self._workdir)
 
     #def download_s3(self, output_path, args):
     #    try:
