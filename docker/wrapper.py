@@ -125,18 +125,17 @@ if __name__ == '__main__':
     parser.add_argument('--sse-key', type=str, default='',
                         help='Path to the desired SSE-key, if any.')
 
-    parser.add_argument('--autoscale', dest='autoscale', action='store_true',
+    parser.add_argument('--autoscale', dest='autoscale', action='store_true', default=False,
                         help="Indicates whether to use Toil's autoscaling capabilities")
 
-    #there is a type in the CWL file but not here?
     parser.add_argument('--work-mount', required=True,
                         help='Mount where intermediate files should be written. This directory '
                              'should be mirror mounted into the container.')
 
-    parser.add_argument('--provisioner', type=str, default= "aws",
+    parser.add_argument('--provisioner', type=str, default="aws",
                         help='Sets the location to where the autoscale should be held')
 
-    parser.add_argument('--nodeType', type=str, default='aws',
+    parser.add_argument('--nodeType', type=str, default='t2.micro',
                         help="sets the type of node used to help with the clustering")
 
     args = parser.parse_args()
