@@ -10,7 +10,7 @@
   },
   "normal-dna" : {
     "class" : "File",
-    "path" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_1.fq.gz"
+    "path" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz"
   },
 
   "work-mount" : "/root/"
