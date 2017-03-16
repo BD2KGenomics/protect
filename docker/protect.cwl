@@ -86,24 +86,6 @@ inputs:
     inputBinding:
       prefix: --normal-dna2
 
-  autoscale:
-    type: boolean
-    doc: "Indicates whether to use Toil's autoscaling capabilities"
-    inputBinding:
-      prefix: --autoscale
-
-  provisioner:
-    type:string
-    doc: "Sets up where autoscaling is going to happen"
-    inputBinding:
-        prefix: --provisioner
-
-  nodeType:
-    type:string
-    doc: "Sets the type of node used to help with the clustering"
-    inputBinding:
-        prefix: --nodeType
-
   star:
     type: File?
     doc: "Absolute path to STAR index tarball."
