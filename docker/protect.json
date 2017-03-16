@@ -1,15 +1,15 @@
 {
   "tumor-dna" : {
-    "class" : "File",
+    "class" : "String",
     "path" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Tum_1.fq.gz"
 
   },
   "tumor-rna" : {
-    "class" : "File",
+    "class" : "String",
     "path" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Rna_1.fq.gz"
   },
   "normal-dna" : {
-    "class" : "File",
+    "class" : "String",
     "path" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz"
   },
 
