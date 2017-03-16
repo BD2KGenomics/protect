@@ -51,37 +51,37 @@ hints:
 
 inputs:
   tumor-dna:
-    type: File[]
+    type: File
     doc: "Tumor DNA fastq"
     inputBinding:
       prefix: --tumor-dna
 
   tumor-rna:
-    type: File[]
+    type: File
     doc: "Tumor RNA fastq"
     inputBinding:
       prefix: --tumor-rna
 
   normal-dna:
-    type: File[]
+    type: File
     doc: "Normal DNA fastq"
     inputBinding:
       prefix: --normal-dna
 
   tumor-dna2:
-    type: File[]
+    type: File
     doc: "Second Tumor DNA fastq"
     inputBinding:
       prefix: --tumor-dna2
 
   tumor-rna2:
-    type: File[]
+    type: File
     doc: "Second Tumor RNA fastq"
     inputBinding:
       prefix: --tumor-rna2
 
   normal-dna2:
-    type: File[]
+    type: File
     doc: "Second Normal DNA fastq"
     inputBinding:
       prefix: --normal-dna2
@@ -413,7 +413,5 @@ outputs:
     outputBinding:
       glob: 'all_transgened.vcf'
     doc: "Result files from ProTECT"
-
-
 
 baseCommand: ["--no-clean"]
