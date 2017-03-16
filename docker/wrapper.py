@@ -132,7 +132,7 @@ if __name__ == '__main__':
                         help='Mount where intermediate files should be written. This directory '
                              'should be mirror mounted into the container.')
 
-    parser.add_argument('--provisioner', type=str, default="aws",
+    parser.add_argument('--provisioner', type=str, default='aws',
                         help='Sets the location to where the autoscale should be held')
 
     parser.add_argument('--nodeType', type=str, default='t2.micro',
