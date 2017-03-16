@@ -1,17 +1,7 @@
 {
-  "tumor-dna" : {
-    "class" : "String",
-    "path" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Tum_1.fq.gz"
-
-  },
-  "tumor-rna" : {
-    "class" : "String",
-    "path" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Rna_1.fq.gz"
-  },
-  "normal-dna" : {
-    "class" : "String",
-    "path" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz"
-  },
+  "tumor-dna" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Tum_1.fq.gz",
+  "tumor-rna" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Rna_1.fq.gz",
+  "normal-dna": "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz",
 
   "work-mount" : "/root/"
 
