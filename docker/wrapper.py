@@ -75,17 +75,17 @@ if __name__ == '__main__':
     wrapper = PipelineWrapperBuilder('ProTECT', desc, config)
     parser = wrapper.get_args()
 
-    parser.add_argument('--tumor-dna', type=str,
+    parser.add_argument('--tumor-dna', default=[], action="append",
                         help='Path for the tumor fastq.')
-    parser.add_argument('--normal-dna',  type= str,
+    parser.add_argument('--normal-dna',  default=[], action="append",
                         help='Path for the normal fastq.')
-    parser.add_argument('--tumor-rna',  type= str,
+    parser.add_argument('--tumor-rna',  default=[], action="append",
                         help='Path for the tumor RNA fastq.')
-    parser.add_argument('--tumor-dna2',  type= str,
+    parser.add_argument('--tumor-dna2',  default=[], action="append",
                         help='Path for the tumor fastq pair.')
-    parser.add_argument('--normal-dna2',  type= str,
+    parser.add_argument('--normal-dna2',  default=[], action="append",
                         help='Path for the normal fastq.')
-    parser.add_argument('--tumor-rna2',  type= str,
+    parser.add_argument('--tumor-rna2',  default=[], action="append",
                         help='Path for the tumor RNA fastq.')
 
     parser.add_argument('--star-index', type=str, default="S3://cgl-protect-data/hg19_references/star_100_indexes.tar.gz",
@@ -125,7 +125,7 @@ if __name__ == '__main__':
     parser.add_argument('--sse-key', type=str, default='',
                         help='Path to the desired SSE-key, if any.')
 
-    parser.add_argument('--autoscale', dest='autoscale', action='store_true', default=False,
+    parser.add_argument('--autoscale', dest='autoscale', default=False,
                         help="Indicates whether to use Toil's autoscaling capabilities")
 
     parser.add_argument('--work-mount', required=True,

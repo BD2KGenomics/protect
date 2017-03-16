@@ -3,8 +3,8 @@
   "tumor-rna" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Rna_1.fq.gz",
   "normal-dna": "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz",
 
-  "work-mount" : "/root/"
-
+  "work-mount" : "/root/",
+  "autoscale" : true
 
 
 }
