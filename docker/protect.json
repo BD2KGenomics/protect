@@ -4,7 +4,8 @@
   "normal-dna": "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz",
 
   "work-mount" : "/root/",
-  "autoscale" : true
-
+  "autoscale" : true,
+  "nodeType":   "t2.micro",
+  "provisioner": "aws"
 
 }
