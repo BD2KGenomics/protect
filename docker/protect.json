@@ -6,6 +6,9 @@
   "work-mount" : "/root/",
   "autoscale" : true,
   "nodeType":   "t2.micro",
-  "provisioner": "aws"
+  "provisioner": "aws",
 
+  "tumor-dna2" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Tum_1.fq.gz",
+  "tumor-rna2" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Rna_1.fq.gz",
+  "normal-dna2": "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz"
 }
