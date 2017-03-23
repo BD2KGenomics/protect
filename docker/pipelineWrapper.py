@@ -106,7 +106,7 @@ class PipelineWrapperBuilder(object):
                 config_path = os.path.join(self._workdir, 'config')
                 command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
                                             config_path, self._workdir) + pipeline_command
-                print(command)
+                print("hello mate")
 
             else:
                 mount = self._prepare_mount(args)
@@ -114,6 +114,7 @@ class PipelineWrapperBuilder(object):
                 # insure the pairs are in the same directory, as protect expects
                 # This is made more complicated by the fact CWLTool mounts inputs into random, read-only dirs
                 # to get around this we copy all inputs into their own directories that we own
+                print("hello mate")
                 tumor_dna_dir = os.path.expanduser('~/tumorDNA')
                 tumor_rna_dir = os.path.expanduser('~/tumorRNA')
                 normal_dna_dir = os.path.expanduser('~/normalDNA')
@@ -149,9 +150,10 @@ class PipelineWrapperBuilder(object):
 
             try:
                 # execution of pipeline here
-                print(command)
+                print("hello mate")
                 subprocess.check_call(command)
             except subprocess.CalledProcessError as e:
+                print("hello mate")
                 print(e, file=sys.stderr)
             finally:
                 log.info('Pipeline terminated, changing ownership of output files from root to user.')
