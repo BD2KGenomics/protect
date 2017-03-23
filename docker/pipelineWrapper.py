@@ -100,6 +100,7 @@ class PipelineWrapperBuilder(object):
     # prepare workdir
         if args.autoscale:
             args_dict = vars(args)
+            print("made it here")
             output_path = 'http://s3-us-west-2.amazonaws.com/cgl-protect-output/' + \
                            str(uuid.uuid4()) + "/"
             args_dict['output_dir'] = output_path
