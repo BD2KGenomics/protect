@@ -106,6 +106,8 @@ class PipelineWrapperBuilder(object):
                 config_path = os.path.join(self._workdir, 'config')
                 command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
                                             config_path, self._workdir) + pipeline_command
+                print(command)
+
             else:
                 mount = self._prepare_mount(args)
                 self._workdir = os.path.join(mount, 'Toil-' + self._name)
