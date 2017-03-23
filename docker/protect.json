@@ -2,14 +2,14 @@
   "tumor-dna" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Tum_1.fq.gz",
   "tumor-rna" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Rna_1.fq.gz",
   "normal-dna": "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz",
-
+  "tumor-dna2" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Tum_1.fq.gz",
+  "tumor-rna2" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Rna_1.fq.gz",
+  "normal-dna2": "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz",
   "work_mount" : "/root/",
   "autoscale": true,
   "provisioner": "aws",
-  "nodeType" : "t2.micro",
-  "tumor-dna2" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Tum_1.fq.gz",
-  "tumor-rna2" : "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Rna_1.fq.gz",
-  "normal-dna2": "https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/Norm_2.fq.gz"
+  "nodeType" : "t2.micro"
+
 
 
 

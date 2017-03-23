@@ -149,6 +149,7 @@ class PipelineWrapperBuilder(object):
 
             try:
                 # execution of pipeline here
+                print(command)
                 subprocess.check_call(command)
             except subprocess.CalledProcessError as e:
                 print(e, file=sys.stderr)
