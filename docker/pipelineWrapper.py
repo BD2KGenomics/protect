@@ -104,6 +104,7 @@ class PipelineWrapperBuilder(object):
             output_path = 'http://s3-us-west-2.amazonaws.com/cgl-protect-output/' + \
                            str(uuid.uuid4()) + "/"
             args_dict['output_dir'] = output_path
+            print(args_dict)
             self._config = textwrap.dedent(self._config.format(**args_dict))
             config_path = os.path.join(self._workdir, 'config')
             command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
