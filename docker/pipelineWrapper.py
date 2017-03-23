@@ -40,7 +40,7 @@ class PipelineWrapperBuilder(object):
         to be set with arg_builder, and command_builder respectively before this method can be
         invoked.
         """
-        print("hello Mate")
+        print("Hello Brother")
 
         # output that must be moved but not renamed
         consistentNaming = ['alignments/normal_dna_fix_pg_sorted.bam',
@@ -107,7 +107,7 @@ class PipelineWrapperBuilder(object):
             config_path = os.path.join(self._workdir, 'config')
             command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
                                         config_path, self._workdir) + pipeline_command
-            print("hello mate")
+            print("hello bro")
 
         else:
             mount = self._prepare_mount(args)
@@ -151,10 +151,10 @@ class PipelineWrapperBuilder(object):
 
         try:
             # execution of pipeline here
-            print("hello mate")
+            print("hello matey")
             subprocess.check_call(command)
         except subprocess.CalledProcessError as e:
-            print("hello mate")
+            print("hello mike")
             print(e, file=sys.stderr)
         finally:
             log.info('Pipeline terminated, changing ownership of output files from root to user.')
