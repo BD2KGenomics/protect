@@ -40,6 +40,7 @@ class PipelineWrapperBuilder(object):
         to be set with arg_builder, and command_builder respectively before this method can be
         invoked.
         """
+        print("hello Mate")
 
         # output that must be moved but not renamed
         consistentNaming = ['alignments/normal_dna_fix_pg_sorted.bam',
