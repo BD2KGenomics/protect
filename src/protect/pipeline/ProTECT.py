@@ -304,155 +304,39 @@ def launch_protect(job, fastqs, univ_options, tool_options):
         tool_options['rsem']['n'] = ascertain_cpu_share(univ_options['max_cores'])
     # Define the various nodes in the DAG
     # Need a logfile and a way to send it around
-    sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options, disk='40G')
-    tumor_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_dna', disk='10M')
-    normal_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'normal_dna', disk='10M')
-    tumor_rna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_rna', disk='10M')
-    cutadapt = job.wrapJobFn(run_cutadapt, tumor_rna_fqs.rv(), univ_options,
-                             tool_options['cutadapt'], cores=1,
-                             disk=PromisedRequirement(cutadapt_disk, tumor_rna_fqs.rv()
-                                                      ))
-    star = job.wrapJobFn(align_rna, cutadapt.rv(), univ_options, tool_options['star'],
-                         cores=1, disk='100M').encapsulate()
-    bwa_tumor = job.wrapJobFn(align_dna, tumor_dna_fqs.rv(), 'tumor_dna', univ_options,
-                              tool_options['bwa'], cores=1, disk='100M'
-                              ).encapsulate()
-    bwa_normal = job.wrapJobFn(align_dna, normal_dna_fqs.rv(), 'normal_dna', univ_options,
-                               tool_options['bwa'], cores=1, disk='100M'
-                               ).encapsulate()
-    phlat_tumor_dna = job.wrapJobFn(run_phlat, tumor_dna_fqs.rv(), 'tumor_dna', univ_options,
-                                    tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                    disk=PromisedRequirement(phlat_disk, tumor_dna_fqs.rv()))
-    phlat_normal_dna = job.wrapJobFn(run_phlat, normal_dna_fqs.rv(), 'normal_dna', univ_options,
-                                     tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                     disk=PromisedRequirement(phlat_disk, normal_dna_fqs.rv()))
-    phlat_tumor_rna = job.wrapJobFn(run_phlat, tumor_rna_fqs.rv(), 'tumor_rna', univ_options,
-                                    tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                    disk=PromisedRequirement(phlat_disk, tumor_rna_fqs.rv()))
-    fastq_deletion_1 = job.wrapJobFn(delete_fastqs, sample_prep.rv(), disk='100M', memory='100M')
-    fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
-                                     disk='100M', memory='100M')
-    rsem = job.wrapJobFn(wrap_rsem, star.rv(), univ_options, tool_options['rsem'], cores=1,
-                         disk='100M').encapsulate()
-    mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(), phlat_tumor_rna.rv(),
-                                           univ_options, tool_options['mhc_pathway_assessment'],
-                                           disk='100M', memory='100M', cores=1)
-    fusions = job.wrapJobFn(run_fusion_caller, star.rv(), univ_options, 'fusion_options',
-                            disk='100M', memory='100M', cores=1)
-    radia = job.wrapJobFn(run_radia, star.rv(), bwa_tumor.rv(),
-                          bwa_normal.rv(), univ_options, tool_options['radia'],
-                          disk='100M').encapsulate()
-    mutect = job.wrapJobFn(run_mutect, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                           tool_options['mutect'], disk='100M').encapsulate()
-    muse = job.wrapJobFn(run_muse, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                         tool_options['muse']).encapsulate()
-    somaticsniper = job.wrapJobFn(run_somaticsniper, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                                  tool_options['somaticsniper']).encapsulate()
-    strelka = job.wrapJobFn(run_strelka, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                            tool_options['strelka']).encapsulate()
-    indels = job.wrapJobFn(run_indel_caller, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                           'indel_options', disk='100M', memory='100M', cores=1)
-    merge_mutations = job.wrapJobFn(run_mutation_aggregator,
-                                    {'fusions': fusions.rv(),
-                                     'radia': radia.rv(),
-                                     'mutect': mutect.rv(),
-                                     'strelka': strelka.rv(),
-                                     'indels': indels.rv(),
-                                     'muse': muse.rv(),
-                                     'somaticsniper': somaticsniper.rv()}, univ_options,
-                                    disk='100M', memory='100M',
-                                    cores=1).encapsulate()
-    snpeff = job.wrapJobFn(run_snpeff, merge_mutations.rv(), univ_options, tool_options['snpeff'],
-                           disk=PromisedRequirement(snpeff_disk,
-                                                    tool_options['snpeff']['index']))
-    transgene = job.wrapJobFn(run_transgene, snpeff.rv(), star.rv(), univ_options,
-                              tool_options['transgene'], disk='100M', memory='100M', cores=1)
-    merge_phlat = job.wrapJobFn(merge_phlat_calls, phlat_tumor_dna.rv(), phlat_normal_dna.rv(),
-                                phlat_tumor_rna.rv(), univ_options, disk='100M', memory='100M',
-                                cores=1)
-    spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), merge_phlat.rv(),
+
+    # All results are on a specific s3 bucket. Pull files from there
+    transgene = {'transgened_tumor_9_mer_snpeffed.faa': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_tumor_9_mer_snpeffed.faa', write_to_jobstore=True),
+                 'transgened_normal_9_mer_snpeffed.faa': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_normal_9_mer_snpeffed.faa', write_to_jobstore=True),
+                 'transgened_tumor_9_mer_snpeffed.faa.map': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_tumor_9_mer_snpeffed.faa.map', write_to_jobstore=True),
+                 'transgened_tumor_10_mer_snpeffed.faa': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_tumor_10_mer_snpeffed.faa', write_to_jobstore=True),
+                 'transgened_normal_10_mer_snpeffed.faa': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_normal_10_mer_snpeffed.faa', write_to_jobstore=True),
+                 'transgened_tumor_10_mer_snpeffed.faa.map': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_tumor_10_mer_snpeffed.faa.map', write_to_jobstore=True),
+                 'transgened_tumor_15_mer_snpeffed.faa': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_tumor_15_mer_snpeffed.faa', write_to_jobstore=True),
+                 'transgened_normal_15_mer_snpeffed.faa': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_normal_15_mer_snpeffed.faa', write_to_jobstore=True),
+                 'transgened_tumor_15_mer_snpeffed.faa.map': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/transgened_tumor_15_mer_snpeffed.faa.map', write_to_jobstore=True)
+                 }
+    merge_phlat = {'mhci_alleles.list': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/mhci_alleles.list', write_to_jobstore=True),
+                   'mhcii_alleles.list': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/mhcii_alleles.list', write_to_jobstore=True)
+                   }
+    rsem = {'rsem.isoforms.results': get_file_from_s3(job, 's3://' + fastqs['input_bucket'] + '/' + univ_options['patient'] + '/rsem.isoforms.results', write_to_jobstore=True)
+            }
+
+    spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene, merge_phlat,
                               univ_options, (tool_options['mhci'], tool_options['mhcii']),
                               disk='100M', memory='100M', cores=1).encapsulate()
-    merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene.rv(), univ_options,
+    merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene, univ_options,
                               disk='100M', memory='100M', cores=1)
-    rankboost = job.wrapJobFn(wrap_rankboost, rsem.rv(), merge_mhc.rv(), transgene.rv(),
+    rankboost = job.wrapJobFn(wrap_rankboost, rsem, merge_mhc.rv(), transgene,
                               univ_options, tool_options['rankboost'], disk='100M', memory='100M',
                               cores=1)
     # Define the DAG in a static form
-    job.addChild(sample_prep)
-    # A. The first step is running the alignments and the MHC haplotypers
-    sample_prep.addChild(tumor_dna_fqs)
-    sample_prep.addChild(normal_dna_fqs)
-    sample_prep.addChild(tumor_rna_fqs)
-
-    tumor_rna_fqs.addChild(cutadapt)
-    tumor_dna_fqs.addChild(bwa_tumor)
-    normal_dna_fqs.addChild(bwa_normal)
-
-    tumor_dna_fqs.addChild(phlat_tumor_dna)
-    normal_dna_fqs.addChild(phlat_normal_dna)
-    tumor_rna_fqs.addChild(phlat_tumor_rna)
-    # B. cutadapt will be followed by star
-    cutadapt.addChild(star)
-    # Ci.  gene expression and fusion detection follow start alignment
-    star.addChild(rsem)
-    star.addChild(fusions)
-    # Cii.  Radia depends on all 3 alignments
-    star.addChild(radia)
-    bwa_tumor.addChild(radia)
-    bwa_normal.addChild(radia)
-    # Ciii. mutect and indel calling depends on dna to have been aligned
-    bwa_tumor.addChild(mutect)
-    bwa_normal.addChild(mutect)
-    bwa_tumor.addChild(muse)
-    bwa_normal.addChild(muse)
-    bwa_tumor.addChild(somaticsniper)
-    bwa_normal.addChild(somaticsniper)
-    bwa_tumor.addChild(strelka)
-    bwa_normal.addChild(strelka)
-    bwa_tumor.addChild(indels)
-    bwa_normal.addChild(indels)
-    # D. MHC haplotypes will be merged once all 3 samples have been PHLAT-ed
-    phlat_tumor_dna.addChild(merge_phlat)
-    phlat_normal_dna.addChild(merge_phlat)
-    phlat_tumor_rna.addChild(merge_phlat)
-    # E. Delete the fastqs from the job store since all alignments are complete
-    sample_prep.addChild(fastq_deletion_1)
-    cutadapt.addChild(fastq_deletion_1)
-    bwa_normal.addChild(fastq_deletion_1)
-    bwa_tumor.addChild(fastq_deletion_1)
-    phlat_normal_dna.addChild(fastq_deletion_1)
-    phlat_tumor_dna.addChild(fastq_deletion_1)
-    phlat_tumor_rna.addChild(fastq_deletion_1)
-    star.addChild(fastq_deletion_2)
-    # F. Mutation calls need to be merged before they can be used
-    # G. All mutations get aggregated when they have finished running
-    fusions.addChild(merge_mutations)
-    radia.addChild(merge_mutations)
-    mutect.addChild(merge_mutations)
-    muse.addChild(merge_mutations)
-    somaticsniper.addChild(merge_mutations)
-    strelka.addChild(merge_mutations)
-    indels.addChild(merge_mutations)
-    # H. Aggregated mutations will be translated to protein space
-    merge_mutations.addChild(snpeff)
-    # I. snpeffed mutations will be converted into peptides.
-    # Transgene also accepts the RNA-seq bam and bai so that it can be rna-aware
-    snpeff.addChild(transgene)
-    star.addChild(transgene)
-    # J. Merged haplotypes and peptides will be converted into jobs and submitted for mhc:peptide
-    # binding prediction
-    merge_phlat.addChild(spawn_mhc)
-    transgene.addChild(spawn_mhc)
+    job.addChild(spawn_mhc)
     # K. The results from all the predictions will be merged. This is a follow-on job because
     # spawn_mhc will spawn an undetermined number of children.
     spawn_mhc.addFollowOn(merge_mhc)
     # L. Finally, the merged mhc along with the gene expression will be used for rank boosting
-    rsem.addChild(rankboost)
     merge_mhc.addChild(rankboost)
-    # M. Assess the status of the MHC genes in the patient
-    phlat_tumor_rna.addChild(mhc_pathway_assessment)
-    rsem.addChild(mhc_pathway_assessment)
     return None
 
 

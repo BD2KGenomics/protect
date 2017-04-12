@@ -239,7 +239,7 @@ def _process_sturniolo_mhcii(mhc_file, normal=False):
                 continue
             line = line.strip().split('\t')
             allele = line[0]
-            pept = line[5]
+            pept = line[4]
             pred = line[6]
             core = line[19]
             if float(pred) > 5.00 and not normal:
@@ -536,7 +536,8 @@ def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile, netmhc=False):
         peptide_names = [x for x, y in peptides.items() if neoepitope_info.pept in y]
     # For each peptide, append the ensembl gene
     for peptide_name in peptide_names:
-        print('{ni.allele}\t{ni.pept}\t{pname}\t{ni.core}\t0\t{ni.tumor_pred}\t{ni.normal_pred}'
-              '\t{pmap}'.format(ni=neoepitope_info, pname=peptide_name, pmap=pepmap[peptide_name]),
+        print('{ni.allele}\t{ni.pept}\t{ni.normal_pept}\t{pname}\t{ni.core}\t0\t{ni.tumor_pred}'
+              '\t{ni.normal_pred}\t{pmap}'.format(ni=neoepitope_info, pname=peptide_name,
+                                                  pmap=pepmap[peptide_name]),
               file=outfile)
     return None
