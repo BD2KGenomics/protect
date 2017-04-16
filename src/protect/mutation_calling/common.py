@@ -13,16 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, print_function
-from multiprocessing import Pool
+from collections import defaultdict
+from protect.common import export_results, get_files_from_filestore, untargz
 
 import itertools
-
-import time
-
-import sys
-
 import os
-from protect.common import export_results, get_files_from_filestore, untargz
 
 
 def sample_chromosomes(job, genome_fai_file):
@@ -88,12 +83,15 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
     from protect.mutation_calling.mutect import process_mutect_vcf
     from protect.mutation_calling.radia import process_radia_vcf
     from protect.mutation_calling.somaticsniper import process_somaticsniper_vcf
+    from protect.mutation_calling.strelka import process_strelka_vcf
     mutations.pop('indels')
     mutations.pop('fusions')
+    mutations['strelka'] = mutations['strelka']['snvs']
     vcf_processor = {'mutect': process_mutect_vcf,
                      'muse': process_muse_vcf,
                      'radia': process_radia_vcf,
                      'somaticsniper': process_somaticsniper_vcf,
+                     'strelka': process_strelka_vcf,
                      }
     #                 'fusions': lambda x: None,
     #                 'indels': lambda x: None}
@@ -197,3 +195,51 @@ def merge_perchrom_vcfs(job, perchrom_vcfs, tool_name, univ_options):
     export_results(job, outvcf.name, univ_options, subfolder='mutations/' + tool_name)
     output_file = job.fileStore.writeGlobalFile(outvcf.name)
     return output_file
+
+
+def unmerge(job, input_vcf, tool_name, tool_options, univ_options):
+    """
+    Un-merges a vcf file into a file per chromosome.
+
+    :param str input_vcf: Input vcf
+    :param str tool_name: The name of the mutation caller
+    :param dict tool_options: Options specific to Somatic Sniper
+    :param dict univ_options: Universal options
+    :returns: dict of jsIDs, onr for each chromosomal vcf
+    :rtype: dict
+    """
+    work_dir = os.getcwd()
+    input_files = {
+        'input.vcf': input_vcf,
+        'genome.fa.fai.tar.gz': tool_options['genome_fai']}
+    input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
+
+    input_files['genome.fa.fai'] = untargz(input_files['genome.fa.fai.tar.gz'], work_dir)
+
+    chromosomes = chromosomes_from_fai(input_files['genome.fa.fai'])
+
+    read_chromosomes = defaultdict()
+    with open(input_files['input.vcf'], 'r') as in_vcf:
+        header = []
+        for line in in_vcf:
+            if line.startswith('#'):
+                header.append(line)
+                continue
+            line = line.strip()
+            chrom = line.split()[0]
+            if chrom in read_chromosomes:
+                print(line, file=read_chromosomes[chrom])
+            else:
+                read_chromosomes[chrom] = open(os.path.join(os.getcwd(), chrom + '.vcf'), 'w')
+                print(''.join(header), file=read_chromosomes[chrom], end='')
+                print(line, file=read_chromosomes[chrom])
+    # Process chromosomes that had no mutations
+    for chrom in set(chromosomes).difference(set(read_chromosomes.keys())):
+        read_chromosomes[chrom] = open(os.path.join(os.getcwd(), chrom + '.vcf'), 'w')
+        print(''.join(header), file=read_chromosomes[chrom], end='')
+    outdict = {}
+    for chrom, chromvcf in read_chromosomes.items():
+        chromvcf.close()
+        export_results(job, chromvcf.name, univ_options, subfolder='mutations/' + 'tool_name')
+        outdict[chrom] = job.fileStore.writeGlobalFile(chromvcf.name)
+    return outdict

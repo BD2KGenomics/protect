@@ -18,9 +18,8 @@ from math import ceil
 from protect.common import (get_files_from_filestore,
                             docker_path,
                             docker_call,
-                            untargz,
-                            export_results)
-from protect.mutation_calling.common import (chromosomes_from_fai,
+                            untargz)
+from protect.mutation_calling.common import (unmerge,
                                              sample_chromosomes)
 from toil.job import PromisedRequirement
 
@@ -119,8 +118,8 @@ def run_somaticsniper(job, tumor_bam, normal_bam, univ_options, somaticsniper_op
     snipe.addChild(filtersnipes)
     pileup.addChild(filtersnipes)
     if split:
-        unmerge_snipes = job.wrapJobFn(unmerge, filtersnipes.rv(), somaticsniper_options,
-                                       univ_options)
+        unmerge_snipes = job.wrapJobFn(unmerge, filtersnipes.rv(), 'somaticsniper',
+                                       somaticsniper_options, univ_options)
         filtersnipes.addChild(unmerge_snipes)
         return unmerge_snipes.rv()
     else:
@@ -258,64 +257,7 @@ def process_somaticsniper_vcf(job, somaticsniper_vcf, work_dir, univ_options):
     :returns dict: Dict with chromosomes as keys and path to the corresponding somaticsniper vcfs as
     values
     """
-    somaticsniper_vcf = job.fileStore.readGlobalFile(somaticsniper_vcf)
-
-    with open(somaticsniper_vcf, 'r') as infile, open(somaticsniper_vcf +
-                                                      'somaticsniper_parsed.tmp', 'w') as outfile:
-        for line in infile:
-            line = line.strip()
-            if line.startswith('#'):
-                print(line, file=outfile)
-                continue
-            print(line, file=outfile)
-    return outfile.name
-
-
-def unmerge(job, input_vcf, somaticsniper_options, univ_options):
-    """
-    Un-merges a vcf file into a file per chromosome.
-
-    :param str input_vcf: Input vcf
-    :param dict somaticsniper_options: Options specific to Somatic Sniper
-    :param dict univ_options: Universal options
-    :returns: dict of jsIDs, onr for each chromosomal vcf
-    :rtype: dict
-    """
-    work_dir = os.getcwd()
-    input_files = {
-        'input.vcf': input_vcf,
-        'genome.fa.fai.tar.gz': somaticsniper_options['genome_fai']}
-    input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
-
-    input_files['genome.fa.fai'] = untargz(input_files['genome.fa.fai.tar.gz'], work_dir)
-
-    chromosomes = chromosomes_from_fai(input_files['genome.fa.fai'])
-
-    read_chromosomes = defaultdict()
-    with open(input_files['input.vcf'], 'r') as in_vcf:
-        header = []
-        for line in in_vcf:
-            if line.startswith('#'):
-                header.append(line)
-                continue
-            line = line.strip()
-            chrom = line.split()[0]
-            if chrom in read_chromosomes:
-                print(line, file=read_chromosomes[chrom])
-            else:
-                read_chromosomes[chrom] = open(os.path.join(os.getcwd(), chrom + '.vcf'), 'w')
-                print(''.join(header), file=read_chromosomes[chrom], end='')
-                print(line, file=read_chromosomes[chrom])
-    # Process chromosomes that had no mutations
-    for chrom in set(chromosomes).difference(set(read_chromosomes.keys())):
-        read_chromosomes[chrom] = open(os.path.join(os.getcwd(), chrom + '.vcf'), 'w')
-        print(''.join(header), file=read_chromosomes[chrom], end='')
-    outdict = {}
-    for chrom, chromvcf in read_chromosomes.items():
-        chromvcf.close()
-        export_results(job, chromvcf.name, univ_options, subfolder='mutations/somaticsniper')
-        outdict[chrom] = job.fileStore.writeGlobalFile(chromvcf.name)
-    return outdict
+    return job.fileStore.readGlobalFile(somaticsniper_vcf)
 
 
 def run_pileup(job, tumor_bam, univ_options, somaticsniper_options):
