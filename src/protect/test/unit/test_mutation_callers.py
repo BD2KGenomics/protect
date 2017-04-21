@@ -136,12 +136,12 @@ class TestMutationCallers(ProtectTest):
         :return: FSID for the bam and bai
         """
         sample_type = 'rna'
-        bamfile = sample_type + '_fix_pg_sorted.bam'
+        bamfile = sample_type + '_genome_sorted.bam'
         base_call = 's3am download s3://cgl-protect-data/unit_inputs/'
         final_call = base_call + sample_type + '.tar.gz ' + sample_type + '.tar.gz'
         subprocess.check_call(final_call.split(' '))
         untargz(sample_type + '.tar.gz', os.getcwd())
-        return {'rnaAligned.sortedByCoord.out.bam': {
+        return {'rna_genome': {
             bamfile: job.fileStore.writeGlobalFile(sample_type + '/' + bamfile),
             bamfile + '.bai': job.fileStore.writeGlobalFile(sample_type + '/' + bamfile +
                                                             '.bai')}}

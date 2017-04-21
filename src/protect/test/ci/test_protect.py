@@ -60,7 +60,7 @@ class TestProtect(ProtectTest):
                              ('/mnt/ephemeral/done/TEST/alignments',
                               [],
                               ['normal_dna_fix_pg_sorted.bam', 'normal_dna_fix_pg_sorted.bam.bai',
-                               'rna_fix_pg_sorted.bam', 'rna_fix_pg_sorted.bam.bai',
+                               'rna_genome_sorted.bam', 'rna_genome_sorted.bam.bai',
                                'rna_transcriptome.bam', 'tumor_dna_fix_pg_sorted.bam',
                                'tumor_dna_fix_pg_sorted.bam.bai']),
                              ('/mnt/ephemeral/done/TEST/binding_predictions',
