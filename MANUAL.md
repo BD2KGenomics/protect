@@ -1,6 +1,6 @@
 
 
-#Overview
+# Overview
 
 ProTECT is implemented in the [Toil](https://github.com/BD2KGenomics/toil.git) framework and fully
 runs the workflow described in [protect/Flowchart.txt](
@@ -12,7 +12,7 @@ likely to stimulate a T-cell based response. Input fastq files from multiple lan
 should be combined to yield just 2 files per sample type (T_DNA, N_DNA, T_RNA) having the standard
 naming convention -- XYZ1.fq and XYZ2.fq . Currently ProTECT only supports paired-end runs.
 
-#Installation
+# Installation
 
 ProTECT requires Toil and we recommend installing ProTECT and its requirements in a
 [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
@@ -26,7 +26,7 @@ Lastly, ProTECT uses [docker](https://www.docker.com/) to run the various sub-to
 reproducible, platform independent manner. ProTECT will NOT attempt to install docker during
 installation.
 
-###Method 1 - Using PIP (recommended)
+### Method 1 - Using PIP (recommended)
 
 First create a virtualenv at your desired location (Here we create it in the folder ~/venvs)
 
@@ -49,7 +49,7 @@ Install ProTECT and all dependencies in the virtualenv
 
     pip install protect
 
-###Method 2 - Installing from Source
+### Method 2 - Installing from Source
 
 This will install ProTECT in an editable mode.
 
@@ -74,7 +74,7 @@ Install ProTECT
 
     make develop
 
-##Method 3 - Using Docker
+## Method 3 - Using Docker
 
 Dockerized versions of ProTECT releases can be found at https://quay.io/organization/ucsc_cgl. These
 Docker containers run the ProTECT pipeline in single machine mode. The only difference between the
@@ -82,7 +82,7 @@ Docker and Python versions of the pipeline is that the Docker container takes th
 described below, as command line arguments as opposed to a config file. Running the container
 without any arguments will list all the available options.
 
-#Running ProTECT
+# Running ProTECT
 
 Running ProTECT requires you to be in the virtualenv where it was installed.
 
@@ -130,7 +130,7 @@ on another volume.
 Alternatively, the Dockerized pipeline can be run from Dockstore (https://dockstore.org/).
 The protect.cwl file in the /docker/ directory describes the necessary inputs and outputs and should be used if running via Dockstore.
 
-#Setting up a config file
+# Setting up a config file
 
 A config file pre-filled with references and options for an HG19 run can be generated with
 
@@ -369,7 +369,7 @@ be substituted with S3 links. Descriptions for creating all files can be found i
                                                                      expressions across samples in
                                                                      a background set.
 
-#Default values for config entries (Only in source installations)
+# Default values for config entries (Only in source installations)
 
 If you installed from source, we provide a way to specify default values for all entries in the
 config file (except for the `patients` tab). The file `src/protect/pipeline/defaults.yaml` will be
@@ -377,7 +377,7 @@ used to fill in default values for config entries if the user does not specify t
 config file.
 
 
-#A note on dockerised tools used in pipeline
+# A note on dockerised tools used in pipeline
 
 ProTECT uses dockerised versions of every tool used during the run to ensure reproduciblity of
 results. Every docker image required for the run is described in required_docker_tools.txt. Every
