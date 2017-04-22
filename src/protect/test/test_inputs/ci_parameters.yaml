@@ -30,10 +30,10 @@
 
 patients:
     TEST:
-        tumor_dna_fastq_1 : S3://cgl-protect-data/ci_references/Tum_1.fq.gz
-        tumor_dna_fastq_2 : S3://cgl-protect-data/ci_references/Tum_2.fq.gz
-        normal_dna_fastq_1 : S3://cgl-protect-data/ci_references/Norm_1.fq.gz
-        tumor_rna_fastq_1 : S3://cgl-protect-data/ci_references/Rna_1.fq.gz
+        tumor_dna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Tum_1.fq.gz
+        tumor_dna_fastq_2 : S3://cgl-pipeline-inputs/protect/ci_references/Tum_2.fq.gz
+        normal_dna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Norm_1.fq.gz
+        tumor_rna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Rna_1.fq.gz
 
 
 # These are options Which are used by most tools
@@ -51,55 +51,55 @@ alignment:
         A : AGATCGGAAGAG
     star:
         type : star
-        index : S3://cgl-protect-data/ci_references/star_50_index_chr6.tar.gz
+        index : S3://cgl-pipeline-inputs/protect/ci_references/star_50_index_chr6.tar.gz
     bwa:
-        index : S3://cgl-protect-data/ci_references/bwa_index_chr6.tar.gz
+        index : S3://cgl-pipeline-inputs/protect/ci_references/bwa_index_chr6.tar.gz
 
 expression_estimation:
     rsem:
-        index : https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references/rsem_index_chr6.tar.gz
+        index : https://s3-us-west-2.amazonaws.com/cgl-pipeline-inputs/protect/ci_references/rsem_index_chr6.tar.gz
 
 mutation_calling:
     indexes:
-        genome_fasta : S3://cgl-protect-data/ci_references/chr6.fa.tar.gz
-        genome_fai : S3://cgl-protect-data/ci_references/chr6.fa.fai.tar.gz
-        genome_dict : S3://cgl-protect-data/ci_references/chr6.dict.tar.gz
-        cosmic_vcf : S3://cgl-protect-data/ci_references/CosmicCodingMuts.chr6.vcf.tar.gz
-        cosmic_idx : S3://cgl-protect-data/ci_references/CosmicCodingMuts.chr6.vcf.idx.tar.gz
-        dbsnp_vcf : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz
-        dbsnp_idx : S3://cgl-protect-data/ci_references/dbsnp_coding.chr6.vcf.idx.tar.gz
-        dbsnp_tbi : S3://cgl-protect-data/ci_references/dbsnp_coding.vcf.gz.tbi
+        genome_fasta : S3://cgl-pipeline-inputs/protect/ci_references/chr6.fa.tar.gz
+        genome_fai : S3://cgl-pipeline-inputs/protect/ci_references/chr6.fa.fai.tar.gz
+        genome_dict : S3://cgl-pipeline-inputs/protect/ci_references/chr6.dict.tar.gz
+        cosmic_vcf : S3://cgl-pipeline-inputs/protect/ci_references/CosmicCodingMuts.chr6.vcf.tar.gz
+        cosmic_idx : S3://cgl-pipeline-inputs/protect/ci_references/CosmicCodingMuts.chr6.vcf.idx.tar.gz
+        dbsnp_vcf : S3://cgl-pipeline-inputs/protect/ci_references/dbsnp_coding.vcf.gz
+        dbsnp_idx : S3://cgl-pipeline-inputs/protect/ci_references/dbsnp_coding.chr6.vcf.idx.tar.gz
+        dbsnp_tbi : S3://cgl-pipeline-inputs/protect/ci_references/dbsnp_coding.vcf.gz.tbi
     mutect:
         java_Xmx : 2G
     radia:
-        cosmic_beds: S3://cgl-protect-data/hg19_references/radia_cosmic.tar.gz
-        dbsnp_beds: S3://cgl-protect-data/hg19_references/radia_dbsnp.tar.gz
-        retrogene_beds: S3://cgl-protect-data/hg19_references/radia_retrogenes.tar.gz
-        pseudogene_beds: S3://cgl-protect-data/hg19_references/radia_pseudogenes.tar.gz
-        gencode_beds: S3://cgl-protect-data/hg19_references/radia_gencode.tar.gz
+        cosmic_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_cosmic.tar.gz
+        dbsnp_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_dbsnp.tar.gz
+        retrogene_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_retrogenes.tar.gz
+        pseudogene_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_pseudogenes.tar.gz
+        gencode_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_gencode.tar.gz
 
     strelka:
-        config_file: S3://cgl-protect-data/hg19_references/strelka_bwa_WXS_config.ini.tar.gz
+        config_file: S3://cgl-pipeline-inputs/protect/ci_references/strelka_bwa_WXS_config.ini.tar.gz
 
 mutation_annotation:
     snpeff:
-        index : S3://cgl-protect-data/ci_references/snpeff_index_chr6.tar.gz
+        index : S3://cgl-pipeline-inputs/protect/ci_references/snpeff_index_chr6.tar.gz
         java_Xmx : 20G
 
 mutation_translation:
     transgene:
-        gencode_peptide_fasta : S3://cgl-protect-data/ci_references/gencode.v19.pc_translations.chr6.fa.tar.gz
+        gencode_peptide_fasta : S3://cgl-pipeline-inputs/protect/ci_references/gencode.v19.pc_translations.chr6.fa.tar.gz
 
 haplotyping:
     phlat:
-        index : S3://cgl-protect-data/hg19_references/phlat_index.tar.gz
+        index : S3://cgl-pipeline-inputs/protect/ci_references/phlat_index.tar.gz
 
 mhc_peptide_binding:
     mhci:
-        method_file : S3://cgl-protect-data/hg19_references/mhci_restrictions.json.tar.gz
+        method_file : S3://cgl-pipeline-inputs/protect/ci_references/mhci_restrictions.json.tar.gz
         pred : IEDB_recommended
     mhcii:
-        method_file : S3://cgl-protect-data/hg19_references/mhcii_restrictions.json.tar.gz
+        method_file : S3://cgl-pipeline-inputs/protect/ci_references/mhcii_restrictions.json.tar.gz
         pred : IEDB_recommended
 
 prediction_ranking:
@@ -119,4 +119,4 @@ prediction_ranking:
             tndelta: 0.2
 
 mhc_pathway_assessment:
-    genes_file : S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz
+    genes_file : S3://cgl-pipeline-inputs/protect/ci_references/mhc_pathway_genes.json.tar.gz

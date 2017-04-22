@@ -162,7 +162,7 @@ class TestFileDownloads(ProtectTest):
         """
         Attempts to download an unencrypted file, a file encrypted with a key.
         """
-        http_base = 'https://s3-us-west-2.amazonaws.com/cgl-protect-data/ci_references' \
+        http_base = 'https://s3-us-west-2.amazonaws.com/cgl-pipeline-inputs/protect/ci_references' \
                     '/rsem_index_chr6.tar.gz'
         get_file_from_url(job, http_base, write_to_jobstore=False)
 

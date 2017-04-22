@@ -75,7 +75,7 @@ class TestAlignments(ProtectTest):
 
         :return: FSID for the rsem file
         """
-        base_call = 's3am download s3://cgl-protect-data/ci_references/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/ci_references/'
         subprocess.check_call((base_call + 'Tum_1.fq.gz Tum_1.fq.gz').split(' '))
         subprocess.check_call((base_call + 'Tum_2.fq.gz Tum_2.fq.gz').split(' '))
         return [job.fileStore.writeGlobalFile('Tum_1.fq.gz'),
@@ -105,7 +105,7 @@ class TestAlignments(ProtectTest):
 
         :return: FSID for the rsem file
         """
-        base_call = 's3am download s3://cgl-protect-data/ci_references/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/ci_references/'
         subprocess.check_call((base_call + 'Rna_1.fq.gz Rna_1.fq.gz').split(' '))
         subprocess.check_call((base_call + 'Rna_2.fq.gz Rna_2.fq.gz').split(' '))
         return [job.fileStore.writeGlobalFile('Rna_1.fq.gz'),

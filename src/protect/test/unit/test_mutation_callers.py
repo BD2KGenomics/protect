@@ -120,7 +120,7 @@ class TestMutationCallers(ProtectTest):
         """
         assert sample_type in ('tumor_dna', 'normal_dna')
         bamfile = sample_type + '_fix_pg_sorted.bam'
-        base_call = 's3am download s3://cgl-protect-data/unit_inputs/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_inputs/'
         final_call = base_call + sample_type + '.tar.gz ' + sample_type + '.tar.gz'
         subprocess.check_call(final_call.split(' '))
         untargz(sample_type + '.tar.gz', os.getcwd())
@@ -137,7 +137,7 @@ class TestMutationCallers(ProtectTest):
         """
         sample_type = 'rna'
         bamfile = sample_type + '_genome_sorted.bam'
-        base_call = 's3am download s3://cgl-protect-data/unit_inputs/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_inputs/'
         final_call = base_call + sample_type + '.tar.gz ' + sample_type + '.tar.gz'
         subprocess.check_call(final_call.split(' '))
         untargz(sample_type + '.tar.gz', os.getcwd())
