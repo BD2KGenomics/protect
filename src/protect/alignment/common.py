@@ -14,7 +14,7 @@
 # limitations under the License.
 from __future__ import absolute_import
 from math import ceil
-from protect.common import docker_call,  export_results, get_files_from_filestore
+from protect.common import docker_call, docker_path, export_results, get_files_from_filestore
 
 import os
 
@@ -24,32 +24,42 @@ def index_disk(bamfile):
     return int(ceil(bamfile.size + 524288))
 
 
-def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options):
+# disk for sorting
+def sort_disk(bamfile):
+    return int(2.5 * ceil(bamfile.size + 524288))
+
+
+def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options, sample_info=None):
     """
-    This module indexes BAMFILE
-    ARGUMENTS
+    Index `bamfile` using samtools
+
     :param toil.fileStore.FileID bamfile: fsID for the bam file
     :param str sample_type: Description of the sample to inject into the filename
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict samtools_options: Options specific to samtools
+    :param str sample_info: Information regarding the sample that will beinjected into the filename
+               as `sample_type`_`sample_info`.bam(.bai)
     :return: Dict containing input bam and the generated index (.bam.bai)
              output_files:
-                 |- '<sample_type>_fix_pg_sorted.bam': fsID
-                 +- '<sample_type>_fix_pg_sorted.bam.bai': fsID
+                 |- '<sample_type>(_<sample_info>).bam': fsID
+                 +- '<sample_type>(_<sample_info>).bam.bai': fsID
     :rtype: dict
     """
     job.fileStore.logToMaster('Running samtools-index on %s:%s' % (univ_options['patient'],
                                                                    sample_type))
     work_dir = os.getcwd()
-    in_bamfile = '_'.join([sample_type, 'fix_pg_sorted.bam'])
+    in_bamfile = sample_type
+    if sample_info is not None:
+        assert isinstance(sample_info, str)
+        in_bamfile = '_'.join([in_bamfile, sample_info])
+    in_bamfile += '.bam'
     input_files = {
         in_bamfile: bamfile}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
     parameters = ['index',
                   input_files[in_bamfile]]
-    docker_call(tool='samtools', tool_parameters=parameters,
-                work_dir=work_dir, dockerhub=univ_options['dockerhub'],
-                tool_version=samtools_options['version'])
+    docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
+                dockerhub=univ_options['dockerhub'], tool_version=samtools_options['version'])
     out_bai = '/'.join([work_dir, in_bamfile + '.bai'])
     output_files = {in_bamfile: bamfile,
                     in_bamfile + '.bai': job.fileStore.writeGlobalFile(out_bai)}
@@ -57,3 +67,34 @@ def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options):
     export_results(job, output_files[in_bamfile + '.bai'], out_bai, univ_options,
                    subfolder='alignments')
     return output_files
+
+
+def sort_bamfile(job, bamfile, sample_type, univ_options, samtools_options):
+    """
+    Sort `bamfile` using samtools
+
+    :param toil.fileStore.FileID bamfile: fsID for the bam file
+    :param str sample_type: Description of the sample to inject into the filename
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict samtools_options: Options specific to samtools
+    :return: fsID for the sorted bamfile
+    :rtype: toil.fileStore.FileID
+    """
+    job.fileStore.logToMaster('Running samtools-sort on %s:%s' % (univ_options['patient'],
+                                                                  sample_type))
+    work_dir = os.getcwd()
+    in_bamfile = ''.join([sample_type, '.bam'])
+    out_bamfile = '_'.join([sample_type, 'sorted.bam'])
+    input_files = {
+        in_bamfile: bamfile}
+    input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
+    parameters = ['sort',
+                  '-o', docker_path(out_bamfile),
+                  '-O', 'bam',
+                  '-T', 'temp_sorted',
+                  '-@', str(samtools_options['n']),
+                  input_files[in_bamfile]]
+    docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
+                dockerhub=univ_options['dockerhub'], tool_version=samtools_options['version'])
+    job.fileStore.deleteGlobalFile(bamfile)
+    return job.fileStore.writeGlobalFile(out_bamfile)

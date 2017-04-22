@@ -68,7 +68,7 @@ def align_dna(job, fastqs, sample_type, univ_options, bwa_options):
                             bwa_options['picard'],
                             disk=PromisedRequirement(regroup_disk, reheader.rv()))
     index = job.wrapJobFn(index_bamfile, regroup.rv(), sample_type, univ_options,
-                          bwa_options['samtools'],
+                          bwa_options['samtools'], sample_info='fix_pg_sorted',
                           disk=PromisedRequirement(index_disk, regroup.rv()))
     job.addChild(bwa)
     bwa.addChild(sam2bam)

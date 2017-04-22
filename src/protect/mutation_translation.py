@@ -50,11 +50,10 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
     """
     job.fileStore.logToMaster('Running transgene on %s' % univ_options['patient'])
     work_dir = os.getcwd()
-    rna_bam_key = 'rnaAligned.sortedByCoord.out.bam'  # to reduce next line size
     input_files = {
         'snpeffed_muts.vcf': snpeffed_file,
-        'rna.bam': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
-        'rna.bam.bai': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam.bai'],
+        'rna.bam': rna_bam['rna_genome']['rna_genome_sorted.bam'],
+        'rna.bam.bai': rna_bam['rna_genome']['rna_genome_sorted.bam.bai'],
         'pepts.fa.tar.gz': transgene_options['gencode_peptide_fasta']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     input_files['pepts.fa'] = untargz(input_files['pepts.fa.tar.gz'], work_dir)

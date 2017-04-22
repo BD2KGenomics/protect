@@ -27,7 +27,7 @@ import os
 
 # disk for rsem
 def rsem_disk(star_bams, rsem_index):
-    star_transcriptome_bam = star_bams['rnaAligned.sortedByCoord.out.bam']['rna_fix_pg_sorted.bam']
+    star_transcriptome_bam = star_bams['rna_transcriptome.bam']
     return int(3 * ceil(star_transcriptome_bam.size + 524288) +
                4 * ceil(rsem_index.size + 524288))
 
@@ -45,7 +45,7 @@ def wrap_rsem(job, star_bams, univ_options, rsem_options):
                  +- 'rsem.isoforms.results': fsID
     :rtype: dict
     """
-    rsem = job.addChildJobFn(run_rsem, star_bams['rnaAligned.toTranscriptome.out.bam'],
+    rsem = job.addChildJobFn(run_rsem, star_bams['rna_transcriptome.bam'],
                              univ_options, rsem_options, cores=rsem_options['n'],
                              disk=PromisedRequirement(rsem_disk, star_bams,
                                                       rsem_options['index']))

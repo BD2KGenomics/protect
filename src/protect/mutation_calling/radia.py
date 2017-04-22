@@ -49,7 +49,7 @@ def run_radia_with_merge(job, rna_bam, tumor_bam, normal_bam, univ_options, radi
     :return: fsID to the merged RADIA calls
     :rtype: toil.fileStore.FileID
     """
-    spawn = job.wrapJobFn(run_radia, rna_bam['rnaAligned.sortedByCoord.out.bam'], tumor_bam,
+    spawn = job.wrapJobFn(run_radia, rna_bam['rna_genome'], tumor_bam,
                           normal_bam, univ_options, radia_options, disk='100M',
                           memory='100M').encapsulate()
     merge = job.wrapJobFn(merge_perchrom_vcfs, spawn.rv(), univ_options, disk='100M', memory='100M')
@@ -64,14 +64,14 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
 
     :param dict rna_bam: Dict of bam and bai for tumor DNA-Seq.  It can be one of two formats
            rna_bam:   # Just the genomic bam and bai
-                |- 'rna_fix_pg_sorted.bam': fsID
-                +- 'rna_fix_pg_sorted.bam.bai': fsID
+                |- 'rna_genome_sorted.bam': fsID
+                +- 'rna_genome_sorted.bam.bai': fsID
            OR
            rna_bam:   # The output from run_star
-               |- 'rnaAligned.toTranscriptome.out.bam': fsID
-               |- 'rnaAligned.sortedByCoord.out.bam':     # Only this part will be used
-                                |- 'rna_fix_pg_sorted.bam': fsID
-                                +- 'rna_fix_pg_sorted.bam.bai': fsID
+               |- 'rna_transcriptome.bam': fsID
+               |- 'rna_genome':     # Only this part will be used
+                       |- 'rna_genome_sorted.bam': fsID
+                       +- 'rna_genome_sorted.bam.bai': fsID
     :param dict tumor_bam: Dict of bam and bai for tumor DNA-Seq
     :param dict normal_bam: Dict of bam and bai for normal DNA-Seq
     :param dict univ_options: Dict of universal options used by almost all tools
@@ -87,16 +87,15 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
     :rtype: dict
     """
     job.fileStore.logToMaster('Running spawn_radia on %s' % univ_options['patient'])
-    if set(rna_bam.keys()) == {'rnaAligned.toTranscriptome.out.bam',
-                               'rnaAligned.sortedByCoord.out.bam'}:
-        rna_bam = rna_bam['rnaAligned.sortedByCoord.out.bam']
-    elif set(rna_bam.keys()) == {'rna_fix_pg_sorted.bam', 'rna_fix_pg_sorted.bam.bai'}:
+    if 'rna_genome' in rna_bam.keys():
+        rna_bam = rna_bam['rna_genome']
+    elif set(rna_bam.keys()) == {'rna_genome_sorted.bam', 'rna_genome_sorted.bam.bai'}:
         pass
     else:
         raise RuntimeError('An improperly formatted dict was passed to rna_bam.')
         
-    bams = {'tumor_rna': rna_bam['rna_fix_pg_sorted.bam'],
-            'tumor_rnai': rna_bam['rna_fix_pg_sorted.bam.bai'],
+    bams = {'tumor_rna': rna_bam['rna_genome_sorted.bam'],
+            'tumor_rnai': rna_bam['rna_genome_sorted.bam.bai'],
             'tumor_dna': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
             'tumor_dnai': tumor_bam['tumor_dna_fix_pg_sorted.bam.bai'],
             'normal_dna': normal_bam['normal_dna_fix_pg_sorted.bam'],
@@ -110,14 +109,14 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
                                   disk=PromisedRequirement(
                                       radia_disk, tumor_bam['tumor_dna_fix_pg_sorted.bam'],
                                       normal_bam['normal_dna_fix_pg_sorted.bam'],
-                                      rna_bam['rna_fix_pg_sorted.bam'],
+                                      rna_bam['rna_genome_sorted.bam'],
                                       radia_options['genome_fasta']))
         filter_radia = radia.addChildJobFn(run_filter_radia, bams, radia.rv(), univ_options,
                                            radia_options, chrom, memory='6G',
                                            disk=PromisedRequirement(
                                                radia_disk, tumor_bam['tumor_dna_fix_pg_sorted.bam'],
                                                normal_bam['normal_dna_fix_pg_sorted.bam'],
-                                               rna_bam['rna_fix_pg_sorted.bam'],
+                                               rna_bam['rna_genome_sorted.bam'],
                                                radia_options['genome_fasta']))
         perchrom_radia[chrom] = filter_radia.rv()
     return perchrom_radia

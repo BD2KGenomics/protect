@@ -72,7 +72,8 @@ class TestMHCPathwayAssessment(ProtectTest):
         :return: FSID for the MHC file
         """
         mhc_file = get_file_from_s3(job,
-                                    'S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz',
+                                    'S3://cgl-pipeline-inputs/protect/ci_references/'
+                                    'mhc_pathway_genes.json.tar.gz',
                                     write_to_jobstore=False)
         return {
             'genes_file': job.fileStore.writeGlobalFile(mhc_file)}

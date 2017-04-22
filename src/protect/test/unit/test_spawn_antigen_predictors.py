@@ -84,7 +84,7 @@ class TestSpawnAntigenPredictorsAndMerge(ProtectTest):
 
         :return: FSID for the tansgene file
         """
-        base_call = 's3am download s3://cgl-protect-data/unit_results/peptides/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/peptides/'
         transgened_files = {}
         filenames = []
         for length in ['9', '10', '15']:
@@ -107,7 +107,7 @@ class TestSpawnAntigenPredictorsAndMerge(ProtectTest):
 
         :return: FSID for the phlat file
         """
-        base_call = 's3am download s3://cgl-protect-data/unit_results/haplotyping/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/haplotyping/'
         phlat_files = {}
         for filename in ['mhci_alleles.list', 'mhcii_alleles.list']:
             call = (base_call + ('%s.tar.gz ' % filename) * 2).strip().split(' ')

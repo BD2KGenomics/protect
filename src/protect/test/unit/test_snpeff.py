@@ -77,7 +77,7 @@ class TestSnpeff(ProtectTest):
 
         :return: FSID for the mutations vcf
         """
-        base_call = 's3am download s3://cgl-protect-data/unit_results/mutations/merged/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/mutations/merged/'
         filename = 'all_merged.vcf'
         call = (base_call + ('%s.tar.gz ' % filename)*2).strip().split(' ')
         subprocess.check_call(call)

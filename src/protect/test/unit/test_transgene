@@ -80,7 +80,8 @@ class TestTransgene(ProtectTest):
 
         :return: FSID for the snpeffed vcf file
         """
-        base_call = 's3am download s3://cgl-protect-data/unit_results/mutations/snpeffed/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/mutations/' \
+                    'snpeffed/'
         filename = 'mutations.vcf'
         call = (base_call + ('%s.tar.gz ' % filename)*2).strip().split(' ')
         subprocess.check_call(call)
@@ -94,14 +95,14 @@ class TestTransgene(ProtectTest):
 
         :return: FSID for the phlat file
         """
-        base_call = 's3am download s3://cgl-protect-data/unit_results/alignments/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/alignments/'
         rna_files = {}
-        for filename in ['rna_fix_pg_sorted.bam', 'rna_fix_pg_sorted.bam.bai']:
+        for filename in ['rna_genome_sorted.bam', 'rna_genome_sorted.bam.bai']:
             call = (base_call + ('%s.tar.gz ' % filename) * 2).strip().split(' ')
             subprocess.check_call(call)
             untargz(filename + '.tar.gz', os.getcwd())
             rna_files[filename] = job.fileStore.writeGlobalFile(filename)
-        return {'rnaAligned.sortedByCoord.out.bam': rna_files}
+        return {'rna_genome': rna_files}
 
 # noinspection PyProtectedMember
 _get_all_tools = TestTransgene._get_all_tools
