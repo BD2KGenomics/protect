@@ -39,7 +39,7 @@ from protect.mutation_calling.mutect import run_mutect
 from protect.mutation_calling.radia import run_radia
 from protect.mutation_calling.somaticsniper import run_somaticsniper
 from protect.mutation_calling.strelka import run_strelka
-from protect.mutation_translation import run_transgene
+from protect.mutation_translation import run_transgene, transgene_disk
 from protect.qc.rna import cutadapt_disk, run_cutadapt
 from protect.rankboost import wrap_rankboost
 from toil.job import Job, PromisedRequirement
@@ -366,7 +366,9 @@ def launch_protect(job, fastqs, univ_options, tool_options):
                            disk=PromisedRequirement(snpeff_disk,
                                                     tool_options['snpeff']['index']))
     transgene = job.wrapJobFn(run_transgene, snpeff.rv(), star.rv(), univ_options,
-                              tool_options['transgene'], disk='100M', memory='100M', cores=1)
+                              tool_options['transgene'],
+                              disk=PromisedRequirement(transgene_disk, star.rv()), memory='100M',
+                              cores=1)
     merge_phlat = job.wrapJobFn(merge_phlat_calls, phlat_tumor_dna.rv(), phlat_normal_dna.rv(),
                                 phlat_tumor_rna.rv(), univ_options, disk='100M', memory='100M',
                                 cores=1)
