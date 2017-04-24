@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import absolute_import, print_function
-
 from collections import defaultdict
+from math import ceil
 
 from protect.common import (docker_call,
                             get_files_from_filestore,
@@ -23,6 +23,10 @@ from protect.common import (docker_call,
                             docker_path)
 
 import os
+
+
+def transgene_disk(rna_bamfiles):
+    return int(ceil(rna_bamfiles['rna_genome']['rna_genome_sorted.bam'].size) + 104857600)
 
 
 def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):

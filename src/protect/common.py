@@ -392,8 +392,8 @@ def export_results(job, fsid, file_name, univ_options, subfolder=None):
 
 def delete_fastqs(job, fastqs):
     """
-    This module will delete the fastqs from the job Store once their purpose has been achieved
-    (i.e. after all mapping steps)
+    Delete the fastqs from the job Store once their purpose has been achieved (i.e. after all
+    mapping steps)
 
     :param dict fastqs: Dict of list of input fastqs
     """
@@ -404,6 +404,27 @@ def delete_fastqs(job, fastqs):
         for i in fastqs[key]:
             job.fileStore.deleteGlobalFile(i)
     return None
+
+
+def delete_bams(job, bams, patient_id):
+    """
+    Delete the bams from the job Store once their purpose has been achieved (i.e. after all
+    mutation calling steps)
+
+    :param dict bams: Dict of bam and bai files
+    :param str patient_id: The ID of the patient for logging purposes.
+    """
+    assert len(bams) == 2
+    if {os.path.splitext(b)[1] for b in bams} == {'.bam', '.bai'}:
+        for key, val in bams.items():
+            job.fileStore.logToMaster('Deleting "%s" for patient "%s".' % (key, patient_id))
+            job.fileStore.deleteGlobalFile(val)
+    elif 'rna_genome' in bams:
+        delete_bams(job, bams['rna_genome'], patient_id)
+        job.fileStore.logToMaster('Deleting "rna_transcriptome.bam" for patient "%s".' % patient_id)
+        job.fileStore.deleteGlobalFile(bams['rna_transcriptome.bam'])
+    else:
+        assert False
 
 
 # Exception for bad parameters provided

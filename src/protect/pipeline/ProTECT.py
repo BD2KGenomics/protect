@@ -27,7 +27,11 @@ from protect.addons import run_mhc_gene_assessment
 from protect.alignment.dna import align_dna
 from protect.alignment.rna import align_rna
 from protect.binding_prediction.common import merge_mhc_peptide_calls, spawn_antigen_predictors
-from protect.common import delete_fastqs, get_file_from_s3, get_file_from_url, ParameterError
+from protect.common import (delete_bams,
+                            delete_fastqs,
+                            get_file_from_s3,
+                            get_file_from_url,
+                            ParameterError)
 from protect.expression_profiling.rsem import wrap_rsem
 from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
 from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
@@ -39,7 +43,7 @@ from protect.mutation_calling.mutect import run_mutect
 from protect.mutation_calling.radia import run_radia
 from protect.mutation_calling.somaticsniper import run_somaticsniper
 from protect.mutation_calling.strelka import run_strelka
-from protect.mutation_translation import run_transgene
+from protect.mutation_translation import run_transgene, transgene_disk
 from protect.qc.rna import cutadapt_disk, run_cutadapt
 from protect.rankboost import wrap_rankboost
 from toil.job import Job, PromisedRequirement
@@ -366,7 +370,15 @@ def launch_protect(job, fastqs, univ_options, tool_options):
                            disk=PromisedRequirement(snpeff_disk,
                                                     tool_options['snpeff']['index']))
     transgene = job.wrapJobFn(run_transgene, snpeff.rv(), star.rv(), univ_options,
-                              tool_options['transgene'], disk='100M', memory='100M', cores=1)
+                              tool_options['transgene'],
+                              disk=PromisedRequirement(transgene_disk, star.rv()), memory='100M',
+                              cores=1)
+    bam_deletion_1 = job.wrapJobFn(delete_bams, bwa_tumor.rv(), univ_options['patient'],
+                                   disk='100M', memory='100M')
+    bam_deletion_2 = job.wrapJobFn(delete_bams, bwa_normal.rv(), univ_options['patient'],
+                                   disk='100M', memory='100M')
+    bam_deletion_3 = job.wrapJobFn(delete_bams, star.rv(), univ_options['patient'],
+                                   disk='100M', memory='100M')
     merge_phlat = job.wrapJobFn(merge_phlat_calls, phlat_tumor_dna.rv(), phlat_normal_dna.rv(),
                                 phlat_tumor_rna.rv(), univ_options, disk='100M', memory='100M',
                                 cores=1)
@@ -444,13 +456,20 @@ def launch_protect(job, fastqs, univ_options, tool_options):
     # binding prediction
     merge_phlat.addChild(spawn_mhc)
     transgene.addChild(spawn_mhc)
-    # K. The results from all the predictions will be merged. This is a follow-on job because
+    # K. Delete the bams from the file store since we don't need them anymore
+    bwa_tumor.addChild(bam_deletion_1)
+    transgene.addChild(bam_deletion_1)
+    bwa_normal.addChild(bam_deletion_2)
+    transgene.addChild(bam_deletion_2)
+    star.addChild(bam_deletion_3)
+    transgene.addChild(bam_deletion_3)
+    # L. The results from all the predictions will be merged. This is a follow-on job because
     # spawn_mhc will spawn an undetermined number of children.
     spawn_mhc.addFollowOn(merge_mhc)
-    # L. Finally, the merged mhc along with the gene expression will be used for rank boosting
+    # M. Finally, the merged mhc along with the gene expression will be used for rank boosting
     rsem.addChild(rankboost)
     merge_mhc.addChild(rankboost)
-    # M. Assess the status of the MHC genes in the patient
+    # N. Assess the status of the MHC genes in the patient
     phlat_tumor_rna.addChild(mhc_pathway_assessment)
     rsem.addChild(mhc_pathway_assessment)
     return None
