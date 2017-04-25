@@ -54,8 +54,8 @@ class TestFileDownloads(ProtectTest):
         keyfile = os.path.abspath('test.key')
         with open(keyfile, 'w') as k_f:
             k_f.write('protectwillhelpwithimmunotherapy')
-        http_base = 'https://s3-us-west-2.amazonaws.com/pimmuno-test-data/CI_test_input/'
-        s3_base = 'S3://pimmuno-test-data/CI_test_input/'
+        http_base = 'https://s3-us-west-2.amazonaws.com/cgl-pipeline-inputs/protect/unit_inputs/'
+        s3_base = 's3://cgl-pipeline-inputs/protect/unit_inputs/'
         unencrypted = 'unencrypted.file'
         encrypted_with_key = 'encrypted_with_test_key.file'
         encrypted_with_hash = 'encrypted_with_key_hash.file'

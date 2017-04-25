@@ -390,19 +390,19 @@ def export_results(job, fsid, file_name, univ_options, subfolder=None):
     job.fileStore.exportFile(fsid, output_url)
 
 
-def delete_fastqs(job, fastqs):
+def delete_fastqs(job, patient_dict):
     """
     Delete the fastqs from the job Store once their purpose has been achieved (i.e. after all
     mapping steps)
 
-    :param dict fastqs: Dict of list of input fastqs
+    :param dict patient_dict: Dict of list of input fastqs
     """
-    for key in fastqs.keys():
-        if key == 'patient_id':
+    for key in patient_dict.keys():
+        if 'fastq' not in key:
             continue
-        job.fileStore.logToMaster('Deleting fastq files for "%s".' % key)
-        for i in fastqs[key]:
-            job.fileStore.deleteGlobalFile(i)
+        job.fileStore.logToMaster('Deleting "%s:%s" ' % (patient_dict['patient_id'], key) +
+                                  'from the filestore.')
+        job.fileStore.deleteGlobalFile(patient_dict[key])
     return None
 
 

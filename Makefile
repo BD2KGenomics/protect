@@ -82,7 +82,15 @@ test: check_venv check_toil_in_venv check_build_reqs
 	$(python) -m pytest -vv -pyargs $(tests) --junitxml=test-report.xml
 
 ci_test: check_venv check_build_reqs
-	$(python) -m pytest -vv -pyargs src/protect/test/ci/test_protect.py --junitxml=test-report.xml
+	$(python) -m pytest -vv -pyargs src/protect/test/ci/test_protect.py -m 'all_fastq' --junitxml=test-report.xml
+
+ci_mix_bam_fastq_test: check_venv check_build_reqs
+	$(python) -m pytest -vv -pyargs src/protect/test/ci/test_protect.py -m 'mix_bam_fastq' --junitxml=test-report.xml
+
+ci_vcf_fastq_test: check_venv check_build_reqs
+	$(python) -m pytest -vv -pyargs src/protect/test/ci/test_protect.py -m 'vcf_fastq' --junitxml=test-report.xml
+
+ci_test_all: ci_test ci_mix_bam_fastq_test ci_vcf_fastq_test
 
 pypi: check_venv check_clean_working_copy check_running_on_jenkins
 	set -x \

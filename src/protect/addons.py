@@ -44,7 +44,7 @@ def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_g
     format.
 
     :param toil.fileStore.FileID isoform_expression: fsID for the rsem isoform expression file
-    :param toil.fileStore.FileID rna_haplotype: fsID for the RNA PHLAT file
+    :param toil.fileStore.FileID|None rna_haplotype: fsID for the RNA PHLAT file
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict mhc_genes_options: Options specific to assessing the MHC genes
     :return: The fsID for the mhc pathway report file
@@ -54,8 +54,9 @@ def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_g
     work_dir = os.getcwd()
     input_files = {
         'rsem_quant.tsv': isoform_expression,
-        'rna_haplotype.sum': rna_haplotype,
         'mhc_genes.json.tar.gz': mhc_genes_options['genes_file']}
+    if rna_haplotype is not None:
+        input_files['rna_haplotype.sum'] = rna_haplotype
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
 
     input_files['mhc_genes.json'] = untargz(input_files['mhc_genes.json.tar.gz'], work_dir)
@@ -65,10 +66,11 @@ def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_g
         mhc_genes = json.load(mhc_file)
 
     # Parse the rna phlat file
-    with open(input_files['rna_haplotype.sum']) as rna_mhc:
-        mhc_alleles = {'HLA_A': [], 'HLA_B': [], 'HLA_C': [], 'HLA_DPA': [], 'HLA_DQA': [],
-                       'HLA_DPB': [], 'HLA_DQB': [], 'HLA_DRB': []}
-        mhc_alleles = parse_phlat_file(rna_mhc, mhc_alleles)
+    if rna_haplotype is not None:
+        with open(input_files['rna_haplotype.sum']) as rna_mhc:
+            mhc_alleles = {'HLA_A': [], 'HLA_B': [], 'HLA_C': [], 'HLA_DPA': [], 'HLA_DQA': [],
+                           'HLA_DPB': [], 'HLA_DQB': [], 'HLA_DRB': []}
+            mhc_alleles = parse_phlat_file(rna_mhc, mhc_alleles)
 
     # Process the isoform expressions
     gene_expressions = Counter()
@@ -88,18 +90,26 @@ def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_g
                   file=mpr)
             if section == 'MHCI loading':
                 for mhci_allele in 'HLA_A', 'HLA_B', 'HLA_C':
-                    num_alleles = len(mhc_alleles[mhci_allele])
-                    result = 'FAIL' if num_alleles == 0 else 'LOW' if num_alleles == 1 else 'PASS'
+                    if rna_haplotype is not None:
+                        num_alleles = len(mhc_alleles[mhci_allele])
+                        result = ('FAIL' if num_alleles == 0 else
+                                  'LOW' if num_alleles == 1 else
+                                  'PASS')
+                    else:
+                        result = num_alleles = 'NA'
                     print("{:12}{:<12}{:<12}{:12}".format(mhci_allele, 2, num_alleles, result),
                           file=mpr)
             elif section == 'MHCII loading':
                 # TODO DP alleles
                 for mhcii_allele in ('HLA_DQA', 'HLA_DQB', 'HLA_DRA', 'HLA_DRB'):
                     if mhcii_allele != 'HLA_DRA':
-                        num_alleles = len(mhc_alleles[mhcii_allele])
-                        result = ('FAIL' if num_alleles == 0 else
-                                  'LOW' if num_alleles == 1 else
-                                  'PASS')
+                        if rna_haplotype is not None:
+                            num_alleles = len(mhc_alleles[mhcii_allele])
+                            result = ('FAIL' if num_alleles == 0 else
+                                      'LOW' if num_alleles == 1 else
+                                      'PASS')
+                        else:
+                            result = num_alleles = 'NA'
                         print("{:12}{:<12}{:<12}{:12}".format(mhcii_allele, 2, num_alleles, result),
                               file=mpr)
                     else:

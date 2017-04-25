@@ -98,7 +98,8 @@ class TestMHCPathwayAssessment(ProtectTest):
         """
         outfile = job.fileStore.readGlobalFile(output_file, 'mhc_report.txt')
         # Ensure that the exported file exists
-        assert os.path.exists(os.path.join(univ_options['output_folder'], 'reports',
+        print(os.listdir(os.path.join(univ_options['output_folder'], 'test/reports')))
+        assert os.path.exists(os.path.join(univ_options['output_folder'], 'test/reports',
                                            'mhc_pathway_report.txt'))
         # Ensure that the 2 input genes were processed correctly
         outdict = {}

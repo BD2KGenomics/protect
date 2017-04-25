@@ -20,7 +20,6 @@ File : protect/test/test_rankboost.py
 """
 from __future__ import print_function
 
-from protect.common import untargz
 from protect.pipeline.ProTECT import _parse_config_file
 from protect.rankboost import wrap_rankboost
 from protect.test import ProtectTest
@@ -89,9 +88,8 @@ class TestRankboost(ProtectTest):
                 if length != '9' and tissue == 'tumor':
                     filenames.append(filename + '.map')
         for filename in filenames:
-            call = (base_call + ('%s.tar.gz ' % filename)*2).strip().split(' ')
+            call = (base_call + ('%s ' % filename)*2).strip().split(' ')
             subprocess.check_call(call)
-            untargz(filename + '.tar.gz', os.getcwd())
             transgened_files[filename] = job.fileStore.writeGlobalFile(filename)
         return transgened_files
 
@@ -102,12 +100,12 @@ class TestRankboost(ProtectTest):
 
         :return: FSID for the phlat file
         """
-        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/haplotyping/'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/' \
+                    'binding_predictions/'
         merge_mhc_files = {}
         for filename in ['mhci_merged_files.list', 'mhcii_merged_files.list']:
-            call = (base_call + ('%s.tar.gz ' % filename) * 2).strip().split(' ')
+            call = (base_call + ('%s ' % filename) * 2).strip().split(' ')
             subprocess.check_call(call)
-            untargz(filename + '.tar.gz', os.getcwd())
             merge_mhc_files[filename] = job.fileStore.writeGlobalFile(filename)
         return merge_mhc_files
 
@@ -121,9 +119,8 @@ class TestRankboost(ProtectTest):
         base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/expression/'
         rsem_files = {}
         filename = 'rsem.isoforms.results'
-        call = (base_call + ('%s.tar.gz ' % filename) * 2).strip().split(' ')
+        call = (base_call + ('%s ' % filename) * 2).strip().split(' ')
         subprocess.check_call(call)
-        untargz(filename + '.tar.gz', os.getcwd())
         rsem_files[filename] = job.fileStore.writeGlobalFile(filename)
         return rsem_files
 

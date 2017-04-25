@@ -21,7 +21,6 @@ File : protect/test/test_spawn_antigen_predictors.py
 from __future__ import print_function
 
 from protect.binding_prediction.common import spawn_antigen_predictors, merge_mhc_peptide_calls
-from protect.common import untargz
 from protect.pipeline.ProTECT import _parse_config_file
 from protect.test import ProtectTest
 from toil.job import Job
@@ -94,9 +93,8 @@ class TestSpawnAntigenPredictorsAndMerge(ProtectTest):
                 if length != '9' and tissue == 'tumor':
                     filenames.append(filename + '.map')
         for filename in filenames:
-            call = (base_call + ('%s.tar.gz ' % filename)*2).strip().split(' ')
+            call = (base_call + ('%s ' % filename)*2).strip().split(' ')
             subprocess.check_call(call)
-            untargz(filename + '.tar.gz', os.getcwd())
             transgened_files[filename] = job.fileStore.writeGlobalFile(filename)
         return transgened_files
 
@@ -110,9 +108,8 @@ class TestSpawnAntigenPredictorsAndMerge(ProtectTest):
         base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/haplotyping/'
         phlat_files = {}
         for filename in ['mhci_alleles.list', 'mhcii_alleles.list']:
-            call = (base_call + ('%s.tar.gz ' % filename) * 2).strip().split(' ')
+            call = (base_call + ('%s ' % filename) * 2).strip().split(' ')
             subprocess.check_call(call)
-            untargz(filename + '.tar.gz', os.getcwd())
             phlat_files[filename] = job.fileStore.writeGlobalFile(filename)
         return phlat_files
 
