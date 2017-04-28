@@ -21,6 +21,7 @@ Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
 from __future__ import print_function
+from collections import defaultdict
 from multiprocessing import cpu_count
 
 from protect.addons import run_mhc_gene_assessment
@@ -31,7 +32,8 @@ from protect.common import (delete_bams,
                             delete_fastqs,
                             get_file_from_s3,
                             get_file_from_url,
-                            ParameterError)
+                            ParameterError,
+                            untargz)
 from protect.expression_profiling.rsem import wrap_rsem
 from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
 from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
@@ -51,6 +53,7 @@ from toil.job import Job, PromisedRequirement
 import argparse
 import os
 import pkg_resources
+import re
 import shutil
 import sys
 import yaml
@@ -77,6 +80,47 @@ def _ensure_set_contains(test_object, required_object, test_set_name=None):
     if len(missing_opts) > 0:
         raise ParameterError('The following entries are missing in%sthe config file:\n%s'
                              % (set_name, '\n'.join(missing_opts)))
+
+
+def _ensure_patient_group_is_ok(patient_object, patient_name=None):
+    """
+    Ensure that the provided entries for the patient groups is formatted properly.
+
+    :param set|dict patient_object: The values passed to the samples patient group
+    :param str patient_name: Optional name for the set
+    :raises ParameterError: If required entry doesnt exist
+    """
+    assert isinstance(patient_object, (set, dict)), '%s,%s' % (patient_object, patient_name)
+    # set(dict) = set of keys of the dict
+    test_set = set(patient_object)
+    if {'tumor_dna_fastq_1', 'normal_dna_fastq_1', 'tumor_rna_fastq_1'}.issubset(test_set):
+        # Best case scenario, we get all fastqs
+        pass
+    else:
+        # We have less than 3 fastqs so we have to have a haplotype.
+        if 'hla_haplotype_files' not in test_set:
+            raise ParameterError(('The patient entry for sample %s ' % patient_name) +
+                                 'does not contain a hla_haplotype_files entry.\nCannot haplotype '
+                                 'patient if all the input sequence files are not fastqs.')
+        # Either we have a fastq and/or bam for the tumor and normal, or we need to be given a vcf
+        if (({re.search('tumor_dna_((bam)|(fastq_1)).*', x) for x in test_set} == {None} or
+                {re.search('normal_dna_((bam)|(fastq_1)).*', x) for x in test_set} == {None}) and
+                'mutation_vcf' not in test_set):
+            raise ParameterError(('The patient entry for sample %s ' % patient_name) +
+                                 'does not contain a mutation_vcf entry. If\nboth tumor and normal '
+                                 'DNA sequences (fastqs or bam) are not provided, a pre-computed '
+                                 'vcf must\nbe provided.')
+        # We have to be given a tumor rna fastq or bam
+        if {re.search('tumor_rna_((bam)|(fastq_1)).*', x) for x in test_set} == {None}:
+            raise ParameterError(('The patient entry for sample %s ' % patient_name) +
+                                 'does not contain a tumor rna sequence data entry. We require '
+                                 'either tumor_rna_fastq_1 or tumor_rna_bam.')
+        # If we are given an RNA bam then it needs to have a corresponding transcriptome bam
+        if 'tumor_rna_bam' in test_set and 'tumor_rna_transcriptome_bam' not in test_set:
+            raise ParameterError(('The patient entry for sample %s ' % patient_name +
+                                  'was provided a tumor rna bam with sequences mapped to the '
+                                  'genome but was not provided a matching rna bam for the '
+                                  'transcriptome. We require both.'))
 
 
 def _add_default_entries(input_dict, defaults_dict):
@@ -142,6 +186,88 @@ def _process_group(input_group, required_group, groupname, append_subgroups=None
     return tool_options
 
 
+def get_fastq_2(job, patient_id, sample_type, fastq_1):
+    """
+    For a path to a fastq_1 file, return a fastq_2 file with the same prefix and naming scheme.
+
+    :param str patient_id: The patient_id
+    :param str sample_type: The sample type of the file
+    :param str fastq_1: The path to the fastq_1 file
+    :return: The path to the fastq_2 file
+    :rtype: str
+    """
+    prefix, extn = fastq_1, 'temp'
+    final_extn = ''
+    while extn:
+        prefix, extn = os.path.splitext(prefix)
+        final_extn = extn + final_extn
+        if prefix.endswith('1'):
+            prefix = prefix[:-1]
+            job.fileStore.logToMaster('"%s" prefix for "%s" determined to be %s'
+                                      % (sample_type, patient_id, prefix))
+            break
+    else:
+        raise ParameterError('Could not determine prefix from provided fastq (%s). Is it '
+                             'of the form <fastq_prefix>1.[fq/fastq][.gz]?' % fastq_1)
+    if final_extn not in ['.fastq', '.fastq.gz', '.fq', '.fq.gz']:
+        raise ParameterError('If and _2 fastq path is not specified, only .fastq, .fq or '
+                             'their gzippped extensions are accepted. Could not process '
+                             '%s:%s.' % (patient_id, sample_type + '_fastq_1'))
+    return ''.join([prefix, '2', final_extn])
+
+
+def parse_patients(job, patient_dict):
+    """
+    Parse a dict of patient entries to retain on ly the useful entries (The user may provide more
+    than we need and we don't want to download redundant things)
+
+    :param dict patient_dict: The dict of patient entries parsed formt eh input config
+    :return: A parsed dict of items
+    :rtype: dict
+    """
+    output_dict = {'ssec_encrypted': patient_dict.get('ssec_encrypted') in ('True', 'true'),
+                   'patient_id': patient_dict['patient_id']}
+    patient_keys = set(patient_dict)
+    out_keys = []
+    if {'mutation_vcf', 'hla_haplotype_files'}.issubset(patient_dict):
+        # We have a haplotype and a vcf so do the minimum work.
+        out_keys.extend(['mutation_vcf', 'hla_haplotype_files'])
+        if 'tumor_rna_bam' in patient_keys:
+            out_keys.append('tumor_rna_bam')
+            out_keys.append('tumor_rna_transcriptome_bam')
+            if 'tumor_rna_bai' in patient_keys:
+                out_keys.append('tumor_rna_bai')
+        else:
+            out_keys.extend([x for x in patient_keys if x.startswith('tumor_rna_fastq')])
+    elif 'hla_haplotype_files' in patient_keys:
+        out_keys.extend(['hla_haplotype_files'])
+        # We don't have a vcf.  Use the bams if possible.
+        for stype in 'tumor_dna', 'normal_dna', 'tumor_rna':
+            if stype + '_bam' in patient_keys:
+                out_keys.append(stype + '_bam')
+                if stype + '_bai' in patient_keys:
+                    out_keys.append(stype + '_bai')
+                if stype == 'tumor_rna':
+                    out_keys.append(stype + '_transcriptome_bam')
+            else:
+                out_keys.extend([x for x in patient_keys if x.startswith(stype + '_fastq')])
+    else:
+        if 'mutation_vcf' in patient_keys:
+            # nesting this under the else since both cases need all fastqs.
+            out_keys.extend(['mutation_vcf'])
+        for stype in 'tumor_dna', 'normal_dna', 'tumor_rna':
+            out_keys.extend([x for x in patient_keys if x.startswith(stype + '_fastq')])
+    for key in out_keys:
+        output_dict[key] = patient_dict[key]
+    fastq1s = [x for x in output_dict if x.endswith('fastq_1')]
+    for f in fastq1s:
+        f = f[:-8]
+        if f + '_fastq_2' not in output_dict:
+            output_dict[f + '_fastq_2'] = get_fastq_2(job, patient_dict['patient_id'], f,
+                                                      output_dict[f + '_fastq_1'])
+    return output_dict
+
+
 def _parse_config_file(job, config_file, max_cores=None):
     """
     Parse the input yaml config file and download all tool inputs into the file store.
@@ -190,14 +316,10 @@ def _parse_config_file(job, config_file, max_cores=None):
             # Ensure each patient contains the required entries
             for sample_name in input_config[key]:
                 patient_keys = input_config[key][sample_name]
-                _ensure_set_contains(patient_keys, required_keys[key]['test'], sample_name)
-                if 'ssec_encrypted' not in patient_keys:
-                    input_config[key][sample_name]['ssec_encrypted'] = False
-                else:
-                    input_config[key][sample_name]['ssec_encrypted'] = \
-                        bool(input_config[key][sample_name]['ssec_encrypted'])
-            # Add options to the sample_set dictionary
-            sample_set.update(input_config['patients'])
+                _ensure_patient_group_is_ok(patient_keys, sample_name)
+                # Add options to the sample_set dictionary
+                input_config['patients'][sample_name]['patient_id'] = str(sample_name)
+                sample_set[sample_name] = parse_patients(job, input_config['patients'][sample_name])
         else:
             # Ensure the required entries exist for this key
             _ensure_set_contains(input_config[key], required_keys[key], key)
@@ -267,8 +389,6 @@ def parse_config_file(job, config_file, max_cores=None):
                                                                          max_cores)
     # Start a job for each sample in the sample set
     for patient_id in sample_set.keys():
-        # Add the patient id to the sample set.  Typecast to str so cat operations work later on.
-        sample_set[patient_id]['patient_id'] = str(patient_id)
         job.addFollowOnJobFn(launch_protect, sample_set[patient_id], univ_options,
                              processed_tool_inputs)
     return None
@@ -292,186 +412,204 @@ def ascertain_cpu_share(max_cores=None):
     return cpu_share
 
 
-def launch_protect(job, fastqs, univ_options, tool_options):
+def launch_protect(job, patient_data, univ_options, tool_options):
     """
     The launchpad for ProTECT. The DAG for ProTECT can be viewed in Flowchart.txt.
 
-    :param dict fastqs: Dict of lists of fastq files and the patient ID
+    :param dict patient_data: Dict of information regarding the input sequences for the patient
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict tool_options: Options for the various tools
     """
     # Add Patient id to univ_options as is is passed to every major node in the DAG and can be used
     # as a prefix for the logfile.
-    univ_options['patient'] = fastqs['patient_id']
+    univ_options['patient'] = patient_data['patient_id']
     # Ascertin number of cpus to use per job
     tool_options['star']['n'] = tool_options['bwa']['n'] = tool_options['phlat']['n'] = \
         tool_options['rsem']['n'] = ascertain_cpu_share(univ_options['max_cores'])
     # Define the various nodes in the DAG
     # Need a logfile and a way to send it around
-    sample_prep = job.wrapJobFn(prepare_samples, fastqs, univ_options, disk='40G')
-    tumor_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_dna', disk='10M')
-    normal_dna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'normal_dna', disk='10M')
-    tumor_rna_fqs = job.wrapJobFn(get_fqs, sample_prep.rv(), 'tumor_rna', disk='10M')
-    cutadapt = job.wrapJobFn(run_cutadapt, tumor_rna_fqs.rv(), univ_options,
-                             tool_options['cutadapt'], cores=1,
-                             disk=PromisedRequirement(cutadapt_disk, tumor_rna_fqs.rv()
-                                                      ))
-    star = job.wrapJobFn(align_rna, cutadapt.rv(), univ_options, tool_options['star'],
-                         cores=1, disk='100M').encapsulate()
-    bwa_tumor = job.wrapJobFn(align_dna, tumor_dna_fqs.rv(), 'tumor_dna', univ_options,
-                              tool_options['bwa'], cores=1, disk='100M'
-                              ).encapsulate()
-    bwa_normal = job.wrapJobFn(align_dna, normal_dna_fqs.rv(), 'normal_dna', univ_options,
-                               tool_options['bwa'], cores=1, disk='100M'
-                               ).encapsulate()
-    phlat_tumor_dna = job.wrapJobFn(run_phlat, tumor_dna_fqs.rv(), 'tumor_dna', univ_options,
-                                    tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                    disk=PromisedRequirement(phlat_disk, tumor_dna_fqs.rv()))
-    phlat_normal_dna = job.wrapJobFn(run_phlat, normal_dna_fqs.rv(), 'normal_dna', univ_options,
-                                     tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                     disk=PromisedRequirement(phlat_disk, normal_dna_fqs.rv()))
-    phlat_tumor_rna = job.wrapJobFn(run_phlat, tumor_rna_fqs.rv(), 'tumor_rna', univ_options,
-                                    tool_options['phlat'], cores=tool_options['phlat']['n'],
-                                    disk=PromisedRequirement(phlat_disk, tumor_rna_fqs.rv()))
+    sample_prep = job.wrapJobFn(prepare_samples, patient_data, univ_options, disk='40G')
+    job.addChild(sample_prep)
+    # Define the fastq deletion step
     fastq_deletion_1 = job.wrapJobFn(delete_fastqs, sample_prep.rv(), disk='100M', memory='100M')
-    fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
-                                     disk='100M', memory='100M')
-    rsem = job.wrapJobFn(wrap_rsem, star.rv(), univ_options, tool_options['rsem'], cores=1,
-                         disk='100M').encapsulate()
-    mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(), phlat_tumor_rna.rv(),
-                                           univ_options, tool_options['mhc_pathway_assessment'],
-                                           disk='100M', memory='100M', cores=1)
-    fusions = job.wrapJobFn(run_fusion_caller, star.rv(), univ_options, 'fusion_options',
-                            disk='100M', memory='100M', cores=1)
-    radia = job.wrapJobFn(run_radia, star.rv(), bwa_tumor.rv(),
-                          bwa_normal.rv(), univ_options, tool_options['radia'],
-                          disk='100M').encapsulate()
-    mutect = job.wrapJobFn(run_mutect, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                           tool_options['mutect'], disk='100M').encapsulate()
-    muse = job.wrapJobFn(run_muse, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                         tool_options['muse']).encapsulate()
-    somaticsniper = job.wrapJobFn(run_somaticsniper, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                                  tool_options['somaticsniper']).encapsulate()
-    strelka = job.wrapJobFn(run_strelka, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                            tool_options['strelka']).encapsulate()
-    indels = job.wrapJobFn(run_indel_caller, bwa_tumor.rv(), bwa_normal.rv(), univ_options,
-                           'indel_options', disk='100M', memory='100M', cores=1)
-    merge_mutations = job.wrapJobFn(run_mutation_aggregator,
-                                    {'fusions': fusions.rv(),
-                                     'radia': radia.rv(),
-                                     'mutect': mutect.rv(),
-                                     'strelka': strelka.rv(),
-                                     'indels': indels.rv(),
-                                     'muse': muse.rv(),
-                                     'somaticsniper': somaticsniper.rv()}, univ_options,
-                                    disk='100M', memory='100M',
-                                    cores=1).encapsulate()
-    snpeff = job.wrapJobFn(run_snpeff, merge_mutations.rv(), univ_options, tool_options['snpeff'],
+    sample_prep.addChild(fastq_deletion_1)
+    # Get all the input files
+    haplotype_patient = get_mutations = None
+    fastq_files = defaultdict(lambda: None)
+    bam_files = defaultdict(lambda: None)
+    delete_bam_files = defaultdict(lambda: None)
+    phlat_files = defaultdict(lambda: None)
+    for sample_type in 'tumor_dna', 'normal_dna', 'tumor_rna':
+        if sample_type + '_fastq_1' in patient_data:
+            fastq_files[sample_type] = job.wrapJobFn(get_patient_fastqs, sample_prep.rv(),
+                                                     sample_type, disk='10M')
+            sample_prep.addChild(fastq_files[sample_type])
+            fastq_files[sample_type].addChild(fastq_deletion_1)
+        elif sample_type + '_bam' in patient_data:
+            bam_files[sample_type] = job.wrapJobFn(get_patient_bams, sample_prep.rv(), sample_type,
+                                                   univ_options, tool_options['bwa'],
+                                                   disk='10M').encapsulate()
+            sample_prep.addChild(bam_files[sample_type])
+
+    # define the haplotyping subgraph of the DAG
+    if 'hla_haplotype_files' in patient_data:
+        haplotype_patient = job.wrapJobFn(get_patient_mhc_haplotype, sample_prep.rv())
+        sample_prep.addChild(haplotype_patient)
+    else:
+        assert None not in fastq_files.values()
+        # We are guaranteed to have fastqs here
+        for sample_type in 'tumor_dna', 'normal_dna', 'tumor_rna':
+            phlat_files[sample_type] = job.wrapJobFn(
+                run_phlat, fastq_files[sample_type].rv(), sample_type, univ_options,
+                tool_options['phlat'], cores=tool_options['phlat']['n'],
+                disk=PromisedRequirement(phlat_disk, fastq_files[sample_type].rv()))
+            fastq_files[sample_type].addChild(phlat_files[sample_type])
+            phlat_files[sample_type].addChild(fastq_deletion_1)
+        haplotype_patient = job.wrapJobFn(merge_phlat_calls,
+                                          phlat_files['tumor_dna'].rv(),
+                                          phlat_files['normal_dna'].rv(),
+                                          phlat_files['tumor_rna'].rv(),
+                                          univ_options, disk='100M', memory='100M', cores=1)
+        phlat_files['tumor_dna'].addChild(haplotype_patient)
+        phlat_files['normal_dna'].addChild(haplotype_patient)
+        phlat_files['tumor_rna'].addChild(haplotype_patient)
+
+    # Define the RNA-Seq Alignment subgraph if needed
+    if bam_files['tumor_rna'] is None:
+        assert fastq_files['tumor_rna'] is not None
+        cutadapt = job.wrapJobFn(run_cutadapt, fastq_files['tumor_rna'].rv(), univ_options,
+                                 tool_options['cutadapt'], cores=1,
+                                 disk=PromisedRequirement(cutadapt_disk,
+                                                          fastq_files['tumor_rna'].rv()))
+        bam_files['tumor_rna'] = job.wrapJobFn(align_rna, cutadapt.rv(), univ_options,
+                                               tool_options['star'], cores=1,
+                                               disk='100M').encapsulate()
+        fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
+                                         disk='100M', memory='100M')
+        fastq_files['tumor_rna'].addChild(cutadapt)
+        cutadapt.addChild(fastq_deletion_1)
+        cutadapt.addChild(fastq_deletion_2)
+        cutadapt.addChild(bam_files['tumor_rna'])
+        bam_files['tumor_rna'].addChild(fastq_deletion_2)
+
+    # Define the Expression estimation node
+    rsem = job.wrapJobFn(wrap_rsem, bam_files['tumor_rna'].rv(), univ_options, tool_options['rsem'],
+                         cores=1, disk='100M').encapsulate()
+    bam_files['tumor_rna'].addChild(rsem)
+    # Define the fusion calling node
+    fusions = job.wrapJobFn(run_fusion_caller, bam_files['tumor_rna'].rv(), univ_options,
+                            'fusion_options', disk='100M', memory='100M', cores=1)
+    bam_files['tumor_rna'].addChild(fusions)
+    # Define the bam deletion node
+    delete_bam_files['tumor_rna'] = job.wrapJobFn(delete_bams, bam_files['tumor_rna'].rv(),
+                                                  univ_options['patient'], disk='100M',
+                                                  memory='100M')
+    bam_files['tumor_rna'].addChild(delete_bam_files['tumor_rna'])
+    rsem.addChild(delete_bam_files['tumor_rna'])
+    fusions.addChild(delete_bam_files['tumor_rna'])
+    # Define the reporting leaves
+    if phlat_files['tumor_rna'] is not None:
+        mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(),
+                                               phlat_files['tumor_rna'].rv(), univ_options,
+                                               tool_options['mhc_pathway_assessment'], disk='100M',
+                                               memory='100M', cores=1)
+        rsem.addChild(mhc_pathway_assessment)
+        phlat_files['tumor_rna'].addChild(mhc_pathway_assessment)
+    else:
+        mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(), None,
+                                               univ_options, tool_options['mhc_pathway_assessment'],
+                                               disk='100M', memory='100M', cores=1)
+        rsem.addChild(mhc_pathway_assessment)
+
+    # Define the DNA-Seq alignment and mutation calling subgraphs if necessary
+    if 'mutation_vcf' in patient_data:
+        get_mutations = job.wrapJobFn(get_patient_vcf, sample_prep.rv())
+        sample_prep.addChild(get_mutations)
+    else:
+        assert (None, None) not in zip(fastq_files.values(), bam_files.values())
+        for sample_type in 'tumor_dna', 'normal_dna':
+            if bam_files[sample_type] is None:
+                assert fastq_files[sample_type] is not None
+                bam_files[sample_type] = job.wrapJobFn(align_dna, fastq_files[sample_type].rv(),
+                                                       sample_type, univ_options,
+                                                       tool_options['bwa'], cores=1,
+                                                       disk='100M').encapsulate()
+                fastq_files[sample_type].addChild(bam_files[sample_type])
+                bam_files[sample_type].addChild(fastq_deletion_1)
+            else:
+                # We already have the bam ready to go
+                pass
+            delete_bam_files[sample_type] = job.wrapJobFn(delete_bams,
+                                                          bam_files[sample_type].rv(),
+                                                          univ_options['patient'], disk='100M',
+                                                          memory='100M')
+            bam_files[sample_type].addChild(delete_bam_files[sample_type])
+        # Time to call mutations
+        mutations = {
+            'radia': job.wrapJobFn(run_radia, bam_files['tumor_rna'].rv(),
+                                   bam_files['tumor_dna'].rv(), bam_files['normal_dna'].rv(),
+                                   univ_options, tool_options['radia'],
+                                   disk='100M').encapsulate(),
+            'mutect': job.wrapJobFn(run_mutect, bam_files['tumor_dna'].rv(),
+                                    bam_files['normal_dna'].rv(), univ_options,
+                                    tool_options['mutect'], disk='100M').encapsulate(),
+            'muse': job.wrapJobFn(run_muse, bam_files['tumor_dna'].rv(),
+                                  bam_files['normal_dna'].rv(), univ_options,
+                                  tool_options['muse']).encapsulate(),
+            'somaticsniper': job.wrapJobFn(run_somaticsniper, bam_files['tumor_dna'].rv(),
+                                           bam_files['normal_dna'].rv(), univ_options,
+                                           tool_options['somaticsniper']).encapsulate(),
+            'strelka': job.wrapJobFn(run_strelka, bam_files['tumor_dna'].rv(),
+                                     bam_files['normal_dna'].rv(), univ_options,
+                                     tool_options['strelka']).encapsulate(),
+            'indels': job.wrapJobFn(run_indel_caller, bam_files['tumor_dna'].rv(),
+                                    bam_files['normal_dna'].rv(), univ_options, 'indel_options',
+                                    disk='100M', memory='100M', cores=1)}
+        for sample_type in 'tumor_dna', 'normal_dna':
+            for caller in mutations:
+                bam_files[sample_type].addChild(mutations[caller])
+        bam_files['tumor_rna'].addChild(mutations['radia'])
+        mutations['fusions'] = fusions
+        get_mutations = job.wrapJobFn(run_mutation_aggregator,
+                                      {caller: cjob.rv() for caller, cjob in mutations.items()},
+                                      univ_options, disk='100M', memory='100M',
+                                      cores=1).encapsulate()
+        for caller in mutations:
+            mutations[caller].addChild(get_mutations)
+        # We don't need the dna bams any more
+        get_mutations.addChild(delete_bam_files['normal_dna'])
+        get_mutations.addChild(delete_bam_files['tumor_dna'])
+
+    # The rest of the subgraph should be unchanged
+    snpeff = job.wrapJobFn(run_snpeff, get_mutations.rv(), univ_options, tool_options['snpeff'],
                            disk=PromisedRequirement(snpeff_disk,
                                                     tool_options['snpeff']['index']))
-    transgene = job.wrapJobFn(run_transgene, snpeff.rv(), star.rv(), univ_options,
+    get_mutations.addChild(snpeff)
+    transgene = job.wrapJobFn(run_transgene, snpeff.rv(), bam_files['tumor_rna'].rv(), univ_options,
                               tool_options['transgene'],
-                              disk=PromisedRequirement(transgene_disk, star.rv()), memory='100M',
-                              cores=1)
-    bam_deletion_1 = job.wrapJobFn(delete_bams, bwa_tumor.rv(), univ_options['patient'],
-                                   disk='100M', memory='100M')
-    bam_deletion_2 = job.wrapJobFn(delete_bams, bwa_normal.rv(), univ_options['patient'],
-                                   disk='100M', memory='100M')
-    bam_deletion_3 = job.wrapJobFn(delete_bams, star.rv(), univ_options['patient'],
-                                   disk='100M', memory='100M')
-    merge_phlat = job.wrapJobFn(merge_phlat_calls, phlat_tumor_dna.rv(), phlat_normal_dna.rv(),
-                                phlat_tumor_rna.rv(), univ_options, disk='100M', memory='100M',
-                                cores=1)
-    spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), merge_phlat.rv(),
+                              disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv()),
+                              memory='100M', cores=1)
+    snpeff.addChild(transgene)
+    bam_files['tumor_rna'].addChild(transgene)
+    transgene.addChild(delete_bam_files['tumor_rna'])
+
+    spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), haplotype_patient.rv(),
                               univ_options, (tool_options['mhci'], tool_options['mhcii']),
                               disk='100M', memory='100M', cores=1).encapsulate()
+    haplotype_patient.addChild(spawn_mhc)
+    transgene.addChild(spawn_mhc)
+
     merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene.rv(), univ_options,
                               disk='100M', memory='100M', cores=1)
+    spawn_mhc.addFollowOn(merge_mhc)
+    transgene.addChild(merge_mhc)
+
     rankboost = job.wrapJobFn(wrap_rankboost, rsem.rv(), merge_mhc.rv(), transgene.rv(),
                               univ_options, tool_options['rankboost'], disk='100M', memory='100M',
                               cores=1)
-    # Define the DAG in a static form
-    job.addChild(sample_prep)
-    # A. The first step is running the alignments and the MHC haplotypers
-    sample_prep.addChild(tumor_dna_fqs)
-    sample_prep.addChild(normal_dna_fqs)
-    sample_prep.addChild(tumor_rna_fqs)
-
-    tumor_rna_fqs.addChild(cutadapt)
-    tumor_dna_fqs.addChild(bwa_tumor)
-    normal_dna_fqs.addChild(bwa_normal)
-
-    tumor_dna_fqs.addChild(phlat_tumor_dna)
-    normal_dna_fqs.addChild(phlat_normal_dna)
-    tumor_rna_fqs.addChild(phlat_tumor_rna)
-    # B. cutadapt will be followed by star
-    cutadapt.addChild(star)
-    # Ci.  gene expression and fusion detection follow start alignment
-    star.addChild(rsem)
-    star.addChild(fusions)
-    # Cii.  Radia depends on all 3 alignments
-    star.addChild(radia)
-    bwa_tumor.addChild(radia)
-    bwa_normal.addChild(radia)
-    # Ciii. mutect and indel calling depends on dna to have been aligned
-    bwa_tumor.addChild(mutect)
-    bwa_normal.addChild(mutect)
-    bwa_tumor.addChild(muse)
-    bwa_normal.addChild(muse)
-    bwa_tumor.addChild(somaticsniper)
-    bwa_normal.addChild(somaticsniper)
-    bwa_tumor.addChild(strelka)
-    bwa_normal.addChild(strelka)
-    bwa_tumor.addChild(indels)
-    bwa_normal.addChild(indels)
-    # D. MHC haplotypes will be merged once all 3 samples have been PHLAT-ed
-    phlat_tumor_dna.addChild(merge_phlat)
-    phlat_normal_dna.addChild(merge_phlat)
-    phlat_tumor_rna.addChild(merge_phlat)
-    # E. Delete the fastqs from the job store since all alignments are complete
-    sample_prep.addChild(fastq_deletion_1)
-    cutadapt.addChild(fastq_deletion_1)
-    bwa_normal.addChild(fastq_deletion_1)
-    bwa_tumor.addChild(fastq_deletion_1)
-    phlat_normal_dna.addChild(fastq_deletion_1)
-    phlat_tumor_dna.addChild(fastq_deletion_1)
-    phlat_tumor_rna.addChild(fastq_deletion_1)
-    star.addChild(fastq_deletion_2)
-    # F. Mutation calls need to be merged before they can be used
-    # G. All mutations get aggregated when they have finished running
-    fusions.addChild(merge_mutations)
-    radia.addChild(merge_mutations)
-    mutect.addChild(merge_mutations)
-    muse.addChild(merge_mutations)
-    somaticsniper.addChild(merge_mutations)
-    strelka.addChild(merge_mutations)
-    indels.addChild(merge_mutations)
-    # H. Aggregated mutations will be translated to protein space
-    merge_mutations.addChild(snpeff)
-    # I. snpeffed mutations will be converted into peptides.
-    # Transgene also accepts the RNA-seq bam and bai so that it can be rna-aware
-    snpeff.addChild(transgene)
-    star.addChild(transgene)
-    # J. Merged haplotypes and peptides will be converted into jobs and submitted for mhc:peptide
-    # binding prediction
-    merge_phlat.addChild(spawn_mhc)
-    transgene.addChild(spawn_mhc)
-    # K. Delete the bams from the file store since we don't need them anymore
-    bwa_tumor.addChild(bam_deletion_1)
-    transgene.addChild(bam_deletion_1)
-    bwa_normal.addChild(bam_deletion_2)
-    transgene.addChild(bam_deletion_2)
-    star.addChild(bam_deletion_3)
-    transgene.addChild(bam_deletion_3)
-    # L. The results from all the predictions will be merged. This is a follow-on job because
-    # spawn_mhc will spawn an undetermined number of children.
-    spawn_mhc.addFollowOn(merge_mhc)
-    # M. Finally, the merged mhc along with the gene expression will be used for rank boosting
     rsem.addChild(rankboost)
     merge_mhc.addChild(rankboost)
-    # N. Assess the status of the MHC genes in the patient
-    phlat_tumor_rna.addChild(mhc_pathway_assessment)
-    rsem.addChild(mhc_pathway_assessment)
+    transgene.addChild(rankboost)
     return None
 
 
@@ -513,8 +651,7 @@ def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
     :rtype: toil.fileStore.FileID
     """
     work_dir = os.getcwd()
-    job.fileStore.logToMaster('Obtaining file (%s) to the file job store' %
-                              os.path.basename(input_file))
+    job.fileStore.logToMaster('Obtaining file (%s) to the file job store' % input_flag)
     if input_file.startswith(('http', 'https', 'ftp')):
         input_file = get_file_from_url(job, input_file, encryption_key=encryption_key,
                                        per_file_encryption=per_file_encryption,
@@ -528,87 +665,122 @@ def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
     return job.fileStore.writeGlobalFile(input_file)
 
 
-def prepare_samples(job, fastqs, univ_options):
+def prepare_samples(job, patient_dict, univ_options):
     """
-    Obtain the 6 input fastqs and write them to the file store.  The input files must satisfy the
-    following conditions:
-    1. Files must be on the form
-                    <prefix_for_file>1.<fastq/fq>[.gz]
-                    <prefix_for_file>2.<fastq/fq>[.gz]
-    2. Forward and reverse reads MUST be in the same folder with the same prefix
+    Obtain the input files for the patient and write them to the file store.
 
-    :param dict fastqs: The input fastq dict
-           fastqs:
-               |- 'tumor_dna': str
-               |- 'tumor_rna': str
-               |- 'normal_dna': str
+    :param dict patient_dict: The input fastq dict
+           patient_dict:
+               |- 'tumor_dna_fastq_[12]' OR 'tumor_dna_bam': str
+               |- 'tumor_rna_fastq_[12]' OR 'tumor_rna_bam': str
+               |- 'normal_dna_fastq_[12]' OR 'normal_dna_bam': str
+               |- 'mutation_vcf': str
+               |- 'hla_haplotype_files': str
                +- 'patient_id': str
     :param dict univ_options: Dict of universal options used by almost all tools
     :return: Updated fastq dict
-             sample_fastqs:
-                 |-  'tumor_dna': [fsID, fsID]
-                 |-  'normal_dna': [fsID, fsID]
-                 |-  'tumor_rna': [fsID, fsID]
-                 +- 'gzipped': bool
+             output_dict:
+                 |- 'tumor_dna_fastq_[12]' OR 'tumor_dna_bam': fsID
+                 |- 'tumor_rna_fastq_[12]' OR 'tumor_rna_bam': fsID
+                 |- 'normal_dna_fastq_[12]' OR 'normal_dna_bam': fsID
+                 |- 'mutation_vcf': fsID
+                 |- 'hla_haplotype_files': fsId
                  +- 'patient_id': str
     :rtype: dict
     """
     job.fileStore.logToMaster('Downloading Inputs for %s' % univ_options['patient'])
     # For each sample type, check if the prefix is an S3 link or a regular file
     # Download S3 files.
-    sample_fastqs = {}
-    if fastqs['ssec_encrypted']:
+    output_dict = {}
+    if patient_dict['ssec_encrypted']:
         assert univ_options['sse_key'] is not None, 'Cannot read ssec encrypted data without a key.'
-    for sample_type in ['tumor_dna', 'tumor_rna', 'normal_dna']:
-        if sample_type + '_fastq_2' in fastqs.keys():
-            # The user has specified paths to both the _1 and _2 files.
-            file_path_1 = fastqs[sample_type + '_fastq_1']
-            file_path_2 = fastqs[sample_type + '_fastq_2']
-        else:
-            prefix, extn = fastqs[''.join([sample_type, '_fastq_1'])], 'temp'
-            final_extn = ''
-            while extn:
-                prefix, extn = os.path.splitext(prefix)
-                final_extn = extn + final_extn
-                if prefix.endswith('1'):
-                    prefix = prefix[:-1]
-                    job.fileStore.logToMaster('"%s" prefix for "%s" determined to be %s'
-                                              % (sample_type, univ_options['patient'], prefix))
-                    break
-            else:
-                raise ParameterError('Could not determine prefix from provided fastq (%s). Is it '
-                                     'of the form <fastq_prefix>1.[fq/fastq][.gz]?'
-                                     % fastqs[''.join([sample_type, '_fastq_1'])])
-            if final_extn not in ['.fastq', '.fastq.gz', '.fq', '.fq.gz']:
-                raise ParameterError('If and _2 fastq path is not specified, only .fastq, .fq or '
-                                     'their gzippped extensions are accepted. Could not process '
-                                     '%s:%s.' % (univ_options['patient'], sample_type + '_fastq_1'))
-            file_path_1 = ''.join([prefix, '1', final_extn])
-            file_path_2 = ''.join([prefix, '2', final_extn])
-        sample_fastqs[sample_type] = [
-            get_pipeline_inputs(job, univ_options['patient'] + ':' + sample_type + '_fastq_1',
-                                file_path_1,
-                                encryption_key=(univ_options['sse_key']
-                                                if fastqs['ssec_encrypted'] else None),
-                                per_file_encryption=univ_options['sse_key_is_master']),
-            get_pipeline_inputs(job, univ_options['patient'] + ':' + sample_type + '_fastq_2',
-                                file_path_2,
-                                encryption_key=(univ_options['sse_key']
-                                                if fastqs['ssec_encrypted'] else None),
-                                per_file_encryption=univ_options['sse_key_is_master'])]
-    return sample_fastqs
+    for input_file in patient_dict:
+        if input_file in ('ssec_encrypted', 'patient_id'):
+            output_dict[input_file] = patient_dict[input_file]
+            continue
+        output_dict[input_file] = get_pipeline_inputs(
+            job, ':'.join([univ_options['patient'], input_file]), patient_dict[input_file],
+            encryption_key=(univ_options['sse_key'] if patient_dict['ssec_encrypted'] else None),
+            per_file_encryption=univ_options['sse_key_is_master'])
+    return output_dict
 
 
-def get_fqs(job, fastqs, sample_type):
+def get_patient_fastqs(job, patient_dict, sample_type):
     """
-    Convenience function to return only a list of tumor_rna, tumor_dna or normal_dna fqs
+    Convenience function to return only a list of fq_1, fq_2 for a sample type.
 
-    :param dict fastqs: dict of list of fq files
+    :param dict patient_dict: dict of patient info
     :param str sample_type: key in sample_type to return
     :return: fastqs[sample_type]
     :rtype: list[toil.fileStore.FileID]
     """
-    return fastqs[sample_type]
+    return [patient_dict[sample_type + '_fastq_1'], patient_dict[sample_type + '_fastq_2']]
+
+
+def get_patient_bams(job, patient_dict, sample_type, univ_options, bwa_options):
+    """
+    Convenience function to return the bam and its index in the correct format for a sample type.
+
+    :param dict patient_dict: dict of patient info
+    :param str sample_type: 'tumor_rna', 'tumor_dna', 'normal_dna'
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict bwa_options: Options specific to bwa
+    :return: formatted dict of bam and bai
+    :rtype: dict
+    """
+    output_dict = {}
+    if 'dna' in sample_type:
+        sample_info = 'fix_pg_sorted'
+        prefix = sample_type + '_' + sample_info
+    else:
+        sample_info = 'genome_sorted'
+        prefix = 'rna_' + sample_info
+    if sample_type + '_bai' in patient_dict:
+        output_dict[prefix + '.bam'] = patient_dict[sample_type + '_bam']
+        output_dict[prefix + '.bam.bai'] = patient_dict[sample_type + '_bai']
+    else:
+        from protect.alignment.dna import index_bamfile, index_disk
+        output_job = job.wrapJobFn(index_bamfile, patient_dict[sample_type + '_bam'],
+                                   'rna' if sample_type == 'tumor_rna' else sample_type,
+                                   univ_options, bwa_options['samtools'],
+                                   sample_info=sample_info, export=False,
+                                   disk=PromisedRequirement(index_disk,
+                                                            patient_dict[sample_type + '_bam']))
+        job.addChild(output_job)
+        output_dict = output_job.rv()
+    if sample_type == 'tumor_rna':
+        return{'rna_genome': output_dict,
+               'rna_transcriptome.bam': patient_dict['tumor_rna_transcriptome_bam']}
+    else:
+        return output_dict
+
+
+def get_patient_vcf(job, patient_dict):
+    """
+    Convenience function to get the vcf from the patient dict
+
+    :param dict patient_dict: dict of patient info
+    :return: The vcf
+    :rtype: toil.fileStore.FileID
+    """
+    return patient_dict['mutation_vcf']
+
+
+def get_patient_mhc_haplotype(job, patient_dict):
+    """
+    Convenience function to get the mhc haplotype from the patient dict
+
+    :param dict patient_dict: dict of patient info
+    :return: The vcf
+    :rtype: toil.fileStore.FileID
+    """
+    haplotype_archive = job.fileStore.readGlobalFile(patient_dict['hla_haplotype_files'])
+    haplotype_archive = untargz(haplotype_archive, os.getcwd())
+    output_dict = {}
+    for filename in 'mhci_alleles.list', 'mhcii_alleles.list':
+        output_dict[filename] = job.fileStore.writeGlobalFile(os.path.join(haplotype_archive,
+                                                                           filename))
+    return output_dict
 
 
 def generate_config_file():

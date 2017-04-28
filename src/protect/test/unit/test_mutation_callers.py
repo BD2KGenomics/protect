@@ -44,18 +44,18 @@ class TestMutationCallers(ProtectTest):
         self.options.clean = 'always'
 
     def test_mutect(self):
-        self._test_dna_based_callers(run_mutect)
+        self._test_dna_based_callers('mutect', run_mutect)
 
     def test_muse(self):
-        self._test_dna_based_callers(run_muse)
+        self._test_dna_based_callers('muse', run_muse)
 
     def test_somaticsniper(self):
-        self._test_dna_based_callers(run_somaticsniper)
+        self._test_dna_based_callers('somaticsniper', run_somaticsniper)
 
     def test_strelka(self):
-        self._test_dna_based_callers(run_strelka)
+        self._test_dna_based_callers('strelka', run_strelka)
 
-    def _test_dna_based_callers(self, mut_caller_fn):
+    def _test_dna_based_callers(self, mut_caller, mut_caller_fn):
         """
         Test the functionality of MuSE, MuTect and Somatic Sniper
         """
@@ -66,7 +66,7 @@ class TestMutationCallers(ProtectTest):
         a1 = Job.wrapJobFn(self._get_test_dna_alignments, 'tumor_dna')
         a2 = Job.wrapJobFn(self._get_test_dna_alignments, 'normal_dna')
         b1 = Job.wrapJobFn(self._get_all_tools, config_file).encapsulate()
-        b2 = Job.wrapJobFn(self._get_tool, b1.rv(), 'mutation_calling')
+        b2 = Job.wrapJobFn(self._get_tool, b1.rv(), mut_caller)
         c = Job.wrapJobFn(mut_caller_fn, a1.rv(), a2.rv(), univ_options, b2.rv()).encapsulate()
         a1.addChild(a2)
         a2.addChild(b1)
@@ -76,9 +76,9 @@ class TestMutationCallers(ProtectTest):
 
     @unittest.skip('Takes too long')
     def test_radia(self):
-        self._test_mixed_callers(run_radia)
+        self._test_mixed_callers('radia', run_radia)
 
-    def _test_mixed_callers(self, mut_caller_fn):
+    def _test_mixed_callers(self, mut_caller, mut_caller_fn):
         """
         Test the functionality of radia
         """
@@ -90,7 +90,7 @@ class TestMutationCallers(ProtectTest):
         a2 = Job.wrapJobFn(self._get_test_dna_alignments, 'tumor_dna')
         a3 = Job.wrapJobFn(self._get_test_dna_alignments, 'normal_dna')
         b1 = Job.wrapJobFn(self._get_all_tools, config_file).encapsulate()
-        b2 = Job.wrapJobFn(self._get_tool, b1.rv(), 'mutation_calling')
+        b2 = Job.wrapJobFn(self._get_tool, b1.rv(), mut_caller)
         c = Job.wrapJobFn(mut_caller_fn, a1.rv(), a2.rv(), a3.rv(), univ_options, b2.rv()
                           ).encapsulate()
         a1.addChild(a2)
@@ -120,13 +120,13 @@ class TestMutationCallers(ProtectTest):
         """
         assert sample_type in ('tumor_dna', 'normal_dna')
         bamfile = sample_type + '_fix_pg_sorted.bam'
-        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_inputs/'
-        final_call = base_call + sample_type + '.tar.gz ' + sample_type + '.tar.gz'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/alignments/'
+        final_call = base_call + bamfile + ' ' + bamfile
         subprocess.check_call(final_call.split(' '))
-        untargz(sample_type + '.tar.gz', os.getcwd())
-        return {bamfile: job.fileStore.writeGlobalFile(sample_type + '/' + bamfile),
-                bamfile + '.bai': job.fileStore.writeGlobalFile(sample_type + '/' + bamfile +
-                                                                '.bai')}
+        final_call = base_call + bamfile + '.bai ' + bamfile + '.bai'
+        subprocess.check_call(final_call.split(' '))
+        return {bamfile: job.fileStore.writeGlobalFile(bamfile),
+                bamfile + '.bai': job.fileStore.writeGlobalFile(bamfile + '.bai')}
 
     @staticmethod
     def _get_test_rna_alignments(job):
@@ -137,14 +137,12 @@ class TestMutationCallers(ProtectTest):
         """
         sample_type = 'rna'
         bamfile = sample_type + '_genome_sorted.bam'
-        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_inputs/'
-        final_call = base_call + sample_type + '.tar.gz ' + sample_type + '.tar.gz'
+        base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/alignments/'
+        final_call = base_call + bamfile + ' ' + bamfile
         subprocess.check_call(final_call.split(' '))
-        untargz(sample_type + '.tar.gz', os.getcwd())
         return {'rna_genome': {
-            bamfile: job.fileStore.writeGlobalFile(sample_type + '/' + bamfile),
-            bamfile + '.bai': job.fileStore.writeGlobalFile(sample_type + '/' + bamfile +
-                                                            '.bai')}}
+            bamfile: job.fileStore.writeGlobalFile(bamfile),
+            bamfile + '.bai': job.fileStore.writeGlobalFile(bamfile + '.bai')}}
 
 
 _get_all_tools = TestMutationCallers._get_all_tools

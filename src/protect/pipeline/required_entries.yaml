@@ -25,9 +25,21 @@
 
 patients:
     'test':
+        # Need either of these 2
         tumor_dna_fastq_1:
+        tumor_dna_bam:
+        # Need either of these 2
         normal_dna_fastq_1:
+        normal_dna_bam:
+        # Or need this in lieu of all of the above 4
+        mutation_vcf:
+        # Need either fastq or both bams
         tumor_rna_fastq_1:
+        tumor_rna_bam:
+        tumor_rna_transcriptome_bam:
+        # If any fastq is substitute for a bam or isn't being provided, need this
+        hla_haplotype_files:
+
 
 # These are options that are used by most tools
 Universal_Options:

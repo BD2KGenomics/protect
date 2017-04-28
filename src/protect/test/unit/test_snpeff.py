@@ -20,7 +20,6 @@ File : protect/test/test_snpeff.py
 """
 from __future__ import print_function
 
-from protect.common import untargz
 from protect.mutation_annotation.snpeff import run_snpeff
 from protect.pipeline.ProTECT import _parse_config_file
 from protect.test import ProtectTest
@@ -79,9 +78,8 @@ class TestSnpeff(ProtectTest):
         """
         base_call = 's3am download s3://cgl-pipeline-inputs/protect/unit_results/mutations/merged/'
         filename = 'all_merged.vcf'
-        call = (base_call + ('%s.tar.gz ' % filename)*2).strip().split(' ')
+        call = (base_call + ('%s ' % filename)*2).strip().split(' ')
         subprocess.check_call(call)
-        untargz(filename + '.tar.gz', os.getcwd())
         return job.fileStore.writeGlobalFile(filename)
 
 

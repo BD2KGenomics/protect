@@ -2,15 +2,31 @@
 
 # Overview
 
+ProTECT attempts to predict the neo-antigens in the patient's tumor that are most
+likely to stimulate a T-cell based response. Ideally, ProTECT runs using a "trio" of input files,
+namely Illumina sequencing data from paired Tumor DNA (WGS or WXS), Normal DNA (WGS or WXS), and
+Tumor RNA. In this mode, the samples are all aligned using the same genome reference and annotation,
+and somatic mutants are called using a panel of callers. The samples are haplotyped and the
+potential neoepitopes are assayed against the alleles in the HLA haplotype for binding. The
+neoepitopes are finally subjected to a rank boosting approach to identify the most immunogenic in
+the list.
+
+Advanced run modes allow the user to run ProTECT using pre-aligned bam files, or even a
+pre-computed vcf of mutations. These modes however put a certain degree of responsibility on the
+user regarding the annotations used for mapping and integrity of input files. If any of the input
+fastqs is not provided, a corresponding haplotype must be provided in the form of a tar.gz
+archive (See below).
+
+NOTE: Input fastq files from multiple lanes and libraries should be combined to yield just 2 files
+per sample type (T_DNA, N_DNA, T_RNA) having the standard naming convention -- XYZ1.fq and XYZ2.fq.
+Currently ProTECT only supports paired-end runs and only accepts one pair of fastqs per analyte
+type.
+
+
 ProTECT is implemented in the [Toil](https://github.com/BD2KGenomics/toil.git) framework and fully
 runs the workflow described in [protect/Flowchart.txt](
 https://github.com/BD2KGenomics/protect/blob/master/Flowchart.txt).
 
-ProTECT accepts Illumina sequencing data from paired Tumor DNA (WGS or WXS), Normal DNA (WGS or
-WXS), and Tumor RNA, and attempts to predict the neo-antigens in the patient's tumor that are most
-likely to stimulate a T-cell based response. Input fastq files from multiple lanes and libraries
-should be combined to yield just 2 files per sample type (T_DNA, N_DNA, T_RNA) having the standard
-naming convention -- XYZ1.fq and XYZ2.fq . Currently ProTECT only supports paired-end runs.
 
 # Installation
 
@@ -66,9 +82,9 @@ Activate the virtualenv
 
     source venv/bin/activate
 
-Install Toil
+Install Toil and pytest
 
-    pip install toil[aws]==3.5.2
+    make prepare
 
 Install ProTECT
 
@@ -84,7 +100,7 @@ without any arguments will list all the available options.
 
 # Running ProTECT
 
-Running ProTECT requires you to be in the virtualenv where it was installed.
+Running ProTECT requires you to have activated the virtualenv where it was installed.
 
 Activate the virtualenv with
 
@@ -94,17 +110,17 @@ Activate the virtualenv with
 
 Running ProTECT is as simple as:
 
-            ProTECT --config /path/to/config.txt --workDir /path/to/a/workdir JobStore
+            ProTECT --config /path/to/config.yaml --workDir /path/to/a/workdir JobStore
 
 Where
 
-a) /path/to/config.txt is the absolute path to the config file for the run.   If a relative path is
+a) /path/to/config.yaml is the absolute path to the config file for the run.   If a relative path is
 provided, ProTECT will attempt to make it an absolute path, however this **might** be an issue on
 OSX because folders like `/tmp` are symlinks to `/private/tmp`.
 
 b) /path/to/a/workdir points to a directory to use as a working directory. This directory is where
 all the worker sandboxes (temp directories) will be set up during the run. If this option is omitted,
-Toil will setup workdir in the sytem $TMPDIR
+Toil will setup workdir in the system $TMPDIR
 
 c) JobStore is the job store used for the Toil run. The job store can either be a path to a
 directory on the system (e.g. /home/probox/toil/jobstore), or an aws bucket as
@@ -128,7 +144,8 @@ on another volume.
  **TL;DR:** Use large volumes for workdir, job store and Docker.
 
 Alternatively, the Dockerized pipeline can be run from Dockstore (https://dockstore.org/).
-The protect.cwl file in the /docker/ directory describes the necessary inputs and outputs and should be used if running via Dockstore.
+The protect.cwl file in the /docker/ directory describes the necessary inputs and outputs and
+should be used if running via Dockstore.
 
 # Setting up a config file
 
@@ -145,36 +162,69 @@ in the pipeline, and the information on the input samples. Elements before a `:`
 dictionary read into ProTECT and should **NOT** be modified (Barring the patient ID key in the
 patients dictionary). Only values to the right of the `:` should be edited.
 
-Every required reference file is provided in the AWS bucket `cgl-protect-data` under the folder
-`hg19_references`. The `README` file in the same location describes in detail how each file was
-generated.
+Every required reference file is provided in the AWS bucket `cgl-pipeline-inputs` under the folder
+`protect/hg19_references` or `protect/hg38_references`. The `README` file in the same location
+describes in detail how each file was generated. To use a file located in an s3 bucket, replace
+`/path/to` in the following descriptions with `s3://<databucket>/<folder_in_bucket>`.
 
 The following section describes the arguments that can be provided to ProTECT via the config file.
 
 **patients**
 
-The first group of elements is the list of patients to be processed in the run. Each patient group
-is marked with a patient ID, and has 3 values which correspond to the forward fastq read file for
-the Tumor DNA, Normal DNA, and Tumor RNA samples respectively. There is no limit to the number of
-patients that can be run in the same workflow. The paths to the forward read containing file for the
-sample types can either be absolute links to files on the system, or S3 links. The file extensions
-can be .fq, .fq.gz. .fastq, or .fastq.gz and the file names should be symmetrically named
-< prefix >1.extn and < prefix >2.extn where extn is one of the 4 available extensions mentioned
-above.
+The first group of elements is the list of patients to be processed in the run. There is no limit to
+the number of patients that can be run in the same workflow and each patient group is marked with a
+patient ID, an optional flag describing whether the file is encrypted with sse-c in an aws bucket
+(only relevant if files are on s3), and has file combinations  that meet the following conditions:
 
-    patients:    -> This is the group name. Do not modify this
-        PRTCT-01:   -> A string describing a unique Identifier for the patient. This is the only key
-                       that can be modified by the user.
-            tumor_dna_fastq_1: /path/to/Tum_1.fq
-            normal_dna_fastq_1: /path/to/Norm_1.fq.gz
-            tumor_rna_fastq_1: S3://databucket/datafolder/Rna_1.fq.gz
+1. The group contains 3 values which correspond to the forward fastq read file for the Tumor DNA,
+Normal DNA, and Tumor RNA samples respectively.  The file extensions for fastqs can be .fq, .fq.gz,
+.fastq, or .fastq.gz. If only an `<analyte_type>_fastq_1` flag is passed (without a corresponding
+`<analyte_type>_fastq_2` flag), the file names should be symmetrically named `<prefix>1.extn` and
+`<prefix>2.extn`.  This is the ideal way to run the pipeline.
+
+2. The group contains a pre-aligned bam (and optionally the corresponding bai file) OR fastq(s) for
+each of the analyte types. If any of the input files is not a fastq, the user must also provide a
+tar.gz archive with the `hla_haplotype_files` flag that contains 2 files enclosed in a folder
+(mhci_alleles.list and mhcii_alleles.list). Each alleles.list file should contain one input MHC
+allele (4 digit resolution) per line. NOTE: If RNA-seq fastqs are not provided, the 2 bams, one
+with RNA-seq reads mapped to the correct human reference genome build, and one with reads mapped to
+a transcriptome inferred from the correct annotation must be provided.
+
+3. The group contains a pre-computed vcf (In lieu of input sequences) and either a trio of fastqs
+(for haplotyping the patient), or a pre-computed haplotype bundle and an rna-seq fastq (or pair of
+bams; for expression estimation and variant filtering).
+
+```
+patients:    -> This is the group name. Do not modify this
+    PRTCT-01:   -> A string describing a unique Identifier for the patient. This is the only key
+                   that can be modified by the user.
+        tumor_dna_fastq_1: /path/to/Tum_1.fq
+        tumor_dna_fastq_2: /path/to/Tum_2.fq
+        tumor_dna_bam: /path/to/Tum.bam
+        tumor_dna_bai: /path/to/Tum.bam.bai
+        normal_dna_fastq_1: /path/to/Norm_1.fq.gz
+        normal_dna_fastq_2: /path/to/Norm_2.fq.gz
+        normal_dna_bam: /path/to/Norm.bam
+        normal_dna_bai: /path/to/Norm.bam.bai
+        tumor_rna_fastq_1: /path/to/Rna_1.fq.gz
+        tumor_rna_fastq_2: /path/to/Rna_2.fq.gz
+        tumor_rna_bam: /path/to/Rna.bam
+        tumor_rna_bai: /path/to/Rna.bam.bai
+        tumor_rna_transcriptome_bam: /path/to/RNA_transcriptome.bam
+        hla_haplotype_files: /path/to/hla_haplotypes.tar.gz
+        mutation_vcf: /path/to/mutations.vcf
+        ssec_encrypted: True
+```
+
 
 Encrypted data will be decrypted using per-file SSE-C keys hashed from a master sse-key
-(see `Universal_Options`). The backend download and upload from S3 is done using [s3am](https://www.github.com/BD2KGenomics/s3am.git).
+(see `Universal_Options`). The backend download and upload from S3 is done using
+[s3am](https://www.github.com/BD2KGenomics/s3am.git).
 
 **Universal_Options**
 
 These describe options that are used universally by most tools/jobs in the workflow.
+
 
     Universal_Options:
         dockerhub: aarjunrao              -> All tools used in the pipeline are dockerized to allow
@@ -338,7 +388,7 @@ be substituted with S3 links. Descriptions for creating all files can be found i
             pred: IEDB_recommended                                -> The IEDB method to use.
             version: 2.13
         netmhciipan:
-            verison: 3.1
+            version: 3.1
 
     prediction_ranking:
         rank_boost:
@@ -362,6 +412,7 @@ be substituted with S3 links. Descriptions for creating all files can be found i
                 TPM: 0.2
                 tndelta: 0.2
             version: 2.0.1
+
     mhc_pathway_assessment:
         genes_file: /path/to/mhc_pathway_genes.json.tar.gz        -> A json file containing the
                                                                      various genes in the MHC
@@ -377,9 +428,9 @@ used to fill in default values for config entries if the user does not specify t
 config file.
 
 
-# A note on dockerised tools used in pipeline
+# A note on dockerized tools used in pipeline
 
-ProTECT uses dockerised versions of every tool used during the run to ensure reproduciblity of
+ProTECT uses dockerized versions of every tool used during the run to ensure reproducibility of
 results. Every docker image required for the run is described in required_docker_tools.txt. Every
 required tool is also hosted freely on the dockerhub `aarjunrao` (Hence the default value in the
 config). If you wish to use a personal repo instead, ensure that every required version of every

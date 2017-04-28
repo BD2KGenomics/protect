@@ -94,7 +94,7 @@ class ProtectTest(unittest.TestCase):
     def _getTestUnivOptions(self):
         return {'patient': 'test',
                 'output_folder': self._createTempDir(purpose='pipeline_outputs'),
-                'storage_location': 'Local',
+                'storage_location': 'local',
                 'dockerhub': 'aarjunrao',
                 'java_Xmx': '20G',
                 'max_cores': 2,

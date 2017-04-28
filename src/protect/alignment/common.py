@@ -29,7 +29,8 @@ def sort_disk(bamfile):
     return int(2.5 * ceil(bamfile.size + 524288))
 
 
-def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options, sample_info=None):
+def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options, sample_info=None,
+                  export=True):
     """
     Index `bamfile` using samtools
 
@@ -39,6 +40,7 @@ def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options, sam
     :param dict samtools_options: Options specific to samtools
     :param str sample_info: Information regarding the sample that will beinjected into the filename
                as `sample_type`_`sample_info`.bam(.bai)
+    :param bool export: Should the bam and bai be exported to the output directory?
     :return: Dict containing input bam and the generated index (.bam.bai)
              output_files:
                  |- '<sample_type>(_<sample_info>).bam': fsID
@@ -63,9 +65,11 @@ def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options, sam
     out_bai = '/'.join([work_dir, in_bamfile + '.bai'])
     output_files = {in_bamfile: bamfile,
                     in_bamfile + '.bai': job.fileStore.writeGlobalFile(out_bai)}
-    export_results(job, bamfile, os.path.splitext(out_bai)[0], univ_options, subfolder='alignments')
-    export_results(job, output_files[in_bamfile + '.bai'], out_bai, univ_options,
-                   subfolder='alignments')
+    if export:
+        export_results(job, bamfile, os.path.splitext(out_bai)[0], univ_options,
+                       subfolder='alignments')
+        export_results(job, output_files[in_bamfile + '.bai'], out_bai, univ_options,
+                       subfolder='alignments')
     return output_files
 
 
