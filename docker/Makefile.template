@@ -1,9 +1,9 @@
 # Definitions
 build_tool = runtime-container.DONE
 name = quay.io/ucsc_cgl/protect
-git_commit ?= $(shell git log --pretty=oneline -n 1 | cut -f1 -d " ")
-tag = 2.3.0--DOCKERVER--${git_commit}
-short_tag = 2.3.0--DOCKERVER
+git_commit ?= db3301e89f3d3dcee5d16674b344bd090ca35b15
+tag = 2.4.1--DOCKERVER--${git_commit}
+short_tag = 2.4.1--DOCKERVER
 
 build: Dockerfile
 	docker build -t ${name}:${tag} .

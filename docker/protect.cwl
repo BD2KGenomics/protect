@@ -50,6 +50,13 @@ hints:
     description: "The process requires at least 16G of RAM and we recommend 21.5GB of storage."
 
 inputs:
+
+  sample-name:
+    type: String
+    doc: "Name of sample."
+    inputBinding:
+      prefix: --sample-name
+
   tumor-dna:
     type: File
     doc: "Tumor DNA fastq"
@@ -85,6 +92,102 @@ inputs:
     doc: "Second Normal DNA fastq"
     inputBinding:
       prefix: --normal-dna2
+
+  reference_build:
+    type: string
+    doc: "Reference build (hg19 or hg38)"
+    inputBinding:
+      prefix: --reference-build
+
+  cutadapt_ver:
+    inputBinding:
+      --cutadapt_ver
+    type: string
+  star_ver:
+    inputBinding:
+      --star-ver
+    type: string
+  bwa_ver:
+    inputBinding:
+      --bwa-ver
+    type: string
+  samtools_alignment_ver:
+    inputBinding:
+      --samtools_alignment_ver
+    type: string
+    doc: "Samtools for alignment"
+  picard_ver:
+    inputBinding:
+      --picard-ver
+    type: string
+  rsem_ver:
+    inputBinding:
+      --rsem-ver
+    type: string
+  mutect_ver:
+    inputBinding:
+      --mutect-ver
+    type: string
+  muse_ver:
+    inputBinding:
+      --muse-ver
+    type: string
+  radia_ver:
+    inputBinding:
+      --radia-ver
+    type: string
+  somaticsniper_ver:
+    inputBinding:
+      --somaticsniper-ver
+    type: string
+  samtools_somaticsniper_ver:
+    inputBinding:
+      --samtools_somaticsniper-ver
+    type: string
+    doc: "Samtools for somatic sniper"
+  bamreadcount_ver:
+    inputBinding:
+      --bamreadcount-ver
+    type: string
+  strelka_ver:
+    inputBinding:
+      --strelka-ver
+    type: string
+  snpeff_ver:
+    inputBinding:
+      --snpeff-ver
+    type: string
+  transgene_ver:
+    inputBinding:
+      --transgene-ver
+    type: string
+  phlat_ver:
+    inputBinding:
+      --phlat-ver
+    type: string
+  mhci_ver:
+    inputBinding:
+      --mhci-ver
+    type: string
+  mhcii_ver:
+    inputBinding:
+      --mhcii-ver
+    type: string
+  netmhciipan_ver:
+    inputBinding:
+      --netmhciipan-ver
+    type: string
+  rankboost_ver:
+    inputBinding:
+      --rankboost-ver
+    type: string
+
+
+  star_type:
+    type: string
+    doc: "Star type. Use starlong if reads >150bp."
+    inputBinding:
+      prefix: --star-type
 
   star:
     type: File?
@@ -151,6 +254,36 @@ inputs:
     doc: "mut_callers.dbsnp_tbi"
     inputBinding:
       prefix: --dbsnp-tbi
+
+  dbsnp_beds:
+    type: File?
+    doc: "beds"
+    inputBinding:
+      prefix: --dbsnp-beds
+
+  cosmic_beds:
+    type: File?
+    doc: "Cosmic beds"
+    inputBinding:
+      prefix: --cosmic_beds
+
+  retrogene_beds:
+    type: File?
+    doc: "Retrogene beds"
+    inputBinding:
+      prefix: --retrogene-beds
+
+  psuedogene_beds:
+    type: File?
+    doc: "Psuedogene beds"
+    inputBinding:
+      prefix: --psuedogene_beds
+
+  gencode_beds:
+    type: File?
+    doc: "Gencode beds
+    inputBinding:
+      prefix: --gencode_beds
 
   strelka_config:
     type: File?
@@ -284,12 +417,20 @@ outputs:
       glob: 'somaticsniper_perchrom.tar'
     doc: "Result files from ProTECT"
 
-  strelka_perchrom:
+  strelka_snv_perchrom:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'strelka_perchrom.tar'
+      glob: 'strelka_snv_perchrom.tar'
+    doc: "Result files from ProTECT"
+
+  strelka_indel_perchrom:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'strelka_indel_perchrom.tar'
     doc: "Result files from ProTECT"
 
   rankboost:
@@ -354,6 +495,14 @@ outputs:
       items: File
     outputBinding:
       glob: 'rna_fix_pg_sorted.bam.bai'
+    doc: "Result files from ProTECT"
+
+  rna_transcriptome_alignment:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'rna_transcriptome.bam'
     doc: "Result files from ProTECT"
 
   all_merged:
