@@ -225,7 +225,8 @@ def parse_patients(job, patient_dict):
     :return: A parsed dict of items
     :rtype: dict
     """
-    output_dict = {'ssec_encrypted': patient_dict.get('ssec_encrypted') in ('True', 'true'),
+    output_dict = {'ssec_encrypted': patient_dict.get('ssec_encrypted') in (True, 'True', 'true'),
+                   'filter_for_OxoG': patient_dict.get('filter_for_OxoG') in (True, 'True', 'true'),
                    'patient_id': patient_dict['patient_id']}
     patient_keys = set(patient_dict)
     out_keys = []
@@ -423,9 +424,9 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     # Add Patient id to univ_options as is is passed to every major node in the DAG and can be used
     # as a prefix for the logfile.
     univ_options['patient'] = patient_data['patient_id']
-    # Ascertin number of cpus to use per job
-    tool_options['star']['n'] = tool_options['bwa']['n'] = tool_options['phlat']['n'] = \
-        tool_options['rsem']['n'] = ascertain_cpu_share(univ_options['max_cores'])
+    # Ascertain number of cpus to use per job
+    for tool in tool_options:
+        tool_options[tool]['n'] = ascertain_cpu_share(univ_options['max_cores'])
     # Define the various nodes in the DAG
     # Need a logfile and a way to send it around
     sample_prep = job.wrapJobFn(prepare_samples, patient_data, univ_options, disk='40G')
@@ -576,22 +577,28 @@ def launch_protect(job, patient_data, univ_options, tool_options):
                                       cores=1).encapsulate()
         for caller in mutations:
             mutations[caller].addChild(get_mutations)
-        # We don't need the dna bams any more
+        # We don't need the normal dna bam any more
         get_mutations.addChild(delete_bam_files['normal_dna'])
-        get_mutations.addChild(delete_bam_files['tumor_dna'])
+        # We may need the tumor one depending on OxoG
+        if not patient_data['filter_for_OxoG']:
+            get_mutations.addChild(delete_bam_files['tumor_dna'])
 
     # The rest of the subgraph should be unchanged
     snpeff = job.wrapJobFn(run_snpeff, get_mutations.rv(), univ_options, tool_options['snpeff'],
                            disk=PromisedRequirement(snpeff_disk,
                                                     tool_options['snpeff']['index']))
     get_mutations.addChild(snpeff)
+    tumor_dna_bam = bam_files['tumor_dna'].rv() if patient_data['filter_for_OxoG'] else None
     transgene = job.wrapJobFn(run_transgene, snpeff.rv(), bam_files['tumor_rna'].rv(), univ_options,
-                              tool_options['transgene'],
-                              disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv()),
-                              memory='100M', cores=1)
+                              tool_options['transgene'], tumor_dna_bam,
+                              disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv(),
+                                                       tumor_dna_bam), memory='100M', cores=1)
     snpeff.addChild(transgene)
     bam_files['tumor_rna'].addChild(transgene)
     transgene.addChild(delete_bam_files['tumor_rna'])
+    if patient_data['filter_for_OxoG']:
+        bam_files['tumor_dna'].addChild(transgene)
+        transgene.addChild(delete_bam_files['tumor_dna'])
 
     spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), haplotype_patient.rv(),
                               univ_options, (tool_options['mhci'], tool_options['mhcii']),
@@ -695,7 +702,7 @@ def prepare_samples(job, patient_dict, univ_options):
     if patient_dict['ssec_encrypted']:
         assert univ_options['sse_key'] is not None, 'Cannot read ssec encrypted data without a key.'
     for input_file in patient_dict:
-        if input_file in ('ssec_encrypted', 'patient_id'):
+        if input_file in ('ssec_encrypted', 'patient_id', 'filter_for_OxoG'):
             output_dict[input_file] = patient_dict[input_file]
             continue
         output_dict[input_file] = get_pipeline_inputs(

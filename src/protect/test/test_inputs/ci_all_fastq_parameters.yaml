@@ -34,6 +34,7 @@ patients:
         tumor_dna_fastq_2 : S3://cgl-pipeline-inputs/protect/ci_references/Tum_2.fq.gz
         normal_dna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Norm_1.fq.gz
         tumor_rna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Rna_1.fq.gz
+        filter_for_OxoG: True
 
 
 # These are options Which are used by most tools
