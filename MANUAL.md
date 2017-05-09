@@ -213,7 +213,8 @@ patients:    -> This is the group name. Do not modify this
         tumor_rna_transcriptome_bam: /path/to/RNA_transcriptome.bam
         hla_haplotype_files: /path/to/hla_haplotypes.tar.gz
         mutation_vcf: /path/to/mutations.vcf
-        ssec_encrypted: True
+        ssec_encrypted: False   # Are the files for this patient encrypted with ssec? (Optional)
+        filter_for_OxoG: False  # Should the samples be processed for filtering OxoG artefacts (optional)
 ```
 
 

@@ -25,19 +25,22 @@ from protect.common import (docker_call,
 import os
 
 
-def transgene_disk(rna_bamfiles):
-    return int(ceil(rna_bamfiles['rna_genome']['rna_genome_sorted.bam'].size) + 104857600)
+def transgene_disk(rna_bamfiles, tdna_bam=None):
+    return int(ceil(rna_bamfiles['rna_genome']['rna_genome_sorted.bam'].size) +
+               (ceil(tdna_bam['tumor_dna_fix_pg_sorted.bam'].size) if tdna_bam is not None else 0) +
+               104857600)
 
 
-def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
+def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, tumor_dna_bam=None):
     """
-    Run transgene on an input snpeffed vcf filereturn the peptides for MHC prediction.
+    Run transgene on an input snpeffed vcf file and return the peptides for MHC prediction.
 
 
     :param toil.fileStore.FileID snpeffed_file: fsID for snpeffed vcf
     :param dict rna_bam: The dict of bams returned by running star
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict transgene_options: Options specific to Transgene
+    :param dict tumor_dna_bam: The dict of bams returned by running bwa
     :return: A dictionary of 9 files (9-, 10-, and 15-mer peptides each for Tumor and Normal and the
              corresponding .map files for the 3 Tumor fastas)
              output_files:
@@ -59,6 +62,11 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
         'rna.bam': rna_bam['rna_genome']['rna_genome_sorted.bam'],
         'rna.bam.bai': rna_bam['rna_genome']['rna_genome_sorted.bam.bai'],
         'pepts.fa.tar.gz': transgene_options['gencode_peptide_fasta']}
+    if tumor_dna_bam is not None:
+        input_files.update({
+            'tumor_dna.bam': tumor_dna_bam['tumor_dna_fix_pg_sorted.bam'],
+            'tumor_dna.bam.bai': tumor_dna_bam['tumor_dna_fix_pg_sorted.bam.bai'],
+        })
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     input_files['pepts.fa'] = untargz(input_files['pepts.fa.tar.gz'], work_dir)
     input_files = {key: docker_path(path) for key, path in input_files.items()}
@@ -67,7 +75,10 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options):
                   '--snpeff', input_files['snpeffed_muts.vcf'],
                   '--rna_file', input_files['rna.bam'],
                   '--prefix', 'transgened',
-                  '--pep_lens', '9,10,15']
+                  '--pep_lens', '9,10,15',
+                  '--cores', str(transgene_options['n'])]
+    if tumor_dna_bam is not None:
+        parameters.extend(['--dna_file', input_files['tumor_dna.bam']])
     docker_call(tool='transgene', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=transgene_options['version'])
     output_files = defaultdict()
