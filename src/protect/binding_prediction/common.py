@@ -239,7 +239,7 @@ def _process_sturniolo_mhcii(mhc_file, normal=False):
                 continue
             line = line.strip().split('\t')
             allele = line[0]
-            pept = line[5]
+            pept = line[4]
             pred = line[6]
             core = line[19]
             if float(pred) > 5.00 and not normal:
