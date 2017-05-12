@@ -16,7 +16,7 @@
 """
 Author : Arjun Arkal Rao
 Affiliation : UCSC BME, UCSC Genomics Institute
-File : protect/test/test_mhc_pathway_assessment.py
+File : protect/test/test_reporting.py
 """
 from __future__ import print_function
 
@@ -162,7 +162,9 @@ class TestProtect(ProtectTest):
                                            'mhcii_rankboost_detailed_results.txt']),
                             'reports': ('/mnt/ephemeral/done/TEST/reports',
                                         [],
-                                        ['mhc_pathway_report.txt'])
+                                        ['car_t_target_report.txt',
+                                         'immunotherapy_resistance_report.txt',
+                                         'mhc_pathway_report.txt'])
                             }
         expected_contents = {}
         for dir in expected_dirs:

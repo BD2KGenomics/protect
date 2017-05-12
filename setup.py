@@ -84,7 +84,7 @@ setup(name='protect',
       license='Apache',
       install_requires=[
           'PyYAML',
-          'pandas==0.18.1'
+          'pandas==0.19.2'
       ],
       tests_require=[
           'pytest==2.8.3'],

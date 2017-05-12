@@ -98,7 +98,8 @@ class ProtectTest(unittest.TestCase):
                 'dockerhub': 'aarjunrao',
                 'java_Xmx': '20G',
                 'max_cores': 2,
-                'ref': 'hg19'}
+                'ref': 'hg19',
+                'tumor_type': 'STAD'}
 
     @classmethod
     def _projectRootPath(cls):

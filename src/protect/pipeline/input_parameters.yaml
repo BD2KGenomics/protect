@@ -33,6 +33,7 @@ patients:
         tumor_dna_fastq_1: /path/to/<tumor_dna_prefix>1.fastq.gz
         normal_dna_fastq_1: /path/to/<normal_dna_prefix>1.fastq.gz
         tumor_rna_fastq_1: /path/to/<tumor_rna_prefix>1.fastq.gz
+        tumor_type = 'STAD'
         # ssec_encrypted: False
         # filter_for_OxoG: False
     PRTCT-02:
@@ -159,5 +160,8 @@ prediction_ranking:
             tndelta: 0.2
         # version: 2.0.3
 
-mhc_pathway_assessment:
-    genes_file: S3://cgl-protect-data/hg19_references/mhc_pathway_genes.json.tar.gz
+reports:
+    mhc_pathways_file: S3://cgl-pipeline-inputs/protect/ci_references/mhc_pathways.tsv.tar.gz
+    itx_resistance_file: S3://cgl-pipeline-inputs/protect/ci_references/itx_resistance.tsv.tar.gz
+    immune_resistance_pathways_file: S3://cgl-pipeline-inputs/protect/ci_references/immune_resistance_pathways.json.tar.gz
+    car_t_targets_file: S3://cgl-pipeline-inputs/protect/ci_references/car_t_targets.tsv.tar.gz

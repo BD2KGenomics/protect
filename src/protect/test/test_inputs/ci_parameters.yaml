@@ -34,7 +34,7 @@ patients:
         tumor_dna_fastq_2 : S3://cgl-pipeline-inputs/protect/ci_references/Tum_2.fq.gz
         normal_dna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/Norm_1.fq.gz
         tumor_rna_fastq_1 : S3://cgl-pipeline-inputs/protect/ci_references/RNA_CD74_ROS1_1.fq.gz
-
+        tumor_type: 'SKCM'
 
 # These are options Which are used by most tools
 Universal_Options:
@@ -125,5 +125,8 @@ prediction_ranking:
             TPM: 0.2
             tndelta: 0.2
 
-mhc_pathway_assessment:
-    genes_file : S3://cgl-pipeline-inputs/protect/ci_references/mhc_pathway_genes.json.tar.gz
+reports:
+    mhc_pathways_file: S3://cgl-pipeline-inputs/protect/ci_references/mhc_pathways.tsv.tar.gz
+    itx_resistance_file: S3://cgl-pipeline-inputs/protect/ci_references/itx_resistance.tsv.tar.gz
+    immune_resistance_pathways_file: S3://cgl-pipeline-inputs/protect/ci_references/immune_resistance_pathways.json.tar.gz
+    car_t_targets_file: S3://cgl-pipeline-inputs/protect/ci_references/car_t_targets.tsv.tar.gz
