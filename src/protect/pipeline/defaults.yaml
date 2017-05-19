@@ -68,6 +68,14 @@ mutation_calling:
     strelka:
         version: 1.0.15
 
+    star_fusion:
+        run: True
+        version: 1.0.0
+
+    fusion_inspector:
+        run_trinity: True
+        version: 1.0.1
+
 mutation_annotation:
     snpeff:
         version: 3.6
@@ -75,7 +83,7 @@ mutation_annotation:
 
 mutation_translation:
     transgene:
-        version: 2.2.0
+        version: 2.2.2
 
 haplotyping:
     phlat:
@@ -106,4 +114,4 @@ prediction_ranking:
             nMHC: 0.2
             TPM: 0.2
             tndelta: 0.2
-        version: 2.0.3
+        version: 2.1.0

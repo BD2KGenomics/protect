@@ -38,7 +38,7 @@ from protect.expression_profiling.rsem import wrap_rsem
 from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
 from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
 from protect.mutation_calling.common import run_mutation_aggregator
-from protect.mutation_calling.fusion import run_fusion_caller
+from protect.mutation_calling.fusion import wrap_fusion
 from protect.mutation_calling.indel import run_indel_caller
 from protect.mutation_calling.muse import run_muse
 from protect.mutation_calling.mutect import run_mutect
@@ -488,21 +488,30 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
                                          disk='100M', memory='100M')
         fastq_files['tumor_rna'].addChild(cutadapt)
-        cutadapt.addChild(fastq_deletion_1)
-        cutadapt.addChild(fastq_deletion_2)
         cutadapt.addChild(bam_files['tumor_rna'])
-        bam_files['tumor_rna'].addChild(fastq_deletion_2)
 
     # Define the Expression estimation node
     rsem = job.wrapJobFn(wrap_rsem, bam_files['tumor_rna'].rv(), univ_options, tool_options['rsem'],
                          cores=1, disk='100M').encapsulate()
     bam_files['tumor_rna'].addChild(rsem)
     # Define the fusion calling node
-    fusions = job.wrapJobFn(run_fusion_caller, bam_files['tumor_rna'].rv(), univ_options,
-                            'fusion_options', disk='100M', memory='100M', cores=1)
+
+    tool_options['star_fusion']['index'] = tool_options['star']['index']
+    tool_options['fusion_inspector']['index'] = tool_options['star']['index']
+    fusions = job.wrapJobFn(wrap_fusion,
+                            cutadapt.rv(),
+                            bam_files['tumor_rna'].rv(),
+                            univ_options,
+                            tool_options['star_fusion'],
+                            tool_options['fusion_inspector'],
+                            disk='100M', memory='100M', cores=1)
+
     bam_files['tumor_rna'].addChild(fusions)
+    fusions.addChild(fastq_deletion_1)
+    fusions.addChild(fastq_deletion_2)
     # Define the bam deletion node
-    delete_bam_files['tumor_rna'] = job.wrapJobFn(delete_bams, bam_files['tumor_rna'].rv(),
+    delete_bam_files['tumor_rna'] = job.wrapJobFn(delete_bams,
+                                                  bam_files['tumor_rna'].rv(),
                                                   univ_options['patient'], disk='100M',
                                                   memory='100M')
     bam_files['tumor_rna'].addChild(delete_bam_files['tumor_rna'])
@@ -570,7 +579,6 @@ def launch_protect(job, patient_data, univ_options, tool_options):
             for caller in mutations:
                 bam_files[sample_type].addChild(mutations[caller])
         bam_files['tumor_rna'].addChild(mutations['radia'])
-        mutations['fusions'] = fusions
         get_mutations = job.wrapJobFn(run_mutation_aggregator,
                                       {caller: cjob.rv() for caller, cjob in mutations.items()},
                                       univ_options, disk='100M', memory='100M',
@@ -590,9 +598,9 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     get_mutations.addChild(snpeff)
     tumor_dna_bam = bam_files['tumor_dna'].rv() if patient_data['filter_for_OxoG'] else None
     transgene = job.wrapJobFn(run_transgene, snpeff.rv(), bam_files['tumor_rna'].rv(), univ_options,
-                              tool_options['transgene'], tumor_dna_bam,
-                              disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv(),
-                                                       tumor_dna_bam), memory='100M', cores=1)
+                              tool_options['transgene'],
+                              disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv()),
+                              memory='100M', cores=1, tumor_dna_bam=tumor_dna_bam, fusion_calls=fusions.rv())
     snpeff.addChild(transgene)
     bam_files['tumor_rna'].addChild(transgene)
     transgene.addChild(delete_bam_files['tumor_rna'])
@@ -637,7 +645,7 @@ def get_all_tool_inputs(job, tools):
                 # If a file is of the type file, vcf, tar or fasta, it needs to be downloaded from
                 # S3 if reqd, then written to job store.
                 if option.split('_')[-1] in ['file', 'vcf', 'index', 'fasta', 'fai', 'idx', 'dict',
-                                             'tbi', 'beds']:
+                                             'tbi', 'beds', 'gtf', 'config']:
                     tools[tool][option] = job.addChildJobFn(get_pipeline_inputs, option,
                                                             tools[tool][option]).rv()
                 elif option == 'version':

@@ -28,6 +28,7 @@ from urlparse import urlparse
 import errno
 import gzip
 import os
+import re
 import subprocess
 import sys
 import tarfile
@@ -57,15 +58,20 @@ def get_files_from_filestore(job, files, work_dir, docker=False):
     return files
 
 
-def docker_path(filepath):
+def docker_path(filepath, work_dir=None):
     """
     Given a path, return that files path inside the docker mount directory (/data).
 
     :param str filepath: The path to a file
+    :param str work_dir: The part of the path to replace with /data
     :return: The docker-friendly path for `filepath`
     :rtype: str
     """
-    return os.path.join('/data', os.path.basename(filepath))
+    if work_dir:
+        return re.sub(work_dir, '/data', filepath)
+
+    else:
+        return os.path.join('/data', os.path.basename(filepath))
 
 
 def docker_call(tool, tool_parameters, work_dir, java_xmx=None, outfile=None,
@@ -101,6 +107,7 @@ def docker_call(tool, tool_parameters, work_dir, java_xmx=None, outfile=None,
     dimg_rv = subprocess.check_output(call)
     existing_images = [':'.join(x.split()[0:2]) for x in dimg_rv.splitlines()
                        if x.startswith(dockerhub)]
+
     if docker_tool not in existing_images:
         try:
             call = ' '.join(['docker', 'pull', docker_tool]).split()
@@ -409,13 +416,13 @@ def delete_fastqs(job, patient_dict):
 def delete_bams(job, bams, patient_id):
     """
     Delete the bams from the job Store once their purpose has been achieved (i.e. after all
-    mutation calling steps)
+    mutation calling steps). Will also delete the chimeric junction file from Star.
 
     :param dict bams: Dict of bam and bai files
     :param str patient_id: The ID of the patient for logging purposes.
     """
-    assert len(bams) == 2
-    if {os.path.splitext(b)[1] for b in bams} == {'.bam', '.bai'}:
+    bams = {b: v for b, v in bams.items() if b.endswith('.bam') or b.endswith('.bai')}
+    if bams:
         for key, val in bams.items():
             job.fileStore.logToMaster('Deleting "%s" for patient "%s".' % (key, patient_id))
             job.fileStore.deleteGlobalFile(val)
@@ -423,6 +430,11 @@ def delete_bams(job, bams, patient_id):
         delete_bams(job, bams['rna_genome'], patient_id)
         job.fileStore.logToMaster('Deleting "rna_transcriptome.bam" for patient "%s".' % patient_id)
         job.fileStore.deleteGlobalFile(bams['rna_transcriptome.bam'])
+
+    elif 'rnaChimeric.out.junction' in bams:
+        job.fileStore.logToMaster('Deleting "rnaChimeric.out.junction" for patient "%s".' % patient_id)
+        job.fileStore.deleteGlobalFile(bams['rnaChimeric.out.junction'])
+
     else:
         assert False
 

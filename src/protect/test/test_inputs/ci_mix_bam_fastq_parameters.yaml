@@ -83,6 +83,9 @@ mutation_calling:
     strelka:
         config_file: S3://cgl-pipeline-inputs/protect/ci_references/strelka_bwa_WXS_config.ini.tar.gz
 
+    star_fusion:
+        run: False
+
 mutation_annotation:
     snpeff:
         index : S3://cgl-pipeline-inputs/protect/ci_references/snpeff_index_chr6.tar.gz

@@ -23,10 +23,12 @@ from protect.common import untargz
 from protect.mutation_calling.muse import run_muse
 from protect.mutation_calling.mutect import run_mutect
 from protect.mutation_calling.radia import run_radia
+from protect.mutation_calling.fusion import run_fusion
 from protect.mutation_calling.somaticsniper import run_somaticsniper
 from protect.mutation_calling.strelka import run_strelka
 from protect.pipeline.ProTECT import _parse_config_file
 from protect.test import ProtectTest
+
 from toil.job import Job
 
 import os
@@ -73,6 +75,42 @@ class TestMutationCallers(ProtectTest):
         b1.addChild(b2)
         b2.addChild(c)
         Job.Runner.startToil(a1, self.options)
+
+
+    def test_star_fusion(self):
+        """
+        Test the functionality of STAR-Fusion pipeline
+        """
+        univ_options = self._getTestUnivOptions()
+        a1 = Job.wrapJobFn(self._get_test_fusion_reads)
+        a2 = Job.wrapJobFn(self._get_test_fusion_junction)
+        b = Job.wrapJobFn(self._get_fusion_options).encapsulate()
+        c = Job.wrapJobFn(run_fusion,
+                          a1.rv(),
+                          a1.rv(),
+                          univ_options,
+                          b.rv('star_fusion'),
+                          b.rv('fusion_inspector')).encapsulate()
+        a1.addChild(a2)
+        a1.addChild(b)
+        b.addChild(c)
+        Job.Runner.startToil(a1, self.options)
+
+    @staticmethod
+    def _get_fusion_options(job):
+        star_fusion_options = {}
+        fusion_inspector_options = {}
+        call = 's3am download S3://cgl-pipeline-inputs/protect/ci_references/ci_star_fusion_compatible_index.tar.gz ./index.tar.gz'
+        subprocess.check_call(call.split(' '))
+        star_fusion_options['index'] = fusion_inspector_options['index'] = job.fileStore.writeGlobalFile('index.tar.gz')
+        # Trinity now sets a minimum for the number of reads, so don't run it
+        # on test data
+        star_fusion_options['n'] = 2
+        star_fusion_options['version'] = '1.0.0'
+        fusion_inspector_options['run_trinity'] = False
+        fusion_inspector_options['version'] = '1.0.1'
+        return {'star_fusion': star_fusion_options, 'fusion_inspector': fusion_inspector_options}
+
 
     @unittest.skip('Takes too long')
     def test_radia(self):
@@ -145,7 +183,42 @@ class TestMutationCallers(ProtectTest):
             bamfile + '.bai': job.fileStore.writeGlobalFile(bamfile + '.bai')}}
 
 
+    @staticmethod
+    def _get_test_fusion_reads(job):
+        """
+        Get the test fusion reads from s3
+
+        :return: FSID for each paired FASTQ
+        """
+
+        base_call = 's3am download S3://cgl-pipeline-inputs/protect/ci_references/'
+        samples = ['RNA_CD74_ROS1_1.fq.gz', 'RNA_CD74_ROS1_2.fq.gz']
+        for sample in samples:
+            call = '{base}{sample} ./{sample}'.format(base=base_call, sample=sample)
+            subprocess.check_call(call.split(' '))
+        r1 = job.fileStore.writeGlobalFile('RNA_CD74_ROS1_1.fq.gz')
+        r2 = job.fileStore.writeGlobalFile('RNA_CD74_ROS1_2.fq.gz')
+        return r1, r2
+
+    @staticmethod
+    def _get_test_fusion_junction(job):
+        """
+        Get the test fusion reads from s3
+
+        :return: FSID for each paired FASTQ
+        """
+
+        base_call = 's3am download S3://cgl-pipeline-inputs/protect/ci_references/'
+        sample = 'CD74_ROS1_Chimeric.out.junction'
+        call = '{base}{sample} ./ChimericJunction'.format(base=base_call, sample=sample)
+        subprocess.check_call(call.split(' '))
+        return job.fileStore.writeGlobalFile('ChimericJunction')
+
+
 _get_all_tools = TestMutationCallers._get_all_tools
 _get_tool = TestMutationCallers._get_tool
 _get_test_dna_alignments = TestMutationCallers._get_test_dna_alignments
 _get_test_rna_alignments = TestMutationCallers._get_test_rna_alignments
+_get_fusion_options = TestMutationCallers._get_fusion_options
+_get_test_fusion_reads = TestMutationCallers._get_test_fusion_reads
+_get_test_fusion_junction = TestMutationCallers._get_test_fusion_junction

@@ -89,13 +89,12 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
     from protect.mutation_calling.somaticsniper import process_somaticsniper_vcf
     from protect.mutation_calling.strelka import process_strelka_vcf
     mutations.pop('indels')
-    mutations.pop('fusions')
     mutations['strelka'] = mutations['strelka']['snvs']
     vcf_processor = {'mutect': process_mutect_vcf,
                      'muse': process_muse_vcf,
                      'radia': process_radia_vcf,
                      'somaticsniper': process_somaticsniper_vcf,
-                     'strelka': process_strelka_vcf,
+                     'strelka': process_strelka_vcf
                      }
     #                 'fusions': lambda x: None,
     #                 'indels': lambda x: None}

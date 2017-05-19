@@ -41,7 +41,7 @@ class TestProtect(ProtectTest):
         self._test_protect('ci_all_fastq_parameters.yaml')
         self._test_ran_successfully([{'alignments': ['normal_dna', 'rna', 'tumor_dna']},
                                      'binding_predictions', 'expression', 'haplotyping',
-                                     {'mutations': ['merged', 'mutect', 'muse', 'radia',
+                                     {'mutations': ['fusions', 'merged', 'mutect', 'muse', 'radia',
                                                     'somaticsniper', 'strelka', 'snpeffed',
                                                     'transgened']}, 'peptides', 'rankboost',
                                      'reports'])
@@ -105,6 +105,13 @@ class TestProtect(ProtectTest):
                                             [],
                                             ['mhci_alleles.list', 'mhcii_alleles.list']),
                             'mutations': {
+                                'fusions': ('/mnt/ephemeral/done/TEST/mutations/fusions',
+                                             [],
+                                             ['fusion-inspector-predictions.tsv',
+                                              'fusion.bedpe',
+                                              'fusion.final',
+                                              'rna_chimeric.junction',
+                                              'star-fusion-predictions.tsv']),
                                 'merged': ('/mnt/ephemeral/done/TEST/mutations/merged',
                                            [],
                                            ['all_merged.vcf', 'chr6.vcf']),
