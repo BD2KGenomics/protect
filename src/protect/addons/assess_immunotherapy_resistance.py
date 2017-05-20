@@ -89,13 +89,13 @@ def assess_itx_resistance(job, gene_expression, univ_options, reports_options):
 
                 # Describe pathway and genes for it
                 print('Pathway: ' + pathway + '\n', file=report_file)
-                print ('Paper: ' + json_data['Pathways'][pathway]['paper'], file=report_file)
+                print ('Papers: ' + json_data['Pathways'][pathway]['paper'], file=report_file)
                 description = json_data['Pathways'][pathway]['description']
-                print('Description of pathway:\n ' + textwrap.fill(description, width=100),
+                print('Description of pathway:\n' + textwrap.fill(description, width=100),
                       file=report_file)
                 print('Pathway genes: ', file=report_file)
-                print('\t{:10}{:<20}{:<20}{:<12}'.format('Gene', 'Threshold_GTEX',
-                                                         'Threshold_TCGA_N', 'Observed'),
+                print('\t{:10}{:<20}{:<20}{:<12}'.format('Gene', 'GTEX Median',
+                                                         'TCGA N Median', 'Observed'),
                                                          file=report_file)
                 status = []
                 # Write TCGA, GTEX, and observed values

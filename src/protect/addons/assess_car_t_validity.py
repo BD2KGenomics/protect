@@ -76,7 +76,7 @@ def assess_car_t_validity(job, gene_expression, univ_options, reports_options):
         #print(target_data.index, file=car_t_report)
         if tissue_of_origin in target_data.index:
             print('Available clinical trials for ' + str.lower(tissue_of_origin) +
-                  ' cancer with GTEX and TCGA thresholds', file=car_t_report)
+                  ' cancer with GTEX and TCGA median values', file=car_t_report)
 
             print(('\t{:10}{:<10}{:<10}{:<10}{:<40}{:<12}\n'.format('Gene', 'GTEX',
                                                                     'TCGA N', 'Observed',
