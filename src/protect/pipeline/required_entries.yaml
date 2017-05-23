@@ -39,6 +39,7 @@ patients:
         tumor_rna_transcriptome_bam:
         # If any fastq is substitute for a bam or isn't being provided, need this
         hla_haplotype_files:
+        tumor_type:
 
 
 # These are options that are used by most tools
@@ -116,5 +117,8 @@ prediction_ranking:
             TPM:
             tndelta:
 
-mhc_pathway_assessment:
-    genes_file:
+reports:
+    mhc_pathways_file:
+    itx_resistance_file:
+    immune_resistance_pathways_file:
+    car_t_targets_file:

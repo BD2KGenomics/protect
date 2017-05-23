@@ -213,6 +213,7 @@ patients:    -> This is the group name. Do not modify this
         tumor_rna_transcriptome_bam: /path/to/RNA_transcriptome.bam
         hla_haplotype_files: /path/to/hla_haplotypes.tar.gz
         mutation_vcf: /path/to/mutations.vcf
+        tumor_type: STAD # closest TCGA tumor type
         ssec_encrypted: False   # Are the files for this patient encrypted with ssec? (Optional)
         filter_for_OxoG: False  # Should the samples be processed for filtering OxoG artefacts (optional)
 ```
@@ -425,12 +426,27 @@ be substituted with S3 links. Descriptions for creating all files can be found i
                 tndelta: 0.2
             version: 2.0.1
 
-    mhc_pathway_assessment:
-        genes_file: /path/to/mhc_pathway_genes.json.tar.gz        -> A json file containing the
-                                                                     various genes in the MHC
-                                                                     pathway, and their mean TPM
-                                                                     expressions across samples in
-                                                                     a background set.
+    reports:
+        mhc_pathways_file: /path/to/mhc_pathways.tsv.tar.gz       -> A tsv file containing information
+                                                                     about the various genes in the MHC
+                                                                     pathway and their mean TCGA and GTEX
+                                                                     expressions.
+        itx_resistance_file: /path/to/itx_resistance.tsv.tar.gz   -> A tsv file containing information
+                                                                     about the mean TCGA and GTEX values
+                                                                     for genes involved in immunotherapy
+                                                                     resistance pathways.
+        immune_resistance_pathways_file: /path/to/immune_resistance_pathways.json.tar.gz
+                                                                  -> A json file containing information
+                                                                     about immunotherapy resistance
+                                                                     pathways.
+        car_t_targets_file: /path/to/car_t_targets.tsv.tar.gz     -> A tsv file containiing information
+                                                                     about various genes investigated as
+                                                                     possible targets for CAR T cell gene
+                                                                     therapy, including DOI for scientific
+                                                                     literature and clinical trials IDs.
+
+
+
 
 # Default values for config entries (Only in source installations)
 

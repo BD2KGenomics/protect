@@ -24,7 +24,9 @@ from __future__ import print_function
 from collections import defaultdict
 from multiprocessing import cpu_count
 
-from protect.addons import run_mhc_gene_assessment
+from protect.addons.assess_car_t_validity import run_car_t_validity_assessment
+from protect.addons.assess_immunotherapy_resistance import run_itx_resistance_assessment
+from protect.addons.assess_mhc_pathway import run_mhc_gene_assessment
 from protect.alignment.dna import align_dna
 from protect.alignment.rna import align_rna
 from protect.binding_prediction.common import merge_mhc_peptide_calls, spawn_antigen_predictors
@@ -90,9 +92,17 @@ def _ensure_patient_group_is_ok(patient_object, patient_name=None):
     :param str patient_name: Optional name for the set
     :raises ParameterError: If required entry doesnt exist
     """
+    from protect.addons.common import TCGAToGTEx
     assert isinstance(patient_object, (set, dict)), '%s,%s' % (patient_object, patient_name)
     # set(dict) = set of keys of the dict
     test_set = set(patient_object)
+    if 'tumor_type' not in patient_object:
+        raise ParameterError(('The patient entry for sample %s ' % patient_name) +
+                             'does not contain a Tumor type.')
+    elif patient_object['tumor_type'] not in TCGAToGTEx:
+        raise ParameterError(('The patient entry for sample %s ' % patient_name) +
+                             'does contains an invalid Tumor type. Please use one of the '
+                             'vslid TCGA tumor types.')
     if {'tumor_dna_fastq_1', 'normal_dna_fastq_1', 'tumor_rna_fastq_1'}.issubset(test_set):
         # Best case scenario, we get all fastqs
         pass
@@ -226,8 +236,9 @@ def parse_patients(job, patient_dict):
     :rtype: dict
     """
     output_dict = {'ssec_encrypted': patient_dict.get('ssec_encrypted') in (True, 'True', 'true'),
-                   'filter_for_OxoG': patient_dict.get('filter_for_OxoG') in (True, 'True', 'true'),
-                   'patient_id': patient_dict['patient_id']}
+                   'patient_id': patient_dict['patient_id'],
+                   'tumor_type': patient_dict['tumor_type'],
+                   'filter_for_OxoG': patient_dict.get('filter_for_OxoG') in (True, 'True', 'true')}
     patient_keys = set(patient_dict)
     out_keys = []
     if {'mutation_vcf', 'hla_haplotype_files'}.issubset(patient_dict):
@@ -351,8 +362,8 @@ def _parse_config_file(job, config_file, max_cores=None):
                         univ_options['sse_key_is_master'] = False
                 univ_options['max_cores'] = cpu_count() if max_cores is None else max_cores
             else:
-                if key == 'mhc_pathway_assessment':
-                    # netmhciipan needs to be handled separately
+                if key == 'reports':
+                    # The reporting group doesn't have any sub-dicts
                     tool_options[key] = input_config[key]
                 else:
                     if key == 'alignment':
@@ -424,6 +435,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     # Add Patient id to univ_options as is is passed to every major node in the DAG and can be used
     # as a prefix for the logfile.
     univ_options['patient'] = patient_data['patient_id']
+    univ_options['tumor_type'] = patient_data['tumor_type']
     # Ascertain number of cpus to use per job
     for tool in tool_options:
         tool_options[tool]['n'] = ascertain_cpu_share(univ_options['max_cores'])
@@ -521,16 +533,23 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     if phlat_files['tumor_rna'] is not None:
         mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(),
                                                phlat_files['tumor_rna'].rv(), univ_options,
-                                               tool_options['mhc_pathway_assessment'], disk='100M',
+                                               tool_options['reports'], disk='100M',
                                                memory='100M', cores=1)
         rsem.addChild(mhc_pathway_assessment)
         phlat_files['tumor_rna'].addChild(mhc_pathway_assessment)
     else:
         mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(), None,
-                                               univ_options, tool_options['mhc_pathway_assessment'],
+                                               univ_options, tool_options['reports'],
                                                disk='100M', memory='100M', cores=1)
         rsem.addChild(mhc_pathway_assessment)
-
+    itx_resistance_assessment = job.wrapJobFn(run_itx_resistance_assessment, rsem.rv(),
+                                              univ_options, tool_options['reports'],
+                                              disk='100M', memory='100M', cores=1)
+    rsem.addChild(itx_resistance_assessment)
+    car_t_validity_assessment = job.wrapJobFn(run_car_t_validity_assessment, rsem.rv(),
+                                              univ_options, tool_options['reports'],
+                                              disk='100M', memory='100M', cores=1)
+    rsem.addChild(car_t_validity_assessment)
     # Define the DNA-Seq alignment and mutation calling subgraphs if necessary
     if 'mutation_vcf' in patient_data:
         get_mutations = job.wrapJobFn(get_patient_vcf, sample_prep.rv())
@@ -710,7 +729,7 @@ def prepare_samples(job, patient_dict, univ_options):
     if patient_dict['ssec_encrypted']:
         assert univ_options['sse_key'] is not None, 'Cannot read ssec encrypted data without a key.'
     for input_file in patient_dict:
-        if input_file in ('ssec_encrypted', 'patient_id', 'filter_for_OxoG'):
+        if input_file in ('ssec_encrypted', 'patient_id', 'tumor_type', 'filter_for_OxoG'):
             output_dict[input_file] = patient_dict[input_file]
             continue
         output_dict[input_file] = get_pipeline_inputs(
