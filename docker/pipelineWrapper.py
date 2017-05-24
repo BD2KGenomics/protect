@@ -43,8 +43,8 @@ class PipelineWrapperBuilder(object):
         # output that must be moved but not renamed
         consistentNaming = ['alignments/normal_dna_fix_pg_sorted.bam',
                            'alignments/normal_dna_fix_pg_sorted.bam.bai',
-                           'alignments/rna_fix_pg_sorted.bam',
-                           'alignments/rna_fix_pg_sorted.bam.bai',
+                           'alignments/rna_genome_sorted.bam',
+                           'alignments/rna_genome_sorted.bam.bai',
                            'alignments/rna_transcriptome.bam',
                            'alignments/tumor_dna_fix_pg_sorted.bam',
                            'alignments/tumor_dna_fix_pg_sorted.bam.bai',

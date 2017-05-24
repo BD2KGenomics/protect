@@ -50,7 +50,7 @@ Universal_Options:
     reference_build: hg38 # Acceptable options are hg38, hg38, GRCh37, GRCh38
     # sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS else optional
     # sse_key_is_master: True # True or False.  Required if using AWS else optional
-    # gdc_download_token: /path/to/token.txt # Path to teh user's GDC download token.
+    # gdc_download_token: /path/to/token.txt # Path to the user's GDC download token.
     storage_location: Local # Local or aws:<bucket_name> for where the output must go
     #storage_location: aws:protect-run-xyz
     output_folder: /path/to/results # Path to where the output must go.
@@ -65,7 +65,7 @@ alignment:
         # version: 1.9.1
     star:
         type: star # use starlong if your reads are > 150bp
-        index: S3://protect-data/hg38_references/star_with_fusion_250bp_readlen_indexes.tar.gz # Use star_without if you set star_fusion = False
+        index: S3://protect-data/hg38_references/star_with_fusion_100bp_readlen_indexes.tar.gz # Use star_without if you set star_fusion = False
         version: 2.5.2b
     bwa:
        index: S3://protect-data/hg38_references/bwa_index.tar.gz
@@ -110,6 +110,12 @@ mutation_calling:
             # version: 0.1.8
         bam_readcount:
             # version: 0.7.4
+    star_fusion:
+        #run: True
+        #version: 1.0.0
+    fusion_inspector:
+        #run_trinity: True
+        #version: 1.0.1
     strelka:
         # version: 1.0.15
         config_file: S3://protect-data/hg38_references/strelka_bwa_WXS_config.ini.tar.gz

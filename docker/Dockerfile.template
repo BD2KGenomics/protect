@@ -1,4 +1,4 @@
-FROM quay.io/ucsc_cgl/toil:3.5.2-378fffa320ded1ed1ebade5ec7d01138699db3f6
+FROM quay.io/ucsc_cgl/toil:TOIL_DOCKER_CONTAINER
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
     libcurl4-openssl-dev \
-    libyaml-dev
+    libyaml-dev \
+    zip
 
 # Get the Docker binary
 RUN curl https://get.docker.com/builds/Linux/x86_64/docker-DOCKERVER.tgz \
@@ -20,19 +21,24 @@ RUN curl https://get.docker.com/builds/Linux/x86_64/docker-DOCKERVER.tgz \
 RUN pip install --upgrade pip setuptools
 
 # Install Toil
-RUN pip install toil[aws]==3.5.2
+RUN pip install toil[aws]==TOIL_VERSION
 
 # Install s3am
-RUN pip install s3am
+RUN pip install s3am==S3AM_VERSION
+
+# Install GDC Client
+RUN cd /usr/local/bin \
+    && wget -c https://gdc.cancer.gov/files/public/file/gdc-client_v1.2.0_Ubuntu14.04_x64.zip \
+    && unzip gdc-client_v1.2.0_Ubuntu14.04_x64.zip \
+    && chmod +x gdc-client \
+    && rm gdc-client_v1.2.0_Ubuntu14.04_x64.zip
 
 # Install ProTECT
-RUN pip install protect==2.4.1
+RUN pip install protect==PROTECT_VERSION
 
 
-# s3am requires an older version of bd2k-python-lib than ProTECT requires.
-# But s3am will work with the newer version of bd2k-python-lib. Also, if
-# this fix isn't applied after protect is installed, protect will get mad
-# about something with s3am's version or whatever.
+# s3am requires an older version of bd2k-python-lib than Toil requires.
+# But s3am will work with the newer version of bd2k-python-lib.
 # Related: BD2KGenomics/protect#132
 
 # Install bd2k-python-lib

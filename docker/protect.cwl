@@ -75,6 +75,12 @@ inputs:
     inputBinding:
       prefix: --normal-dna
 
+  tumor_type:
+    type: String
+    doc: "Tumor type"
+    inputBinding:
+      prefix: --tumor-type
+
   tumor-dna2:
     type: File
     doc: "Second Tumor DNA fastq"
@@ -180,6 +186,14 @@ inputs:
   rankboost_ver:
     inputBinding:
       --rankboost-ver
+    type: string
+  star_fusion_ver:
+    inputBinding:
+      --star-fusion-ver
+    type: string
+  fusioninspector_ver:
+    inputBinding:
+      --fusioninspector-ver
     type: string
 
 
@@ -291,17 +305,41 @@ inputs:
     inputBinding:
       prefix: --strelka-config
 
+  starfusion:
+    type: Boolean
+    doc: "Star fusion running"
+    inputBinding:
+      prefix: --starfusion
+
+  run_trinity:
+    type: Boolean
+    doc: "Fusion inspector running"
+    inputBinding:
+      prefix: --run-trinity
+
   snpeff:
     type: File?
     doc: "snpeff"
     inputBinding:
       prefix: --snpeff
 
-  transgene:
+  transgene_peptide_fasta:
     type: File?
     doc: "transgene"
     inputBinding:
-      prefix: --transgene
+      prefix: --transgene-peptide-fasta
+  transgene_transcript_fasta:
+  type: File?
+    inputBinding:
+      --transgene-transcript-fasta
+  transgene_annotation_gtf:
+  type: File?
+    inputBinding:
+      --transgene-annotation-gtf
+  transgene_genome:
+  type: File?
+    inputBinding:
+      --transgene-genome
 
   phlat:
     type: File?
@@ -321,11 +359,29 @@ inputs:
     inputBinding:
       prefix: --mhcii
 
-  mhc_pathway_assessment:
+  mhc_pathways_file:
     type: File?
-    doc: "mhc_pathway_assessment"
+    doc: "mhc_pathways_file"
     inputBinding:
-      prefix: --mhc-pathway-assessment
+      prefix: --mhc-pathway-file
+
+  itx_resistance_file:
+    type: File?
+    doc: "itx_resistance_file"
+    inputBinding:
+      prefix: --itx-resistance-file
+
+  immune_resistance_pathways_file:
+    type: File?
+    doc: "immune_resistance_pathways_file"
+    inputBinding:
+      prefix: --immune-resistance-pathways-file
+
+  car_t_targets_file:
+    type: File?
+    doc: "car_t_targets_file"
+    inputBinding:
+      prefix: --car-t-targets-file
 
   work_mount:
     type: string
@@ -342,6 +398,88 @@ inputs:
     type: string?
     doc: 'Required if on master'
     prefix: --sse-key-is-master
+
+  ssec_encrypted:
+    inputBinding:
+      --ssec-encrypted
+  filter_for_OxoG:
+    inputBinding:
+      --filter-for-OxoG
+  dockerhub:
+    inputBinding:
+      --dockerhub
+  javaxmx:
+    inputBinding:
+      --javaxmx
+  storage_location:
+    inputBinding:
+      --storage-location
+  mutect_javaxmx:
+    inputBinding:
+      --mutect-javaxmx
+  spnff_javaxmx:
+    inputBinding:
+      --spnff-javaxmx
+  mhci_pred:
+    inputBinding:
+      --mhci-pred
+  mhcii_pred:
+    inputBinding:
+      --mhcii-pred
+  cutadapt_a:
+    inputBinding:
+      --cutadapt-a
+  cutadapt_A:
+    inputBinding:
+      --cutadapt-A
+  mhci_npa:
+    inputBinding:
+      --mhci-npa
+  mhci_nph:
+    inputBinding:
+      --mhci-nph
+  mhci_nMHC:
+    inputBinding:
+      --mhci-nMHC
+  mhci_TPM:
+    inputBinding:
+      --mhci-TPM
+  mhci_overlap:
+    inputBinding:
+      --mhci-overlap
+  mhci_tndelta:
+    inputBinding:
+      --mhci-tndelta
+  mhcii_npa:
+    inputBinding:
+      --mhcii-npa
+  mhcii_nph:
+    inputBinding:
+      --mhcii-nph
+  mhcii_nMHC:
+    inputBinding:
+      --mhcii-nMHC
+  mhcii_TPM:
+    inputBinding:
+      --mhcii-TPM
+  mhcii_tndelta:
+    inputBinding:
+      --mhcii-tndelta
+  chromosomes:
+    type: String[]?
+    inputBinding:
+      --chromosomes
+      itemSeparator: ","
+      seperate: false
+  gdc_download_token:
+    type: File?
+    inputBinding:
+      --gdc-download-token
+  mail_to:
+    type: string
+    doc: "Email address to send success emails to."
+    inputBinding:
+      --mail-to
 
 outputs:
 
