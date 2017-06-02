@@ -30,7 +30,7 @@ import os
 def strelka_disk(tumor_bam, normal_bam, fasta):
     return int(ceil(tumor_bam.size) +
                ceil(normal_bam.size) +
-               4 * ceil(fasta.size))
+               6 * ceil(fasta.size))
 
 
 # Strelka is a different tool from the other callers because it is run in full.  Certain

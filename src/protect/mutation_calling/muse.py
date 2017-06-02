@@ -33,11 +33,11 @@ import time
 def muse_disk(tumor_bam, normal_bam, fasta):
     return int(ceil(tumor_bam.size) +
                ceil(normal_bam.size) +
-               4 * ceil(fasta.size))
+               5 * ceil(fasta.size))
 
 
 def muse_sump_disk(dbsnp):
-    return int(ceil(dbsnp.size + 524288))
+    return int(1.5 * ceil(dbsnp.size + 524288))
 
 
 def run_muse_with_merge(job, tumor_bam, normal_bam, univ_options, muse_options):
