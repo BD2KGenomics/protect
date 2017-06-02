@@ -516,7 +516,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
                             univ_options,
                             tool_options['star_fusion'],
                             tool_options['fusion_inspector'],
-                            disk='100M', memory='100M', cores=1)
+                            disk='100M', memory='100M', cores=1).encapsulate()
 
     bam_files['tumor_rna'].addChild(fusions)
     fusions.addChild(fastq_deletion_1)
