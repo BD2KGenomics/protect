@@ -194,6 +194,10 @@ a transcriptome inferred from the correct annotation must be provided.
 (for haplotyping the patient), or a pre-computed haplotype bundle and an rna-seq fastq (or pair of
 bams; for expression estimation and variant filtering).
 
+In addition to local and AWS S3 hosted files, input bams and vcfs can be pulled form the NCBI GDC
+using gdc://<UUID> as the value for the coresponding key. Since GDC bams are indexed, the .bai from
+the data bundle will be used.
+
 ```
 patients:    -> This is the group name. Do not modify this
     PRTCT-01:   -> A string describing a unique Identifier for the patient. This is the only key
@@ -229,33 +233,40 @@ These describe options that are used universally by most tools/jobs in the workf
 
 
     Universal_Options:
-        dockerhub: aarjunrao              -> All tools used in the pipeline are dockerized to allow
-                                             for easy reproducibility across operating systems.
-                                             ProTECT was tested using the hub owned by `aarjunrao`
-                                             but will work with any hub given it contains the
-                                             required tools described in
-                                             `required_docker_tools.txt`.
-        java_Xmx: 20G                     -> The default Java heap space to be provided to tools.
-                                             Per-tool heap space can be specified for some tools to
-                                             override this value.
-        reference_build: hg19             -> The reference build used in this run. Can be hg19,
-                                             hg38, GRCh37 or GRCh38.
-        sse_key: /path/to/master.key      -> Used to create per-file SSE-C keys for decrypting S3
-                                             hosted input files.  It is highly recommended that the
-                                             files be uploaded to S3 using s3am using the
-                                             --sse-key-is-master flag.
-        sse_key_is_master: True           -> Were the sample files all encrypted with sse_key
-                                             (`False`), or were they encrypted with individual
-                                             per-file keys hashed from the master sse_key (`True`)
-        storage_location: aws:protect-out -> Should the intermediate files be stored locally
-                                             (`Local`) or in an Amazon S3 bucket using SSE-C
-                                             per-file encryption from the provided master sse key
-                                             (`aws:<bucket_name>`)?
-        output_folder: /path/to/out       -> A path to a folder where intermediate, and output files
-                                             (mutation calls, MHC haplotype, etc). This folder will
-                                             be created if it doesn't exist. However, files in the
-                                             folder from a previous run will not be overwritten with
-                                             updated values.
+        dockerhub: aarjunrao                    -> All tools used in the pipeline are dockerized to
+                                                   allow for easy reproducibility across operating
+                                                   systems. ProTECT was tested using the hub owned
+                                                   by `aarjunrao` but will work with any hub given
+                                                   it contains the required tools described in
+                                                   `required_docker_tools.txt`.
+        java_Xmx: 20G                           -> The default Java heap space to be provided to
+                                                   tools.  Per-tool heap space can be specified for
+                                                   some tools to override this value.
+        reference_build: hg19                   -> The reference build used in this run. Can be
+                                                   hg19, hg38, GRCh37 or GRCh38.
+        sse_key: /path/to/master.key            -> Used to create per-file SSE-C keys for decrypting
+                                                   S3 hosted input files.  It is highly recommended
+                                                   that the files be uploaded to S3 using s3am using
+                                                   the --sse-key-is-master flag. This file should be
+                                                   present at the same location on all workers in
+                                                   the workflow.
+        sse_key_is_master: True                 -> Were the sample files all encrypted with sse_key
+                                                   (`False`), or were they encrypted with individual
+                                                   per-file keys hashed from the master sse_key
+                                                   (`True`)
+        gdc_download_token: /path/to/token.txt  -> If any of teh input files are being pulled from
+                                                   the NCBI GDC, this token is required to access
+                                                   the data. This file should be present at the same
+                                                   location on all workers in the workflow.
+        storage_location: aws:protect-out       -> Should the intermediate files be stored locally
+                                                   (`Local`) or in an Amazon S3 bucket using SSE-C
+                                                   per-file encryption from the provided master sse
+                                                   key (`aws:<bucket_name>`)?
+        output_folder: /path/to/out             -> A path to a folder where intermediate, and output
+                                                   files (mutation calls, MHC haplotype, etc). This
+                                                   folder will be created if it doesn't exist.
+                                                   However, files in the folder from a previous run
+                                                   will not be overwritten with updated values.
 
 
 In reality, for the inexperienced user, these are the only values that need to be modified for a
@@ -310,6 +321,15 @@ be substituted with S3 links. Descriptions for creating all files can be found i
 
     mutation_calling:
         indexes:
+            chromsosomes: canonical, canonical_chr, chr1, Y       -> A list of chromosomes to process.
+                                                                     This options overrides the
+                                                                     chromosomes in the fai and dict
+                                                                     files. canonical implies
+                                                                     1,2,..21,22,X,Y and canonical_chr
+                                                                     is the same but with the chr
+                                                                     prefix. Cannot have a mix of
+                                                                     chr and non-chr. This value is
+                                                                     optional.
             genome_fasta: /path/to/hg19.fa.tar.gz                 -> The genome fasta to use for the
                                                                      mutation callers.
             genome_fai: /path/to/hg19.fa.fai.tar.gz               -> The corresponding .fai file for

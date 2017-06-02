@@ -51,6 +51,8 @@ def check_tool_version(tool, required_version, binary=False):
 check_tool_version('toil', '3.5.2', binary=False)
 # Check S3am version
 check_tool_version('s3am', '2.0.1', binary=True)
+# Check gdc-client version
+check_tool_version('gdc-client', 'v1.1.0', binary=True)
 
 
 # Set up a test class

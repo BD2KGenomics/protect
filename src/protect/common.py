@@ -27,6 +27,7 @@ from urlparse import urlparse
 
 import errno
 import gzip
+import logging
 import os
 import re
 import subprocess
@@ -195,6 +196,51 @@ def is_gzipfile(filename):
             return True
         else:
             return False
+
+
+def get_file_from_gdc(job, gdc_url, gdc_download_token, write_to_jobstore=True):
+    """
+    Download a supplied "URL" that points to a file in the NCBI GDC database.  The path to the gdc
+    download token must be provided.  The file is downloaded and written to the jobstore if
+    requested.
+
+    :param str gdc_url: URL for the file (in the form of gdc://<UUID>)
+    :param str gdc_download_token: Path to the gdc download token
+    :param bool write_to_jobstore: Should the file be written to the job store?
+    :return: Path to the downloaded file or fsID (if write_to_jobstore was True)
+    :rtype: list(str|toil.fileStore.FileID)
+    """
+    work_dir = job.fileStore.getLocalTempDir()
+
+    parsed_url = urlparse(gdc_url)
+    assert parsed_url.scheme == 'gdc', 'Unexpected url scheme: %s' % gdc_url
+
+    file_dir = '/'.join([work_dir, parsed_url.netloc])
+
+    # This is common to encrypted and unencrypted downloads
+    currwd = os.getcwd()
+    os.chdir(work_dir)
+    try:
+        download_call = ['gdc-client', 'download', '-t', gdc_download_token, parsed_url.netloc]
+        subprocess.check_call(download_call)
+    finally:
+        os.chdir(currwd)
+
+    assert os.path.exists(file_dir)
+    output_files = [os.path.join(file_dir, x) for x in os.listdir(file_dir)
+                    if not x.endswith('logs')]
+    # NOTE: We only handle vcf and bam+bai
+    if len(output_files) == 1:
+        assert output_files[0].endswith('vcf')
+    elif len(output_files) == 2:
+        assert {os.path.splitext(x)[1] for x in output_files} == {'.bam', '.bai'}
+        # always [bam, bai]
+        output_files = sorted(output_files, key=lambda x: os.path.splitext(x)[1], reverse=True)
+    else:
+        raise ParameterError('Can currently only handle GDC bams or vcfs.')
+    if write_to_jobstore:
+        output_files = [job.fileStore.writeGlobalFile(f) for f in output_files]
+    return output_files
 
 
 def get_file_from_s3(job, s3_url, encryption_key=None, per_file_encryption=True,
@@ -465,3 +511,101 @@ def read_peptide_file(in_peptfile):
             else:
                 peptides[pept] = line.strip()
     return peptides
+
+
+def parse_chromosome_string(job, chromosome_string):
+    """
+    Parse a chromosome string into a list.
+
+    :param chromosome_string: Input chromosome string
+    :return: list of chromosomes to handle
+    :rtype: list
+    """
+    if chromosome_string is None:
+        return []
+    else:
+        assert isinstance(chromosome_string, str)
+        chroms = [c.strip() for c in chromosome_string.split(',')]
+        if 'canonical' in chroms:
+            assert 'canonical_chr' not in chroms, 'Cannot have canonical and canonical_chr'
+            chr_prefix = False
+            chroms.remove('canonical')
+            out_chroms = [str(c) for c in range(1, 23)] + ['X', 'Y']
+        elif 'canonical_chr' in chroms:
+            assert 'canonical' not in chroms, 'Cannot have canonical and canonical_chr'
+            chr_prefix = True
+            chroms.remove('canonical_chr')
+            out_chroms = ['chr' + str(c) for c in range(1, 23)] + ['chrX', 'chrY']
+        else:
+            chr_prefix = None
+            out_chroms = []
+        for chrom in chroms:
+            if chr_prefix is not None and chrom.startswith('chr') is not chr_prefix:
+                job.fileStore.logToMaster('chromosome %s does not match the rest that %s begin '
+                                          'with "chr".' % (chrom,
+                                                           'all' if chr_prefix else 'don\'t'),
+                                          level=logging.WARNING)
+            out_chroms.append(chrom)
+        return chrom_sorted(out_chroms)
+
+
+def chrom_sorted(in_chroms):
+    """
+    Sort a list of chromosomes in the order 1..22, X, Y, M, <others in alphabetical order>.
+
+    :param list in_chroms: Input chromosomes
+    :return: Sorted chromosomes
+    :rtype: list[str]
+    """
+    in_chroms.sort()
+    canonicals = [str(c) for c in range(1, 23)] + ['X', 'Y', 'M', 'MT']
+    canonical_chr = ['chr' + c for c in canonicals]
+    out_chroms_dict = {
+        'can': [c for c in in_chroms if c in canonicals],
+        'can_chr': [c for c in in_chroms if c in canonical_chr],
+        'others': [c for c in in_chroms if c not in canonicals + canonical_chr]}
+
+    assert not (out_chroms_dict['can'] and out_chroms_dict['can_chr'])
+    assert not ('M' in out_chroms_dict['can']and 'MT' in out_chroms_dict['can'])
+    assert not ('chrM' in out_chroms_dict['can_chr'] and 'chrMT' in out_chroms_dict['can_chr'])
+
+    out_chroms_dict['can'] = canonical_chrom_sorted(out_chroms_dict['can'])
+    out_chroms_dict['can_chr'] = canonical_chrom_sorted(out_chroms_dict['can_chr'])
+
+    out_chroms = out_chroms_dict['can'] or out_chroms_dict['can_chr']
+    out_chroms.extend(out_chroms_dict['others'])
+    return out_chroms
+
+
+def canonical_chrom_sorted(in_chroms):
+    """
+    Sort a list of chromosomes in the order 1..22, X, Y, M/MT
+
+    :param list in_chroms: Input chromosomes
+    :return: Sorted chromosomes
+    :rtype: list[str]
+    """
+    if len(in_chroms) == 0:
+        return []
+    chr_prefix = False
+    mt = False
+    if in_chroms[0].startswith('chr'):
+        in_chroms = [x.lstrip('chr') for x in in_chroms]
+        chr_prefix = True
+    if 'MT' in in_chroms:
+        in_chroms[in_chroms.index('MT')] = 'M'
+        mt = True
+    in_chroms = sorted(in_chroms, key=lambda c: int(c) if c not in ('X', 'Y', 'M') else c)
+    try:
+        m_index = in_chroms.index('M')
+    except ValueError:
+        pass
+    else:
+        in_chroms.pop(m_index)
+        in_chroms.append('M')
+    # At this point it should be nicely sorted
+    if mt:
+        in_chroms[in_chroms.index('M')] = 'MT'
+    if chr_prefix:
+        in_chroms = [''.join(['chr', x]) for x in in_chroms]
+    return in_chroms

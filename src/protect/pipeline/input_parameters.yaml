@@ -48,8 +48,9 @@ Universal_Options:
     dockerhub: aarjunrao
     java_Xmx: 20G
     reference_build: hg19 # Acceptable options are hg19, hg38, GRCh37, GRCh38
-    sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS else optional
-    sse_key_is_master: True # True or False.  Required if using AWS else optional
+    # sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS else optional
+    # sse_key_is_master: True # True or False.  Required if using AWS else optional
+    # gdc_download_token: /path/to/token.txt # Path to teh user's GDC download token.
     storage_location: Local # Local or aws:<bucket_name> for where the output must go
     #storage_location: aws:protect-run-xyz
     output_folder: /path/to/results # Path to where the output must go.
@@ -81,6 +82,7 @@ expression_estimation:
 
 mutation_calling:
     indexes:
+        chromosomes: canonical, canonical_chr, chr1, chr3, chrX | 1, 6, Y, M
         genome_fasta: S3://cgl-protect-data/hg19_references/hg19.fa.tar.gz
         genome_fai: S3://cgl-protect-data/hg19_references/hg19.fa.fai.tar.gz
         genome_dict: S3://cgl-protect-data/hg19_references/hg19.dict.tar.gz
