@@ -29,6 +29,7 @@
 Universal_Options:
     dockerhub: aarjunrao
     java_Xmx: 20G
+    gdc_download_token:
     sse_key:
     sse_key_is_master: False
 
@@ -52,6 +53,8 @@ expression_estimation:
         version: 1.2.20
 
 mutation_calling:
+    indexes:
+        chromosomes:
     mutect:
         java_Xmx: 2G
         version: 1.1.7

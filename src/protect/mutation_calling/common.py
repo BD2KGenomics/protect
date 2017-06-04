@@ -15,7 +15,7 @@
 from __future__ import absolute_import, print_function
 from collections import defaultdict
 
-from protect.common import export_results, get_files_from_filestore, untargz
+from protect.common import chrom_sorted, export_results, get_files_from_filestore, untargz
 
 import itertools
 import os
@@ -25,7 +25,7 @@ def sample_chromosomes(job, genome_fai_file):
     """
     Get a list of chromosomes in the input data.
 
-    :param string genome_fai_file: Job store file ID for the genome fai file
+    :param toil.fileStore.FileID genome_fai_file: Job store file ID for the genome fai file
     :return: Chromosomes in the sample
     :rtype: list[str]
     """
@@ -144,33 +144,6 @@ def read_vcf(vcf_file):
     return vcf_dict
 
 
-def chrom_sorted(in_chroms):
-    """
-    Sort a list of chromosomes in the order 1..22, X, Y, M.
-
-    :param list in_chroms: Input chromsomes
-    :return: Sorted chromosomes
-    :rtype: list[str]
-    """
-    chr_prefix = False
-    if in_chroms[0].startswith('chr'):
-        in_chroms = [x.lstrip('chr') for x in in_chroms]
-        chr_prefix = True
-    assert in_chroms[0] in [str(x) for x in range(1, 23)] + ['X', 'Y', 'M']
-    in_chroms = sorted(in_chroms, key=lambda c: int(c) if c not in ('X', 'Y', 'M') else c)
-    try:
-        m_index = in_chroms.index('M')
-    except ValueError:
-        pass
-    else:
-        in_chroms.pop(m_index)
-        in_chroms.append('M')
-    # At this point it should be nicely sorted
-    if chr_prefix:
-        in_chroms = [''.join(['chr', x]) for x in in_chroms]
-    return in_chroms
-
-
 def merge_perchrom_vcfs(job, perchrom_vcfs, tool_name, univ_options):
     """
     Merge per-chromosome vcf files into a single genome level vcf.
@@ -202,12 +175,13 @@ def merge_perchrom_vcfs(job, perchrom_vcfs, tool_name, univ_options):
     return output_file
 
 
-def unmerge(job, input_vcf, tool_name, tool_options, univ_options):
+def unmerge(job, input_vcf, tool_name, chromosomes, tool_options, univ_options):
     """
     Un-merge a vcf file into per-chromosome vcfs.
 
     :param str input_vcf: Input vcf
     :param str tool_name: The name of the mutation caller
+    :param list chromosomes: List of chromosomes to retain
     :param dict tool_options: Options specific to the mutation caller
     :param dict univ_options: Dict of universal options used by almost all tools
     :return: dict of fsIDs, one for each chromosomal vcf
@@ -220,8 +194,6 @@ def unmerge(job, input_vcf, tool_name, tool_options, univ_options):
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
 
     input_files['genome.fa.fai'] = untargz(input_files['genome.fa.fai.tar.gz'], work_dir)
-
-    chromosomes = chromosomes_from_fai(input_files['genome.fa.fai'])
 
     read_chromosomes = defaultdict()
     with open(input_files['input.vcf'], 'r') as in_vcf:
@@ -243,8 +215,11 @@ def unmerge(job, input_vcf, tool_name, tool_options, univ_options):
         read_chromosomes[chrom] = open(os.path.join(os.getcwd(), chrom + '.vcf'), 'w')
         print(''.join(header), file=read_chromosomes[chrom], end='')
     outdict = {}
+    chroms = set(chromosomes).intersection(set(read_chromosomes.keys()))
     for chrom, chromvcf in read_chromosomes.items():
         chromvcf.close()
+        if chrom not in chroms:
+            continue
         outdict[chrom] = job.fileStore.writeGlobalFile(chromvcf.name)
         export_results(job, outdict[chrom], chromvcf.name, univ_options,
                        subfolder='mutations/' + tool_name)

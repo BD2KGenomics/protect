@@ -78,7 +78,10 @@ def run_strelka(job, tumor_bam, normal_bam, univ_options, strelka_options, split
                         +-'indels': fsID
     :rtype: toil.fileStore.FileID|dict
     """
-    chromosomes = sample_chromosomes(job, strelka_options['genome_fai'])
+    if strelka_options['chromosomes']:
+        chromosomes = strelka_options['chromosomes']
+    else:
+        chromosomes = sample_chromosomes(job, strelka_options['genome_fai'])
     num_cores = min(len(chromosomes), univ_options['max_cores'])
     strelka = job.wrapJobFn(run_strelka_full, tumor_bam, normal_bam, univ_options,
                             strelka_options,
@@ -90,8 +93,8 @@ def run_strelka(job, tumor_bam, normal_bam, univ_options, strelka_options, split
                             cores=num_cores)
     job.addChild(strelka)
     if split:
-        unmerge_strelka = job.wrapJobFn(wrap_unmerge, strelka.rv(), strelka_options, univ_options
-                                        ).encapsulate()
+        unmerge_strelka = job.wrapJobFn(wrap_unmerge, strelka.rv(), chromosomes, strelka_options,
+                                        univ_options).encapsulate()
         strelka.addChild(unmerge_strelka)
         return unmerge_strelka.rv()
     else:
@@ -158,11 +161,12 @@ def process_strelka_vcf(job, strelka_vcf, work_dir, univ_options):
     return job.fileStore.readGlobalFile(strelka_vcf)
 
 
-def wrap_unmerge(job, strelka_out, strelka_options, univ_options):
+def wrap_unmerge(job, strelka_out, chromosomes, strelka_options, univ_options):
     """
     A wwrapper to unmerge the strelka snvs and indels
 
     :param dict strelka_out: Results from run_strelka
+    :param list chromosomes: List of chromosomes to retain
     :param dict strelka_options: Options specific to strelka
     :param dict univ_options: Dict of universal options used by almost all tools
     :return: Dict of dicts containing the fsIDs for the per-chromosome snv and indel calls
@@ -179,7 +183,7 @@ def wrap_unmerge(job, strelka_out, strelka_options, univ_options):
                       +- 'chrM': fsID
     :rtype: dict
     """
-    return {'snvs': job.addChildJobFn(unmerge, strelka_out['snvs'], 'strelka/snv', strelka_options,
-                                      univ_options).rv(),
+    return {'snvs': job.addChildJobFn(unmerge, strelka_out['snvs'], 'strelka/snv', chromosomes,
+                                      strelka_options, univ_options).rv(),
             'indels': job.addChildJobFn(unmerge, strelka_out['indels'], 'strelka/indel',
-                                        strelka_options, univ_options).rv()}
+                                        chromosomes, strelka_options, univ_options).rv()}

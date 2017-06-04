@@ -101,7 +101,10 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
             'normal_dna': normal_bam['normal_dna_fix_pg_sorted.bam'],
             'normal_dnai': normal_bam['normal_dna_fix_pg_sorted.bam.bai']}
     # Get a list of chromosomes to process
-    chromosomes = sample_chromosomes(job, radia_options['genome_fai'])
+    if radia_options['chromosomes']:
+        chromosomes = radia_options['chromosomes']
+    else:
+        chromosomes = sample_chromosomes(job, radia_options['genome_fai'])
     perchrom_radia = defaultdict()
     for chrom in chromosomes:
         radia = job.addChildJobFn(run_radia_perchrom, bams, univ_options, radia_options, chrom,

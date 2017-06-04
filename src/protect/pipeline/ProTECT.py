@@ -32,10 +32,14 @@ from protect.alignment.rna import align_rna
 from protect.binding_prediction.common import merge_mhc_peptide_calls, spawn_antigen_predictors
 from protect.common import (delete_bams,
                             delete_fastqs,
+                            get_file_from_gdc,
                             get_file_from_s3,
                             get_file_from_url,
                             ParameterError,
-                            untargz)
+                            parse_chromosome_string,
+                            untargz,
+                            is_gzipfile,
+                            gunzip)
 from protect.expression_profiling.rsem import wrap_rsem
 from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
 from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
@@ -277,6 +281,7 @@ def parse_patients(job, patient_dict):
         if f + '_fastq_2' not in output_dict:
             output_dict[f + '_fastq_2'] = get_fastq_2(job, patient_dict['patient_id'], f,
                                                       output_dict[f + '_fastq_1'])
+    output_dict['gdc_inputs'] = [k for k, v in output_dict.items() if str(v).startswith('gdc')]
     return output_dict
 
 
@@ -303,7 +308,7 @@ def _parse_config_file(job, config_file, max_cores=None):
     with open(config_file, 'r') as conf:
         input_config = yaml.load(conf.read())
 
-    # Read the set of all requried keys
+    # Read the set of all required keys
     required_entries_file = pkg_resources.resource_filename(__name__, "required_entries.yaml")
     with open(required_entries_file) as ref:
         required_keys = yaml.load(ref.read())
@@ -323,6 +328,8 @@ def _parse_config_file(job, config_file, max_cores=None):
     # Update the input yaml with defaults
     input_config = _add_default_entries(input_config, protect_defaults)
 
+    # Flags to check for presence of encryption keys if required
+    gdc_inputs = ssec_encrypted = False
     for key in input_config.keys():
         if key == 'patients':
             # Ensure each patient contains the required entries
@@ -332,6 +339,14 @@ def _parse_config_file(job, config_file, max_cores=None):
                 # Add options to the sample_set dictionary
                 input_config['patients'][sample_name]['patient_id'] = str(sample_name)
                 sample_set[sample_name] = parse_patients(job, input_config['patients'][sample_name])
+                # If any of the samples requires gdc or ssec encrypted input, make the flag True
+                if sample_set[sample_name]['ssec_encrypted']:
+                    ssec_encrypted = True
+                if sample_set[sample_name]['gdc_inputs']:
+                    if 'tumor_rna_bam' in sample_set[sample_name]['gdc_inputs']:
+                        raise ParameterError('Cannot run ProTECT using GDC RNA bams. Please fix '
+                                             'sample %s' % sample_name)
+                    gdc_inputs = True
         else:
             # Ensure the required entries exist for this key
             _ensure_set_contains(input_config[key], required_keys[key], key)
@@ -378,14 +393,16 @@ def _parse_config_file(job, config_file, max_cores=None):
     # netmhciipan needs to be handled separately
     tool_options['mhcii']['netmhciipan'] = tool_options['netmhciipan']
     tool_options.pop('netmhciipan')
+    # Check for encryption related issues before we download files.
+    if ssec_encrypted:
+        assert univ_options['sse_key'] is not None, 'Cannot read ssec encrypted data without a key.'
+    if gdc_inputs:
+        assert univ_options['gdc_download_token'] is not None, ('Cannot read from GDC without a '
+                                                                'token.')
     # Get all the tool inputs
     job.fileStore.logToMaster('Obtaining tool inputs')
-    process_tool_inputs = job.addChildJobFn(get_all_tool_inputs, tool_options)
-    for mutation_caller in mutation_caller_list:
-        if mutation_caller == 'indexes':
-            continue
-        tool_options[mutation_caller].update(tool_options['indexes'])
-    tool_options.pop('indexes')
+    process_tool_inputs = job.addChildJobFn(get_all_tool_inputs, tool_options,
+                                            mutation_caller_list=mutation_caller_list)
     job.fileStore.logToMaster('Obtained tool inputs')
     return sample_set, univ_options, process_tool_inputs.rv()
 
@@ -461,6 +478,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         elif sample_type + '_bam' in patient_data:
             bam_files[sample_type] = job.wrapJobFn(get_patient_bams, sample_prep.rv(), sample_type,
                                                    univ_options, tool_options['bwa'],
+                                                   tool_options['mutect'],
                                                    disk='10M').encapsulate()
             sample_prep.addChild(bam_files[sample_type])
 
@@ -500,7 +518,10 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
                                          disk='100M', memory='100M')
         fastq_files['tumor_rna'].addChild(cutadapt)
+        cutadapt.addChild(fastq_deletion_1)
+        cutadapt.addChild(fastq_deletion_2)
         cutadapt.addChild(bam_files['tumor_rna'])
+        bam_files['tumor_rna'].addChild(fastq_deletion_2)
 
     # Define the Expression estimation node
     rsem = job.wrapJobFn(wrap_rsem, bam_files['tumor_rna'].rv(), univ_options, tool_options['rsem'],
@@ -516,7 +537,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
                             univ_options,
                             tool_options['star_fusion'],
                             tool_options['fusion_inspector'],
-                            disk='100M', memory='100M', cores=1)
+                            disk='100M', memory='100M', cores=1).encapsulate()
 
     bam_files['tumor_rna'].addChild(fusions)
     fusions.addChild(fastq_deletion_1)
@@ -619,7 +640,8 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     transgene = job.wrapJobFn(run_transgene, snpeff.rv(), bam_files['tumor_rna'].rv(), univ_options,
                               tool_options['transgene'],
                               disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv()),
-                              memory='100M', cores=1, tumor_dna_bam=tumor_dna_bam, fusion_calls=fusions.rv())
+                              memory='100M', cores=1, tumor_dna_bam=tumor_dna_bam,
+                              fusion_calls=fusions.rv())
     snpeff.addChild(transgene)
     bam_files['tumor_rna'].addChild(transgene)
     transgene.addChild(delete_bam_files['tumor_rna'])
@@ -647,33 +669,45 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     return None
 
 
-def get_all_tool_inputs(job, tools):
+def get_all_tool_inputs(job, tools, outer_key='', mutation_caller_list=None):
     """
     Iterate through all the tool options and download required files from their remote locations.
 
     :param dict tools: A dict of dicts of all tools, and their options
+    :param str outer_key: If this is being called recursively, what was the outer dict called?
+    :param list mutation_caller_list: A list of mutation caller keys to append the indexes to.
     :return: The fully resolved tool dictionary
     :rtype: dict
     """
     for tool in tools:
         for option in tools[tool]:
             if isinstance(tools[tool][option], dict):
-                tools[tool][option] = get_all_tool_inputs(job,
-                                                          {option: tools[tool][option]})[option]
+                tools[tool][option] = get_all_tool_inputs(
+                    job, {option: tools[tool][option]},
+                    outer_key=':'.join([outer_key, tool]).lstrip(':'))[option]
             else:
                 # If a file is of the type file, vcf, tar or fasta, it needs to be downloaded from
                 # S3 if reqd, then written to job store.
                 if option.split('_')[-1] in ['file', 'vcf', 'index', 'fasta', 'fai', 'idx', 'dict',
                                              'tbi', 'beds', 'gtf', 'config']:
-                    tools[tool][option] = job.addChildJobFn(get_pipeline_inputs, option,
-                                                            tools[tool][option]).rv()
+                    tools[tool][option] = job.addChildJobFn(
+                        get_pipeline_inputs, ':'.join([outer_key, tool, option]).lstrip(':'),
+                        tools[tool][option]).rv()
                 elif option == 'version':
                     tools[tool][option] = str(tools[tool][option])
+    if mutation_caller_list is not None:
+        # Guaranteed to occur only in the outermost loop
+        indexes = tools.pop('indexes')
+        indexes['chromosomes'] = parse_chromosome_string(job, indexes['chromosomes'])
+        for mutation_caller in mutation_caller_list:
+            if mutation_caller == 'indexes':
+                continue
+            tools[mutation_caller].update(indexes)
     return tools
 
 
-def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
-                        per_file_encryption=False):
+def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None, per_file_encryption=False,
+                        gdc_download_token=None):
     """
     Get the input file from s3 or disk and write to file store.
 
@@ -681,6 +715,7 @@ def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
     :param str input_file: The value passed in the config file
     :param str encryption_key: Path to the encryption key if encrypted with sse-c
     :param bool per_file_encryption: If encrypted, was the file encrypted using the per-file method?
+    :param str gdc_download_token: The download token to obtain files from the GDC
     :return: fsID for the file
     :rtype: toil.fileStore.FileID
     """
@@ -689,14 +724,18 @@ def get_pipeline_inputs(job, input_flag, input_file, encryption_key=None,
     if input_file.startswith(('http', 'https', 'ftp')):
         input_file = get_file_from_url(job, input_file, encryption_key=encryption_key,
                                        per_file_encryption=per_file_encryption,
-                                       write_to_jobstore=False)
+                                       write_to_jobstore=True)
     elif input_file.startswith(('S3', 's3')):
-        input_file = get_file_from_s3(job, input_file, write_to_jobstore=False,
-                                      encryption_key=encryption_key,
-                                      per_file_encryption=per_file_encryption)
+        input_file = get_file_from_s3(job, input_file, encryption_key=encryption_key,
+                                      per_file_encryption=per_file_encryption,
+                                      write_to_jobstore=True)
+    elif input_file.startswith(('GDC', 'gdc')):
+        input_file = get_file_from_gdc(job, input_file, gdc_download_token=gdc_download_token,
+                                       write_to_jobstore=True)
     else:
         assert os.path.exists(input_file), 'Bogus Input : ' + input_file
-    return job.fileStore.writeGlobalFile(input_file)
+        input_file = job.fileStore.writeGlobalFile(input_file)
+    return input_file
 
 
 def prepare_samples(job, patient_dict, univ_options):
@@ -726,16 +765,15 @@ def prepare_samples(job, patient_dict, univ_options):
     # For each sample type, check if the prefix is an S3 link or a regular file
     # Download S3 files.
     output_dict = {}
-    if patient_dict['ssec_encrypted']:
-        assert univ_options['sse_key'] is not None, 'Cannot read ssec encrypted data without a key.'
     for input_file in patient_dict:
-        if input_file in ('ssec_encrypted', 'patient_id', 'tumor_type', 'filter_for_OxoG'):
+        if not input_file.endswith(('bam', 'bai', '_1', '_2', 'files', 'vcf')):
             output_dict[input_file] = patient_dict[input_file]
             continue
         output_dict[input_file] = get_pipeline_inputs(
             job, ':'.join([univ_options['patient'], input_file]), patient_dict[input_file],
             encryption_key=(univ_options['sse_key'] if patient_dict['ssec_encrypted'] else None),
-            per_file_encryption=univ_options['sse_key_is_master'])
+            per_file_encryption=univ_options['sse_key_is_master'],
+            gdc_download_token=univ_options['gdc_download_token'])
     return output_dict
 
 
@@ -751,7 +789,7 @@ def get_patient_fastqs(job, patient_dict, sample_type):
     return [patient_dict[sample_type + '_fastq_1'], patient_dict[sample_type + '_fastq_2']]
 
 
-def get_patient_bams(job, patient_dict, sample_type, univ_options, bwa_options):
+def get_patient_bams(job, patient_dict, sample_type, univ_options, bwa_options, mutect_options):
     """
     Convenience function to return the bam and its index in the correct format for a sample type.
 
@@ -759,6 +797,7 @@ def get_patient_bams(job, patient_dict, sample_type, univ_options, bwa_options):
     :param str sample_type: 'tumor_rna', 'tumor_dna', 'normal_dna'
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict bwa_options: Options specific to bwa
+    :param dict bwa_options: Options specific to mutect
     :return: formatted dict of bam and bai
     :rtype: dict
     """
@@ -769,7 +808,10 @@ def get_patient_bams(job, patient_dict, sample_type, univ_options, bwa_options):
     else:
         sample_info = 'genome_sorted'
         prefix = 'rna_' + sample_info
-    if sample_type + '_bai' in patient_dict:
+    if sample_type + '_bam' in patient_dict['gdc_inputs']:
+        output_dict[prefix + '.bam'] = patient_dict[sample_type + '_bam'][0]
+        output_dict[prefix + '.bam.bai'] = patient_dict[sample_type + '_bam'][1]
+    elif sample_type + '_bai' in patient_dict:
         output_dict[prefix + '.bam'] = patient_dict[sample_type + '_bam']
         output_dict[prefix + '.bam.bai'] = patient_dict[sample_type + '_bai']
     else:
@@ -797,7 +839,14 @@ def get_patient_vcf(job, patient_dict):
     :return: The vcf
     :rtype: toil.fileStore.FileID
     """
-    return patient_dict['mutation_vcf']
+    temp = job.fileStore.readGlobalFile(patient_dict['mutation_vcf'],
+                                        os.path.join(os.getcwd(), 'temp.gz'))
+    if is_gzipfile(temp):
+        outfile = gunzip(temp)
+        job.fileStore.deleteGlobalFile(patient_dict['mutation_vcf'])
+    else:
+        outfile = patient_dict['mutation_vcf']
+    return outfile
 
 
 def get_patient_mhc_haplotype(job, patient_dict):

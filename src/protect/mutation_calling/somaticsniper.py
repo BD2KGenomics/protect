@@ -85,7 +85,10 @@ def run_somaticsniper(job, tumor_bam, normal_bam, univ_options, somaticsniper_op
     :rtype: toil.fileStore.FileID|dict
     """
     # Get a list of chromosomes to handle
-    chromosomes = sample_chromosomes(job, somaticsniper_options['genome_fai'])
+    if somaticsniper_options['chromosomes']:
+        chromosomes = somaticsniper_options['chromosomes']
+    else:
+        chromosomes = sample_chromosomes(job, somaticsniper_options['genome_fai'])
     perchrom_somaticsniper = defaultdict()
     snipe = job.wrapJobFn(run_somaticsniper_full, tumor_bam, normal_bam, univ_options,
                           somaticsniper_options,
@@ -111,7 +114,7 @@ def run_somaticsniper(job, tumor_bam, normal_bam, univ_options, somaticsniper_op
     snipe.addChild(filtersnipes)
     pileup.addChild(filtersnipes)
     if split:
-        unmerge_snipes = job.wrapJobFn(unmerge, filtersnipes.rv(), 'somaticsniper',
+        unmerge_snipes = job.wrapJobFn(unmerge, filtersnipes.rv(), 'somaticsniper', chromosomes,
                                        somaticsniper_options, univ_options)
         filtersnipes.addChild(unmerge_snipes)
         return unmerge_snipes.rv()

@@ -75,7 +75,10 @@ def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     :rtype: dict
     """
     # Get a list of chromosomes to handle
-    chromosomes = sample_chromosomes(job, mutect_options['genome_fai'])
+    if mutect_options['chromosomes']:
+        chromosomes = mutect_options['chromosomes']
+    else:
+        chromosomes = sample_chromosomes(job, mutect_options['genome_fai'])
     perchrom_mutect = defaultdict()
     for chrom in chromosomes:
         perchrom_mutect[chrom] = job.addChildJobFn(

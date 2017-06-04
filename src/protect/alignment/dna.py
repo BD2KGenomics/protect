@@ -17,6 +17,7 @@ from math import ceil
 
 from protect.alignment.common import index_bamfile, index_disk
 from protect.common import docker_call, docker_path, get_files_from_filestore, is_gzipfile, untargz
+from protect.mutation_calling.common import sample_chromosomes
 from toil.job import PromisedRequirement
 
 import os
@@ -38,6 +39,11 @@ def reheader_disk(bamfile):
 
 def regroup_disk(reheader_bam):
     return int(ceil(4 * reheader_bam.size + 524288))
+
+
+# disk for fixing a GDC bam
+def fix_gdc_bam_disk(bamfile):
+    return int(2.5 * ceil(bamfile[0].size + 524288))
 
 
 def align_dna(job, fastqs, sample_type, univ_options, bwa_options):
@@ -152,7 +158,7 @@ def bam_conversion(job, samfile, sample_type, univ_options, samtools_options):
     return output_file
 
 
-def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options):
+def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options, retained_chroms=None):
     """
     Fix the bam header to remove the command line call.  Failing to do this causes Picard to reject
     the bam.
@@ -161,9 +167,12 @@ def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options):
     :param str sample_type: Description of the sample to inject into the filename
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict samtools_options: Options specific to samtools
+    :param list retained_chroms: A list of chromosomes to retain
     :return: fsID for the output bam
     :rtype: toil.fileStore.FileID
     """
+    if retained_chroms is None:
+        retained_chroms = []
     job.fileStore.logToMaster('Running reheader on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
@@ -181,6 +190,9 @@ def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options):
         for line in headerfile:
             if line.startswith('@PG'):
                 line = '\t'.join([x for x in line.strip().split('\t') if not x.startswith('CL')])
+            if retained_chroms and line.startswith('@SQ'):
+                if line.strip().split()[1].lstrip('SN:') not in retained_chroms:
+                    continue
             print(line.strip(), file=outheaderfile)
     parameters = ['reheader',
                   docker_path(outheaderfile.name),

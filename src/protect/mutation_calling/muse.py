@@ -78,7 +78,10 @@ def run_muse(job, tumor_bam, normal_bam, univ_options, muse_options):
     :rtype: dict
     """
     # Get a list of chromosomes to handle
-    chromosomes = sample_chromosomes(job, muse_options['genome_fai'])
+    if muse_options['chromosomes']:
+        chromosomes = muse_options['chromosomes']
+    else:
+        chromosomes = sample_chromosomes(job, muse_options['genome_fai'])
     perchrom_muse = defaultdict()
     for chrom in chromosomes:
         call = job.addChildJobFn(run_muse_perchrom, tumor_bam, normal_bam, univ_options,
