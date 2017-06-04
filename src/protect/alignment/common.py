@@ -21,7 +21,7 @@ import os
 
 # disk for indexing
 def index_disk(bamfile):
-    return int(ceil(bamfile.size + 524288))
+    return int(1.1 * ceil(bamfile.size + 524288))
 
 
 # disk for sorting

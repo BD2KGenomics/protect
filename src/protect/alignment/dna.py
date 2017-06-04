@@ -25,7 +25,7 @@ import os
 # disk for bwa-related functions
 def bwa_disk(dna_fastqs, bwa_index):
     return int(6 * ceil(sum([f.size for f in dna_fastqs]) + 524288) +
-               2 * ceil(bwa_index.size + 524288))
+               2.5 * ceil(bwa_index.size + 524288))
 
 
 def sam2bam_disk(samfile):
