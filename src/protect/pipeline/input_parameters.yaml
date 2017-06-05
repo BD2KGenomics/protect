@@ -54,6 +54,7 @@ Universal_Options:
     storage_location: Local # Local or aws:<bucket_name> for where the output must go
     #storage_location: aws:protect-run-xyz
     output_folder: /path/to/results # Path to where the output must go.
+    #mail_to: test.email@host.com  # Email for sending success report.
 
 
 # These options are for each module. You probably don't need to change any of this!

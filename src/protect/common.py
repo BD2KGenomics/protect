@@ -23,6 +23,8 @@ Details can also be obtained by running the script with -h .
 from __future__ import print_function
 
 from collections import defaultdict
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from urlparse import urlparse
 
 import errno
@@ -30,6 +32,8 @@ import gzip
 import logging
 import os
 import re
+import smtplib
+import socket
 import subprocess
 import sys
 import tarfile
@@ -609,3 +613,37 @@ def canonical_chrom_sorted(in_chroms):
     if chr_prefix:
         in_chroms = [''.join(['chr', x]) for x in in_chroms]
     return in_chroms
+
+
+def email_report(job, univ_options):
+    """
+    Send an email to the user when the run finishes.
+
+    :param dict univ_options: Dict of universal options used by almost all tools
+    """
+    fromadd = "results@protect.cgl.genomics.ucsc.edu"
+    msg = MIMEMultipart()
+    msg['From'] = fromadd
+    if  univ_options['mail_to'] is None:
+        return
+    else:
+        msg['To'] = univ_options['mail_to']
+    msg['Subject'] = "Protect run for sample %s completed successfully." % univ_options['patient']
+    body = "Protect run for sample %s completed successfully." % univ_options['patient']
+    msg.attach(MIMEText(body, 'plain'))
+    text = msg.as_string()
+
+    try:
+        server = smtplib.SMTP('localhost')
+    except socket.error as e:
+        if e.errno == 111:
+            print('No mail utils on this maachine')
+        else:
+            print('Unexpected error while attempting to send an email.')
+        print('Could not send email report')
+    except:
+        print('Could not send email report')
+    else:
+        server.sendmail(fromadd, msg['To'], text)
+        server.quit()
+
