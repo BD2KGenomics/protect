@@ -267,6 +267,10 @@ These describe options that are used universally by most tools/jobs in the workf
                                                    folder will be created if it doesn't exist.
                                                    However, files in the folder from a previous run
                                                    will not be overwritten with updated values.
+        mail_to: test.email@host.com            -> Optionally send a success email to the specified email
+                                                   address. Ensure that results@protect.cgl.genomics.ucsc.edu
+                                                   is in your address book.
+
 
 
 In reality, for the inexperienced user, these are the only values that need to be modified for a

@@ -45,6 +45,7 @@ Universal_Options:
     reference_build: 'hg19'
     output_folder: /mnt/ephemeral/done
     storage_location: Local
+    mail_to:
 
 # These options are for each specific tool. You probably don't need to change any of this!
 alignment:

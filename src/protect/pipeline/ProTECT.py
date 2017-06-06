@@ -32,6 +32,7 @@ from protect.alignment.rna import align_rna
 from protect.binding_prediction.common import merge_mhc_peptide_calls, spawn_antigen_predictors
 from protect.common import (delete_bams,
                             delete_fastqs,
+                            email_report,
                             get_file_from_gdc,
                             get_file_from_s3,
                             get_file_from_url,
@@ -666,6 +667,8 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     rsem.addChild(rankboost)
     merge_mhc.addChild(rankboost)
     transgene.addChild(rankboost)
+    report_success = job.wrapJobFn(email_report, univ_options)
+    rankboost.addChild(report_success)
     return None
 
 
