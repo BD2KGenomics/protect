@@ -44,7 +44,7 @@ def wrap_fusion(job,
     A wrapper for run_fusion using the results from cutadapt and star as input.
 
     :param tuple fastqs: RNA-Seq FASTQ Filestore IDs
-    :param toil.fileStore.FileID star_output: Dictionary containing STAR output files
+    :param dict star_output: Dictionary containing STAR output files
     :param dict univ_options: universal arguments used by almost all tools
     :param dict star_fusion_options: STAR-Fusion specific parameters
     :param dict fusion_inspector_options: FusionInspector specific parameters
@@ -57,12 +57,13 @@ def wrap_fusion(job,
         job.fileStore.logToMaster('Skipping STAR-Fusion on %s' % univ_options['patient'])
         return
 
-    fusion = job.addChildJobFn(run_fusion, fastqs, star_output['rnaChimeric.out.junction'],
+    fusion = job.wrapJobFn(run_fusion, fastqs, star_output['rnaChimeric.out.junction'],
                                univ_options, star_fusion_options, fusion_inspector_options,
                                cores=star_fusion_options['n'],
                                disk=PromisedRequirement(fusion_disk,
-                                                        fastqs, star_fusion_options['index']))
-
+                                                        fastqs,
+                                                        star_fusion_options['index'])).encapsulate()
+    job.addChild(fusion)
     return fusion.rv()
 
 
