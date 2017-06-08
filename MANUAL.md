@@ -96,7 +96,8 @@ Dockerized versions of ProTECT releases can be found at https://quay.io/organiza
 Docker containers run the ProTECT pipeline in single machine mode. The only difference between the
 Docker and Python versions of the pipeline is that the Docker container takes the config options,
 described below, as command line arguments as opposed to a config file. Running the container
-without any arguments will list all the available options.
+without any arguments will list all the available options. Also, currently the dockerized version of
+ProTECT only supports local file export.
 
 # Running ProTECT
 

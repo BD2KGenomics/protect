@@ -43,13 +43,14 @@ class PipelineWrapperBuilder(object):
         # output that must be moved but not renamed
         consistentNaming = ['alignments/normal_dna_fix_pg_sorted.bam',
                            'alignments/normal_dna_fix_pg_sorted.bam.bai',
-                           'alignments/rna_fix_pg_sorted.bam',
-                           'alignments/rna_fix_pg_sorted.bam.bai',
+                           'alignments/rna_genome_sorted.bam',
+                           'alignments/rna_genome_sorted.bam.bai',
+                           'alignments/rna_transcriptome.bam',
                            'alignments/tumor_dna_fix_pg_sorted.bam',
                            'alignments/tumor_dna_fix_pg_sorted.bam.bai',
                            'mutations/merged/all_merged.vcf',
-                           'rankboost/mhcii_merged_files_concise_results.tsv',
-                           'rankboost/mhci_merged_files_concise_results.tsv',
+                           'rankboost/mhcii_rankboost_concise_results.tsv',
+                           'rankboost/mhci_rankboost_concise_results.tsv',
                            ]
 
         # output that must be renamed as well as moved
@@ -67,7 +68,8 @@ class PipelineWrapperBuilder(object):
                          'mutations/mutect': 'mutect_perchrom.tar',
                          'mutations/radia': 'radia_perchrom.tar',
                          'mutations/somaticsniper': 'somaticsniper_perchrom.tar',
-                         'mutations/strelka': 'strelka_perchrom.tar'}
+                         'mutations/strelka/snv': 'strelka_snv_perchrom.tar',
+                         'mutations/strelka/indel': 'strelka_indel_perchrom.tar'}
 
         def make_output(output_dir, source_dir):
             """
@@ -91,6 +93,7 @@ class PipelineWrapperBuilder(object):
                         make_tar(getName(src), os.path.join(output_dir, dst))
                     else:
                         shutil.copyfile(getName(src), os.path.join(output_dir, dst))
+            shutil.rmtree(source_dir)
 
 
         # prepare workdir
@@ -112,13 +115,17 @@ class PipelineWrapperBuilder(object):
         shutil.copy(args.tumor_rna2, tumor_rna_dir)
         shutil.copy(args.normal_dna2, normal_dna_dir)
         args.tumor_dna = os.path.join(tumor_dna_dir, os.path.basename(args.tumor_dna))
+        args.tumor_dna2 = os.path.join(tumor_dna_dir, os.path.basename(args.tumor_dna2))
         args.tumor_rna = os.path.join(tumor_rna_dir, os.path.basename(args.tumor_rna))
+        args.tumor_rna2 = os.path.join(tumor_rna_dir, os.path.basename(args.tumor_rna2))
         args.normal_dna = os.path.join(normal_dna_dir, os.path.basename(args.normal_dna))
+        args.normal_dna2 = os.path.join(normal_dna_dir, os.path.basename(args.normal_dna2))
 
         # prepare config
         args_dict = vars(args)
         args_dict['output_dir'] = mount
         self._config = textwrap.dedent(self._config.format(**args_dict))
+        self._sample_name = args_dict["sample_name"]
         config_path = os.path.join(self._workdir, 'config')
         command = self._make_prefix(os.path.join(self._workdir, 'jobStore'),
                                           config_path,
@@ -153,7 +160,7 @@ class PipelineWrapperBuilder(object):
         more info about these default arguments see below.
         """
         parser = argparse.ArgumentParser(description=self._desc,
-                                         formatter_class=argparse.RawTextHelpFormatter)
+                                         formatter_class=MyUniversalHelpFormatter)
         # default args
         if  self._no_clean:
             parser.add_argument('--no-clean', action='store_true',
@@ -218,3 +225,30 @@ def check_for_input(tool_input, name):
     require(tool_input, 'Cannot find {0} input, please use --{0} and provide full path to file.'
             .format(name))
     return tool_input[0]
+
+class MyUniversalHelpFormatter(argparse.HelpFormatter):
+    '''
+    This formatter formats both the description and argument defaults formatting
+    of the argparse help string.
+    '''
+    def _fill_text(self, text, width, indent):
+        '''
+        This module was taken from the ArgumentDefaultsHelpFormatter class
+        within argparse.  It deals with the formatting of arguments in that it
+        appends the default value to teh description of each argument.
+        '''
+        return ''.join(indent + line for line in text.splitlines(True))
+    def _get_help_string(self, action):
+        '''
+        This module was taken from the RawDescriptionHelpFormatter class
+        within argparse.  It deals with the formatting of the description string
+        and allows properly formatted descriptions ot be printed without line
+        wrapping.
+        '''
+        help = action.help
+        if '%(default)' not in action.help:
+            if action.default is not argparse.SUPPRESS:
+                defaulting_nargs = [argparse.OPTIONAL, argparse.ZERO_OR_MORE]
+                if action.option_strings or action.nargs in defaulting_nargs:
+                    help += ' (default: %(default)s)'
+        return help

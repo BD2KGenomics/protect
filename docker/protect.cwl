@@ -50,6 +50,13 @@ hints:
     description: "The process requires at least 16G of RAM and we recommend 21.5GB of storage."
 
 inputs:
+
+  sample-name:
+    type: String
+    doc: "Name of sample."
+    inputBinding:
+      prefix: --sample-name
+
   tumor-dna:
     type: File
     doc: "Tumor DNA fastq"
@@ -68,6 +75,12 @@ inputs:
     inputBinding:
       prefix: --normal-dna
 
+  tumor_type:
+    type: String
+    doc: "Tumor type"
+    inputBinding:
+      prefix: --tumor-type
+
   tumor-dna2:
     type: File
     doc: "Second Tumor DNA fastq"
@@ -85,6 +98,110 @@ inputs:
     doc: "Second Normal DNA fastq"
     inputBinding:
       prefix: --normal-dna2
+
+  reference_build:
+    type: string
+    doc: "Reference build (hg19 or hg38)"
+    inputBinding:
+      prefix: --reference-build
+
+  cutadapt_ver:
+    inputBinding:
+      --cutadapt_ver
+    type: string
+  star_ver:
+    inputBinding:
+      --star-ver
+    type: string
+  bwa_ver:
+    inputBinding:
+      --bwa-ver
+    type: string
+  samtools_alignment_ver:
+    inputBinding:
+      --samtools_alignment_ver
+    type: string
+    doc: "Samtools for alignment"
+  picard_ver:
+    inputBinding:
+      --picard-ver
+    type: string
+  rsem_ver:
+    inputBinding:
+      --rsem-ver
+    type: string
+  mutect_ver:
+    inputBinding:
+      --mutect-ver
+    type: string
+  muse_ver:
+    inputBinding:
+      --muse-ver
+    type: string
+  radia_ver:
+    inputBinding:
+      --radia-ver
+    type: string
+  somaticsniper_ver:
+    inputBinding:
+      --somaticsniper-ver
+    type: string
+  samtools_somaticsniper_ver:
+    inputBinding:
+      --samtools_somaticsniper-ver
+    type: string
+    doc: "Samtools for somatic sniper"
+  bamreadcount_ver:
+    inputBinding:
+      --bamreadcount-ver
+    type: string
+  strelka_ver:
+    inputBinding:
+      --strelka-ver
+    type: string
+  snpeff_ver:
+    inputBinding:
+      --snpeff-ver
+    type: string
+  transgene_ver:
+    inputBinding:
+      --transgene-ver
+    type: string
+  phlat_ver:
+    inputBinding:
+      --phlat-ver
+    type: string
+  mhci_ver:
+    inputBinding:
+      --mhci-ver
+    type: string
+  mhcii_ver:
+    inputBinding:
+      --mhcii-ver
+    type: string
+  netmhciipan_ver:
+    inputBinding:
+      --netmhciipan-ver
+    type: string
+  rankboost_ver:
+    inputBinding:
+      --rankboost-ver
+    type: string
+  star_fusion_ver:
+    inputBinding:
+      --star-fusion-ver
+    type: string
+  fusioninspector_ver:
+    inputBinding:
+      --fusioninspector-ver
+    type: string
+
+
+  star_type:
+    type: string
+    doc: "Star type. Use starlong if reads >150bp."
+    inputBinding:
+      prefix: --star-type
 
   star:
     type: File?
@@ -152,11 +269,53 @@ inputs:
     inputBinding:
       prefix: --dbsnp-tbi
 
+  dbsnp_beds:
+    type: File?
+    doc: "beds"
+    inputBinding:
+      prefix: --dbsnp-beds
+
+  cosmic_beds:
+    type: File?
+    doc: "Cosmic beds"
+    inputBinding:
+      prefix: --cosmic_beds
+
+  retrogene_beds:
+    type: File?
+    doc: "Retrogene beds"
+    inputBinding:
+      prefix: --retrogene-beds
+
+  psuedogene_beds:
+    type: File?
+    doc: "Psuedogene beds"
+    inputBinding:
+      prefix: --psuedogene_beds
+
+  gencode_beds:
+    type: File?
+    doc: "Gencode beds
+    inputBinding:
+      prefix: --gencode_beds
+
   strelka_config:
     type: File?
     doc: "mut_callers.strelka_config"
     inputBinding:
       prefix: --strelka-config
+
+  starfusion:
+    type: Boolean
+    doc: "Star fusion running"
+    inputBinding:
+      prefix: --starfusion
+
+  run_trinity:
+    type: Boolean
+    doc: "Fusion inspector running"
+    inputBinding:
+      prefix: --run-trinity
 
   snpeff:
     type: File?
@@ -164,11 +323,23 @@ inputs:
     inputBinding:
       prefix: --snpeff
 
-  transgene:
+  transgene_peptide_fasta:
     type: File?
     doc: "transgene"
     inputBinding:
-      prefix: --transgene
+      prefix: --transgene-peptide-fasta
+  transgene_transcript_fasta:
+  type: File?
+    inputBinding:
+      --transgene-transcript-fasta
+  transgene_annotation_gtf:
+  type: File?
+    inputBinding:
+      --transgene-annotation-gtf
+  transgene_genome:
+  type: File?
+    inputBinding:
+      --transgene-genome
 
   phlat:
     type: File?
@@ -188,11 +359,29 @@ inputs:
     inputBinding:
       prefix: --mhcii
 
-  mhc_pathway_assessment:
+  mhc_pathways_file:
     type: File?
-    doc: "mhc_pathway_assessment"
+    doc: "mhc_pathways_file"
     inputBinding:
-      prefix: --mhc-pathway-assessment
+      prefix: --mhc-pathway-file
+
+  itx_resistance_file:
+    type: File?
+    doc: "itx_resistance_file"
+    inputBinding:
+      prefix: --itx-resistance-file
+
+  immune_resistance_pathways_file:
+    type: File?
+    doc: "immune_resistance_pathways_file"
+    inputBinding:
+      prefix: --immune-resistance-pathways-file
+
+  car_t_targets_file:
+    type: File?
+    doc: "car_t_targets_file"
+    inputBinding:
+      prefix: --car-t-targets-file
 
   work_mount:
     type: string
@@ -209,6 +398,88 @@ inputs:
     type: string?
     doc: 'Required if on master'
     prefix: --sse-key-is-master
+
+  ssec_encrypted:
+    inputBinding:
+      --ssec-encrypted
+  filter_for_OxoG:
+    inputBinding:
+      --filter-for-OxoG
+  dockerhub:
+    inputBinding:
+      --dockerhub
+  javaxmx:
+    inputBinding:
+      --javaxmx
+  storage_location:
+    inputBinding:
+      --storage-location
+  mutect_javaxmx:
+    inputBinding:
+      --mutect-javaxmx
+  spnff_javaxmx:
+    inputBinding:
+      --spnff-javaxmx
+  mhci_pred:
+    inputBinding:
+      --mhci-pred
+  mhcii_pred:
+    inputBinding:
+      --mhcii-pred
+  cutadapt_a:
+    inputBinding:
+      --cutadapt-a
+  cutadapt_A:
+    inputBinding:
+      --cutadapt-A
+  mhci_npa:
+    inputBinding:
+      --mhci-npa
+  mhci_nph:
+    inputBinding:
+      --mhci-nph
+  mhci_nMHC:
+    inputBinding:
+      --mhci-nMHC
+  mhci_TPM:
+    inputBinding:
+      --mhci-TPM
+  mhci_overlap:
+    inputBinding:
+      --mhci-overlap
+  mhci_tndelta:
+    inputBinding:
+      --mhci-tndelta
+  mhcii_npa:
+    inputBinding:
+      --mhcii-npa
+  mhcii_nph:
+    inputBinding:
+      --mhcii-nph
+  mhcii_nMHC:
+    inputBinding:
+      --mhcii-nMHC
+  mhcii_TPM:
+    inputBinding:
+      --mhcii-TPM
+  mhcii_tndelta:
+    inputBinding:
+      --mhcii-tndelta
+  chromosomes:
+    type: String[]?
+    inputBinding:
+      --chromosomes
+      itemSeparator: ","
+      seperate: false
+  gdc_download_token:
+    type: File?
+    inputBinding:
+      --gdc-download-token
+  mail_to:
+    type: string
+    doc: "Email address to send success emails to."
+    inputBinding:
+      --mail-to
 
 outputs:
 
@@ -284,12 +555,20 @@ outputs:
       glob: 'somaticsniper_perchrom.tar'
     doc: "Result files from ProTECT"
 
-  strelka_perchrom:
+  strelka_snv_perchrom:
     type:
       type: array
       items: File
     outputBinding:
-      glob: 'strelka_perchrom.tar'
+      glob: 'strelka_snv_perchrom.tar'
+    doc: "Result files from ProTECT"
+
+  strelka_indel_perchrom:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'strelka_indel_perchrom.tar'
     doc: "Result files from ProTECT"
 
   rankboost:
@@ -354,6 +633,14 @@ outputs:
       items: File
     outputBinding:
       glob: 'rna_fix_pg_sorted.bam.bai'
+    doc: "Result files from ProTECT"
+
+  rna_transcriptome_alignment:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: 'rna_transcriptome.bam'
     doc: "Result files from ProTECT"
 
   all_merged:

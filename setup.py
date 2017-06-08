@@ -9,6 +9,11 @@ import subprocess
 import sys
 
 
+toil_version = '3.5.2'
+s3am_version = '2.0.1'
+gdc_version = 'v1.1.0'
+
+
 def check_tool_version(tool, required_version, binary=False):
     """
     This will ensure that the required_version of `tool` is at least `required_version`.
@@ -48,11 +53,11 @@ def check_tool_version(tool, required_version, binary=False):
 
 
 # Check Toil version
-check_tool_version('toil', '3.5.2', binary=False)
+check_tool_version('toil', toil_version, binary=False)
 # Check S3am version
-check_tool_version('s3am', '2.0.1', binary=True)
+check_tool_version('s3am', s3am_version, binary=True)
 # Check gdc-client version
-check_tool_version('gdc-client', 'v1.1.0', binary=True)
+check_tool_version('gdc-client', gdc_version, binary=True)
 
 
 # Set up a test class
