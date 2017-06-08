@@ -523,26 +523,32 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         cutadapt.addChild(fastq_deletion_2)
         cutadapt.addChild(bam_files['tumor_rna'])
         bam_files['tumor_rna'].addChild(fastq_deletion_2)
+        # Define the fusion calling node
+
+        tool_options['star_fusion']['index'] = tool_options['star']['index']
+        tool_options['fusion_inspector']['index'] = tool_options['star']['index']
+        fusions = job.wrapJobFn(wrap_fusion,
+                                cutadapt.rv(),
+                                bam_files['tumor_rna'].rv(),
+                                univ_options,
+                                tool_options['star_fusion'],
+                                tool_options['fusion_inspector'],
+                                disk='100M', memory='100M', cores=1).encapsulate()
+
+        bam_files['tumor_rna'].addChild(fusions)
+        fusions.addChild(fastq_deletion_1)
+        fusions.addChild(fastq_deletion_2)
+    else:
+        if tool_options['star_fusion']['run'] is True:
+            job.fileStore.logToMaster('Input RNA bams were provided for sample %s. Fusion detection'
+                                      'can only be run with input fastqs.' % univ_options['patient']
+                                      )
+        fusions = None
 
     # Define the Expression estimation node
     rsem = job.wrapJobFn(wrap_rsem, bam_files['tumor_rna'].rv(), univ_options, tool_options['rsem'],
                          cores=1, disk='100M').encapsulate()
     bam_files['tumor_rna'].addChild(rsem)
-    # Define the fusion calling node
-
-    tool_options['star_fusion']['index'] = tool_options['star']['index']
-    tool_options['fusion_inspector']['index'] = tool_options['star']['index']
-    fusions = job.wrapJobFn(wrap_fusion,
-                            cutadapt.rv(),
-                            bam_files['tumor_rna'].rv(),
-                            univ_options,
-                            tool_options['star_fusion'],
-                            tool_options['fusion_inspector'],
-                            disk='100M', memory='100M', cores=1).encapsulate()
-
-    bam_files['tumor_rna'].addChild(fusions)
-    fusions.addChild(fastq_deletion_1)
-    fusions.addChild(fastq_deletion_2)
     # Define the bam deletion node
     delete_bam_files['tumor_rna'] = job.wrapJobFn(delete_bams,
                                                   bam_files['tumor_rna'].rv(),
@@ -550,7 +556,8 @@ def launch_protect(job, patient_data, univ_options, tool_options):
                                                   memory='100M')
     bam_files['tumor_rna'].addChild(delete_bam_files['tumor_rna'])
     rsem.addChild(delete_bam_files['tumor_rna'])
-    fusions.addChild(delete_bam_files['tumor_rna'])
+    if fusions:
+        fusions.addChild(delete_bam_files['tumor_rna'])
     # Define the reporting leaves
     if phlat_files['tumor_rna'] is not None:
         mhc_pathway_assessment = job.wrapJobFn(run_mhc_gene_assessment, rsem.rv(),
@@ -638,17 +645,20 @@ def launch_protect(job, patient_data, univ_options, tool_options):
                                                     tool_options['snpeff']['index']))
     get_mutations.addChild(snpeff)
     tumor_dna_bam = bam_files['tumor_dna'].rv() if patient_data['filter_for_OxoG'] else None
+    fusion_calls = fusions.rv() if fusions else None
     transgene = job.wrapJobFn(run_transgene, snpeff.rv(), bam_files['tumor_rna'].rv(), univ_options,
                               tool_options['transgene'],
                               disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv()),
                               memory='100M', cores=1, tumor_dna_bam=tumor_dna_bam,
-                              fusion_calls=fusions.rv())
+                              fusion_calls=fusion_calls)
     snpeff.addChild(transgene)
     bam_files['tumor_rna'].addChild(transgene)
     transgene.addChild(delete_bam_files['tumor_rna'])
     if patient_data['filter_for_OxoG']:
         bam_files['tumor_dna'].addChild(transgene)
         transgene.addChild(delete_bam_files['tumor_dna'])
+    if fusions:
+        fusions.addChild(transgene)
 
     spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), haplotype_patient.rv(),
                               univ_options, (tool_options['mhci'], tool_options['mhcii']),
