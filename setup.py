@@ -9,7 +9,7 @@ import subprocess
 import sys
 
 
-toil_version = '3.5.2'
+toil_version = '3.8.0'
 s3am_version = '2.0.1'
 gdc_version = 'v1.1.0'
 
