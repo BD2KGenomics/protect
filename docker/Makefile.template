@@ -3,12 +3,11 @@ build_tool = runtime-container.DONE
 name = quay.io/ucsc_cgl/protect
 git_commit ?= $(shell git log --pretty=oneline -n 1 | cut -f1 -d " ")
 protectversion := $(shell grep ^version ../../src/protect/version.py | cut -d"'" -f2)
-tag = $(protectversion)--DOCKERVER--${git_commit}
-short_tag = $(protectversion)--DOCKERVER
+tag = $(protectversion)-DOCKERVER-${git_commit}
+short_tag = $(protectversion)-DOCKERVER
 
 build: Dockerfile
 	docker build -t ${name}:${tag} .
-	- docker rmi ${name}:${short_tag}
 	- docker rmi ${name}:latest
 	docker tag ${name}:${tag} ${name}:${short_tag}
 	docker tag ${name}:${tag} ${name}:latest
@@ -17,8 +16,10 @@ build: Dockerfile
 push: build
 	# Requires ~/.dockercfg
 	docker push ${name}:${tag}
+	docker push ${name}:${short_tag}
 	docker push ${name}:latest
 
 clean:
 	docker rmi -f ${name}:${tag}
+	docker rmi -f ${name}:${short_tag}
 	rm ${build_tool}
