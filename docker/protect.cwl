@@ -400,69 +400,91 @@ inputs:
     prefix: --sse-key-is-master
 
   ssec_encrypted:
+    type: string?
     inputBinding:
       --ssec-encrypted
   filter_for_OxoG:
+    type: string?
     inputBinding:
       --filter-for-OxoG
   dockerhub:
+    type: string?
     inputBinding:
       --dockerhub
   javaxmx:
+    type: string?
     inputBinding:
       --javaxmx
   storage_location:
+    type: string?
     inputBinding:
       --storage-location
   mutect_javaxmx:
+    type: string?
     inputBinding:
       --mutect-javaxmx
   spnff_javaxmx:
+    type: string?
     inputBinding:
       --spnff-javaxmx
   mhci_pred:
+    type: string?
     inputBinding:
       --mhci-pred
   mhcii_pred:
+    type: string?
     inputBinding:
       --mhcii-pred
   cutadapt_a:
+    type: string?
     inputBinding:
       --cutadapt-a
   cutadapt_A:
+    type: string?
     inputBinding:
       --cutadapt-A
   mhci_npa:
+    type: string?
     inputBinding:
       --mhci-npa
   mhci_nph:
+    type: string?
     inputBinding:
       --mhci-nph
   mhci_nMHC:
+    type: string?
     inputBinding:
       --mhci-nMHC
   mhci_TPM:
+    type: string?
     inputBinding:
       --mhci-TPM
   mhci_overlap:
+    type: string?
     inputBinding:
       --mhci-overlap
   mhci_tndelta:
+    type: string?
     inputBinding:
       --mhci-tndelta
   mhcii_npa:
+    type: string?
     inputBinding:
       --mhcii-npa
   mhcii_nph:
+    type: string?
     inputBinding:
       --mhcii-nph
   mhcii_nMHC:
+    type: string?
     inputBinding:
       --mhcii-nMHC
   mhcii_TPM:
+    type: string?
     inputBinding:
       --mhcii-TPM
   mhcii_tndelta:
+    type: string?
     inputBinding:
       --mhcii-tndelta
   chromosomes:
