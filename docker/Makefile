@@ -25,7 +25,7 @@ ifeq ($(findstring a,$(protectversion)),a)
     $(error Fatal error: Cannot build container for dev version)
 endif
 
-build: $(build_tool)
+build: $(build_tool) remove_toil
 
 %.docker: dockerver=$(@:.docker=)
 %.docker: Dockerfile.template Makefile.template wrapper.py pipelineWrapper.py
@@ -38,20 +38,22 @@ build: $(build_tool)
 	sed -i "s/S3AM_VERSION/$(s3amversion)/g" ${@}/Dockerfile
 	cp wrapper.py ${@}/
 	cp pipelineWrapper.py ${@}/
-	rm -rf toil.git
 
 generate: $(gen_directories)
+
+remove_toil:
+	rm -rf toil.git
 
 $(build_tool): generate
 	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) build && cd ..;)
 	touch $(build_tool)
 
-push: build
+push: build remove_toil
 	# Requires ~/.dockercfg
 	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) push && cd ..;)
 
 test: build test.py
 	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) test && cd ..;)
 
-clean:
+clean: remove_toil
 	-rm -rf $(gen_directories) && rm $(build_tool)
