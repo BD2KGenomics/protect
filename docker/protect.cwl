@@ -40,7 +40,7 @@ dct:creator:
 
 requirements:
   - class: DockerRequirement
-    dockerPull: "quay.io/ucsc_cgl/protect:2.3.0--1.12.3"
+    dockerPull: "quay.io/ucsc_cgl/protect:2.5.1-1.12.3"
 
 hints:
   - class: ResourceRequirement
@@ -108,93 +108,93 @@ inputs:
   cutadapt_ver:
     inputBinding:
       --cutadapt_ver
-    type: string
+    type: string?
   star_ver:
     inputBinding:
       --star-ver
-    type: string
+    type: string?
   bwa_ver:
     inputBinding:
       --bwa-ver
-    type: string
+    type: string?
   samtools_alignment_ver:
     inputBinding:
       --samtools_alignment_ver
-    type: string
+    type: string?
     doc: "Samtools for alignment"
   picard_ver:
     inputBinding:
       --picard-ver
-    type: string
+    type: string?
   rsem_ver:
     inputBinding:
       --rsem-ver
-    type: string
+    type: string?
   mutect_ver:
     inputBinding:
       --mutect-ver
-    type: string
+    type: string?
   muse_ver:
     inputBinding:
       --muse-ver
-    type: string
+    type: string?
   radia_ver:
     inputBinding:
       --radia-ver
-    type: string
+    type: string?
   somaticsniper_ver:
     inputBinding:
       --somaticsniper-ver
-    type: string
+    type: string?
   samtools_somaticsniper_ver:
     inputBinding:
       --samtools_somaticsniper-ver
-    type: string
+    type: string?
     doc: "Samtools for somatic sniper"
   bamreadcount_ver:
     inputBinding:
       --bamreadcount-ver
-    type: string
+    type: string?
   strelka_ver:
     inputBinding:
       --strelka-ver
-    type: string
+    type: string?
   snpeff_ver:
     inputBinding:
       --snpeff-ver
-    type: string
+    type: string?
   transgene_ver:
     inputBinding:
       --transgene-ver
-    type: string
+    type: string?
   phlat_ver:
     inputBinding:
       --phlat-ver
-    type: string
+    type: string?
   mhci_ver:
     inputBinding:
       --mhci-ver
-    type: string
+    type: string?
   mhcii_ver:
     inputBinding:
       --mhcii-ver
-    type: string
+    type: string?
   netmhciipan_ver:
     inputBinding:
       --netmhciipan-ver
-    type: string
+    type: string?
   rankboost_ver:
     inputBinding:
       --rankboost-ver
-    type: string
+    type: string?
   star_fusion_ver:
     inputBinding:
       --star-fusion-ver
-    type: string
+    type: string?
   fusioninspector_ver:
     inputBinding:
       --fusioninspector-ver
-    type: string
+    type: string?
 
 
   star_type:
@@ -295,7 +295,7 @@ inputs:
 
   gencode_beds:
     type: File?
-    doc: "Gencode beds
+    doc: "Gencode beds"
     inputBinding:
       prefix: --gencode_beds
 
