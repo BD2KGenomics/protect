@@ -87,7 +87,7 @@ class TestMutationCallers(ProtectTest):
         b = Job.wrapJobFn(self._get_fusion_options).encapsulate()
         c = Job.wrapJobFn(run_fusion,
                           a1.rv(),
-                          a1.rv(),
+                          a2.rv(),
                           univ_options,
                           b.rv('star_fusion'),
                           b.rv('fusion_inspector')).encapsulate()
