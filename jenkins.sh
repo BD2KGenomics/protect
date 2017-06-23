@@ -18,7 +18,7 @@ export PATH=$PATH:${TMPDIR}/bin
 # Simulate an installed gdc-client so protect doesn't crash on install (This feature is never
 # tested with jenkins anyway so it doesn't harm anything)
 echo "#!/bin/bash" > ${TMPDIR}/bin/gdc-client
-echo "echo v1.1.0" >> ${TMPDIR}/bin/gdc-client
+echo "echo v1.2.0" >> ${TMPDIR}/bin/gdc-client
 chmod +x ${TMPDIR}/bin/gdc-client
 
 # Install Toil in a venv then install ProTECT

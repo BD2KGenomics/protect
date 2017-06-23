@@ -14,11 +14,12 @@ s3am_version = '2.0.1'
 gdc_version = 'v1.1.0'
 
 
-def check_tool_version(tool, required_version, binary=False):
+def check_tool_version(tool, required_version, blacklisted_versions=None, binary=False):
     """
     This will ensure that the required_version of `tool` is at least `required_version`.
     :param str tool: The tool under review
     :param str required_version: The version of the tool required by ProTECT
+    :param list blacklisted_versions: Version of the tool blacklisted by ProTECT
     :param bool binary: Is the tool a binary
     :return: None
     """
@@ -50,6 +51,10 @@ def check_tool_version(tool, required_version, binary=False):
     elif parse_version(installed_version) < parse_version(required_version):
         raise RuntimeError('%s was detected to be version (%s) but ProTECT requires (%s)' %
                            (tool, installed_version, required_version))
+    if blacklisted_versions is not None:
+        if parse_version(installed_version) in [parse_version(v) for v in blacklisted_versions]:
+            raise RuntimeError('The version of %s was detected to be on the a blacklist (%s).' %
+                               (tool, installed_version))
 
 
 # Check Toil version
@@ -57,7 +62,7 @@ check_tool_version('toil', toil_version, binary=False)
 # Check S3am version
 check_tool_version('s3am', s3am_version, binary=True)
 # Check gdc-client version
-check_tool_version('gdc-client', gdc_version, binary=True)
+check_tool_version('gdc-client', gdc_version, binary=True, blacklisted_versions=['v1.2.0'])
 
 
 # Set up a test class
