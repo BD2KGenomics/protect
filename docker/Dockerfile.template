@@ -28,10 +28,10 @@ RUN pip install s3am==S3AM_VERSION
 
 # Install GDC Client
 RUN cd /usr/local/bin \
-    && wget -c https://gdc.cancer.gov/files/public/file/gdc-client_v1.2.0_Ubuntu14.04_x64.zip \
-    && unzip gdc-client_v1.2.0_Ubuntu14.04_x64.zip \
+    && wget -c https://gdc.cancer.gov/files/public/file/gdc-client_v1.1.0_Ubuntu14.04_x64.zip \
+    && unzip gdc-client_v1.1.0_Ubuntu14.04_x64.zip \
     && chmod +x gdc-client \
-    && rm gdc-client_v1.2.0_Ubuntu14.04_x64.zip
+    && rm gdc-client_v1.1.0_Ubuntu14.04_x64.zip
 
 # Install ProTECT
 RUN pip install protect==PROTECT_VERSION
