@@ -25,6 +25,7 @@ chmod +x ${TMPDIR}/bin/gdc-client
 virtualenv --never-download venv
 . venv/bin/activate
 
+pip install -U setuptools
 pip install toil==3.5.2
 pip install pytest==2.8.3
 
