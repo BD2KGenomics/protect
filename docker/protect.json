@@ -1,15 +1,36 @@
 {
   "tumor-dna" : {
     "class" : "File",
-    "path" : "/root/Tum_1.fq.gz"
+    "path" : "/home/ubuntu/protect-files/samples/Tum_1.fq.gz"
   },
   "tumor-rna" : {
     "class" : "File",
-    "path" : "/root/Rna_1.fq.gz"
+    "path" : "/home/ubuntu/protect-files/samples/RNA_CD74_ROS1_1.fq.gz"
   },
   "normal-dna" : {
     "class" : "File",
-    "path" : "/root/Norm_1.fq.gz"
+    "path" : "/home/ubuntu/protect-files/samples/Norm_1.fq.gz"
   },
-  "work-mount" : "/root/"
+  "tumor-dna2" : {
+    "class" : "File",
+    "path" : "/home/ubuntu/protect-files/samples/Tum_2.fq.gz"
+  },
+  "tumor-rna2" : {
+    "class" : "File",
+    "path" : "/home/ubuntu/protect-files/samples/RNA_CD74_ROS1_2.fq.gz"
+  },
+  "normal-dna2" : {
+    "class" : "File",
+    "path" : "/home/ubuntu/protect-files/samples/Norm_2.fq.gz"
+  },
+
+  "sample-name" : "test-sample",
+
+  "tumor-type" : "STAD",
+
+  "work-mount" : "/home/ubuntu/protect-work/",
+
+  "reference_build" : "hg19",
+
+  "mail_to" : "jqpublic@myschool.edu"
 }
