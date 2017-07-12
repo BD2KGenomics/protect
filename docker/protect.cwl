@@ -32,11 +32,23 @@ doc: |
 
     ProTECT is currently in its infancy and is under continuous development.  We would appreciate users sharing the level 3 data produced by ProTECT with us such that we can better train our predictive models.
 
+    ![build_status](https://quay.io/quay.io/ucsc_cgl/protect/status)
+    A Docker container for the Precision Immunology Pipeline (ProTECT). 
+    See the manual at https://github.com/BD2KGenomics/protect/blob/master/MANUAL.md 
+    ```
+    Usage:
+    # fetch CWL
+    $> dockstore tool cwl --entry quay.io/ucsc_cgl/protect:<version tag>  > protect.cwl
+    # make a runtime JSON template and edit it
+    $> dockstore tool convert cwl2json --cwl protect.cwl > protect.json
+    # run it locally with the Dockstore CLI
+    $> dockstore tool launch --debug --entry quay.io/ucsc_cgl/protect:<version tag>  --json protect.json
+    ```
+
 
 dct:creator:
-  '@id': http://orcid.org/0000-0002-7681-6415
-  foaf:name: Brian O'Connor
-  foaf:mbox: briandoconnor@gmail.com
+  foaf:name: Arjun Rao
+  foaf:mbox: "aarjunrao@soe.ucsc.edu"
 
 requirements:
   - class: DockerRequirement
@@ -52,7 +64,7 @@ hints:
 inputs:
 
   sample-name:
-    type: String
+    type: string
     doc: "Name of sample."
     inputBinding:
       prefix: --sample-name
@@ -75,8 +87,8 @@ inputs:
     inputBinding:
       prefix: --normal-dna
 
-  tumor_type:
-    type: String
+  tumor-type:
+    type: string
     doc: "Tumor type"
     inputBinding:
       prefix: --tumor-type
@@ -107,98 +119,98 @@ inputs:
 
   cutadapt_ver:
     inputBinding:
-      --cutadapt_ver
+      prefix: --cutadapt_ver
     type: string?
   star_ver:
     inputBinding:
-      --star-ver
+      prefix: --star-ver
     type: string?
   bwa_ver:
     inputBinding:
-      --bwa-ver
+      prefix: --bwa-ver
     type: string?
   samtools_alignment_ver:
     inputBinding:
-      --samtools_alignment_ver
+      prefix: --samtools_alignment_ver
     type: string?
     doc: "Samtools for alignment"
   picard_ver:
     inputBinding:
-      --picard-ver
+      prefix: --picard-ver
     type: string?
   rsem_ver:
     inputBinding:
-      --rsem-ver
+      prefix: --rsem-ver
     type: string?
   mutect_ver:
     inputBinding:
-      --mutect-ver
+      prefix: --mutect-ver
     type: string?
   muse_ver:
     inputBinding:
-      --muse-ver
+      prefix: --muse-ver
     type: string?
   radia_ver:
     inputBinding:
-      --radia-ver
+      prefix: --radia-ver
     type: string?
   somaticsniper_ver:
     inputBinding:
-      --somaticsniper-ver
+      prefix: --somaticsniper-ver
     type: string?
   samtools_somaticsniper_ver:
     inputBinding:
-      --samtools_somaticsniper-ver
+      prefix: --samtools_somaticsniper-ver
     type: string?
     doc: "Samtools for somatic sniper"
   bamreadcount_ver:
     inputBinding:
-      --bamreadcount-ver
+      prefix: --bamreadcount-ver
     type: string?
   strelka_ver:
     inputBinding:
-      --strelka-ver
+      prefix: --strelka-ver
     type: string?
   snpeff_ver:
     inputBinding:
-      --snpeff-ver
+      prefix: --snpeff-ver
     type: string?
   transgene_ver:
     inputBinding:
-      --transgene-ver
+      prefix: --transgene-ver
     type: string?
   phlat_ver:
     inputBinding:
-      --phlat-ver
+      prefix: --phlat-ver
     type: string?
   mhci_ver:
     inputBinding:
-      --mhci-ver
+      prefix: --mhci-ver
     type: string?
   mhcii_ver:
     inputBinding:
-      --mhcii-ver
+      prefix: --mhcii-ver
     type: string?
   netmhciipan_ver:
     inputBinding:
-      --netmhciipan-ver
+      prefix: --netmhciipan-ver
     type: string?
   rankboost_ver:
     inputBinding:
-      --rankboost-ver
+      prefix: --rankboost-ver
     type: string?
   star_fusion_ver:
     inputBinding:
-      --star-fusion-ver
+      prefix: --star-fusion-ver
     type: string?
   fusioninspector_ver:
     inputBinding:
-      --fusioninspector-ver
+      prefix: --fusioninspector-ver
     type: string?
 
 
   star_type:
-    type: string
+    type: string?
     doc: "Star type. Use starlong if reads >150bp."
     inputBinding:
       prefix: --star-type
@@ -306,13 +318,13 @@ inputs:
       prefix: --strelka-config
 
   starfusion:
-    type: Boolean
+    type: boolean?
     doc: "Star fusion running"
     inputBinding:
       prefix: --starfusion
 
   run_trinity:
-    type: Boolean
+    type: boolean?
     doc: "Fusion inspector running"
     inputBinding:
       prefix: --run-trinity
@@ -328,18 +340,22 @@ inputs:
     doc: "transgene"
     inputBinding:
       prefix: --transgene-peptide-fasta
+
   transgene_transcript_fasta:
-  type: File?
+    type: File?
+    doc: "transgene transcript fasta"
     inputBinding:
-      --transgene-transcript-fasta
+      prefix: --transgene-transcript-fasta
+
   transgene_annotation_gtf:
-  type: File?
+    type: File?
     inputBinding:
-      --transgene-annotation-gtf
+      prefix: --transgene-annotation-gtf
+
   transgene_genome:
-  type: File?
+    type: File?
     inputBinding:
-      --transgene-genome
+      prefix: --transgene-genome
 
   phlat:
     type: File?
@@ -383,7 +399,7 @@ inputs:
     inputBinding:
       prefix: --car-t-targets-file
 
-  work_mount:
+  work-mount:
     type: string
     doc: "Path of the working directory to be mounted into the container"
     inputBinding:
@@ -402,106 +418,106 @@ inputs:
   ssec_encrypted:
     type: string?
     inputBinding:
-      --ssec-encrypted
+      prefix: --ssec-encrypted
   filter_for_OxoG:
     type: string?
     inputBinding:
-      --filter-for-OxoG
+      prefix: --filter-for-OxoG
   dockerhub:
     type: string?
     inputBinding:
-      --dockerhub
+      prefix: --dockerhub
   javaxmx:
     type: string?
     inputBinding:
-      --javaxmx
+      prefix: --javaxmx
   storage_location:
     type: string?
     inputBinding:
-      --storage-location
+      prefix: --storage-location
   mutect_javaxmx:
     type: string?
     inputBinding:
-      --mutect-javaxmx
+      prefix: --mutect-javaxmx
   spnff_javaxmx:
     type: string?
     inputBinding:
-      --spnff-javaxmx
+      prefix: --spnff-javaxmx
   mhci_pred:
     type: string?
     inputBinding:
-      --mhci-pred
+      prefix: --mhci-pred
   mhcii_pred:
     type: string?
     inputBinding:
-      --mhcii-pred
+      prefix: --mhcii-pred
   cutadapt_a:
     type: string?
     inputBinding:
-      --cutadapt-a
+      prefix: --cutadapt-a
   cutadapt_A:
     type: string?
     inputBinding:
-      --cutadapt-A
+      prefix: --cutadapt-A
   mhci_npa:
     type: string?
     inputBinding:
-      --mhci-npa
+      prefix: --mhci-npa
   mhci_nph:
     type: string?
     inputBinding:
-      --mhci-nph
+      prefix: --mhci-nph
   mhci_nMHC:
     type: string?
     inputBinding:
-      --mhci-nMHC
+      prefix: --mhci-nMHC
   mhci_TPM:
     type: string?
     inputBinding:
-      --mhci-TPM
+      prefix: --mhci-TPM
   mhci_overlap:
     type: string?
     inputBinding:
-      --mhci-overlap
+      prefix: --mhci-overlap
   mhci_tndelta:
     type: string?
     inputBinding:
-      --mhci-tndelta
+      prefix: --mhci-tndelta
   mhcii_npa:
     type: string?
     inputBinding:
-      --mhcii-npa
+      prefix: --mhcii-npa
   mhcii_nph:
     type: string?
     inputBinding:
-      --mhcii-nph
+      prefix: --mhcii-nph
   mhcii_nMHC:
     type: string?
     inputBinding:
-      --mhcii-nMHC
+      prefix: --mhcii-nMHC
   mhcii_TPM:
     type: string?
     inputBinding:
-      --mhcii-TPM
+      prefix: --mhcii-TPM
   mhcii_tndelta:
     type: string?
     inputBinding:
-      --mhcii-tndelta
+      prefix: --mhcii-tndelta
   chromosomes:
-    type: String[]?
+    type: string[]?
     inputBinding:
-      --chromosomes
+      prefix: --chromosomes
       itemSeparator: ","
       seperate: false
   gdc_download_token:
     type: File?
     inputBinding:
-      --gdc-download-token
+      prefix: --gdc-download-token
   mail_to:
     type: string
     doc: "Email address to send success emails to."
     inputBinding:
-      --mail-to
+      prefix: --mail-to
 
 outputs:
 
