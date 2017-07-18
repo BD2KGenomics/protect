@@ -10,10 +10,10 @@ build: Dockerfile
 	docker build -t ${name}:${tag} .
 	- docker rmi ${name}:latest
 	docker tag ${name}:${tag} ${name}:${short_tag}
-	docker tag ${name}:${tag} ${name}:latest
+	docker tag -f ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
-push: build
+push: ${build_tool}
 	# Requires ~/.dockercfg
 	docker push ${name}:${tag}
 	docker push ${name}:${short_tag}

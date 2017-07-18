@@ -1,5 +1,5 @@
 # Definitions
-docker_versions = 1.13.0 1.12.3 1.11.2 1.10.3 1.9.1 1.8.3 1.7.1 1.6.2
+docker_versions = 1.6.2 1.7.1 1.8.3 1.9.1 1.10.3 1.11.2 1.12.3 1.13.0
 gen_directories = $(docker_versions:=.docker)
 build_tool = runtime-container.DONE
 
@@ -48,7 +48,7 @@ $(build_tool): generate
 	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) build && cd ..;)
 	touch $(build_tool)
 
-push: build remove_toil
+push: ${build_tool} remove_toil
 	# Requires ~/.dockercfg
 	$(foreach subdir, $(gen_directories), cd $(subdir) && $(MAKE) push && cd ..;)
 
