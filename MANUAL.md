@@ -488,3 +488,10 @@ results. Every docker image required for the run is described in required_docker
 required tool is also hosted freely on the dockerhub `aarjunrao` (Hence the default value in the
 config). If you wish to use a personal repo instead, ensure that every required version of every
 tool is made available on the repo.
+
+ProTECT is registered on Dockstore.org and can be run using Dockstore with the following command:
+`
+dockstore tool launch --debug --entry quay.io/ucsc_cgl/protect:<version tag>  --json protect.json
+`
+
+The example protect.json file provided in this repo describes a run where the input reference files are on the local file system at `/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files` and the input fastqs are in `/home/ubuntu/protect-work/samples/`.
