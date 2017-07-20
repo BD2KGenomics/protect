@@ -63,49 +63,49 @@ hints:
 
 inputs:
 
-  sample-name:
+  sample_name:
     type: string
     doc: "Name of sample."
     inputBinding:
       prefix: --sample-name
 
-  tumor-dna:
+  tumor_dna:
     type: File
     doc: "Tumor DNA fastq"
     inputBinding:
       prefix: --tumor-dna
 
-  tumor-rna:
+  tumor_rna:
     type: File
     doc: "Tumor RNA fastq"
     inputBinding:
       prefix: --tumor-rna
 
-  normal-dna:
+  normal_dna:
     type: File
     doc: "Normal DNA fastq"
     inputBinding:
       prefix: --normal-dna
 
-  tumor-type:
+  tumor_type:
     type: string
     doc: "Tumor type"
     inputBinding:
       prefix: --tumor-type
 
-  tumor-dna2:
+  tumor_dna2:
     type: File
     doc: "Second Tumor DNA fastq"
     inputBinding:
       prefix: --tumor-dna2
 
-  tumor-rna2:
+  tumor_rna2:
     type: File
     doc: "Second Tumor RNA fastq"
     inputBinding:
       prefix: --tumor-rna2
 
-  normal-dna2:
+  normal_dna2:
     type: File
     doc: "Second Normal DNA fastq"
     inputBinding:
@@ -215,19 +215,19 @@ inputs:
     inputBinding:
       prefix: --star-type
 
-  star:
+  star_index:
     type: File?
     doc: "Absolute path to STAR index tarball."
     inputBinding:
       prefix: --star-index
 
-  bwa:
+  bwa_index:
     type: File?
     doc: "Absolute path to bwa index tarball."
     inputBinding:
       prefix: --bwa-index
 
-  rsem:
+  rsem_index:
     type: File?
     doc: "Absolute path to rsem reference tarball."
     inputBinding:
@@ -291,7 +291,7 @@ inputs:
     type: File?
     doc: "Cosmic beds"
     inputBinding:
-      prefix: --cosmic_beds
+      prefix: --cosmic-beds
 
   retrogene_beds:
     type: File?
@@ -299,17 +299,17 @@ inputs:
     inputBinding:
       prefix: --retrogene-beds
 
-  psuedogene_beds:
+  pseudogene_beds:
     type: File?
-    doc: "Psuedogene beds"
+    doc: "Pseudogene beds"
     inputBinding:
-      prefix: --psuedogene_beds
+      prefix: --pseudogene-beds
 
   gencode_beds:
     type: File?
     doc: "Gencode beds"
     inputBinding:
-      prefix: --gencode_beds
+      prefix: --gencode-beds
 
   strelka_config:
     type: File?
@@ -379,7 +379,7 @@ inputs:
     type: File?
     doc: "mhc_pathways_file"
     inputBinding:
-      prefix: --mhc-pathway-file
+      prefix: --mhc-pathways-file
 
   itx_resistance_file:
     type: File?
@@ -399,7 +399,7 @@ inputs:
     inputBinding:
       prefix: --car-t-targets-file
 
-  work-mount:
+  work_mount:
     type: string
     doc: "Path of the working directory to be mounted into the container"
     inputBinding:
