@@ -1,36 +1,147 @@
 {
-  "tumor-dna" : {
-    "class" : "File",
-    "path" : "/home/ubuntu/protect-files/samples/Tum_1.fq.gz"
-  },
-  "tumor-rna" : {
-    "class" : "File",
-    "path" : "/home/ubuntu/protect-files/samples/RNA_CD74_ROS1_1.fq.gz"
-  },
-  "normal-dna" : {
-    "class" : "File",
-    "path" : "/home/ubuntu/protect-files/samples/Norm_1.fq.gz"
-  },
-  "tumor-dna2" : {
-    "class" : "File",
-    "path" : "/home/ubuntu/protect-files/samples/Tum_2.fq.gz"
-  },
-  "tumor-rna2" : {
-    "class" : "File",
-    "path" : "/home/ubuntu/protect-files/samples/RNA_CD74_ROS1_2.fq.gz"
-  },
-  "normal-dna2" : {
-    "class" : "File",
-    "path" : "/home/ubuntu/protect-files/samples/Norm_2.fq.gz"
-  },
-
-  "sample-name" : "test-sample",
-
-  "tumor-type" : "STAD",
-
-  "work-mount" : "/home/ubuntu/protect-work/",
-
-  "reference_build" : "hg19",
-
-  "mail_to" : "jqpublic@myschool.edu"
+    "bwa_index": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/bwa_index.tar.gz"
+    },
+    "car_t_targets_file": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/car_t_targets.tsv.tar.gz"
+    },
+    "cosmic_beds": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/radia_cosmic.tar.gz"
+    },
+    "cosmic_idx": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/CosmicCodingMuts.vcf.idx.tar.gz"
+    },
+    "cosmic_vcf": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/CosmicCodingMuts.vcf.tar.gz"
+    },
+    "dbsnp_beds": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/radia_dbsnp.tar.gz"
+    },
+    "dbsnp_idx": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/dbsnp_coding.vcf.idx.tar.gz"
+    },
+    "dbsnp_tbi": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/dbsnp_coding.vcf.gz.tbi"
+    },
+    "dbsnp_vcf": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/dbsnp_coding.vcf.gz"
+    },
+    "gencode_beds": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/radia_gencode.tar.gz"
+    },
+    "genome_dict": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/hg38.dict.tar.gz"
+    },
+    "genome_fai": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/hg38.fa.fai.tar.gz"
+    },
+    "genome_fasta": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/hg38.fa.tar.gz"
+    },
+    "immune_resistance_pathways_file": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/immune_resistance_pathways.json.tar.gz"
+    },
+    "itx_resistance_file": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/itx_resistance.tsv.tar.gz"
+    },
+    "mail_to": "jqpublic@myschool.edu",
+    "mhc_pathways_file": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/mhc_pathways.tsv.tar.gz"
+    },
+    "mhci": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/mhci_restrictions.json.tar.gz"
+    },
+    "mhcii": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/mhcii_restrictions.json.tar.gz"
+    },
+    "normal_dna": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/samples/59e8d0c2-9ab1-48fd-97d5-0a8a52d79f08_1.fastq.gz"
+    },
+    "normal_dna2": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/samples/59e8d0c2-9ab1-48fd-97d5-0a8a52d79f08_2.fastq.gz"
+    },
+    "phlat": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/phlat_index.tar.gz"
+    },
+    "pseudogene_beds": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/radia_pseudogenes.tar.gz"
+    },
+    "reference_build": "hg38",
+    "retrogene_beds": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/radia_retrogenes.tar.gz"
+    },
+    "rsem_index": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/rsem_index.tar.gz"
+    },
+    "sample_name": "TARGET-30-PASFGG",
+    "snpeff": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/snpeff_index.tar.gz"
+    },
+    "star_index": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/star_with_fusion_100bp_readlen_indexes.tar.gz"
+    },
+    "strelka_config": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/strelka_bwa_WXS_config.ini.tar.gz"
+    },
+    "transgene_annotation_gtf": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/gencode.v25.annotation_NOPARY.gtf.tar.gz"
+    },
+    "transgene_genome": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/hg38.fa.tar.gz"
+    },
+    "transgene_peptide_fasta": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/gencode.v25.pc_translations_NOPARY.fa.tar.gz"
+    },
+    "transgene_transcript_fasta": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files/gencode.v25.pc_transcripts_NOPARY.fa.tar.gz"
+    },
+    "tumor_dna": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/samples/5a00caf9-f202-4bcb-9fca-7d255ce171dc_1.fastq.gz"
+    },
+    "tumor_dna2": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/samples/5a00caf9-f202-4bcb-9fca-7d255ce171dc_2.fastq.gz"
+    },
+    "tumor_rna": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/samples/c0f22f2c-a7da-40a3-a53f-4d8a8258dd14_1.fastq.gz"
+    },
+    "tumor_rna2": {
+        "class": "File",
+        "path": "/home/ubuntu/protect-work/samples/c0f22f2c-a7da-40a3-a53f-4d8a8258dd14_2.fastq.gz"
+    },
+    "tumor_type": "STAD",
+    "work_mount": "/datastore/"
 }
