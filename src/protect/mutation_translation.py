@@ -31,7 +31,8 @@ def transgene_disk(rna_bamfiles, tdna_bam=None):
                104857600)
 
 
-def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, tumor_dna_bam=None, fusion_calls=None):
+def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, tumor_dna_bam=None,
+                  fusion_calls=None):
     """
     Run transgene on an input snpeffed vcf file and return the peptides for MHC prediction.
 

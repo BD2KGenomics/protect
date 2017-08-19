@@ -366,7 +366,11 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
                                                 os.path.join(work_dir, 'mhci_results'))
         predictor = binding_result[1]
         core_col = None  # Variable to hold the column number with the core
-        if predictor == 'Consensus':
+        if predictor is None:
+            return {'tumor': None,
+                    'normal': None,
+                    'predictor': None}
+        elif predictor == 'Consensus':
             results = _process_consensus_mhcii(mhc_file)
             results, peptides = _get_normal_peptides(results, iars, peplen)
             with open('peptides.faa', 'w') as pfile:
@@ -452,6 +456,7 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
     pept_files = get_files_from_filestore(job, pept_files, work_dir)
     mhci_preds, mhcii_preds = antigen_predictions
 
+    mhci_called = mhcii_called = False
     # Merge MHCI calls
     # Read 10-mer pepts into memory
     peptides = read_peptide_file(pept_files['10_mer.faa'])
@@ -464,6 +469,7 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
                 tumor_df = pandas.read_json(eval(t_f.read()))
             if tumor_df.empty:
                 continue
+            mhci_called = True
             # TODO: There must be a better way of doing this
             normal_df = _process_mhci(job.fileStore.readGlobalFile(mhci_preds[key]['normal']),
                                       normal=True)
@@ -481,8 +487,9 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
     with open('/'.join([work_dir, 'mhcii_merged_files.list']), 'w') as \
             mhcii_resfile:
         for key in mhcii_preds:
-            if mhcii_preds[key]['predictor'] == 'None':
+            if mhcii_preds[key]['predictor'] is None:
                 continue
+            mhcii_called = True
             tumor_file = job.fileStore.readGlobalFile(mhcii_preds[key]['tumor'])
             with open(tumor_file) as t_f:
                 tumor_df = pandas.read_json(eval(t_f.read()))
@@ -509,6 +516,8 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
             for pred in tumor_df.itertuples():
                 print_mhc_peptide(pred, peptides, pepmap, mhcii_resfile,
                                   netmhc=mhcii_preds[key]['predictor'] == 'netMHCIIpan')
+    if not(mhci_called or mhcii_called):
+        raise RuntimeError('No peptides available for ranking')
     output_files = defaultdict()
     for mhc_file in [mhci_resfile.name, mhcii_resfile.name]:
         output_files[os.path.split(mhc_file)[1]] = job.fileStore.writeGlobalFile(mhc_file)
