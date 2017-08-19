@@ -52,7 +52,7 @@ dct:creator:
 
 requirements:
   - class: DockerRequirement
-    dockerPull: "quay.io/ucsc_cgl/protect:2.5.3-1.12.3"
+    dockerPull: "quay.io/ucsc_cgl/protect:2.5.5-1.12.3"
 
 hints:
   - class: ResourceRequirement
@@ -662,7 +662,7 @@ outputs:
       type: array
       items: File
     outputBinding:
-      glob: 'rna_fix_pg_sorted.bam'
+      glob: 'rna_genome_sorted.bam'
     doc: "Result files from ProTECT"
 
   rna_index:
@@ -670,7 +670,7 @@ outputs:
       type: array
       items: File
     outputBinding:
-      glob: 'rna_fix_pg_sorted.bam.bai'
+      glob: 'rna_genome_sorted.bam.bai'
     doc: "Result files from ProTECT"
 
   rna_transcriptome_alignment:
@@ -694,7 +694,7 @@ outputs:
       type: array
       items: File
     outputBinding:
-      glob: 'mhci_merged_files_concise_results.tsv'
+      glob: 'mhci_rankboost_concise_results.tsv'
     doc: "Result files from ProTECT"
 
   mhcii_merged:
@@ -702,7 +702,7 @@ outputs:
       type: array
       items: File
     outputBinding:
-      glob: 'mhcii_merged_files_concise_results.tsv'
+      glob: 'mhcii_rankboost_concise_results.tsv'
     doc: "Result files from ProTECT"
 
   all_snpeffed:
