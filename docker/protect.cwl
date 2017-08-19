@@ -52,7 +52,7 @@ dct:creator:
 
 requirements:
   - class: DockerRequirement
-    dockerPull: "quay.io/ucsc_cgl/protect:2.5.4-1.12.3"
+    dockerPull: "quay.io/ucsc_cgl/protect:2.5.5-1.12.3"
 
 hints:
   - class: ResourceRequirement
