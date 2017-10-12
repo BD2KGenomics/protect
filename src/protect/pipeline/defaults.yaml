@@ -87,7 +87,7 @@ mutation_annotation:
 
 mutation_translation:
     transgene:
-        version: 2.2.2
+        version: 2.2.4
 
 haplotyping:
     phlat:

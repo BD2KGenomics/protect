@@ -30,7 +30,7 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict mhcii_options: Options specific to mhcii binding prediction
     :return: tuple of fsID for file containing the predictions and the predictor used
-    :rtype: tuple(toil.fileStore.FileID, str)
+    :rtype: tuple(toil.fileStore.FileID, str|None)
     """
     job.fileStore.logToMaster('Running mhcii on %s:%s' % (univ_options['patient'], allele))
     work_dir = os.getcwd()
@@ -42,7 +42,7 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
                   allele,
                   input_files['peptfile.faa']]
     if not peptides:
-        return job.fileStore.writeGlobalFile(job.fileStore.getLocalTempFile()), 'None'
+        return job.fileStore.writeGlobalFile(job.fileStore.getLocalTempFile()), None
     with open('/'.join([work_dir, 'predictions.tsv']), 'w') as predfile:
         docker_call(tool='mhcii', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=predfile, interactive=True,
@@ -90,7 +90,7 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options, netmhciipan_op
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
     peptides = read_peptide_file(os.path.join(os.getcwd(), 'peptfile.faa'))
     if not peptides:
-        return job.fileStore.writeGlobalFile(job.fileStore.getLocalTempFile()), 'None'
+        return job.fileStore.writeGlobalFile(job.fileStore.getLocalTempFile()), None
     # netMHCIIpan accepts differently formatted alleles so we need to modify the input alleles
     if allele.startswith('HLA-DQA') or allele.startswith('HLA-DPA'):
         allele = re.sub(r'[*:]', '', allele)
