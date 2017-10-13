@@ -41,6 +41,10 @@ def regroup_disk(reheader_bam):
     return int(ceil(4 * reheader_bam.size + 524288))
 
 
+def mkdup_disk(regroup_bam):
+    return int(ceil(4 * regroup_bam.size + 524288))
+
+
 # disk for fixing a GDC bam
 def fix_gdc_bam_disk(bamfile):
     return int(2.5 * ceil(bamfile[0].size + 524288))
@@ -73,14 +77,18 @@ def align_dna(job, fastqs, sample_type, univ_options, bwa_options):
     regroup = job.wrapJobFn(add_readgroups, reheader.rv(), sample_type, univ_options,
                             bwa_options['picard'],
                             disk=PromisedRequirement(regroup_disk, reheader.rv()))
-    index = job.wrapJobFn(index_bamfile, regroup.rv(), sample_type, univ_options,
+    mkdup = job.wrapJobFn(mark_duplicates, regroup.rv(), sample_type, univ_options,
+                          bwa_options['picard'],
+                          disk=PromisedRequirement(mkdup_disk, regroup.rv()))
+    index = job.wrapJobFn(index_bamfile, mkdup.rv(), sample_type, univ_options,
                           bwa_options['samtools'], sample_info='fix_pg_sorted',
-                          disk=PromisedRequirement(index_disk, regroup.rv()))
+                          disk=PromisedRequirement(index_disk, mkdup.rv()))
     job.addChild(bwa)
     bwa.addChild(sam2bam)
     sam2bam.addChild(reheader)
     reheader.addChild(regroup)
-    regroup.addChild(index)
+    regroup.addChild(mkdup)
+    mkdup.addChild(index)
     return index.rv()
 
 
@@ -118,7 +126,7 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
                   '/'.join([input_files['bwa_index'], univ_options['ref']]),
                   input_files['dna_1.fastq' + gz],
                   input_files['dna_2.fastq' + gz]]
-    with open(''.join([work_dir, '/', sample_type, '_aligned.sam']), 'w') as samfile:
+    with open(''.join([work_dir, '/', sample_type, '.sam']), 'w') as samfile:
         docker_call(tool='bwa', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=samfile,
                     tool_version=bwa_options['version'])
@@ -141,14 +149,14 @@ def bam_conversion(job, samfile, sample_type, univ_options, samtools_options):
     job.fileStore.logToMaster('Running sam2bam on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
-        sample_type + '_aligned.sam': samfile}
+        sample_type + '.sam': samfile}
     input_files = get_files_from_filestore(job, input_files, work_dir,
                                            docker=True)
-    bamfile = '/'.join([work_dir, sample_type + '_aligned.bam'])
+    bamfile = '/'.join([work_dir, sample_type + '.bam'])
     parameters = ['view',
                   '-bS',
                   '-o', docker_path(bamfile),
-                  input_files[sample_type + '_aligned.sam']
+                  input_files[sample_type + '.sam']
                   ]
     docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=samtools_options['version'])
@@ -176,12 +184,12 @@ def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options, re
     job.fileStore.logToMaster('Running reheader on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
-        sample_type + '_aligned.bam': bamfile}
+        sample_type + '.bam': bamfile}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
     parameters = ['view',
                   '-H',
-                  input_files[sample_type + '_aligned.bam']]
-    with open('/'.join([work_dir, sample_type + '_aligned_bam.header']), 'w') as headerfile:
+                  input_files[sample_type + '.bam']]
+    with open('/'.join([work_dir, sample_type + '_input_bam.header']), 'w') as headerfile:
         docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=headerfile,
                     tool_version=samtools_options['version'])
@@ -196,8 +204,8 @@ def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options, re
             print(line.strip(), file=outheaderfile)
     parameters = ['reheader',
                   docker_path(outheaderfile.name),
-                  input_files[sample_type + '_aligned.bam']]
-    with open('/'.join([work_dir, sample_type + '_aligned_fixPG.bam']), 'w') as fixpg_bamfile:
+                  input_files[sample_type + '.bam']]
+    with open('/'.join([work_dir, sample_type + '_fixPG.bam']), 'w') as fixpg_bamfile:
         docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
                     dockerhub=univ_options['dockerhub'], outfile=fixpg_bamfile,
                     tool_version=samtools_options['version'])
@@ -222,12 +230,12 @@ def add_readgroups(job, bamfile, sample_type, univ_options, picard_options):
                                                                     sample_type))
     work_dir = os.getcwd()
     input_files = {
-        sample_type + '_aligned_fixpg.bam': bamfile}
+        sample_type + '.bam': bamfile}
     get_files_from_filestore(job, input_files, work_dir, docker=True)
     parameters = ['AddOrReplaceReadGroups',
                   'CREATE_INDEX=false',
-                  'I=/data/' + sample_type + '_aligned_fixpg.bam',
-                  'O=/data/' + sample_type + '_aligned_fixpg_sorted_reheader.bam',
+                  'I=/data/' + sample_type + '.bam',
+                  'O=/data/' + sample_type + '_reheader.bam',
                   'SO=coordinate',
                   'ID=1',
                   ''.join(['LB=', univ_options['patient']]),
@@ -238,7 +246,43 @@ def add_readgroups(job, bamfile, sample_type, univ_options, picard_options):
                 dockerhub=univ_options['dockerhub'], java_xmx=univ_options['java_Xmx'],
                 tool_version=picard_options['version'])
     output_file = job.fileStore.writeGlobalFile(
-        '/'.join([work_dir, sample_type + '_aligned_fixpg_sorted_reheader.bam']))
+        '/'.join([work_dir, sample_type + '_reheader.bam']))
     # Delete the old bam file
     job.fileStore.deleteGlobalFile(bamfile)
     return output_file
+
+
+def mark_duplicates(job, bamfile, sample_type, univ_options, picard_options):
+    """
+    Mark duplicates within the bam.
+
+    :param dict bamfile: The input bam file
+    :param str sample_type: Description of the sample to inject into the filename
+    :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict picard_options: Options specific to picard
+    :return: fsID for the output bam
+    :rtype: toil.fileStore.FileID
+    """
+    job.fileStore.logToMaster('Running mark_duplicates on %s:%s' % (univ_options['patient'],
+                                                                    sample_type))
+    work_dir = os.getcwd()
+    input_files = {
+        sample_type + '.bam': bamfile}
+    get_files_from_filestore(job, input_files, work_dir, docker=True)
+
+    parameters = ['MarkDuplicates',
+                  'I=/data/' + sample_type + '.bam',
+                  'O=/data/' + sample_type + '_mkdup.bam',
+                  'M=/data/' + sample_type + '_mkdup.metrics',
+                  'AS=true',
+                  'CREATE_INDEX=true']
+
+    docker_call(tool='picard', tool_parameters=parameters, work_dir=work_dir,
+                dockerhub=univ_options['dockerhub'], java_xmx=univ_options['java_Xmx'],
+                tool_version=picard_options['version'])
+    output_file = job.fileStore.writeGlobalFile(
+        '/'.join([work_dir, sample_type + '_mkdup.bam']))
+    # Delete the old bam file
+    job.fileStore.deleteGlobalFile(bamfile)
+    return output_file
+
