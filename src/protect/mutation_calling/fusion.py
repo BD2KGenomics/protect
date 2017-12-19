@@ -60,6 +60,8 @@ def wrap_fusion(job,
     fusion = job.wrapJobFn(run_fusion, fastqs, star_output['rnaChimeric.out.junction'],
                                univ_options, star_fusion_options, fusion_inspector_options,
                                cores=star_fusion_options['n'],
+                               memory=PromisedRequirement(lambda x: int(1.85 * x.size),
+                                                          star_fusion_options['index']),
                                disk=PromisedRequirement(fusion_disk,
                                                         fastqs,
                                                         star_fusion_options['index'])).encapsulate()

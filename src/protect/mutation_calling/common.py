@@ -89,38 +89,55 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
     from protect.mutation_calling.somaticsniper import process_somaticsniper_vcf
     from protect.mutation_calling.strelka import process_strelka_vcf
     mutations.pop('indels')
-    mutations['strelka'] = mutations['strelka']['snvs']
-    vcf_processor = {'mutect': process_mutect_vcf,
-                     'muse': process_muse_vcf,
-                     'radia': process_radia_vcf,
-                     'somaticsniper': process_somaticsniper_vcf,
-                     'strelka': process_strelka_vcf
+    mutations['strelka_indels'] = mutations['strelka']['indels']
+    mutations['strelka_snvs'] = mutations['strelka']['snvs']
+    vcf_processor = {'snvs': {'mutect': process_mutect_vcf,
+                              'muse': process_muse_vcf,
+                              'radia': process_radia_vcf,
+                              'somaticsniper': process_somaticsniper_vcf,
+                              'strelka_snvs': process_strelka_vcf
+                              },
+                     'indels': {'strelka_indels': process_strelka_vcf
+                                }
                      }
     #                 'fusions': lambda x: None,
     #                 'indels': lambda x: None}
     # For now, let's just say 2 out of n need to call it.
     # num_preds = len(mutations)
     # majority = int((num_preds + 0.5) / 2)
-    majority = 2
-    # Get input files
-    perchrom_mutations = {caller: vcf_processor[caller](job, mutations[caller][chrom],
-                                                        work_dir, univ_options)
-                          for caller in mutations.keys()}
+    majority = {'snvs': 2,
+                'indels': 1}
 
-    # Read in each file to a dict
-    vcf_lists = {caller: read_vcf(vcf_file) for caller, vcf_file in perchrom_mutations.items()}
-    all_positions = list(set(itertools.chain(*vcf_lists.values())))
+    accepted_hits = defaultdict(dict)
+
+    for mut_type in vcf_processor.keys():
+        # Get input files
+        perchrom_mutations = {caller: vcf_processor[mut_type][caller](job, mutations[caller][chrom],
+                                                                      work_dir, univ_options)
+                              for caller in vcf_processor[mut_type]}
+        # Process the strelka key
+        perchrom_mutations['strelka'] = perchrom_mutations['strelka_' + mut_type]
+        perchrom_mutations.pop('strelka_' + mut_type)
+        # Read in each file to a dict
+        vcf_lists = {caller: read_vcf(vcf_file) for caller, vcf_file in perchrom_mutations.items()}
+        all_positions = list(set(itertools.chain(*vcf_lists.values())))
+        for position in sorted(all_positions):
+            hits = {caller: position in vcf_lists[caller] for caller in perchrom_mutations.keys()}
+            if sum(hits.values()) >= majority[mut_type]:
+                callers = ','.join([caller for caller, hit in hits.items() if hit])
+                assert position[1] not in accepted_hits[position[0]]
+                accepted_hits[position[0]][position[1]] = (position[2], position[3], callers)
+
     with open(''.join([work_dir, '/', chrom, '.vcf']), 'w') as outfile:
         print('##fileformat=VCFv4.0', file=outfile)
         print('##INFO=<ID=callers,Number=.,Type=String,Description=List of supporting callers.',
               file=outfile)
         print('#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO', file=outfile)
-        for position in sorted(all_positions):
-            hits = {caller: position in vcf_lists[caller] for caller in perchrom_mutations.keys()}
-            if sum(hits.values()) >= majority:
-                print(position[0], position[1], '.', position[2], position[3], '.', 'PASS',
-                      'callers=' + ','.join([caller for caller, hit in hits.items() if hit]),
-                      sep='\t', file=outfile)
+        for chrom in chrom_sorted(accepted_hits.keys()):
+            for position in sorted(accepted_hits[chrom]):
+                    print(chrom, position, '.', accepted_hits[chrom][position][0],
+                          accepted_hits[chrom][position][1], '.', 'PASS',
+                          'callers=' + accepted_hits[chrom][position][2], sep='\t', file=outfile)
     fsid = job.fileStore.writeGlobalFile(outfile.name)
     export_results(job, fsid, outfile.name, univ_options, subfolder='mutations/merged')
     return fsid

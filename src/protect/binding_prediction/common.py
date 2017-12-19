@@ -304,6 +304,27 @@ def _process_mhci(mhc_file, normal=False):
     return results
 
 
+def pept_diff(p1, p2):
+    """
+    Return the number of differences betweeen 2 peptides
+
+    :param str p1: Peptide 1
+    :param str p2: Peptide 2
+    :return: The number of differences between the pepetides
+    :rtype: int
+
+    >>> pept_diff('ABCDE', 'ABCDF')
+    1
+    >>> pept_diff('ABCDE', 'ABDFE')
+    2
+    >>> pept_diff('ABCDE', 'EDCBA')
+    4
+    >>> pept_diff('ABCDE', 'ABCDE')
+    0
+    """
+    return sum([p1[i] != p2[i] for i in range(len(p1))])
+
+
 def _get_normal_peptides(mhc_df, iars, peplen):
     """
     Get the corresponding normal peptides for the tumor peptides that have already been subjected to
@@ -326,11 +347,29 @@ def _get_normal_peptides(mhc_df, iars, peplen):
             assert len(set([len(y) for x, y in iars.items() if x in containing_iars])) == 1
         if len(iars[containing_iars[0]]) == 1:
             # This is a fusion and has no corresponding normal
-            normal_peptides.append('N'*peplen)
+            normal_peptides.append('N' * peplen)
         else:
             tum, norm = iars[containing_iars[0]]
             pos = tum.find(pred.pept)
-            normal_peptides.append(norm[pos:pos+peplen])
+            temp_normal_pept = norm[pos:pos + peplen]
+            if pept_diff(pred.pept, temp_normal_pept) == 1:
+                normal_peptides.append(norm[pos:pos + peplen])
+            else:
+                if len(tum) == len(norm):
+                    # Too (2+) many single nucleotide changes to warrant having a normal counterpart
+                    normal_peptides.append('N' * peplen)
+                else:
+                    # There is an indel in play. The difference cannot be in the last AA as that
+                    # would have come out properly in the first case. There is a possibility that
+                    # the indel was in the first AA causing a shift. We can handle that by looking
+                    # at the suffix.
+                    pos = norm.find(pred.pept[1:])
+                    if pos != -1:
+                        # The suffix was found,
+                        normal_peptides.append(norm[pos-1:pos + peplen])
+                    else:
+                        # The indel was too large to warrant having a normal counterpart
+                        normal_peptides.append('N' * peplen)
     mhc_df['normal_pept'] = normal_peptides
     return mhc_df, normal_peptides
 

@@ -35,7 +35,7 @@
 	snpeff:3.6
 
 # Mutation Translation
-	transgene:2.2.4
+	transgene:2.3.2
 
 # MHC:peptide binding prediction
 	mhci:2.13
@@ -43,4 +43,4 @@
 	netmhciipan:3.1
 
 # Prediction Ranking
-	rankboost:2.1.1
+	rankboost:2.1.4

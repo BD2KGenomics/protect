@@ -30,11 +30,11 @@
 
 patients:
     TEST:
-        mutation_vcf: S3://cgl-pipeline-inputs/protect/unit_results/mutations/merged/all_merged.vcf
+        mutation_vcf: S3://cgl-pipeline-inputs/protect/unit_results/mutations/merged/all_merged_indels.vcf
         expression_files: s3://cgl-pipeline-inputs/protect/unit_results/expression/expression_files.tar.gz
         hla_haplotype_files: s3://cgl-pipeline-inputs/protect/unit_results/haplotyping/mhc_haplotypes.tar.gz
         fusion_bedpe: S3://cgl-pipeline-inputs/protect/unit_results/mutations/fusions/fusion.bedpe
-        tumor_rna_bam : s3://cgl-pipeline-inputs/protect/unit_results/alignments/rna_genome_sorted.bam
+        tumor_rna_bam : s3://cgl-pipeline-inputs/protect/unit_results/alignments/indel_rna.bam
         tumor_rna_transcriptome_bam : s3://cgl-pipeline-inputs/protect/unit_results/alignments/rna_transcriptome.bam
         tumor_type: 'SKCM'
 
