@@ -107,7 +107,7 @@ def _ensure_patient_group_is_ok(patient_object, patient_name=None):
     elif patient_object['tumor_type'] not in TCGAToGTEx:
         raise ParameterError(('The patient entry for sample %s ' % patient_name) +
                              'does contains an invalid Tumor type. Please use one of the '
-                             'vslid TCGA tumor types.')
+                             'valid TCGA tumor types.')
     if {'tumor_dna_fastq_1', 'normal_dna_fastq_1', 'tumor_rna_fastq_1'}.issubset(test_set):
         # Best case scenario, we get all fastqs
         pass
@@ -231,12 +231,13 @@ def get_fastq_2(job, patient_id, sample_type, fastq_1):
     return ''.join([prefix, '2', final_extn])
 
 
-def parse_patients(job, patient_dict):
+def parse_patients(job, patient_dict, skip_fusions=False):
     """
-    Parse a dict of patient entries to retain on ly the useful entries (The user may provide more
+    Parse a dict of patient entries to retain only the useful entries (The user may provide more
     than we need and we don't want to download redundant things)
 
-    :param dict patient_dict: The dict of patient entries parsed formt eh input config
+    :param dict patient_dict: The dict of patient entries parsed from the input config
+    :param bool skip_fusions: A flag to identify if we're skipping fusions
     :return: A parsed dict of items
     :rtype: dict
     """
@@ -246,9 +247,11 @@ def parse_patients(job, patient_dict):
                    'filter_for_OxoG': patient_dict.get('filter_for_OxoG') in (True, 'True', 'true')}
     patient_keys = set(patient_dict)
     out_keys = []
+
     if {'mutation_vcf', 'hla_haplotype_files'}.issubset(patient_dict):
-        # We have a haplotype and a vcf so do the minimum work.
+        # We have a haplotype and a vcf so don't need the DNA fastqs/bams
         out_keys.extend(['mutation_vcf', 'hla_haplotype_files'])
+        # We just add the rna files to the dict here and resolve expression and fusions later
         if 'tumor_rna_bam' in patient_keys:
             out_keys.append('tumor_rna_bam')
             out_keys.append('tumor_rna_transcriptome_bam')
@@ -274,6 +277,13 @@ def parse_patients(job, patient_dict):
             out_keys.extend(['mutation_vcf'])
         for stype in 'tumor_dna', 'normal_dna', 'tumor_rna':
             out_keys.extend([x for x in patient_keys if x.startswith(stype + '_fastq')])
+    # If there's expression files, add them now
+    if 'expression_files' in patient_keys:
+        out_keys.append('expression_files')
+    # If there's a fusion file, add it now
+    if 'fusion_bedpe' in patient_keys:
+        out_keys.append('fusion_bedpe')
+
     for key in out_keys:
         output_dict[key] = patient_dict[key]
     fastq1s = [x for x in output_dict if x.endswith('fastq_1')]
@@ -339,7 +349,9 @@ def _parse_config_file(job, config_file, max_cores=None):
                 _ensure_patient_group_is_ok(patient_keys, sample_name)
                 # Add options to the sample_set dictionary
                 input_config['patients'][sample_name]['patient_id'] = str(sample_name)
-                sample_set[sample_name] = parse_patients(job, input_config['patients'][sample_name])
+                sample_set[sample_name] = parse_patients(
+                    job, input_config['patients'][sample_name],
+                    not input_config['mutation_calling']['star_fusion']['run'])
                 # If any of the samples requires gdc or ssec encrypted input, make the flag True
                 if sample_set[sample_name]['ssec_encrypted']:
                     ssec_encrypted = True
@@ -524,31 +536,42 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         cutadapt.addChild(bam_files['tumor_rna'])
         bam_files['tumor_rna'].addChild(fastq_deletion_2)
         # Define the fusion calling node
-
-        tool_options['star_fusion']['index'] = tool_options['star']['index']
-        tool_options['fusion_inspector']['index'] = tool_options['star']['index']
-        fusions = job.wrapJobFn(wrap_fusion,
-                                cutadapt.rv(),
-                                bam_files['tumor_rna'].rv(),
-                                univ_options,
-                                tool_options['star_fusion'],
-                                tool_options['fusion_inspector'],
-                                disk='100M', memory='100M', cores=1).encapsulate()
-
+        if 'fusion_bedpe' not in patient_data:
+            tool_options['star_fusion']['index'] = tool_options['star']['index']
+            tool_options['fusion_inspector']['index'] = tool_options['star']['index']
+            fusions = job.wrapJobFn(wrap_fusion,
+                                    cutadapt.rv(),
+                                    bam_files['tumor_rna'].rv(),
+                                    univ_options,
+                                    tool_options['star_fusion'],
+                                    tool_options['fusion_inspector'],
+                                    disk='100M', memory='100M', cores=1).encapsulate()
+        else:
+            fusions = job.wrapJobFn(get_patient_bedpe, sample_prep.rv())
+            sample_prep.addChild(fusions)
         bam_files['tumor_rna'].addChild(fusions)
         fusions.addChild(fastq_deletion_1)
         fusions.addChild(fastq_deletion_2)
     else:
-        if tool_options['star_fusion']['run'] is True:
-            job.fileStore.logToMaster('Input RNA bams were provided for sample %s. Fusion detection'
-                                      'can only be run with input fastqs.' % univ_options['patient']
-                                      )
-        fusions = None
+        # Define the fusion calling node
+        if 'fusion_bedpe' in patient_data:
+            fusions = job.wrapJobFn(get_patient_bedpe, sample_prep.rv())
+            sample_prep.addChild(fusions)
+        else:
+            if tool_options['star_fusion']['run'] is True:
+                job.fileStore.logToMaster('Input RNA bams were provided for sample %s. Fusion '
+                                          'detection can only be run with input '
+                                          'fastqs.' % univ_options['patient'])
+            fusions = None
 
     # Define the Expression estimation node
-    rsem = job.wrapJobFn(wrap_rsem, bam_files['tumor_rna'].rv(), univ_options, tool_options['rsem'],
-                         cores=1, disk='100M').encapsulate()
-    bam_files['tumor_rna'].addChild(rsem)
+    if 'expression_files' in patient_data:
+        rsem = job.wrapJobFn(get_patient_expression, sample_prep.rv())
+        sample_prep.addChild(rsem)
+    else:
+        rsem = job.wrapJobFn(wrap_rsem, bam_files['tumor_rna'].rv(), univ_options,
+                             tool_options['rsem'], cores=1, disk='100M').encapsulate()
+        bam_files['tumor_rna'].addChild(rsem)
     # Define the bam deletion node
     delete_bam_files['tumor_rna'] = job.wrapJobFn(delete_bams,
                                                   bam_files['tumor_rna'].rv(),
@@ -779,7 +802,7 @@ def prepare_samples(job, patient_dict, univ_options):
     # Download S3 files.
     output_dict = {}
     for input_file in patient_dict:
-        if not input_file.endswith(('bam', 'bai', '_1', '_2', 'files', 'vcf')):
+        if not input_file.endswith(('bam', 'bai', '_1', '_2', 'files', 'vcf', 'bedpe')):
             output_dict[input_file] = patient_dict[input_file]
             continue
         output_dict[input_file] = get_pipeline_inputs(
@@ -855,10 +878,28 @@ def get_patient_vcf(job, patient_dict):
     temp = job.fileStore.readGlobalFile(patient_dict['mutation_vcf'],
                                         os.path.join(os.getcwd(), 'temp.gz'))
     if is_gzipfile(temp):
-        outfile = gunzip(temp)
+        outfile = job.fileStore.writeGlobalFile(gunzip(temp))
         job.fileStore.deleteGlobalFile(patient_dict['mutation_vcf'])
     else:
         outfile = patient_dict['mutation_vcf']
+    return outfile
+
+
+def get_patient_bedpe(job, patient_dict):
+    """
+    Convenience function to get the bedpe from the patient dict
+
+    :param dict patient_dict: dict of patient info
+    :return: The bedpe
+    :rtype: toil.fileStore.FileID
+    """
+    temp = job.fileStore.readGlobalFile(patient_dict['fusion_bedpe'],
+                                        os.path.join(os.getcwd(), 'temp.gz'))
+    if is_gzipfile(temp):
+        outfile = job.fileStore.writeGlobalFile(gunzip(temp))
+        job.fileStore.deleteGlobalFile(patient_dict['fusion_bedpe'])
+    else:
+        outfile = patient_dict['fusion_bedpe']
     return outfile
 
 
@@ -867,7 +908,7 @@ def get_patient_mhc_haplotype(job, patient_dict):
     Convenience function to get the mhc haplotype from the patient dict
 
     :param dict patient_dict: dict of patient info
-    :return: The vcf
+    :return: The MHCI and MHCII haplotypes
     :rtype: toil.fileStore.FileID
     """
     haplotype_archive = job.fileStore.readGlobalFile(patient_dict['hla_haplotype_files'])
@@ -875,6 +916,23 @@ def get_patient_mhc_haplotype(job, patient_dict):
     output_dict = {}
     for filename in 'mhci_alleles.list', 'mhcii_alleles.list':
         output_dict[filename] = job.fileStore.writeGlobalFile(os.path.join(haplotype_archive,
+                                                                           filename))
+    return output_dict
+
+
+def get_patient_expression(job, patient_dict):
+    """
+    Convenience function to get the expression from the patient dict
+
+    :param dict patient_dict: dict of patient info
+    :return: The gene and isoform expression
+    :rtype: toil.fileStore.FileID
+    """
+    expression_archive = job.fileStore.readGlobalFile(patient_dict['expression_files'])
+    expression_archive = untargz(expression_archive, os.getcwd())
+    output_dict = {}
+    for filename in 'rsem.genes.results', 'rsem.isoforms.results':
+        output_dict[filename] = job.fileStore.writeGlobalFile(os.path.join(expression_archive,
                                                                            filename))
     return output_dict
 
