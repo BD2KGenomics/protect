@@ -1,0 +1,134 @@
+## Copyright 2016 Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## Copyright 2016 Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+####################################################################################################
+####################################################################################################
+##  This is the input parameter file for the precision immuno pipeline.  The parameters for each of
+##  the tools is provided here.  The file is written in the YAML format.  A nice description of the
+##  format can be found at http://docs.ansible.com/ansible/YAMLSyntax.html
+##
+##  You can add comments anywhere in this file by prefixing it with a '#'
+##
+##  Unless otherwise mentioned, all fields must be filled.
+##
+####################################################################################################
+####################################################################################################
+
+patients:
+    TEST:
+        mutation_vcf: S3://cgl-pipeline-inputs/protect/unit_results/mutations/merged/all_merged.vcf
+        expression_files: s3://cgl-pipeline-inputs/protect/unit_results/expression/expression_files.tar.gz
+        hla_haplotype_files: s3://cgl-pipeline-inputs/protect/unit_results/haplotyping/mhc_haplotypes.tar.gz
+        fusion_bedpe: S3://cgl-pipeline-inputs/protect/unit_results/mutations/fusions/fusion.bedpe
+        tumor_rna_bam : s3://cgl-pipeline-inputs/protect/unit_results/alignments/rna_genome_sorted.bam
+        tumor_rna_transcriptome_bam : s3://cgl-pipeline-inputs/protect/unit_results/alignments/rna_transcriptome.bam
+        tumor_type: 'SKCM'
+
+# These are options Which are used by most tools
+Universal_Options:
+    dockerhub: aarjunrao
+    java_Xmx: 20G
+    reference_build: 'hg19'
+    output_folder: /mnt/ephemeral/done
+    storage_location: Local
+
+# These options are for each specific tool. You probably don't need to change any of this!
+alignment:
+    cutadapt:
+        a : AGATCGGAAGAG
+        A : AGATCGGAAGAG
+    star:
+        type : star
+        index : S3://cgl-pipeline-inputs/protect/ci_references/star_50_index_chr6.tar.gz
+    bwa:
+        index : S3://cgl-pipeline-inputs/protect/ci_references/bwa_index_chr6.tar.gz
+
+expression_estimation:
+    rsem:
+        index : https://s3-us-west-2.amazonaws.com/cgl-pipeline-inputs/protect/ci_references/rsem_index_chr6.tar.gz
+
+mutation_calling:
+    indexes:
+        genome_fasta : S3://cgl-pipeline-inputs/protect/ci_references/chr6.fa.tar.gz
+        genome_fai : S3://cgl-pipeline-inputs/protect/ci_references/chr6.fa.fai.tar.gz
+        genome_dict : S3://cgl-pipeline-inputs/protect/ci_references/chr6.dict.tar.gz
+        cosmic_vcf : S3://cgl-pipeline-inputs/protect/ci_references/CosmicCodingMuts.chr6.vcf.tar.gz
+        cosmic_idx : S3://cgl-pipeline-inputs/protect/ci_references/CosmicCodingMuts.chr6.vcf.idx.tar.gz
+        dbsnp_vcf : S3://cgl-pipeline-inputs/protect/ci_references/dbsnp_coding.vcf.gz
+        dbsnp_idx : S3://cgl-pipeline-inputs/protect/ci_references/dbsnp_coding.chr6.vcf.idx.tar.gz
+        dbsnp_tbi : S3://cgl-pipeline-inputs/protect/ci_references/dbsnp_coding.vcf.gz.tbi
+    mutect:
+        java_Xmx : 2G
+    radia:
+        cosmic_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_cosmic.tar.gz
+        dbsnp_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_dbsnp.tar.gz
+        retrogene_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_retrogenes.tar.gz
+        pseudogene_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_pseudogenes.tar.gz
+        gencode_beds: S3://cgl-pipeline-inputs/protect/ci_references/radia_gencode.tar.gz
+
+    strelka:
+        config_file: S3://cgl-pipeline-inputs/protect/ci_references/strelka_bwa_WXS_config.ini.tar.gz
+
+    star_fusion:
+        run: False
+
+mutation_annotation:
+    snpeff:
+        index : S3://cgl-pipeline-inputs/protect/ci_references/snpeff_index_chr6.tar.gz
+        java_Xmx : 20G
+
+mutation_translation:
+    transgene:
+        gencode_peptide_fasta : S3://cgl-pipeline-inputs/protect/ci_references/gencode.v19.pc_translations.chr6.fa.tar.gz
+        gencode_transcript_fasta: S3://cgl-pipeline-inputs/protect/ci_references/gencode.v19.pc_transcripts.chr6.fa.tar.gz
+        genome_fasta : S3://cgl-pipeline-inputs/protect/ci_references/chr6.fa.tar.gz
+        gencode_annotation_gtf : S3://cgl-pipeline-inputs/protect/ci_references/gencode.v19.chr6.annotation.gtf.tar.gz
+
+
+haplotyping:
+    phlat:
+        index : S3://cgl-pipeline-inputs/protect/ci_references/phlat_index.tar.gz
+
+mhc_peptide_binding:
+    mhci:
+        method_file : S3://cgl-pipeline-inputs/protect/ci_references/mhci_restrictions.json.tar.gz
+        pred : IEDB_recommended
+    mhcii:
+        method_file : S3://cgl-pipeline-inputs/protect/ci_references/mhcii_restrictions.json.tar.gz
+        pred : IEDB_recommended
+
+prediction_ranking:
+    rankboost:
+        mhci_args:
+            npa: 0.0
+            nph: 0.0
+            nMHC: 0.32
+            TPM: 0.0
+            overlap: 0.68
+            tndelta: 0.0
+        mhcii_args:
+            npa: 0.2
+            nph: 0.2
+            nMHC: 0.2
+            TPM: 0.2
+            tndelta: 0.2
+
+reports:
+    mhc_pathways_file: S3://cgl-pipeline-inputs/protect/ci_references/mhc_pathways.tsv.tar.gz
+    itx_resistance_file: S3://cgl-pipeline-inputs/protect/ci_references/itx_resistance.tsv.tar.gz
+    immune_resistance_pathways_file: S3://cgl-pipeline-inputs/protect/ci_references/immune_resistance_pathways.json.tar.gz
+    car_t_targets_file: S3://cgl-pipeline-inputs/protect/ci_references/car_t_targets.tsv.tar.gz

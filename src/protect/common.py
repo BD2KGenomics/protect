@@ -646,4 +646,3 @@ def email_report(job, univ_options):
     else:
         server.sendmail(fromadd, msg['To'], text)
         server.quit()
-
