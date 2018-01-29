@@ -58,7 +58,7 @@ def check_tool_version(tool, required_version, blacklisted_versions=None, binary
 
 
 # Check Toil version
-check_tool_version('toil', toil_version, binary=False)
+check_tool_version('toil', toil_version, binary=True)
 # Check S3am version
 check_tool_version('s3am', s3am_version, binary=True)
 # Check gdc-client version
