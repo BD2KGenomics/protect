@@ -38,7 +38,6 @@ def run_mhc_gene_assessment(job, rsem_files, rna_haplotype, univ_options, report
                              univ_options, reports_options).rv()
 
 
-
 def assess_mhc_genes(job, gene_expression, rna_haplotype, univ_options, reports_options):
     """
     Assess the prevalence of the various genes in the MHC pathway and return a report in the tsv

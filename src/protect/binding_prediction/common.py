@@ -60,12 +60,12 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
     work_dir = os.getcwd()
     mhci_options, mhcii_options = mhc_options
     pept_files = {
-        'T_9_mer.faa': transgened_files['transgened_tumor_9_mer_snpeffed.faa'],
-        'N_9_mer.faa': transgened_files['transgened_normal_9_mer_snpeffed.faa'],
-        'T_10_mer.faa': transgened_files['transgened_tumor_10_mer_snpeffed.faa'],
-        'N_10_mer.faa': transgened_files['transgened_normal_10_mer_snpeffed.faa'],
-        'T_15_mer.faa': transgened_files['transgened_tumor_15_mer_snpeffed.faa'],
-        'N_15_mer.faa': transgened_files['transgened_normal_15_mer_snpeffed.faa']
+        'T_9_mer.faa': transgened_files['transgened_tumor_9_mer_peptides.faa'],
+        'N_9_mer.faa': transgened_files['transgened_normal_9_mer_peptides.faa'],
+        'T_10_mer.faa': transgened_files['transgened_tumor_10_mer_peptides.faa'],
+        'N_10_mer.faa': transgened_files['transgened_normal_10_mer_peptides.faa'],
+        'T_15_mer.faa': transgened_files['transgened_tumor_15_mer_peptides.faa'],
+        'N_15_mer.faa': transgened_files['transgened_normal_15_mer_peptides.faa']
     }
     input_files = {
         'mhci_alleles.list': phlat_files['mhci_alleles.list'],
@@ -322,7 +322,10 @@ def pept_diff(p1, p2):
     >>> pept_diff('ABCDE', 'ABCDE')
     0
     """
-    return sum([p1[i] != p2[i] for i in range(len(p1))])
+    if len(p1) != len(p2):
+        return -1
+    else:
+        return sum([p1[i] != p2[i] for i in range(len(p1))])
 
 
 def _get_normal_peptides(mhc_df, iars, peplen):
@@ -352,11 +355,14 @@ def _get_normal_peptides(mhc_df, iars, peplen):
             tum, norm = iars[containing_iars[0]]
             pos = tum.find(pred.pept)
             temp_normal_pept = norm[pos:pos + peplen]
-            if pept_diff(pred.pept, temp_normal_pept) == 1:
+            ndiff = pept_diff(pred.pept, temp_normal_pept)
+            assert ndiff != 0
+            if ndiff == 1:
                 normal_peptides.append(norm[pos:pos + peplen])
             else:
                 if len(tum) == len(norm):
                     # Too (2+) many single nucleotide changes to warrant having a normal counterpart
+                    # This might be an artifact
                     normal_peptides.append('N' * peplen)
                 else:
                     # There is an indel in play. The difference cannot be in the last AA as that
@@ -370,6 +376,7 @@ def _get_normal_peptides(mhc_df, iars, peplen):
                     else:
                         # The indel was too large to warrant having a normal counterpart
                         normal_peptides.append('N' * peplen)
+
     mhc_df['normal_pept'] = normal_peptides
     return mhc_df, normal_peptides
 
@@ -488,10 +495,10 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
     job.fileStore.logToMaster('Merging MHC calls')
     work_dir = os.getcwd()
     pept_files = {
-        '10_mer.faa': transgened_files['transgened_tumor_10_mer_snpeffed.faa'],
-        '10_mer.faa.map': transgened_files['transgened_tumor_10_mer_snpeffed.faa.map'],
-        '15_mer.faa': transgened_files['transgened_tumor_15_mer_snpeffed.faa'],
-        '15_mer.faa.map': transgened_files['transgened_tumor_15_mer_snpeffed.faa.map']}
+        '10_mer.faa': transgened_files['transgened_tumor_10_mer_peptides.faa'],
+        '10_mer.faa.map': transgened_files['transgened_tumor_10_mer_peptides.faa.map'],
+        '15_mer.faa': transgened_files['transgened_tumor_15_mer_peptides.faa'],
+        '15_mer.faa.map': transgened_files['transgened_tumor_15_mer_peptides.faa.map']}
     pept_files = get_files_from_filestore(job, pept_files, work_dir)
     mhci_preds, mhcii_preds = antigen_predictions
 
