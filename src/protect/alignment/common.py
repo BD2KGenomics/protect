@@ -47,7 +47,7 @@ def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options, sam
                  +- '<sample_type>(_<sample_info>).bam.bai': fsID
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running samtools-index on %s:%s' % (univ_options['patient'],
+    job.fileStore.logToMaster('Ran samtools-index on %s:%s successfully' % (univ_options['patient'],
                                                                    sample_type))
     work_dir = os.getcwd()
     in_bamfile = sample_type
@@ -84,7 +84,7 @@ def sort_bamfile(job, bamfile, sample_type, univ_options, samtools_options):
     :return: fsID for the sorted bamfile
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running samtools-sort on %s:%s' % (univ_options['patient'],
+    job.fileStore.logToMaster('Ran samtools-sort on %s:%s successfully' % (univ_options['patient'],
                                                                   sample_type))
     work_dir = os.getcwd()
     in_bamfile = ''.join([sample_type, '.bam'])

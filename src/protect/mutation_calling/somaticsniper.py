@@ -133,7 +133,7 @@ def run_somaticsniper_full(job, tumor_bam, normal_bam, univ_options, somaticsnip
     :return: fsID to the genome-level vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running SomaticSniper on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran SomaticSniper on %s successfully' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -267,7 +267,7 @@ def run_pileup(job, tumor_bam, univ_options, somaticsniper_options):
     :rtype: toil.fileStore.FileID
     """
     job.fileStore.logToMaster(
-        'Running samtools pileup on %s' % univ_options['patient'])
+        'Ran samtools pileup on %s successfully' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],

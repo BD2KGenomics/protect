@@ -104,7 +104,7 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
     :return: fsID for the chromsome vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running MuTect on %s:%s' % (univ_options['patient'], chrom))
+    job.fileStore.logToMaster('Ran MuTect on %s:%s successfully' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],

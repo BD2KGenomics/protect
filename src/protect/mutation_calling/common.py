@@ -171,7 +171,7 @@ def merge_perchrom_vcfs(job, perchrom_vcfs, tool_name, univ_options):
     :returns: fsID for the merged vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running merge_perchrom_vcfs  for %s' % tool_name)
+    job.fileStore.logToMaster('Ran merge_perchrom_vcfs  for %s successfully' % tool_name)
     work_dir = os.getcwd()
     input_files = {''.join([chrom, '.vcf']): jsid for chrom, jsid in perchrom_vcfs.items()}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)

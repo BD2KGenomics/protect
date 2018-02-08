@@ -115,7 +115,7 @@ def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
                  +-'indels': fsID
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running strelka on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran strelka on %s successfully' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],

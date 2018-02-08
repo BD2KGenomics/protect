@@ -57,7 +57,7 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
                             +- 'normal': fsID
     :rtype: tuple(dict, dict)
     """
-    job.fileStore.logToMaster('Running spawn_anti on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran spawn_anti on %s successfully' % univ_options['patient'])
     work_dir = os.getcwd()
     mhci_options, mhcii_options = mhc_options
     pept_files = {
@@ -394,7 +394,7 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
                 +- 'normal': fsID or (fsID, str)     -- Depending on MHCI or MHCII
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running predict_normal_binding on %s for allele %s and length %s' %
+    job.fileStore.logToMaster('Ran predict_normal_binding on %s for allele %s and length %s successfully' %
                               (univ_options['patient'], allele, peplen))
     work_dir = os.getcwd()
     results = pandas.DataFrame(columns=['allele', 'pept', 'tumor_pred', 'core'])

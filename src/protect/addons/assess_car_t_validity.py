@@ -48,7 +48,7 @@ def assess_car_t_validity(job, gene_expression, univ_options, reports_options):
     :return: The results of running assess_car_t_validity
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running car t validity assessment on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran car t validity assessment on %s successfully' % univ_options['patient'])
     work_dir = os.getcwd()
 
     tumor_type = univ_options['tumor_type']

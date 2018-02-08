@@ -47,7 +47,7 @@ def assess_itx_resistance(job, gene_expression, univ_options, reports_options):
     :return: The fsID for the itx resistance report file
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running create immunotherapy resistance report on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran create immunotherapy resistance report on %s successfully' % univ_options['patient'])
     work_dir = os.getcwd()
     tumor_type = univ_options['tumor_type']
 

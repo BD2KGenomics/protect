@@ -38,7 +38,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     :return: fsID for the snpeffed vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running snpeff on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran snpeff on %s successfully' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'merged_mutations.vcf': merged_mutation_file,

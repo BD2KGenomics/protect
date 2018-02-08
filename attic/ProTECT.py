@@ -276,7 +276,7 @@ def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
 
     This module corresponds to node 2 on the tree
     """
-    job.fileStore.logToMaster('Running cutadapt on %s' %univ_options['patient'])
+    job.fileStore.logToMaster('Ran cutadapt on %s successfully' %univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     fq_extn = '.gz' if fastqs['gzipped'] else ''
     input_files = {
@@ -322,7 +322,7 @@ def run_star(job, fastqs, univ_options, star_options):
     This module corresponds to node 9 on the tree
     """
     assert star_options['type'] in ('star', 'starlong')
-    job.fileStore.logToMaster('Running STAR on %s' %univ_options['patient'])
+    job.fileStore.logToMaster('Ran STAR on %s successfully' %univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'rna_cutadapt_1.fastq': fastqs['rna_cutadapt_1.fastq'],
@@ -386,7 +386,7 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
 
     This module corresponds to nodes 3 and 4 on the tree
     """
-    job.fileStore.logToMaster('Running bwa on %s:%s' % (univ_options['patient'], sample_type))
+    job.fileStore.logToMaster('Ran bwa on %s:%s successfully' % (univ_options['patient'], sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     fq_extn = '.gz' if fastqs['gzipped'] else ''
     input_files = {
@@ -427,7 +427,7 @@ def bam_conversion(job, samfile, sample_type, univ_options):
     RETURN VALUES
     1. output_files: REFER output_files in run_bwa()
     """
-    job.fileStore.logToMaster('Running sam2bam on %s:%s' % (univ_options['patient'], sample_type))
+    job.fileStore.logToMaster('Ran sam2bam on %s:%s successfully' % (univ_options['patient'], sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'aligned.sam': samfile}
@@ -461,7 +461,7 @@ def fix_bam_header(job, bamfile, sample_type, univ_options):
     RETURN VALUES
     1. output_files: REFER output_files in run_bwa()
     """
-    job.fileStore.logToMaster('Running reheader on %s:%s' % (univ_options['patient'], sample_type))
+    job.fileStore.logToMaster('Ran reheader on %s:%s successfully' % (univ_options['patient'], sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'aligned.bam': bamfile}
@@ -504,7 +504,7 @@ def add_readgroups(job, bamfile, sample_type, univ_options):
     RETURN VALUES
     1. output_files: REFER output_files in run_bwa()
     """
-    job.fileStore.logToMaster('Running add_read_groups on %s:%s' % (univ_options['patient'],
+    job.fileStore.logToMaster('Ran add_read_groups on %s:%s successfully' % (univ_options['patient'],
                                                                     sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
@@ -543,7 +543,7 @@ def index_bamfile(job, bamfile, sample_type, univ_options):
     1. output_files: REFER output_files in run_bwa(). This module is the one is
                      the one that generates the files.
     """
-    job.fileStore.logToMaster('Running samtools-index on %s:%s' % (univ_options['patient'],
+    job.fileStore.logToMaster('Ran samtools-index on %s:%s successfully' % (univ_options['patient'],
                                                                    sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     in_bamfile = '_'.join([sample_type, 'fix_pg_sorted.bam'])
@@ -583,7 +583,7 @@ def run_rsem(job, star_bams, univ_options, rsem_options):
 
     This module corresponds to node 9 on the tree
     """
-    job.fileStore.logToMaster('Running rsem index on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran rsem index on %s successfully' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'star_transcriptome.bam': star_bams['rnaAligned.toTranscriptome.out.bam'],
@@ -612,7 +612,7 @@ def assess_mhc_genes(job, isoform_expression, rna_haplotype, univ_options, mhc_g
     :param univ_options: Universal options for the pipeline
     :param mhc_genes_options: options specific to this module
     """
-    job.fileStore.logToMaster('Running mhc gene assessment on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran mhc gene assessment on %s successfully' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'rsem_quant.tsv': isoform_expression,
@@ -717,7 +717,7 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
 
     This module corresponds to node 11 on the tree
     """
-    job.fileStore.logToMaster('Running spawn_radia on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran spawn_radia on %s successfully' % univ_options['patient'])
     rna_bam_key = 'rnaAligned.sortedByCoord.out.bam' # to reduce next line size
     bams = {'tumor_rna': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam'],
             'tumor_rnai': rna_bam[rna_bam_key]['rna_fix_pg_sorted.bam.bai'],
@@ -751,7 +751,7 @@ def merge_radia(job, perchrom_rvs):
 
     This module corresponds to node 11 on the tree
     """
-    job.fileStore.logToMaster('Running merge_radia')
+    job.fileStore.logToMaster('Ran merge_radia successfully')
     work_dir = job.fileStore.getLocalTempDir()
     # We need to squash the input dict of dicts to a single dict such that it can be passed to
     # get_files_from_filestore
@@ -814,7 +814,7 @@ def run_radia(job, bams, univ_options, radia_options, chrom):
         |- 'radia_filtered_CHROM.vcf': <JSid>
         +- 'radia_filtered_CHROM_radia.log': <JSid>
     """
-    job.fileStore.logToMaster('Running radia on %s:%s' %(univ_options['patient'], chrom))
+    job.fileStore.logToMaster('Ran radia on %s:%s successfully' %(univ_options['patient'], chrom))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'rna.bam': bams['tumor_rna'],
@@ -873,7 +873,7 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
         |- 'radia_filtered_CHROM.vcf': <JSid>
         +- 'radia_filtered_CHROM_radia.log': <JSid>
     """
-    job.fileStore.logToMaster('Running filter-radia on %s:%s' % (univ_options['patient'], chrom))
+    job.fileStore.logToMaster('Ran filter-radia on %s:%s successfully' % (univ_options['patient'], chrom))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'rna.bam': bams['tumor_rna'],
@@ -958,7 +958,7 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
 
     This module corresponds to node 11 on the tree
     """
-    job.fileStore.logToMaster('Running spawn_mutect on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran spawn_mutect on %s successfully' % univ_options['patient'])
     # Make a dict object to hold the return values for each of the chromosome
     # jobs.  Then run mutect on each chromosome.
     chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
@@ -983,7 +983,7 @@ def merge_mutect(job, perchrom_rvs):
 
     This module corresponds to node 11 on the tree
     """
-    job.fileStore.logToMaster('Running merge_mutect')
+    job.fileStore.logToMaster('Ran merge_mutect successfully')
     work_dir = job.fileStore.getLocalTempDir()
     # We need to squash the input dict of dicts to a single dict such that it can be passed to
     # get_files_from_filestore
@@ -1045,7 +1045,7 @@ def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options, chrom):
 
     This module corresponds to node 12 on the tree
     """
-    job.fileStore.logToMaster('Running mutect on %s:%s' % (univ_options['patient'], chrom))
+    job.fileStore.logToMaster('Ran mutect on %s:%s successfully' % (univ_options['patient'], chrom))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -1090,7 +1090,7 @@ def run_indel_caller(job, tumor_bam, normal_bam, univ_options, indel_options):
 
     This module corresponds to node 13 on the tree
     """
-    job.fileStore.logToMaster('Running INDEL on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran INDEL on %s successfully' % univ_options['patient'])
     indel_file = job.fileStore.getLocalTempFile()
     output_file = job.fileStore.writeGlobalFile(indel_file)
     return output_file
@@ -1103,7 +1103,7 @@ def run_fusion_caller(job, star_bam, univ_options, fusion_options):
 
     This module corresponds to node 10 on the tree
     """
-    job.fileStore.logToMaster('Running FUSION on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran FUSION on %s successfully' % univ_options['patient'])
     fusion_file = job.fileStore.getLocalTempFile()
     output_file = job.fileStore.writeGlobalFile(fusion_file)
     return output_file
@@ -1181,7 +1181,7 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
 
     This node corresponds to node 16 on the tree
     """
-    job.fileStore.logToMaster('Running snpeff on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran snpeff on %s successfully' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'merged_mutations.vcf': merged_mutation_file,
@@ -1228,7 +1228,7 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
 
     This module corresponds to node 17 on the tree
     """
-    job.fileStore.logToMaster('Running transgene on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran transgene on %s successfully' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'snpeffed_muts.vcf': snpeffed_file,
@@ -1272,7 +1272,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
 
     This module corresponds to nodes 5, 6 and 7 on the tree
     """
-    job.fileStore.logToMaster('Running phlat on %s:%s' % (univ_options['patient'], sample_type))
+    job.fileStore.logToMaster('Ran phlat on %s:%s successfully' % (univ_options['patient'], sample_type))
     work_dir = job.fileStore.getLocalTempDir()
     fq_extn = '.gz' if fastqs['gzipped'] else ''
     input_files = {
@@ -1392,7 +1392,7 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
 
     This module corresponds to node 18 on the tree
     """
-    job.fileStore.logToMaster('Running spawn_anti on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran spawn_anti on %s successfully' % univ_options['patient'])
     work_dir = job.fileStore.getLocalTempDir()
     mhci_options, mhcii_options = mhc_options
     pept_files = {
@@ -1457,7 +1457,7 @@ def predict_mhci_binding(job, peptfile, allele, peplen, univ_options,
 
     This module corresponds to node 18 on the tree
     """
-    job.fileStore.logToMaster('Running mhci on %s:%s:%s' % (univ_options['patient'], allele,
+    job.fileStore.logToMaster('Ran mhci on %s:%s:%s successfully' % (univ_options['patient'], allele,
                                                             peplen))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
@@ -1484,7 +1484,7 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
 
     This module corresponds to node 19 on the tree
     """
-    job.fileStore.logToMaster('Running mhcii on %s:%s' % (univ_options['patient'], allele))
+    job.fileStore.logToMaster('Ran mhcii on %s:%s successfully' % (univ_options['patient'], allele))
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'peptfile.faa': peptfile}
@@ -1525,7 +1525,7 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options):
 
     This module corresponds to node 19 on the tree
     """
-    job.fileStore.logToMaster('Running netmhciipan on %s' % allele)
+    job.fileStore.logToMaster('Ran netmhciipan on %s successfully' % allele)
     work_dir = job.fileStore.getLocalTempDir()
     input_files = {
         'peptfile.faa': peptfile}
@@ -1681,7 +1681,7 @@ def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_o
 
     This module corresponds to node 21 in the tree
     """
-    job.fileStore.logToMaster('Running boost_ranks on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran boost_ranks on %s successfully' % univ_options['patient'])
     work_dir = os.path.join(job.fileStore.getLocalTempDir(), univ_options['patient'])
     os.mkdir(work_dir)
     input_files = {

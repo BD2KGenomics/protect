@@ -32,7 +32,7 @@ def predict_mhci_binding(job, peptfile, allele, peplen, univ_options, mhci_optio
     :return: fsID for file containing the predictions
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running mhci on %s:%s:%s' % (univ_options['patient'], allele,
+    job.fileStore.logToMaster('Ran mhci on %s:%s:%s successfully' % (univ_options['patient'], allele,
                                                             peplen))
     work_dir = os.getcwd()
     input_files = {

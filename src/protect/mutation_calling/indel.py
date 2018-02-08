@@ -26,7 +26,7 @@ def run_indel_caller(job, tumor_bam, normal_bam, univ_options, indel_options):
     :return: fsID to the merged fusion calls
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running INDEL on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran INDEL on %s successfully' % univ_options['patient'])
     job.fileStore.logToMaster('INDELs are currently unsupported.... Skipping.')
     indel_file = job.fileStore.getLocalTempFile()
     output_file = job.fileStore.writeGlobalFile(indel_file)

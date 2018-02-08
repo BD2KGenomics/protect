@@ -44,7 +44,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
     :return: fsID for the HLA haplotype called from teh input fastqs
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running phlat on %s:%s' % (univ_options['patient'], sample_type))
+    job.fileStore.logToMaster('Ran phlat on %s:%s successfully' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
         'input_1.fastq': fastqs[0],

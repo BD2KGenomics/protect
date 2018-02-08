@@ -32,7 +32,7 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
     :return: tuple of fsID for file containing the predictions and the predictor used
     :rtype: tuple(toil.fileStore.FileID, str|None)
     """
-    job.fileStore.logToMaster('Running mhcii on %s:%s' % (univ_options['patient'], allele))
+    job.fileStore.logToMaster('Ran mhcii on %s:%s successfully' % (univ_options['patient'], allele))
     work_dir = os.getcwd()
     input_files = {
         'peptfile.faa': peptfile}
@@ -83,7 +83,7 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options, netmhciipan_op
     :return: tuple of fsID for file containing the predictions and the predictor used (netMHCIIpan)
     :rtype: tuple(toil.fileStore.FileID, str)
     """
-    job.fileStore.logToMaster('Running netmhciipan on %s' % allele)
+    job.fileStore.logToMaster('Ran netmhciipan on %s successfully' % allele)
     work_dir = os.getcwd()
     input_files = {
         'peptfile.faa': peptfile}

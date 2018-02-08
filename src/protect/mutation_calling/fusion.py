@@ -85,7 +85,7 @@ def run_fusion(job,
     :return: Transgene BEDPE file
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running STAR-Fusion on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran STAR-Fusion on %s successfully' % univ_options['patient'])
 
     work_dir = job.fileStore.getLocalTempDir()
 

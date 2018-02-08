@@ -59,7 +59,7 @@ def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_o
                 +- 'mhci_rankboost_detailed_results.txt': fsID
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running boost_ranks on %s' % univ_options['patient'])
+    job.fileStore.logToMaster('Ran boost_ranks on %s successfully' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'rsem_quant.tsv': isoform_expression,
