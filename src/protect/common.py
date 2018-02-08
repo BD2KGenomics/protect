@@ -236,12 +236,12 @@ def get_file_from_gdc(job, gdc_url, gdc_download_token, write_to_jobstore=True):
     # NOTE: We only handle vcf and bam+bai
     if len(output_files) == 1:
         assert output_files[0].endswith('vcf')
-    elif len(output_files) == 2:
-        assert {os.path.splitext(x)[1] for x in output_files} == {'.bam', '.bai'}
-        # always [bam, bai]
-        output_files = sorted(output_files, key=lambda x: os.path.splitext(x)[1], reverse=True)
     else:
-        raise ParameterError('Can currently only handle GDC bams or vcfs.')
+        if not {os.path.splitext(x)[1] for x in output_files} >= {'.bam', '.bai'}:
+            raise ParameterError('Can currently only handle pre-indexed GDC bams.')
+        # Always [bam, bai]
+        output_files = [x for x in output_files if x.endswith(('bam', 'bai'))]
+        output_files = sorted(output_files, key=lambda x: os.path.splitext(x)[1], reverse=True)
     if write_to_jobstore:
         output_files = [job.fileStore.writeGlobalFile(f) for f in output_files]
     return output_files
