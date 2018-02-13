@@ -85,8 +85,6 @@ def run_fusion(job,
     :return: Transgene BEDPE file
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running STAR-Fusion on %s' % univ_options['patient'])
-
     work_dir = job.fileStore.getLocalTempDir()
 
     input_files = {'rna_1.fq.gz': fastqs[0],
@@ -221,6 +219,7 @@ def run_fusion(job,
                        output_path,
                        univ_options,
                        subfolder='mutations/fusions')
+        job.fileStore.logToMaster('Ran STAR-Fusion on %s successfully' % univ_options['patient'])
         return job.addChildJobFn(reformat_star_fusion_output,
                                  fusion_annotation,
                                  filtered_fusions,
@@ -388,8 +387,6 @@ def reformat_star_fusion_output(job,
     :return: Transgene BEDPE file
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Reformatting STAR-Fusion output for %s' % univ_options['patient'])
-
     input_files = {'results.tsv': fusion_file,
                    'fusion.bed': fusion_annot}
 
@@ -464,4 +461,6 @@ def reformat_star_fusion_output(job,
 
     bedpe_id = job.fileStore.writeGlobalFile(output_path)
     export_results(job, bedpe_id, 'fusion.bedpe', univ_options, subfolder='mutations/fusions')
+    job.fileStore.logToMaster('Reformatted STAR-Fusion output for %s successfully'
+                              % univ_options['patient'])
     return bedpe_id

@@ -44,7 +44,6 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
     :return: fsID for the HLA haplotype called from teh input fastqs
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running phlat on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
         'input_1.fastq': fastqs[0],
@@ -72,6 +71,8 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
     docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
     output_file = job.fileStore.writeGlobalFile(''.join([work_dir, '/', sample_type, '_HLA.sum']))
+    job.fileStore.logToMaster('Ran phlat on %s:%s successfully'
+                              % (univ_options['patient'], sample_type))
     return output_file
 
 

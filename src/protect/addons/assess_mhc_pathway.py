@@ -51,7 +51,7 @@ def assess_mhc_genes(job, gene_expression, rna_haplotype, univ_options, reports_
     :return: The fsID for the mhc pathway report file
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running mhc gene assessment on %s' % univ_options['patient'])
+
     work_dir = os.getcwd()
     # Take file parameters for both TCGA and GTEX files
     tumor_type = univ_options['tumor_type']
@@ -137,4 +137,6 @@ def assess_mhc_genes(job, gene_expression, rna_haplotype, univ_options, reports_
 
     output_file = job.fileStore.writeGlobalFile(mpr.name)
     export_results(job, output_file, mpr.name, univ_options, subfolder='reports')
+    job.fileStore.logToMaster('Ran mhc gene assessment on %s successfully'
+                              % univ_options['patient'])
     return output_file

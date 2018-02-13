@@ -103,7 +103,6 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
     :return: fsID for the generated sam
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running bwa on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
         'dna_1.fastq': fastqs[0],
@@ -132,6 +131,8 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
                     tool_version=bwa_options['version'])
     # samfile.name retains the path info
     output_file = job.fileStore.writeGlobalFile(samfile.name)
+    job.fileStore.logToMaster('Ran bwa on %s:%s successfully'
+                              % (univ_options['patient'], sample_type))
     return output_file
 
 
@@ -146,7 +147,6 @@ def bam_conversion(job, samfile, sample_type, univ_options, samtools_options):
     :return: fsID for the generated bam
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running sam2bam on %s:%s' % (univ_options['patient'], sample_type))
     work_dir = os.getcwd()
     input_files = {
         sample_type + '.sam': samfile}
@@ -163,6 +163,8 @@ def bam_conversion(job, samfile, sample_type, univ_options, samtools_options):
     output_file = job.fileStore.writeGlobalFile(bamfile)
     # The samfile is no longer useful so delete it
     job.fileStore.deleteGlobalFile(samfile)
+    job.fileStore.logToMaster('Ran sam2bam on %s:%s successfully'
+                              % (univ_options['patient'], sample_type))
     return output_file
 
 
@@ -181,7 +183,7 @@ def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options, re
     """
     if retained_chroms is None:
         retained_chroms = []
-    job.fileStore.logToMaster('Running reheader on %s:%s' % (univ_options['patient'], sample_type))
+
     work_dir = os.getcwd()
     input_files = {
         sample_type + '.bam': bamfile}
@@ -212,6 +214,8 @@ def fix_bam_header(job, bamfile, sample_type, univ_options, samtools_options, re
     output_file = job.fileStore.writeGlobalFile(fixpg_bamfile.name)
     # The old bam file is now useless.
     job.fileStore.deleteGlobalFile(bamfile)
+    job.fileStore.logToMaster('Ran reheader on %s:%s successfully'
+                              % (univ_options['patient'], sample_type))
     return output_file
 
 
@@ -226,8 +230,6 @@ def add_readgroups(job, bamfile, sample_type, univ_options, picard_options):
     :return: fsID for the output bam
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running add_read_groups on %s:%s' % (univ_options['patient'],
-                                                                    sample_type))
     work_dir = os.getcwd()
     input_files = {
         sample_type + '.bam': bamfile}
@@ -249,6 +251,8 @@ def add_readgroups(job, bamfile, sample_type, univ_options, picard_options):
         '/'.join([work_dir, sample_type + '_reheader.bam']))
     # Delete the old bam file
     job.fileStore.deleteGlobalFile(bamfile)
+    job.fileStore.logToMaster('Ran add_read_groups on %s:%s successfully'
+                              % (univ_options['patient'], sample_type))
     return output_file
 
 
@@ -263,8 +267,6 @@ def mark_duplicates(job, bamfile, sample_type, univ_options, picard_options):
     :return: fsID for the output bam
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running mark_duplicates on %s:%s' % (univ_options['patient'],
-                                                                    sample_type))
     work_dir = os.getcwd()
     input_files = {
         sample_type + '.bam': bamfile}
@@ -284,5 +286,6 @@ def mark_duplicates(job, bamfile, sample_type, univ_options, picard_options):
         '/'.join([work_dir, sample_type + '_mkdup.bam']))
     # Delete the old bam file
     job.fileStore.deleteGlobalFile(bamfile)
+    job.fileStore.logToMaster('Ran mark_duplicates on %s:%s successfully'
+                              % (univ_options['patient'], sample_type))
     return output_file
-

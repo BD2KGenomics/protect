@@ -67,7 +67,6 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
                  +- 'rsem.isoforms.results': fsID
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running rsem on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'star_transcriptome.bam': rna_bam,
@@ -91,4 +90,5 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
         output_files[filename] = job.fileStore.writeGlobalFile('/'.join([work_dir, filename]))
         export_results(job, output_files[filename], '/'.join([work_dir, filename]), univ_options,
                        subfolder='expression')
+    job.fileStore.logToMaster('Ran rsem on %s successfully' % univ_options['patient'])
     return output_files

@@ -115,7 +115,6 @@ def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
                  +-'indels': fsID
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running strelka on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -144,6 +143,7 @@ def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
     for mutation_type in ['snvs', 'indels']:
         output_dict[mutation_type] = job.fileStore.writeGlobalFile(os.path.join(
             work_dir, 'strelka_out', 'results', 'passed.somatic.' + mutation_type + '.vcf'))
+    job.fileStore.logToMaster('Ran strelka on %s successfully' % univ_options['patient'])
     return output_dict
 
 

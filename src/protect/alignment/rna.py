@@ -72,7 +72,6 @@ def run_star(job, fastqs, univ_options, star_options):
     :rtype: dict
     """
     assert star_options['type'] in ('star', 'starlong')
-    job.fileStore.logToMaster('Running STAR on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'rna_cutadapt_1.fastq': fastqs[0],
@@ -134,6 +133,7 @@ def run_star(job, fastqs, univ_options, star_options):
                    univ_options, subfolder='alignments')
     export_results(job, output_files['rnaChimeric.out.junction'], 'rna_chimeric.junction',
                    univ_options, subfolder='mutations/fusions')
+    job.fileStore.logToMaster('Ran STAR on %s successfully' % univ_options['patient'])
     return output_files
 
 

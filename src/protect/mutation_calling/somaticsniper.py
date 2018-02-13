@@ -133,7 +133,6 @@ def run_somaticsniper_full(job, tumor_bam, normal_bam, univ_options, somaticsnip
     :return: fsID to the genome-level vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running SomaticSniper on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -161,6 +160,7 @@ def run_somaticsniper_full(job, tumor_bam, normal_bam, univ_options, somaticsnip
     docker_call(tool='somaticsniper', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=somaticsniper_options['version'])
     outfile = job.fileStore.writeGlobalFile(output_file)
+    job.fileStore.logToMaster('Ran SomaticSniper on %s successfully' % univ_options['patient'])
     return outfile
 
 
@@ -177,7 +177,6 @@ def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, uni
     :returns: fsID for the filtered genome-level vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Filtering SomaticSniper for %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -238,6 +237,8 @@ def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, uni
 
     outfile = job.fileStore.writeGlobalFile(os.path.join(os.getcwd(),
                                                          'input.vcf.SNPfilter.fp_pass.hc'))
+    job.fileStore.logToMaster('Filtered SomaticSniper for %s successfully' %
+                              univ_options['patient'])
     return outfile
 
 
@@ -266,8 +267,6 @@ def run_pileup(job, tumor_bam, univ_options, somaticsniper_options):
     :return: fsID for the pileup file
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster(
-        'Running samtools pileup on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -290,4 +289,5 @@ def run_pileup(job, tumor_bam, univ_options, somaticsniper_options):
                     dockerhub=univ_options['dockerhub'], outfile=pileup_file,
                     tool_version=somaticsniper_options['samtools']['version'])
     outfile = job.fileStore.writeGlobalFile(pileup_file.name)
+    job.fileStore.logToMaster('Ran samtools pileup on %s successfully' % univ_options['patient'])
     return outfile
