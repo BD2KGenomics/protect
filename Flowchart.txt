@@ -65,7 +65,7 @@
      9 = Delete Fastqs to cleanup space for future jobs
     10 = Merge PHLAT outputs (PYTHON SCRIPT)
     11 = Calculate Gene Expression (RSEM)
-    12 = Identify Fusion Genes (CURRENTLY NOT IMPLEMENTED)
+    12 = Identify Fusion Genes (Star Fusion + Fusion Inspector)
    *13 = Mutation Calling 1 (RADIA)
    *14 = Mutation Calling 2 (Mutect)
    *15 = Mutation Calling 3 (MuSE)
@@ -75,7 +75,7 @@
     19 = Merge Mutation Calls 2 (Mutect)
     20 = Merge Mutation Calls 3 (MuSE)
     21 = Merge Mutation Calls 4 (SomaticSniper)
-    22 = INDEL Calling (CURRENTLY NOT IMPLEMENTED)
+    22 = INDEL Calling (Strelka)
     23 = translate to Protein space (SnpEff, Future Translator)
     24 = Convert AA change to peptides (TRANSGENE)
     25 = MHC Pathway assessment
