@@ -57,7 +57,6 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
                             +- 'normal': fsID
     :rtype: tuple(dict, dict)
     """
-    job.fileStore.logToMaster('Running spawn_anti on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     mhci_options, mhcii_options = mhc_options
     pept_files = {
@@ -133,6 +132,7 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
             disk='100M',
             memory='100M',
             cores=1).rv()
+    job.fileStore.logToMaster('Ran spawn_anti on %s successfully' % univ_options['patient'])
     return mhci_preds, mhcii_preds
 
 
@@ -394,8 +394,6 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
                 +- 'normal': fsID or (fsID, str)     -- Depending on MHCI or MHCII
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running predict_normal_binding on %s for allele %s and length %s' %
-                              (univ_options['patient'], allele, peplen))
     work_dir = os.getcwd()
     results = pandas.DataFrame(columns=['allele', 'pept', 'tumor_pred', 'core'])
     input_files = get_files_from_filestore(job, transgened_files, work_dir)
@@ -466,6 +464,8 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
         peptfile = job.fileStore.writeGlobalFile(pfile.name)
         with open('results.json', 'w') as rj:
             json.dump(results.to_json(), rj)
+        job.fileStore.logToMaster('Ran predict_normal_binding on %s for allele %s and length %s '
+                                  'successfully' % (univ_options['patient'], allele, peplen))
         return {'tumor': job.fileStore.writeGlobalFile(rj.name),
                 'normal': job.addChildJobFn(predict_mhci_binding, peptfile, allele, peplen,
                                             univ_options, mhc_options, disk='100M', memory='100M',
@@ -562,6 +562,7 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
         output_files[os.path.split(mhc_file)[1]] = job.fileStore.writeGlobalFile(mhc_file)
         export_results(job, output_files[os.path.split(mhc_file)[1]], mhc_file, univ_options,
                        subfolder='binding_predictions')
+
     return output_files
 
 

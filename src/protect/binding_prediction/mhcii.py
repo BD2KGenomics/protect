@@ -32,7 +32,6 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
     :return: tuple of fsID for file containing the predictions and the predictor used
     :rtype: tuple(toil.fileStore.FileID, str|None)
     """
-    job.fileStore.logToMaster('Running mhcii on %s:%s' % (univ_options['patient'], allele))
     work_dir = os.getcwd()
     input_files = {
         'peptfile.faa': peptfile}
@@ -66,9 +65,13 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
         netmhciipan = job.addChildJobFn(predict_netmhcii_binding, peptfile, allele, univ_options,
                                         mhcii_options['netmhciipan'], disk='100M', memory='100M',
                                         cores=1)
+        job.fileStore.logToMaster('Ran mhcii on %s:%s successfully'
+                                  % (univ_options['patient'], allele))
         return netmhciipan.rv()
     else:
         output_file = job.fileStore.writeGlobalFile(predfile.name)
+        job.fileStore.logToMaster('Ran mhcii on %s:%s successfully'
+                                  % (univ_options['patient'], allele))
         return output_file, predictor
 
 
@@ -83,7 +86,6 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options, netmhciipan_op
     :return: tuple of fsID for file containing the predictions and the predictor used (netMHCIIpan)
     :rtype: tuple(toil.fileStore.FileID, str)
     """
-    job.fileStore.logToMaster('Running netmhciipan on %s' % allele)
     work_dir = os.getcwd()
     input_files = {
         'peptfile.faa': peptfile}
@@ -111,4 +113,5 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options, netmhciipan_op
                     dockerhub=univ_options['dockerhub'], outfile=output_catcher,
                     tool_version=netmhciipan_options['version'])
     output_file = job.fileStore.writeGlobalFile('/'.join([work_dir, 'predictions.tsv']))
+    job.fileStore.logToMaster('Ran netmhciipan on %s successfully' % allele)
     return output_file, 'netMHCIIpan'

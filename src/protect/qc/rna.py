@@ -35,7 +35,6 @@ def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
     :return: List of fsIDs of cutadapted fastqs
     :rtype: list[toil.fileStore.FileID]
     """
-    job.fileStore.logToMaster('Running cutadapt on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'rna_1.fastq': fastqs[0],
@@ -60,4 +59,5 @@ def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
     output_files = []
     for fastq_file in ['rna_cutadapt_1.fastq.gz', 'rna_cutadapt_2.fastq.gz']:
         output_files.append(job.fileStore.writeGlobalFile('/'.join([work_dir, fastq_file])))
+    job.fileStore.logToMaster('Ran cutadapt on %s successfully' % univ_options['patient'])
     return output_files

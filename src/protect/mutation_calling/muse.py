@@ -112,7 +112,6 @@ def run_muse_perchrom(job, tumor_bam, normal_bam, univ_options, muse_options, ch
     :return: fsID for the chromsome vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running MuSE on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
@@ -138,6 +137,7 @@ def run_muse_perchrom(job, tumor_bam, normal_bam, univ_options, muse_options, ch
     docker_call(tool='muse', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=muse_options['version'])
     outfile = job.fileStore.writeGlobalFile(''.join([output_prefix, '.MuSE.txt']))
+    job.fileStore.logToMaster('Ran MuSE on %s:%s successfully' % (univ_options['patient'], chrom))
     return outfile
 
 
@@ -152,7 +152,6 @@ def run_muse_sump_perchrom(job, muse_output, univ_options, muse_options, chrom):
     :return: fsID for the chromsome vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running MuSE sump on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
     input_files = {
         'MuSE.txt': muse_output,
@@ -177,6 +176,8 @@ def run_muse_sump_perchrom(job, muse_output, univ_options, muse_options, chrom):
                 dockerhub=univ_options['dockerhub'], tool_version=muse_options['version'])
     outfile = job.fileStore.writeGlobalFile(output_file)
     export_results(job, outfile, output_file, univ_options, subfolder='mutations/muse')
+    job.fileStore.logToMaster('Ran MuSE sump on %s:%s successfully'
+                              % (univ_options['patient'], chrom))
     return outfile
 
 

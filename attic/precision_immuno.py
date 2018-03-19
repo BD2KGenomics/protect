@@ -48,13 +48,11 @@ def parse_config_file(job, config_file):
     """
     This module will parse the config file withing params and set up the variables that will be
     passed to the various tools in the pipeline.
-
     ARGUMENTS
     config_file: string containing path to a config file.  An example config
                  file is available at
                         https://s3-us-west-2.amazonaws.com/pimmuno-references
                         /input_parameters.list
-
     RETURN VALUES
     None
     """
@@ -109,7 +107,6 @@ def parse_config_file(job, config_file):
 def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     """
     The precision immuno pipeline begins at this module.  The DAG for the pipeline is as follows
-
                                    0
                                    |
                                    1
@@ -142,8 +139,6 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
                 |                      22
                 |                      |
                 +----------------------23
-
-
      0 = Start Node
      1 = Prepare sample (Download if necessary)
      2 = Process RNA for Adapters (CUTADAPT)
@@ -171,9 +166,7 @@ def pipeline_launchpad(job, fastqs, univ_options, tool_options):
     YY = Predict MHCII peptides for m predicted alleles
     22 = merge MHC:peptide binding predictions
     23 = Rank Boost
-
      * = Nodes will have dynamically allocated children
-
     This module corresponds to node 0 on the tree
     """
     # Add Patient id to univ_options as is is passed to every major node in the DAG and can be used
@@ -295,7 +288,6 @@ def delete_fastqs(job, fastqs):
     """
     This module will delete the fastqs from teh job Store once their purpose has been achieved (i.e.
     after all mapping steps)
-
     ARGUMENTS
     1. fastqs: Dict of list of input fastqs
          fastqs
@@ -312,7 +304,6 @@ def delete_fastqs(job, fastqs):
 def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
     """
     This module runs cutadapt on the input RNA fastq files and then calls the RNA aligners.
-
     ARGUMENTS
     1. fastqs: Dict of list of input RNA-Seq fastqs
          fastqs
@@ -329,7 +320,6 @@ def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
          output_files
              |- 'rna_cutadapt_1.fastq': <JSid>
              +- 'rna_cutadapt_2.fastq': <JSid>
-
     This module corresponds to node 2 on the tree
     """
     job.fileStore.logToMaster('Running cutadapt on %s' %univ_options['patient'])
@@ -357,7 +347,6 @@ def run_cutadapt(job, fastqs, univ_options, cutadapt_options):
 def run_star(job, fastqs, univ_options, star_options):
     """
     This module uses STAR to align the RNA fastqs to the reference
-
     ARGUMENTS
     1. fastqs: REFER RETURN VALUE of run_cutadapt()
     2. univ_options: Dict of universal arguments used by almost all tools
@@ -374,7 +363,6 @@ def run_star(job, fastqs, univ_options, star_options):
              +- 'rnaAligned.sortedByCoord.out.bam': Dict of genome bam + bai
                                 |- 'rna_fix_pg_sorted.bam': <JSid>
                                 +- 'rna_fix_pg_sorted.bam.bai': <JSid>
-
     This module corresponds to node 9 on the tree
     """
     assert star_options['type'] in ('star', 'starlong')
@@ -420,7 +408,6 @@ def run_star(job, fastqs, univ_options, star_options):
 def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
     """
     This module aligns the SAMPLE_TYPE dna fastqs to the reference
-
     ARGUMENTS -- <ST> depicts the sample type. Substitute with 'tumor'/'normal'
     1. fastqs: Dict of list of input WGS/WXS fastqs
          fastqs
@@ -433,13 +420,11 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
          bwa_options
               |- 'index_tar': <JSid for the bwa index tarball>
               +- 'n': <number of threads to allocate>
-
     RETURN VALUES
     1. output_files: Dict of aligned bam + reference (nested return)
          output_files
              |- '<ST>_fix_pg_sorted.bam': <JSid>
              +- '<ST>_fix_pg_sorted.bam.bai': <JSid>
-
     This module corresponds to nodes 3 and 4 on the tree
     """
     job.fileStore.logToMaster('Running bwa on %s:%s' % (univ_options['patient'], sample_type))
@@ -473,7 +458,6 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
 def bam_conversion(job, samfile, sample_type, univ_options):
     """
     This module converts SAMFILE from sam to bam
-
     ARGUMENTS
     1. samfile: <JSid for a sam file>
     2. sample_type: string of 'tumor_dna' or 'normal_dna'
@@ -507,7 +491,6 @@ def bam_conversion(job, samfile, sample_type, univ_options):
 def fix_bam_header(job, bamfile, sample_type, univ_options):
     """
     This module modified the header in BAMFILE
-
     ARGUMENTS
     1. bamfile: <JSid for a bam file>
     2. sample_type: string of 'tumor_dna' or 'normal_dna'
@@ -621,7 +604,6 @@ def index_bamfile(job, bamfile, sample_type, univ_options):
 def run_rsem(job, star_bams, univ_options, rsem_options):
     """
     This module will run rsem on the RNA Bam file.
-
     ARGUMENTS
     1. star_bams: Dict of input STAR bams
          star_bams
@@ -633,10 +615,8 @@ def run_rsem(job, star_bams, univ_options, rsem_options):
          rsem_options
               |- 'index_tar': <JSid for the rsem index tarball>
               +- 'n': <number of threads to allocate>
-
     RETURN VALUES
     1. output_file: <Jsid of rsem.isoforms.results>
-
     This module corresponds to node 9 on the tree
     """
     job.fileStore.logToMaster('Running rsem index on %s' % univ_options['patient'])
@@ -662,7 +642,6 @@ def run_rsem(job, star_bams, univ_options, rsem_options):
 def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
     """
     This module will spawn a radia job for each chromosome, on the RNA and DNA.
-
     ARGUMENTS
     1. rna_bam: Dict of input STAR bams
          rna_bam
@@ -684,7 +663,6 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
          radia_options
               |- 'genome_fasta': <JSid for genome fasta file>
               +- 'genome_fai': <JSid for genome fai file>
-
     RETURN VALUES
     1. perchrom_radia: Dict of results of radia per chromosome
          perchrom_radia
@@ -695,7 +673,6 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
               |   |- 'radia_filtered_chr2.vcf': <JSid>
               |   +- 'radia_filtered_chr2_radia.log': <JSid>
              etc...
-
     This module corresponds to node 11 on the tree
     """
     job.fileStore.logToMaster('Running spawn_radia on %s' % univ_options['patient'])
@@ -720,16 +697,13 @@ def merge_radia(job, perchrom_rvs):
     """
     This module will merge the per-chromosome radia files created by spawn_radia into a genome vcf.
     It will make 2 vcfs, one for PASSing non-germline calls, and one for all calls.
-
     ARGUMENTS
     1. perchrom_rvs: REFER RETURN VALUE of spawn_radia()
-
     RETURN VALUES
     1. output_files: Dict of outputs
             output_files
                 |- radia_calls.vcf: <JSid>
                 +- radia_parsed_filter_passing_calls.vcf: <JSid>
-
     This module corresponds to node 11 on the tree
     """
     job.fileStore.logToMaster('Running merge_radia')
@@ -771,7 +745,6 @@ def merge_radia(job, perchrom_rvs):
 def run_radia(job, bams, univ_options, radia_options, chrom):
     """
     This module will run radia on the RNA and DNA bams
-
     ARGUMENTS
     1. bams: Dict of bams and their indexes
         bams
@@ -789,7 +762,6 @@ def run_radia(job, bams, univ_options, radia_options, chrom):
               |- 'dbsnp_vcf': <JSid for dnsnp vcf file>
               +- 'genome': <JSid for genome fasta file>
     4. chrom: String containing chromosome name with chr appended
-
     RETURN VALUES
     1. Dict of filtered radia output vcf and logfile (Nested return)
         |- 'radia_filtered_CHROM.vcf': <JSid>
@@ -841,14 +813,12 @@ def run_radia(job, bams, univ_options, radia_options, chrom):
 def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
     """
     This module will run filterradia on the RNA and DNA bams.
-
     ARGUMENTS
     1. bams: REFER ARGUMENTS of run_radia()
     2. univ_options: REFER ARGUMENTS of run_radia()
     3. radia_file: <JSid of vcf generated by run_radia()>
     3. radia_options: REFER ARGUMENTS of run_radia()
     4. chrom: REFER ARGUMENTS of run_radia()
-
     RETURN VALUES
     1. Dict of filtered radia output vcf and logfile
         |- 'radia_filtered_CHROM.vcf': <JSid>
@@ -905,7 +875,6 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
 def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     """
     This module will spawn a mutect job for each chromosome on the DNA bams.
-
     ARGUMENTS
     1. tumor_bam: Dict of input tumor WGS/WSQ bam + bai
          tumor_bam
@@ -925,7 +894,6 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
               |- 'cosmic_vcf': <JSid for cosmic vcf file>
               |- 'cosmic_idx': <JSid for cosmic vcf index file>
               +- 'genome_fasta': <JSid for genome fasta file>
-
     RETURN VALUES
     1. perchrom_mutect: Dict of results of mutect per chromosome
          perchrom_mutect
@@ -936,7 +904,6 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
               |   |- 'mutect_chr2.vcf': <JSid>
               |   +- 'mutect_chr2.out': <JSid>
              etc...
-
     This module corresponds to node 11 on the tree
     """
     job.fileStore.logToMaster('Running spawn_mutect on %s' % univ_options['patient'])
@@ -955,13 +922,10 @@ def merge_mutect(job, perchrom_rvs):
     """
     This module will merge the per-chromosome mutect files created by spawn_mutect into a genome
     vcf.  It will make 2 vcfs, one for PASSing non-germline calls, and one for all calls.
-
     ARGUMENTS
     1. perchrom_rvs: REFER RETURN VALUE of spawn_mutect()
-
     RETURN VALUES
     1. output_files: <JSid for mutect_passing_calls.vcf>
-
     This module corresponds to node 11 on the tree
     """
     job.fileStore.logToMaster('Running merge_mutect')
@@ -1010,20 +974,17 @@ def merge_mutect(job, perchrom_rvs):
 def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options, chrom):
     """
     This module will run mutect on the DNA bams
-
     ARGUMENTS
     1. tumor_bam: REFER ARGUMENTS of spawn_mutect()
     2. normal_bam: REFER ARGUMENTS of spawn_mutect()
     3. univ_options: REFER ARGUMENTS of spawn_mutect()
     4. mutect_options: REFER ARGUMENTS of spawn_mutect()
     5. chrom: String containing chromosome name with chr appended
-
     RETURN VALUES
     1. output_files: Dict of results of mutect for chromosome
             output_files
               |- 'mutect_CHROM.vcf': <JSid>
               +- 'mutect_CHROM.out': <JSid>
-
     This module corresponds to node 12 on the tree
     """
     job.fileStore.logToMaster('Running mutect on %s:%s' % (univ_options['patient'], chrom))
@@ -1068,7 +1029,6 @@ def run_indel_caller(job, tumor_bam, normal_bam, univ_options, indel_options):
     """
     This module will run an indel caller on the DNA bams.  This module will be
     implemented in the future.
-
     This module corresponds to node 13 on the tree
     """
     job.fileStore.logToMaster('Running INDEL on %s' % univ_options['patient'])
@@ -1081,7 +1041,6 @@ def run_fusion_caller(job, star_bam, univ_options, fusion_options):
     """
     This module will run a fusion caller on DNA bams.  This module will be
     implemented in the future.
-
     This module corresponds to node 10 on the tree
     """
     job.fileStore.logToMaster('Running FUSION on %s' % univ_options['patient'])
@@ -1095,16 +1054,13 @@ def run_mutation_aggregator(job, fusion_output, radia_output, mutect_output, ind
     """
     This module will aggregate all the mutations called in the previous steps and will then call
     snpeff on the results.
-
     ARGUMENTS
     1. fusion_output: <JSid for vcf generated by the fusion caller>
     2. radia_output: <JSid for vcf generated by radia>
     3. mutect_output: <JSid for vcf generated by mutect>
     4. indel_output: <JSid for vcf generated by the indel caller>
-
     RETURN VALUES
     1. output_file: <JSid for merged vcf>
-
     This module corresponds to node 15 on the tree
     """
     job.fileStore.logToMaster('Aggregating mutations for %s' % univ_options['patient'])
@@ -1147,7 +1103,6 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     This module will run snpeff on the aggregated mutation calls.  Currently the only mutations
     called are SNPs hence SnpEff suffices. This node will be replaced in the future with another
     translator.
-
     ARGUMENTS
     1. merged_mutation_file: <JSid for merged vcf>
     2. univ_options: Dict of universal arguments used by almost all tools
@@ -1156,10 +1111,8 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     3. snpeff_options: Dict of parameters specific to snpeff
          snpeff_options
                 +- 'index_tar': <JSid for the snpEff index tarball>
-
     RETURN VALUES
     1. output_file: <JSid for the snpeffed vcf>
-
     This node corresponds to node 16 on the tree
     """
     job.fileStore.logToMaster('Running snpeff on %s' % univ_options['patient'])
@@ -1190,7 +1143,6 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
     """
     This module will run transgene on the input vcf file from the aggregator and produce the
     peptides for MHC prediction
-
     ARGUMENTS
     1. snpeffed_file: <JSid for snpeffed vcf>
     2. univ_options: Dict of universal arguments used by almost all tools
@@ -1199,14 +1151,12 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
     3. transgene_options: Dict of parameters specific to transgene
          transgene_options
                 +- 'gencode_peptide_fasta': <JSid for the gencode protein fasta>
-
     RETURN VALUES
     1. output_files: Dict of transgened n-mer peptide fastas
          output_files
                 |- 'transgened_tumor_9_mer_snpeffed.faa': <JSid>
                 |- 'transgened_tumor_10_mer_snpeffed.faa': <JSid>
                 +- 'transgened_tumor_15_mer_snpeffed.faa': <JSid>
-
     This module corresponds to node 17 on the tree
     """
     job.fileStore.logToMaster('Running transgene on %s' % univ_options['patient'])
@@ -1233,7 +1183,6 @@ def run_transgene(job, snpeffed_file, univ_options, transgene_options):
 def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
     """
     This module will run PHLAT on SAMPLE_TYPE fastqs.
-
     ARGUMENTS -- <ST> depicts the sample type. Substitute with 'tumor_dna',
                  'normal_dna', or 'tumor_rna'
     1. fastqs: Dict of list of input WGS/WXS fastqs
@@ -1247,10 +1196,8 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
          phlat_options
               |- 'index_tar': <JSid for the PHLAT index tarball>
               +- 'n': <number of threads to allocate>
-
     RETURN VALUES
     1. output_file: <JSid for the allele predictions for ST>
-
     This module corresponds to nodes 5, 6 and 7 on the tree
     """
     job.fileStore.logToMaster('Running phlat on %s:%s' % (univ_options['patient'], sample_type))
@@ -1279,18 +1226,15 @@ def merge_phlat_calls(job, tumor_phlat, normal_phlat, rna_phlat):
     """
     This module will merge the results form running PHLAT on the 3 input fastq
     pairs.
-
     ARGUMENTS
     1. tumor_phlat: <JSid for tumor DNA called alleles>
     2. normal_phlat: <JSid for normal DNA called alleles>
     3. rna_phlat: <JSid for tumor RNA called alleles>
-
     RETURN VALUES
     1. output_files: Dict of JSids for consensus MHCI and MHCII alleles
              output_files
                     |- 'mhci_alleles.list': <JSid>
                     +- 'mhcii_alleles.list': <JSid>
-
     This module corresponds to node 14 on the tree
     """
     job.fileStore.logToMaster('Merging Phlat calls')
@@ -1347,7 +1291,6 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
     Based on the number of alleles obtained from node 14, this module will spawn callers to predict
     MHCI:peptide and MHCII:peptide binding on the peptide files from node 17.  Once all MHC:peptide
     predictions are made, merge them via a follow-on job.
-
     ARGUMENTS
     1. transgened_files: REFER RETURN VALUE of run_transgene()
     2. phlat_files: REFER RETURN VALUE of merge_phlat_calls()
@@ -1366,7 +1309,6 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
                     |- 'method_file': <JSid for json file containing data
                     |                  linking alleles and prediction methods>
                     +- 'pred': String describing prediction method to use
-
     RETURN VALUES
     1. tuple of (mhci_preds, mhcii_preds)
          mhci_preds: Dict of return value from running predictions on a given
@@ -1384,7 +1326,6 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
                 |
                 ..
                 +- <MHC molecule n>_15_mer.faa: <PromisedJobReturnValue>
-
     This module corresponds to node 18 on the tree
     """
     job.fileStore.logToMaster('Running spawn_anti on %s' % univ_options['patient'])
@@ -1449,7 +1390,6 @@ def predict_mhci_binding(job, peptfile, allele, peplen, univ_options,
     """
     This module will predict MHC:peptide binding for peptides in the files created in node XX to
     ALLELE.  ALLELE represents an MHCI allele.
-
     This module corresponds to node 18 on the tree
     """
     job.fileStore.logToMaster('Running mhci on %s:%s:%s' % (univ_options['patient'], allele,
@@ -1473,10 +1413,8 @@ def predict_mhcii_binding(job, peptfile, allele, univ_options, mhcii_options):
     """
     This module will predict MHC:peptide binding for peptides in the files created in node YY to
     ALLELE.  ALLELE represents an MHCII allele.
-
     The module returns (PREDFILE, PREDICTOR) where PREDFILE contains the predictions and PREDICTOR
     is the predictor used (Consensus, NetMHCIIpan, or Sturniolo).
-
     This module corresponds to node 19 on the tree
     """
     job.fileStore.logToMaster('Running mhcii on %s:%s' % (univ_options['patient'], allele))
@@ -1517,7 +1455,6 @@ def predict_netmhcii_binding(job, peptfile, allele, univ_options):
     """
     This module will predict MHC:peptide binding for peptides in the files created in node YY to
     ALLELE.  ALLELE represents an MHCII allele.
-
     This module corresponds to node 19 on the tree
     """
     job.fileStore.logToMaster('Running netmhciipan on %s' % allele)
@@ -1552,7 +1489,6 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files):
     This module will merge all the calls from nodes 18 and 19, and will filter for the top X%% of
     binders of each allele.  The module will then call the rank boosting script to finish off the
     pipeline.
-
     This module corresponds to node 19 on the tree
     """
     job.fileStore.logToMaster('Merging MHC calls')
@@ -1673,7 +1609,6 @@ def boost_ranks(job, gene_expression, merged_mhc_calls, transgene_out, univ_opti
     """
     This is the final module in the pipeline.  It will call the rank boosting R
     script.
-
     This module corresponds to node 21 in the tree
     """
     job.fileStore.logToMaster('Running boost_ranks on %s' % univ_options['patient'])
@@ -1792,14 +1727,12 @@ def prepare_samples(job, fastqs, univ_options):
     tumor_rna: prefix_to_tumor_rna
     normal_dna: prefix_to_normal_dna
     patient_id: patient ID
-
     The input dict is updated to
     tumor_dna: [jobStoreID_for_fastq1, jobStoreID_for_fastq2]
     tumor_rna: [jobStoreID_for_fastq1, jobStoreID_for_fastq2]
     normal_dna: [jobStoreID_for_fastq1, jobStoreID_for_fastq2]
     patient_id: patient ID
     gzipped: True/False
-
     This module corresponds to node 1 in the tree
     """
     job.fileStore.logToMaster('Downloading Inputs for %s' % univ_options['patient'])
@@ -1858,11 +1791,9 @@ def prepare_samples(job, fastqs, univ_options):
 def get_files_from_filestore(job, files, work_dir, cache=True, docker=False):
     """
     This is adapted from John Vivian's return_input_paths from the RNA-Seq pipeline.
-
     Returns the paths of files from the FileStore if they are not present.
     If docker=True, return the docker path for the file.
     If the file extension is tar.gz, then tar -zxvf it.
-
     files is a dict with:
         keys = the name of the file to be returned in toil space
         value = the input value for the file (can be toil temp file)
@@ -1949,7 +1880,6 @@ def merge_vcfs(vcf_file, merged_mut_file):
     """
     This module will accept the vcf files for mutect and radia read into memory in a dict object
     VCF_FILE and will merge the calls.  Merged calls are printed to MERGED_MUT_FILE.
-
     VCF_FILE is a dict with
     key : mutation caller (mutect or radia)
     value : dict with
@@ -1972,7 +1902,6 @@ def parse_radia_multi_alt(infile, outfile):
     most likely ones.
     INFILE : open file handle for the input vcf
     OUTFILE : open file handle for the output vcf
-
     The columns in INFILE are
      [0] CHROM
      [1] POS
@@ -2100,7 +2029,6 @@ def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile):
               ..
               +- 'neoepitope_n':
                      'ensembl_gene\thugo_gene\tcomma_sep_transcript_mutations'
-
     """
     allele, pept, pred, core = neoepitope_info
     peptide_names = [x for x, y in peptides.items() if pept in y]
@@ -2177,9 +2105,7 @@ def docker_call(tool, tool_parameters, work_dir, java_opts=None, outfile=None,
 def untargz(input_targz_file, untar_to_dir):
     """
     This module accepts a tar.gz archive and untars it.
-
     RETURN VALUE: path to the untar-ed directory/file
-
     NOTE: this module expects the multiple files to be in a directory before
           being tar-ed.
     """
@@ -2268,12 +2194,10 @@ def get_file_from_s3(job, s3_url, encryption_key=None, write_to_jobstore=True):
 def get_file_from_cghub(job, cghub_xml, cghub_key, univ_options, write_to_jobstore=True):
     """
     This function will download the file from cghub using the xml specified by cghub_xml
-
     ARGUMENTS
     1. cghub_xml: Path to an xml file for cghub.
     2. cghub_key: Credentials for a cghub download operation.
     3. write_to_jobstore: Flag indicating whether the final product should be written to jobStore.
-
     RETURN VALUES
     1. A path to the prefix for the fastqs that is compatible with the pipeline.
     """
@@ -2346,7 +2270,6 @@ def get_file_from_cghub(job, cghub_xml, cghub_key, univ_options, write_to_jobsto
 def bam2fastq(job, bamfile, univ_options):
     """
     split an input bam to paired fastqs.
-
     ARGUMENTS
     1. bamfile: Path to a bam file
     2. univ_options: Dict of universal arguments used by almost all tools
@@ -2381,7 +2304,6 @@ def export_results(file_path, univ_options):
                            machine if storage_location is 'Local'. If the storage_location is an aws
                            bucket,  this string represents the path to the file in the bucket.  To
                            keep it in the base directory, specify 'NA'.
-
     :return: None
     """
     try:

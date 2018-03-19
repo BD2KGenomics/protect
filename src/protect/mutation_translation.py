@@ -56,7 +56,6 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
                  +- 'transgened_tumor_9_mer_snpeffed.faa.map': fsID
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running transgene on %s' % univ_options['patient'])
     work_dir = os.getcwd()
     input_files = {
         'snpeffed_muts.vcf': snpeffed_file,
@@ -116,4 +115,5 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
     os.rename('transgened_transgened.vcf', 'mutations.vcf')
     export_results(job, job.fileStore.writeGlobalFile('mutations.vcf'), 'mutations.vcf',
                    univ_options, subfolder='mutations/transgened')
+    job.fileStore.logToMaster('Ran transgene on %s successfully' % univ_options['patient'])
     return output_files

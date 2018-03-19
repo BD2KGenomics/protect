@@ -47,8 +47,6 @@ def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options, sam
                  +- '<sample_type>(_<sample_info>).bam.bai': fsID
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running samtools-index on %s:%s' % (univ_options['patient'],
-                                                                   sample_type))
     work_dir = os.getcwd()
     in_bamfile = sample_type
     if sample_info is not None:
@@ -70,6 +68,8 @@ def index_bamfile(job, bamfile, sample_type, univ_options, samtools_options, sam
                        subfolder='alignments')
         export_results(job, output_files[in_bamfile + '.bai'], out_bai, univ_options,
                        subfolder='alignments')
+    job.fileStore.logToMaster('Ran samtools-index on %s:%s successfully'
+                              % (univ_options['patient'], sample_type))
     return output_files
 
 
@@ -84,8 +84,6 @@ def sort_bamfile(job, bamfile, sample_type, univ_options, samtools_options):
     :return: fsID for the sorted bamfile
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running samtools-sort on %s:%s' % (univ_options['patient'],
-                                                                  sample_type))
     work_dir = os.getcwd()
     in_bamfile = ''.join([sample_type, '.bam'])
     out_bamfile = '_'.join([sample_type, 'sorted.bam'])
@@ -101,4 +99,6 @@ def sort_bamfile(job, bamfile, sample_type, univ_options, samtools_options):
     docker_call(tool='samtools', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=samtools_options['version'])
     job.fileStore.deleteGlobalFile(bamfile)
+    job.fileStore.logToMaster('Ran samtools-sort on %s:%s successfully'
+                              % (univ_options['patient'], sample_type))
     return job.fileStore.writeGlobalFile(out_bamfile)

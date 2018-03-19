@@ -48,7 +48,6 @@ def assess_car_t_validity(job, gene_expression, univ_options, reports_options):
     :return: The results of running assess_car_t_validity
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running car t validity assessment on %s' % univ_options['patient'])
     work_dir = os.getcwd()
 
     tumor_type = univ_options['tumor_type']
@@ -147,4 +146,6 @@ def assess_car_t_validity(job, gene_expression, univ_options, reports_options):
 
     output_file = job.fileStore.writeGlobalFile(car_t_report.name)
     export_results(job, output_file, car_t_report.name, univ_options, subfolder='reports')
+    job.fileStore.logToMaster('Ran car t validity assessment on %s successfully'
+                              % univ_options['patient'])
     return output_file

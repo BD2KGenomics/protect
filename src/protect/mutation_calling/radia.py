@@ -86,7 +86,6 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
                  +- 'chrM': fsID
     :rtype: dict
     """
-    job.fileStore.logToMaster('Running spawn_radia on %s' % univ_options['patient'])
     if 'rna_genome' in rna_bam.keys():
         rna_bam = rna_bam['rna_genome']
     elif set(rna_bam.keys()) == {'rna_genome_sorted.bam', 'rna_genome_sorted.bam.bai'}:
@@ -122,6 +121,7 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
                                                rna_bam['rna_genome_sorted.bam'],
                                                radia_options['genome_fasta']))
         perchrom_radia[chrom] = filter_radia.rv()
+    job.fileStore.logToMaster('Ran spawn_radia on %s successfully' % univ_options['patient'])
     return perchrom_radia
 
 
@@ -136,7 +136,6 @@ def run_radia_perchrom(job, bams, univ_options, radia_options, chrom):
     :return: fsID for the chromsome vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running radia on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
     input_files = {
         'rna.bam': bams['tumor_rna'],
@@ -174,6 +173,7 @@ def run_radia_perchrom(job, bams, univ_options, radia_options, chrom):
                 work_dir=work_dir, dockerhub=univ_options['dockerhub'],
                 tool_version=radia_options['version'])
     output_file = job.fileStore.writeGlobalFile(radia_output)
+    job.fileStore.logToMaster('Ran radia on %s:%s successfully' % (univ_options['patient'], chrom))
     return output_file
 
 
@@ -189,7 +189,6 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
     :return: fsID for the filtered chromsome vcf
     :rtype: toil.fileStore.FileID
     """
-    job.fileStore.logToMaster('Running filter-radia on %s:%s' % (univ_options['patient'], chrom))
     work_dir = os.getcwd()
     input_files = {
         'rna.bam': bams['tumor_rna'],
@@ -241,6 +240,8 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
     os.rename(''.join([work_dir, '/', univ_options['patient'], '_', chrom, '.vcf']), output_file)
     output_fsid = job.fileStore.writeGlobalFile(output_file)
     export_results(job, output_fsid, output_file, univ_options, subfolder='mutations/radia')
+    job.fileStore.logToMaster('Ran filter-radia on %s:%s successfully'
+                              % (univ_options['patient'], chrom))
     return output_fsid
 
 
