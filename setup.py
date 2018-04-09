@@ -1,5 +1,11 @@
-from __future__ import print_function
-from pkg_resources import parse_version, SetuptoolsLegacyVersion
+from pkg_resources import parse_version
+try:
+    from pkg_resources import SetuptoolsLegacyVersion as _LegacyVersion
+except ImportError as e:
+    if 'SetuptoolsLegacyVersion' in e.message:
+        from packaging.version import LegacyVersion as _LegacyVersion
+    else:
+        raise
 from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
 from version import version
@@ -44,7 +50,7 @@ def check_tool_version(tool, required_version, blacklisted_versions=None, binary
         except AttributeError:
             raise RuntimeError('Does %s have a version.py?' % tool)
 
-    if type(parse_version(installed_version)) == SetuptoolsLegacyVersion:
+    if type(parse_version(installed_version)) == _LegacyVersion:
         print('Detecting that the installed version of "%s"(%s) is probably based off a git commit '
               'and assuming this build is for testing purposes.  If this is not the case, please '
               'try again with a valid version of "%s".' % (tool, installed_version, tool))

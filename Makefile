@@ -16,10 +16,10 @@ define help
 
 Supported targets: develop, sdist, clean, ci_test, test, pypi.
 
-Please note that all build targets require a virtualenv to be active. 
+Please note that all build targets require a virtualenv to be active.
 
 The 'develop' target creates an editable install of ProTECT and its runtime requirements in the
-current virtualenv. The install is called 'editable' because changes to the source code 
+current virtualenv. The install is called 'editable' because changes to the source code
 immediately affect the virtualenv.
 
 The 'sdist' target creates a source distribution of ProTECT suitable for hot-deployment (not

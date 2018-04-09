@@ -38,6 +38,10 @@ upload files from S3. We recommend installing s3am in its own virtualenv using t
 the s3am manual, then putting the s3am binary on your $PATH.  ProTECT will NOT attempt to install
 s3am during installation.
 
+ProTECT uses pkg_resources from setuptools to verify versions of tools during install. As of setuptools
+39.0.1, some modules were moved to the packaging module. If your machine has setuptools >=39.0.1, you
+will need the packaging module.
+
 Lastly, ProTECT uses [docker](https://www.docker.com/) to run the various sub-tools in a
 reproducible, platform independent manner. ProTECT will NOT attempt to install docker during
 installation.
@@ -64,6 +68,10 @@ Install Toil
 Install ProTECT and all dependencies in the virtualenv
 
     pip install protect
+
+Install packaging (required if setuptools>=39.0.1)
+
+    pip install packaging
 
 ### Method 2 - Installing from Source
 
