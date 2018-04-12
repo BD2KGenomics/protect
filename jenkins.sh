@@ -28,6 +28,7 @@ virtualenv --never-download venv
 pip install -U setuptools
 pip install toil==3.8.0
 pip install pytest==2.8.3
+pip install packaging
 
 # Install ProTECT and its runtime requirements
 make develop
