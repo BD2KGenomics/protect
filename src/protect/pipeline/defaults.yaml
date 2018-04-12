@@ -38,70 +38,70 @@ alignment:
     cutadapt:
         a: AGATCGGAAGAG
         A: AGATCGGAAGAG
-        version: 1.9.1
+        version: 1.9.1-test
     star:
-        version: 2.5.2b
+        version: 2.5.2b-test
     bwa:
-        version: 0.7.9a
+        version: 0.7.9a-test
     post:
         samtools:
-            version: 1.2
+            version: 1.2-test
         picard:
-            version: 1.135
+            version: 1.135-test
 
 expression_estimation:
     rsem:
-        version: 1.2.20
+        version: 1.2.20-test
 
 mutation_calling:
     indexes:
         chromosomes:
     mutect:
         java_Xmx: 2G
-        version: 1.1.7
+        version: 1.1.7-test
     muse:
-        version: 1.0rc_submission_b391201
+        version: 1.0rc_submission_b391201-test
     radia:
-        version: bcda721fc1f9c28d8b9224c2f95c440759cd3a03
+        version: bcda721fc1f9c28d8b9224c2f95c440759cd3a03-test
     somaticsniper:
-        version: 1.0.4
+        version: 1.0.4-test
         samtools:
-            version: 0.1.8
+            version: 0.1.8-test
         bam_readcount:
-            version: 0.7.4
+            version: 0.7.4-test
     strelka:
-        version: 1.0.15
+        version: 1.0.15-test
 
     star_fusion:
         run: True
-        version: 1.0.0
+        version: 1.0.0-test
 
     fusion_inspector:
         run_trinity: True
-        version: 1.0.1
+        version: 1.0.1-test
 
 mutation_annotation:
     snpeff:
-        version: 3.6
+        version: 3.6-test
         java_Xmx: 20G
 
 mutation_translation:
     transgene:
-        version: 2.3.2
+        version: 2.3.2-test
 
 haplotyping:
     phlat:
-        version: 1.0
+        version: 1.0-test
 
 mhc_peptide_binding:
     mhci:
         pred: IEDB_recommended
-        version: 2.13
+        version: 2.13-test
     mhcii:
         pred: IEDB_recommended
-        version: 2.13
+        version: 2.17.4-test
     netmhciipan:
-        version: 3.1
+        version: 3.1-test
 
 prediction_ranking:
     rankboost:
@@ -118,4 +118,4 @@ prediction_ranking:
             nMHC: 0.2
             TPM: 0.2
             tndelta: 0.2
-        version: 2.1.4
+        version: 2.1.4-test
