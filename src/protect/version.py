@@ -13,4 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version = '2.6.0a1'
+version = '2.7.0a1'
