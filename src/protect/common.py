@@ -471,7 +471,8 @@ def delete_bams(job, bams, patient_id):
     :param dict bams: Dict of bam and bai files
     :param str patient_id: The ID of the patient for logging purposes.
     """
-    bams = {b: v for b, v in bams.items() if b.endswith('.bam') or b.endswith('.bai')}
+    bams = {b: v for b, v in bams.items()
+            if (b.endswith('.bam') or b.endswith('.bai')) and v is not None}
     if bams:
         for key, val in bams.items():
             job.fileStore.logToMaster('Deleting "%s" for patient "%s".' % (key, patient_id))
@@ -480,13 +481,12 @@ def delete_bams(job, bams, patient_id):
         delete_bams(job, bams['rna_genome'], patient_id)
         job.fileStore.logToMaster('Deleting "rna_transcriptome.bam" for patient "%s".' % patient_id)
         job.fileStore.deleteGlobalFile(bams['rna_transcriptome.bam'])
-
     elif 'rnaChimeric.out.junction' in bams:
-        job.fileStore.logToMaster('Deleting "rnaChimeric.out.junction" for patient "%s".' % patient_id)
+        job.fileStore.logToMaster('Deleting "rnaChimeric.out.junction" for patient "%s".' %
+                                  patient_id)
         job.fileStore.deleteGlobalFile(bams['rnaChimeric.out.junction'])
-
     else:
-        assert False
+        pass
 
 
 # Exception for bad parameters provided
@@ -646,3 +646,13 @@ def email_report(job, univ_options):
     else:
         server.sendmail(fromadd, msg['To'], text)
         server.quit()
+
+
+def dummy_job(job, return_value):
+    """
+    This job will return whatever it was passed as an argument
+
+    :param return_value: Any object of any pickle-able type
+    :return: return_value
+    """
+    return return_value

@@ -130,7 +130,7 @@ mutation_annotation:
 mutation_translation:
     transgene:
         gencode_peptide_fasta : S3://protect-data/hg38_references/gencode.v25.pc_translations_NOPARY.fa.tar.gz
-        gencode_transcript_fasta : S3://protect-data/hg38_references/gencode.v25.pc_transcripts.fa.tar.gz
+        gencode_transcript_fasta : S3://protect-data/hg38_references/gencode.v25.pc_transcripts_NOPARY.fa.tar.gz
         gencode_annotation_gtf : S3://protect-data/hg38_references/gencode.v25.annotation_NOPARY.gtf.tar.gz
         genome_fasta : S3://protect-data/hg38_references/hg38.fa.tar.gz
         # version: 2.2.2

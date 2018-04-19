@@ -64,8 +64,8 @@ def boost_ranks(job, isoform_expression, merged_mhc_calls, transgene_out, univ_o
         'rsem_quant.tsv': isoform_expression,
         'mhci_merged_files.tsv': merged_mhc_calls['mhci_merged_files.list'],
         'mhcii_merged_files.tsv': merged_mhc_calls['mhcii_merged_files.list'],
-        'mhci_peptides.faa': transgene_out['transgened_tumor_10_mer_snpeffed.faa'],
-        'mhcii_peptides.faa': transgene_out['transgened_tumor_15_mer_snpeffed.faa']}
+        'mhci_peptides.faa': transgene_out['transgened_tumor_10_mer_peptides.faa'],
+        'mhcii_peptides.faa': transgene_out['transgened_tumor_15_mer_peptides.faa']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=True)
     output_files = {}
     for mhc in ('mhci', 'mhcii'):

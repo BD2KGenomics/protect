@@ -24,6 +24,7 @@ from __future__ import print_function
 from collections import defaultdict
 from multiprocessing import cpu_count
 
+import dill
 from protect.addons.assess_car_t_validity import run_car_t_validity_assessment
 from protect.addons.assess_immunotherapy_resistance import run_itx_resistance_assessment
 from protect.addons.assess_mhc_pathway import run_mhc_gene_assessment
@@ -40,7 +41,7 @@ from protect.common import (delete_bams,
                             parse_chromosome_string,
                             untargz,
                             is_gzipfile,
-                            gunzip)
+                            gunzip, dummy_job)
 from protect.expression_profiling.rsem import wrap_rsem
 from protect.haplotyping.phlat import merge_phlat_calls, phlat_disk, run_phlat
 from protect.mutation_annotation.snpeff import run_snpeff, snpeff_disk
@@ -120,22 +121,30 @@ def _ensure_patient_group_is_ok(patient_object, patient_name=None):
         # Either we have a fastq and/or bam for the tumor and normal, or we need to be given a vcf
         if (({re.search('tumor_dna_((bam)|(fastq_1)).*', x) for x in test_set} == {None} or
                 {re.search('normal_dna_((bam)|(fastq_1)).*', x) for x in test_set} == {None}) and
-                'mutation_vcf' not in test_set):
+                ('mutation_vcf' not in test_set and 'fusion_bedpe' not in test_set)):
             raise ParameterError(('The patient entry for sample %s ' % patient_name) +
-                                 'does not contain a mutation_vcf entry. If\nboth tumor and normal '
-                                 'DNA sequences (fastqs or bam) are not provided, a pre-computed '
-                                 'vcf must\nbe provided.')
-        # We have to be given a tumor rna fastq or bam
+                                 'does not contain a mutation_vcf or fusion_bedpe entry. If both '
+                                 'tumor and normal DNA sequences (fastqs or bam) are not provided, '
+                                 'a pre-computed vcf and/or bedpe must be provided.')
+        # We have to be given a tumor rna fastq or bam unless we are processing ONLY fusions
         if {re.search('tumor_rna_((bam)|(fastq_1)).*', x) for x in test_set} == {None}:
-            raise ParameterError(('The patient entry for sample %s ' % patient_name) +
-                                 'does not contain a tumor rna sequence data entry. We require '
-                                 'either tumor_rna_fastq_1 or tumor_rna_bam.')
-        # If we are given an RNA bam then it needs to have a corresponding transcriptome bam
+            if 'mutation_vcf' not in test_set and 'fusion_bedpe' in test_set:
+                # The only case where it is ok to not have the genome mapped rna.
+                pass
+            else:
+                raise ParameterError(('The patient entry for sample %s ' % patient_name) +
+                                     'does not contain a tumor rna sequence data entry. We require '
+                                     'either tumor_rna_fastq_1 or tumor_rna_bam.')
+        # If we are given an RNA bam then it needs to have a corresponding transcriptome bam unless
+        # we have also been provided expression values.
         if 'tumor_rna_bam' in test_set and 'tumor_rna_transcriptome_bam' not in test_set:
-            raise ParameterError(('The patient entry for sample %s ' % patient_name +
-                                  'was provided a tumor rna bam with sequences mapped to the '
-                                  'genome but was not provided a matching rna bam for the '
-                                  'transcriptome. We require both.'))
+            if 'expression_files' not in test_set:
+                raise ParameterError(('The patient entry for sample %s ' % patient_name +
+                                      'was provided a tumor rna bam with sequences mapped to the '
+                                      'genome but was not provided a matching rna bam for the '
+                                      'transcriptome or a tar containing expression values. '
+                                      'We require either a matching transcriptome bam to estimate'
+                                      'expression, or the precomputed expression values.'))
 
 
 def _add_default_entries(input_dict, defaults_dict):
@@ -245,44 +254,44 @@ def parse_patients(job, patient_dict, skip_fusions=False):
                    'patient_id': patient_dict['patient_id'],
                    'tumor_type': patient_dict['tumor_type'],
                    'filter_for_OxoG': patient_dict.get('filter_for_OxoG') in (True, 'True', 'true')}
-    patient_keys = set(patient_dict)
-    out_keys = []
+    out_keys = set()
 
-    if {'mutation_vcf', 'hla_haplotype_files'}.issubset(patient_dict):
-        # We have a haplotype and a vcf so don't need the DNA fastqs/bams
-        out_keys.extend(['mutation_vcf', 'hla_haplotype_files'])
-        # We just add the rna files to the dict here and resolve expression and fusions later
-        if 'tumor_rna_bam' in patient_keys:
-            out_keys.append('tumor_rna_bam')
-            out_keys.append('tumor_rna_transcriptome_bam')
-            if 'tumor_rna_bai' in patient_keys:
-                out_keys.append('tumor_rna_bai')
-        else:
-            out_keys.extend([x for x in patient_keys if x.startswith('tumor_rna_fastq')])
-    elif 'hla_haplotype_files' in patient_keys:
-        out_keys.extend(['hla_haplotype_files'])
-        # We don't have a vcf.  Use the bams if possible.
+    if 'hla_haplotype_files' not in patient_dict:
+        # If we don't have the haplotype, we necessarily need all the fastqs
         for stype in 'tumor_dna', 'normal_dna', 'tumor_rna':
-            if stype + '_bam' in patient_keys:
-                out_keys.append(stype + '_bam')
-                if stype + '_bai' in patient_keys:
-                    out_keys.append(stype + '_bai')
-                if stype == 'tumor_rna':
-                    out_keys.append(stype + '_transcriptome_bam')
-            else:
-                out_keys.extend([x for x in patient_keys if x.startswith(stype + '_fastq')])
+            out_keys.update([x for x in patient_dict if x.startswith(stype + '_fastq')])
     else:
-        if 'mutation_vcf' in patient_keys:
-            # nesting this under the else since both cases need all fastqs.
-            out_keys.extend(['mutation_vcf'])
-        for stype in 'tumor_dna', 'normal_dna', 'tumor_rna':
-            out_keys.extend([x for x in patient_keys if x.startswith(stype + '_fastq')])
-    # If there's expression files, add them now
-    if 'expression_files' in patient_keys:
-        out_keys.append('expression_files')
-    # If there's a fusion file, add it now
-    if 'fusion_bedpe' in patient_keys:
-        out_keys.append('fusion_bedpe')
+        out_keys.add('hla_haplotype_files')
+
+    if 'mutation_vcf' in patient_dict:
+        out_keys.add('mutation_vcf')
+        # We either need a genome mapped RNA bam or fastqs for this to work
+        if 'tumor_rna_bam' in patient_dict:
+            out_keys.add('tumor_rna_bam')
+            if 'tumor_rna_bai' in patient_dict:
+                out_keys.add('tumor_rna_bai')
+        else:
+            out_keys.update([x for x in patient_dict if x.startswith('tumor_rna_fastq')])
+    else:
+        if 'fusion_bedpe' not in patient_dict:
+            # We are not looking at just fusions so we either need 3 bams/fastqs to run ProTECT
+            for stype in 'tumor_dna', 'normal_dna', 'tumor_rna':
+                if stype + '_bam' in patient_dict:
+                    out_keys.add(stype + '_bam')
+                else:
+                    out_keys.update([x for x in patient_dict if x.startswith(stype + '_fastq')])
+
+    if 'expression_files' in patient_dict:
+        out_keys.add('expression_files')
+    else:
+        # We need the transcriptome mapped RNA bam or fastqs
+        if 'tumor_rna_transcriptome_bam' in patient_dict:
+            out_keys.add('tumor_rna_transcriptome_bam')
+        else:
+            out_keys.update([x for x in patient_dict if x.startswith('tumor_rna_fastq')])
+
+    if 'fusion_bedpe' in patient_dict:
+        out_keys.add('fusion_bedpe')
 
     for key in out_keys:
         output_dict[key] = patient_dict[key]
@@ -293,6 +302,9 @@ def parse_patients(job, patient_dict, skip_fusions=False):
             output_dict[f + '_fastq_2'] = get_fastq_2(job, patient_dict['patient_id'], f,
                                                       output_dict[f + '_fastq_1'])
     output_dict['gdc_inputs'] = [k for k, v in output_dict.items() if str(v).startswith('gdc')]
+    if not any('dna' in k for k in output_dict.keys()):
+        # There are no input DNA files so we cannot filter for oxog
+        output_dict['filter_for_OxoG'] = False
     return output_dict
 
 
@@ -462,6 +474,8 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict tool_options: Options for the various tools
     """
+    with open('/tmp/pooo', 'w') as df:
+        dill.dump(patient_data, df)
     # Add Patient id to univ_options as is is passed to every major node in the DAG and can be used
     # as a prefix for the logfile.
     univ_options['patient'] = patient_data['patient_id']
@@ -520,38 +534,47 @@ def launch_protect(job, patient_data, univ_options, tool_options):
 
     # Define the RNA-Seq Alignment subgraph if needed
     if bam_files['tumor_rna'] is None:
-        assert fastq_files['tumor_rna'] is not None
-        cutadapt = job.wrapJobFn(run_cutadapt, fastq_files['tumor_rna'].rv(), univ_options,
-                                 tool_options['cutadapt'], cores=1,
-                                 disk=PromisedRequirement(cutadapt_disk,
-                                                          fastq_files['tumor_rna'].rv()))
-        bam_files['tumor_rna'] = job.wrapJobFn(align_rna, cutadapt.rv(), univ_options,
-                                               tool_options['star'], cores=1,
-                                               disk='100M').encapsulate()
-        fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
-                                         disk='100M', memory='100M')
-        fastq_files['tumor_rna'].addChild(cutadapt)
-        cutadapt.addChild(fastq_deletion_1)
-        cutadapt.addChild(fastq_deletion_2)
-        cutadapt.addChild(bam_files['tumor_rna'])
-        bam_files['tumor_rna'].addChild(fastq_deletion_2)
-        # Define the fusion calling node
-        if 'fusion_bedpe' not in patient_data:
-            tool_options['star_fusion']['index'] = tool_options['star']['index']
-            tool_options['fusion_inspector']['index'] = tool_options['star']['index']
-            fusions = job.wrapJobFn(wrap_fusion,
-                                    cutadapt.rv(),
-                                    bam_files['tumor_rna'].rv(),
-                                    univ_options,
-                                    tool_options['star_fusion'],
-                                    tool_options['fusion_inspector'],
-                                    disk='100M', memory='100M', cores=1).encapsulate()
-        else:
+        if ('fusion_bedpe' in patient_data and 'expression_files' in patient_data and
+                'mutation_vcf' not in patient_data):
+            # If we are processing only fusions, and we have precomputed expression values, we don't
+            # need to align the rna
             fusions = job.wrapJobFn(get_patient_bedpe, sample_prep.rv())
             sample_prep.addChild(fusions)
-        bam_files['tumor_rna'].addChild(fusions)
-        fusions.addChild(fastq_deletion_1)
-        fusions.addChild(fastq_deletion_2)
+            bam_files['tumor_rna'] = job.wrapJobFn(dummy_job, {}, disk='1M', memory='1M', cores=1)
+            sample_prep.addChild(bam_files['tumor_rna'])
+        else:
+            assert fastq_files['tumor_rna'] is not None
+            cutadapt = job.wrapJobFn(run_cutadapt, fastq_files['tumor_rna'].rv(), univ_options,
+                                     tool_options['cutadapt'], cores=1,
+                                     disk=PromisedRequirement(cutadapt_disk,
+                                                              fastq_files['tumor_rna'].rv()))
+            bam_files['tumor_rna'] = job.wrapJobFn(align_rna, cutadapt.rv(), univ_options,
+                                                   tool_options['star'], cores=1,
+                                                   disk='100M').encapsulate()
+            fastq_deletion_2 = job.wrapJobFn(delete_fastqs, {'cutadapted_rnas': cutadapt.rv()},
+                                             disk='100M', memory='100M')
+            fastq_files['tumor_rna'].addChild(cutadapt)
+            cutadapt.addChild(fastq_deletion_1)
+            cutadapt.addChild(fastq_deletion_2)
+            cutadapt.addChild(bam_files['tumor_rna'])
+            bam_files['tumor_rna'].addChild(fastq_deletion_2)
+            # Define the fusion calling node
+            if 'fusion_bedpe' not in patient_data:
+                tool_options['star_fusion']['index'] = tool_options['star']['index']
+                tool_options['fusion_inspector']['index'] = tool_options['star']['index']
+                fusions = job.wrapJobFn(wrap_fusion,
+                                        cutadapt.rv(),
+                                        bam_files['tumor_rna'].rv(),
+                                        univ_options,
+                                        tool_options['star_fusion'],
+                                        tool_options['fusion_inspector'],
+                                        disk='100M', memory='100M', cores=1).encapsulate()
+            else:
+                fusions = job.wrapJobFn(get_patient_bedpe, sample_prep.rv())
+                sample_prep.addChild(fusions)
+            bam_files['tumor_rna'].addChild(fusions)
+            fusions.addChild(fastq_deletion_1)
+            fusions.addChild(fastq_deletion_2)
     else:
         # Define the fusion calling node
         if 'fusion_bedpe' in patient_data:
@@ -575,7 +598,8 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     # Define the bam deletion node
     delete_bam_files['tumor_rna'] = job.wrapJobFn(delete_bams,
                                                   bam_files['tumor_rna'].rv(),
-                                                  univ_options['patient'], disk='100M',
+                                                  univ_options['patient'],
+                                                  disk='100M',
                                                   memory='100M')
     bam_files['tumor_rna'].addChild(delete_bam_files['tumor_rna'])
     rsem.addChild(delete_bam_files['tumor_rna'])
@@ -606,6 +630,9 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     if 'mutation_vcf' in patient_data:
         get_mutations = job.wrapJobFn(get_patient_vcf, sample_prep.rv())
         sample_prep.addChild(get_mutations)
+    elif 'fusion_bedpe' in patient_data:
+        # Fusions have been handled above, and we don't need to align DNA
+        get_mutations = None
     else:
         assert (None, None) not in zip(fastq_files.values(), bam_files.values())
         for sample_type in 'tumor_dna', 'normal_dna':
@@ -662,19 +689,25 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         if not patient_data['filter_for_OxoG']:
             get_mutations.addChild(delete_bam_files['tumor_dna'])
 
+    if get_mutations is not None:
+        snpeff = job.wrapJobFn(run_snpeff, get_mutations.rv(), univ_options, tool_options['snpeff'],
+                               disk=PromisedRequirement(snpeff_disk,
+                                                        tool_options['snpeff']['index']))
+        get_mutations.addChild(snpeff)
+    else:
+        snpeff = None
+
     # The rest of the subgraph should be unchanged
-    snpeff = job.wrapJobFn(run_snpeff, get_mutations.rv(), univ_options, tool_options['snpeff'],
-                           disk=PromisedRequirement(snpeff_disk,
-                                                    tool_options['snpeff']['index']))
-    get_mutations.addChild(snpeff)
     tumor_dna_bam = bam_files['tumor_dna'].rv() if patient_data['filter_for_OxoG'] else None
     fusion_calls = fusions.rv() if fusions else None
-    transgene = job.wrapJobFn(run_transgene, snpeff.rv(), bam_files['tumor_rna'].rv(), univ_options,
-                              tool_options['transgene'],
+    snpeffed_calls = snpeff.rv() if snpeff else None
+    transgene = job.wrapJobFn(run_transgene, snpeffed_calls, bam_files['tumor_rna'].rv(),
+                              univ_options, tool_options['transgene'],
                               disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv()),
                               memory='100M', cores=1, tumor_dna_bam=tumor_dna_bam,
                               fusion_calls=fusion_calls)
-    snpeff.addChild(transgene)
+    if snpeff:
+        snpeff.addChild(transgene)
     bam_files['tumor_rna'].addChild(transgene)
     transgene.addChild(delete_bam_files['tumor_rna'])
     if patient_data['filter_for_OxoG']:
@@ -861,6 +894,8 @@ def get_patient_bams(job, patient_dict, sample_type, univ_options, bwa_options, 
         job.addChild(output_job)
         output_dict = output_job.rv()
     if sample_type == 'tumor_rna':
+        if 'tumor_rna_transcriptome_bam' not in patient_dict:
+            patient_dict['tumor_rna_transcriptome_bam'] = None
         return{'rna_genome': output_dict,
                'rna_transcriptome.bam': patient_dict['tumor_rna_transcriptome_bam']}
     else:
