@@ -1,4 +1,5 @@
-# Copyright 2016 Arjun Arkal Rao
+# Copyright 2016 UCSC Computational Genomics Lab
+# Original contributor: Arjun Arkal Rao
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
