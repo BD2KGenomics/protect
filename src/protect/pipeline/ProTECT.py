@@ -1,5 +1,6 @@
 #!/usr/bin/env python2.7
-# Copyright 2016 Arjun Arkal Rao
+# Copyright 2016 UCSC Computational Genomics Lab
+# Original contributor: Arjun Arkal Rao
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -474,8 +475,6 @@ def launch_protect(job, patient_data, univ_options, tool_options):
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict tool_options: Options for the various tools
     """
-    with open('/tmp/pooo', 'w') as df:
-        dill.dump(patient_data, df)
     # Add Patient id to univ_options as is is passed to every major node in the DAG and can be used
     # as a prefix for the logfile.
     univ_options['patient'] = patient_data['patient_id']

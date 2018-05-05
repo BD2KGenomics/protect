@@ -65,13 +65,13 @@ Install Toil
 
     pip install toil[aws]==3.5.2
 
-Install ProTECT and all dependencies in the virtualenv
-
-    pip install protect
-
 Install packaging (required if setuptools>=39.0.1)
 
     pip install packaging
+
+Install ProTECT and all dependencies in the virtualenv
+
+    pip install protect
 
 ### Method 2 - Installing from Source
 
@@ -81,18 +81,20 @@ Obtain the source from Github
 
     git clone https://www.github.com/BD2KGenomics/protect.git
 
-Create a virtualenv in the project folder
+Create and activate a virtualenv in the project folder (Important since the Makefile checks for
+this and will fail if it detects that you are not in a virtual environment)
 
     cd protect
     virtualenv venv
-
-Activate the virtualenv
-
     source venv/bin/activate
 
 Install Toil and pytest
 
     make prepare
+
+Install packaging (required if setuptools>=39.0.1)
+
+    pip install packaging
 
 Install ProTECT
 
@@ -263,7 +265,7 @@ These describe options that are used universally by most tools/jobs in the workf
                                                    (`False`), or were they encrypted with individual
                                                    per-file keys hashed from the master sse_key
                                                    (`True`)
-        gdc_download_token: /path/to/token.txt  -> If any of teh input files are being pulled from
+        gdc_download_token: /path/to/token.txt  -> If any of the input files are being pulled from
                                                    the NCBI GDC, this token is required to access
                                                    the data. This file should be present at the same
                                                    location on all workers in the workflow.
@@ -502,4 +504,102 @@ ProTECT is registered on Dockstore.org and can be run using Dockstore with the f
 dockstore tool launch --debug --entry quay.io/ucsc_cgl/protect:<version tag>  --json protect.json
 `
 
-The example protect.json file provided in this repo describes a run where the input reference files are on the local file system at `/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files` and the input fastqs are in `/home/ubuntu/protect-work/samples/`.
+The example protect.json file provided in this repo describes a run where the input reference files
+are on the local file system at `/home/ubuntu/protect-work/protect-reference-files/hg38-reference-files`
+and the input fastqs are in `/home/ubuntu/protect-work/samples/`.
+
+# Troubleshooting
+## Installation
+#### 1. packaging related issues
+If you see
+
+    Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+      File "/mnt/dstew/protect/setup.py", line 6, in <module>
+        from packaging.version import LegacyVersion as _LegacyVersion
+    ImportError: No module named packaging.version
+
+
+Then it is mostly due to a version of setuptools >= 39.0.1. The fix for this is to run the
+following line before reattempting to install protect.
+
+    pip install packaging
+
+## Errors during Runtime
+### How to read and understand an error arising during/at the end of the run
+Since ProTECT is written in TOIL, the error printed on a failed job is the logfile for the worker
+that failed to execute the python function that was the failed job.
+
+An example error is shown here with line numbers manually added at the beginning for annotation
+purposes:
+
+    01: The job seems to have left a log file, indicating failure: 'merge_mhc_peptide_calls' g/f/jobO4yiE4
+    02: g/f/jobO4yiE4    ---TOIL WORKER OUTPUT LOG---
+    03: g/f/jobO4yiE4    INFO:toil:Running Toil version 3.8.0-4c83830e4f42594d995e01ccc07b47396b88c9e7.
+    04: g/f/jobO4yiE4    INFO:toil.fileStore:Starting job ('merge_mhc_peptide_calls' g/f/jobO4yiE4) with ID (972acf421c864831d756dec528bb9cc2a4d3c281).
+    05: g/f/jobO4yiE4    INFO:toil.fileStore:LOG-TO-MASTER: Merging MHC calls
+    06: g/f/jobO4yiE4    Traceback (most recent call last):
+    07: g/f/jobO4yiE4      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/worker.py", line 340, in main
+    08: g/f/jobO4yiE4        job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore)
+    09: g/f/jobO4yiE4      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/job.py", line 1289, in _runner
+    10: g/f/jobO4yiE4        returnValues = self._run(jobGraph, fileStore)
+    11: g/f/jobO4yiE4      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/job.py", line 1234, in _run
+    12: g/f/jobO4yiE4        return self.run(fileStore)
+    13: g/f/jobO4yiE4      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/job.py", line 1406, in run
+    14: g/f/jobO4yiE4        rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+    15: g/f/jobO4yiE4      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python2.7/site-packages/protect/binding_prediction/common.py", line 566, in merge_mhc_peptide_calls
+    16: g/f/jobO4yiE4        raise RuntimeError('No peptides available for ranking')
+    17: g/f/jobO4yiE4    RuntimeError: No peptides available for ranking
+    18: g/f/jobO4yiE4    ERROR:toil.worker:Exiting the worker because of a failed job on host sjcb10st7
+    19: g/f/jobO4yiE4    WARNING:toil.jobGraph:Due to failure we are reducing the remaining retry count of job 'merge_mhc_peptide_calls' g/f/jobO4yiE4 with ID g/f/jobO4yiE4 to 0
+    20: g/f/jobO4yiE4    WARNING:toil.jobGraph:We have increased the default memory of the failed job 'merge_mhc_peptide_calls' g/f/jobO4yiE4 to 2147483648 bytes
+
+* Line 1 tells you which function failed.
+* Line 6 is where the actual error starts (the line starting with `Traceback`)
+* Line 16 tells you the tool failed with a RuntimeError and contains the actual error message. In
+this case, the tool found no peptides that were available for ranking.
+* The line numbers will vary with different tools and dependin gon how jobs were scheduled, however
+a rule of thumb is to look for the string `RuntimeError` (the most common error thrown by ProTECT)
+or just `Error` and then read the error message.
+
+### A note on non-deterministic errors with RADIA
+It has been noticed that RADIA sometimes fails non-deterministically on one (or rarely more)
+chromosome in a sample during a ProTECT run. The error is highly non-informative since we currently
+do not store logs from tools (see BD2KGenomics/protect#275). The error looks similar to this:
+
+    Z/O/job1uH92D    ---TOIL WORKER OUTPUT LOG---
+    Z/O/job1uH92D    INFO:toil:Running Toil version 3.8.0-4c83830e4f42594d995e01ccc07b47396b88c9e7.
+    Z/O/job1uH92D    INFO:toil.fileStore:Starting job ('run_filter_radia' Z/O/job1uH92D) with ID (0e8bb5ea5d785324b5abce7b384bf5b99140aa6c).
+    Z/O/job1uH92D    WARNING:toil.fileStore:LOG-TO-MASTER: Job used more disk than requested. Please reconsider modifying the user script to avoid the chance  of failure due to incorrec
+    tly requested resources. Job 'run_filter_radia' Z/O/job1uH92D used 104.10% (34.3 GB [36816449536B] used, 32.9 GB [35367908263B] requested) at the end of its run.
+    Z/O/job1uH92D    Traceback (most recent call last):
+    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/worker.py", line 340, in main
+    Z/O/job1uH92D        job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore)
+    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/job.py", line 1289, in _runner
+    Z/O/job1uH92D        returnValues = self._run(jobGraph, fileStore)
+    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/job.py", line 1234, in _run
+    Z/O/job1uH92D        return self.run(fileStore)
+    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/job.py", line 1406, in run
+    Z/O/job1uH92D        rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python2.7/site-packages/protect/mutation_calling/radia.py", line 238, in run_filter_radia
+    Z/O/job1uH92D        tool_version=radia_options['version'])
+    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python2.7/site-packages/protect/common.py", line 138, in docker_call
+    Z/O/job1uH92D        'for command \"%s\"' % ' '.join(call),)
+    Z/O/job1uH92D    RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /scratch/bio/ucsc/toil-681c097c-61da-4687-b734-c5051f0aa19f/tmped2fnu/f041f939-5c0d-40be-a884-68635e929d09:/data --log-driver=none aarjunrao/filterradia:bcda721fc1f9c28d8b9224c2f95c440759cd3a03 TCGA-CH-5788 17 /data/radia.vcf /data /home/radia/scripts -d /data/radia_dbsnp -r /data/radia_retrogenes -p /data/radia_pseudogenes -c /data/radia_cosmic -t /data/radia_gencode --noSnpEff --noBlacklist --noTargets --noRnaBlacklist -f /data/hg38.fa --log=INFO -g /data/radia_filtered_chr17_radia.log"
+    Z/O/job1uH92D    ERROR:toil.worker:Exiting the worker because of a failed job on host sjcb10st1
+    Z/O/job1uH92D    WARNING:toil.jobGraph:Due to failure we are reducing the remaining retry count of job 'run_filter_radia' Z/O/job1uH92D with ID Z/O/job1uH92D to 0
+
+The fix for this is to just rerun protect with the same jobstore (if you haven't specified
+`--clean always`) with the `--restart` flag. I.e. run exactly the same command as the original run
+with `--restart` appended at the end of the command.
+
+For example, if your command was:
+
+    ProTECT --config_file test.yaml --workDir /tmp/working/protect_test /tmp/jobstores/protect_test
+
+then your restart command becomes:
+
+    ProTECT --config_file test.yaml --workDir /tmp/working/protect_test /tmp/jobstores/protect_test \
+            --restart
+
+
