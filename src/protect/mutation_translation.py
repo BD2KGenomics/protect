@@ -139,5 +139,11 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
         os.rename('transgened_transgened.vcf', 'mutations.vcf')
         export_results(job, job.fileStore.writeGlobalFile('mutations.vcf'), 'mutations.vcf',
                        univ_options, subfolder='mutations/transgened')
+    if fusion_calls:
+        # There won't be an output bedpe if there's no input
+        os.rename('transgened_transgened.bedpe', 'fusions.bedpe')
+        export_results(job, job.fileStore.writeGlobalFile('fusions.bedpe'), 'fusions.bedpe',
+                       univ_options, subfolder='mutations/transgened')
+
     job.fileStore.logToMaster('Ran transgene on %s successfully' % univ_options['patient'])
     return output_files

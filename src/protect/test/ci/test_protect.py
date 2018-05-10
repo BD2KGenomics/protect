@@ -140,9 +140,12 @@ class TestProtect(ProtectTest):
                                 'snpeffed': ('/mnt/ephemeral/done/TEST/mutations/snpeffed',
                                              [],
                                              ['mutations.vcf']),
-                                'transgened': ('/mnt/ephemeral/done/TEST/mutations/transgened',
-                                               [],
-                                               ['mutations.vcf']),
+                                'transgened_f': ('/mnt/ephemeral/done/TEST/mutations/transgened',
+                                                 [],
+                                                 ['fusions.bedpe', 'mutations.vcf']),
+                                'transgened_v': ('/mnt/ephemeral/done/TEST/mutations/transgened',
+                                                 [],
+                                                 ['mutations.vcf']),
                             },
                             'peptides': ('/mnt/ephemeral/done/TEST/peptides',
                                          [],
@@ -185,6 +188,13 @@ class TestProtect(ProtectTest):
                                 contents_per_dir['mutations']['strelka']['indel']
                             expected_contents['mutations_strelka_3'] = \
                                 contents_per_dir['mutations']['strelka']['snv']
+                        elif caller == 'transgened':
+                            if 'fusions' in dir['mutations']:
+                                expected_contents['mutations_' + caller] = \
+                                    contents_per_dir['mutations'][caller + '_f']
+                            else:
+                                expected_contents['mutations_' + caller] = \
+                                    contents_per_dir['mutations'][caller + '_v']
                         else:
                             expected_contents['mutations_' + caller] = \
                                 contents_per_dir['mutations'][caller]
