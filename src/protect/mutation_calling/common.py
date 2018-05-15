@@ -63,12 +63,30 @@ def run_mutation_aggregator(job, mutation_results, univ_options):
     """
     # Setup an input data structure for the merge function
     out = {}
-    for chrom in mutation_results['mutect'].keys():
-        out[chrom] = job.addChildJobFn(merge_perchrom_mutations, chrom, mutation_results,
-                                       univ_options).rv()
-    merged_snvs = job.addFollowOnJobFn(merge_perchrom_vcfs, out, 'merged', univ_options)
-    job.fileStore.logToMaster('Aggregated mutations for %s successfully' % univ_options['patient'])
-    return merged_snvs.rv()
+    chroms = {}
+    # Extract the chromosomes from a mutation caller if at least one mutation caller is selected.  All callers should
+    # have the same chromosomes.
+    for caller in mutation_results:
+        if mutation_results[caller] is None:
+            continue
+        else:
+            if caller == 'strelka':
+                if mutation_results['strelka']['snvs'] is None:
+                    continue
+                chroms = mutation_results['strelka']['snvs'].keys()
+            else:
+                chroms = mutation_results[caller].keys()
+            break
+    if chroms:
+        for chrom in chroms:
+            out[chrom] = job.addChildJobFn(merge_perchrom_mutations, chrom, mutation_results,
+                                           univ_options).rv()
+        merged_snvs = job.addFollowOnJobFn(merge_perchrom_vcfs, out, 'merged', univ_options)
+        job.fileStore.logToMaster('Aggregated mutations for %s successfully' % univ_options['patient'])
+        return merged_snvs.rv()
+    else:
+        return None
+
 
 
 def merge_perchrom_mutations(job, chrom, mutations, univ_options):
@@ -100,30 +118,26 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
                      'indels': {'strelka_indels': process_strelka_vcf
                                 }
                      }
-    #                 'fusions': lambda x: None,
-    #                 'indels': lambda x: None}
-    # For now, let's just say 2 out of n need to call it.
-    # num_preds = len(mutations)
-    # majority = int((num_preds + 0.5) / 2)
-    majority = {'snvs': 2,
-                'indels': 1}
-
     accepted_hits = defaultdict(dict)
-
     for mut_type in vcf_processor.keys():
         # Get input files
         perchrom_mutations = {caller: vcf_processor[mut_type][caller](job, mutations[caller][chrom],
                                                                       work_dir, univ_options)
-                              for caller in vcf_processor[mut_type]}
+                              for caller in vcf_processor[mut_type]
+                              if mutations[caller] is not None}
+        if not perchrom_mutations:
+            continue
         # Process the strelka key
-        perchrom_mutations['strelka'] = perchrom_mutations['strelka_' + mut_type]
-        perchrom_mutations.pop('strelka_' + mut_type)
+        if 'strelka_' + mut_type in perchrom_mutations:
+            perchrom_mutations['strelka'] = perchrom_mutations['strelka_' + mut_type]
+            perchrom_mutations.pop('strelka_' + mut_type)
+        majority = 1 if len(perchrom_mutations) <= 2 else (len(perchrom_mutations) + 1) / 2
         # Read in each file to a dict
         vcf_lists = {caller: read_vcf(vcf_file) for caller, vcf_file in perchrom_mutations.items()}
         all_positions = list(set(itertools.chain(*vcf_lists.values())))
         for position in sorted(all_positions):
             hits = {caller: position in vcf_lists[caller] for caller in perchrom_mutations.keys()}
-            if sum(hits.values()) >= majority[mut_type]:
+            if sum(hits.values()) >= majority:
                 callers = ','.join([caller for caller, hit in hits.items() if hit])
                 assert position[1] not in accepted_hits[position[0]]
                 accepted_hits[position[0]][position[1]] = (position[2], position[3], callers)

@@ -75,6 +75,8 @@ def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
                  +- 'chrM': fsID
     :rtype: dict
     """
+    if mutect_options['run'] is False:
+        return None
     # Get a list of chromosomes to handle
     if mutect_options['chromosomes']:
         chromosomes = mutect_options['chromosomes']

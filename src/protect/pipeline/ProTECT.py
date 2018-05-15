@@ -354,6 +354,8 @@ def _parse_config_file(job, config_file, max_cores=None):
 
     # Flags to check for presence of encryption keys if required
     gdc_inputs = ssec_encrypted = False
+    # Flag to check if a sample without an input vcf/bedpe was provided
+    sample_without_variants = False
     for key in input_config.keys():
         if key == 'patients':
             # Ensure each patient contains the required entries
@@ -373,6 +375,9 @@ def _parse_config_file(job, config_file, max_cores=None):
                         raise ParameterError('Cannot run ProTECT using GDC RNA bams. Please fix '
                                              'sample %s' % sample_name)
                     gdc_inputs = True
+                if ('mutation_vcf' not in sample_set[sample_name]
+                        and 'fusion_bedpe' not in sample_set[sample_name]):
+                    sample_without_variants = True
         else:
             # Ensure the required entries exist for this key
             _ensure_set_contains(input_config[key], required_keys[key], key)
@@ -427,6 +432,10 @@ def _parse_config_file(job, config_file, max_cores=None):
                                                                 'token.')
     # Get all the tool inputs
     job.fileStore.logToMaster('Obtaining tool inputs')
+    if (sample_without_variants and all(tool_options[k]['run'] is False
+                                        for k in mutation_caller_list
+                                        if k not in ('indexes', 'fusion_inspector'))):
+        raise RuntimeError("Cannot run mutation callers if all callers are set to run = False.")
     process_tool_inputs = job.addChildJobFn(get_all_tool_inputs, tool_options,
                                             mutation_caller_list=mutation_caller_list)
     job.fileStore.logToMaster('Obtained tool inputs')
@@ -670,7 +679,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
                                      bam_files['normal_dna'].rv(), univ_options,
                                      tool_options['strelka']).encapsulate(),
             'indels': job.wrapJobFn(run_indel_caller, bam_files['tumor_dna'].rv(),
-                                    bam_files['normal_dna'].rv(), univ_options, 'indel_options',
+                                    bam_files['normal_dna'].rv(), univ_options, {'run': False},
                                     disk='100M', memory='100M', cores=1)}
         for sample_type in 'tumor_dna', 'normal_dna':
             for caller in mutations:

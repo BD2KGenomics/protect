@@ -45,7 +45,10 @@ def run_strelka_with_merge(job, tumor_bam, normal_bam, univ_options, strelka_opt
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict strelka_options: Options specific to strelka
     :return: fsID to the merged strelka calls
-    :rtype: toil.fileStore.FileID
+    :rtype: dict(str, toil.fileStore.FileID)
+              |-'snvs': fsID
+              |
+              +-'indels': fsID
     """
     spawn = job.wrapJobFn(run_strelka, tumor_bam, normal_bam, univ_options,
                           strelka_options, split=False).encapsulate()
@@ -63,8 +66,9 @@ def run_strelka(job, tumor_bam, normal_bam, univ_options, strelka_options, split
     :param dict univ_options: Dict of universal options used by almost all tools
     :param dict strelka_options: Options specific to strelka
     :param bool split: Should the results be split into perchrom vcfs?
-    :return: Either the fsID to the genome-level vcf or a dict of results from running strelka
-             on every chromosome
+    :return: Either the a dict of results from running strelka on every chromosome, or a dict of running strelka on the
+             whole genome
+
              perchrom_strelka:
                  |- 'chr1':
                  |      |-'snvs': fsID
@@ -77,8 +81,16 @@ def run_strelka(job, tumor_bam, normal_bam, univ_options, strelka_options, split
                  +- 'chrM':
                         |-'snvs': fsID
                         +-'indels': fsID
-    :rtype: toil.fileStore.FileID|dict
+
+             genome_strelka:
+                 |-'snvs': fsID
+                 |
+                 +-'indels': fsID
+
+    :rtype: dict
     """
+    if strelka_options['run'] is False:
+            return {'snvs': None, 'indels': None}
     if strelka_options['chromosomes']:
         chromosomes = strelka_options['chromosomes']
     else:

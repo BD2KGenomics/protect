@@ -362,8 +362,10 @@ be substituted with S3 links. Descriptions for creating all files can be found i
             java_Xmx: 5G                                          -> The heap size to use for MuTect
                                                                      per job (i.e. per chromosome)
             version: 1.1.7
+            run: True                                             -> Switch to skip calling mutect
         muse:
             version: 1.0rc_submission_b391201
+            run: True                                             -> Switch to skip calling muse
         radia:                                                -> Radia uses perchrom bed files in
                                                                  folders as references.
             cosmic_beds: /path/to/radia_cosmic.tar.gz
@@ -372,17 +374,20 @@ be substituted with S3 links. Descriptions for creating all files can be found i
             pseudogene_beds: /path/to/radia_pseudogenes.tar.gz
             gencode_beds: /path/to/radia_gencode.tar.gz
             version: bcda721fc1f9c28d8b9224c2f95c440759cd3a03
+            run: True                                             -> Switch to skip calling radia
         somaticsniper:
             version: 1.0.4
             samtools:                                           -> pileup reads
                 version: 0.1.8
             bam_readcount:                                      -> obtain readcounts
                 version: 0.7.4
+            run: True                                            -> Switch to skip calling somaticsniper
         strelka:
             version: 1.0.15
             config_file: /path/to/strelka_config.ini.tar.gz       -> The Strelka config file for a
                                                                      bwa run (modified for a WXS run
                                                                      if necessary)
+            run: True                                           -> Switch to skip calling strelka
         star_fusion:
             run: True                                           -> Switch to skip fusion calling
             version: 1.0.0

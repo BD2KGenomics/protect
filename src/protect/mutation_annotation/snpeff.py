@@ -39,6 +39,8 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     :return: fsID for the snpeffed vcf
     :rtype: toil.fileStore.FileID
     """
+    if merged_mutation_file is None:
+        return None
     work_dir = os.getcwd()
     input_files = {
         'merged_mutations.vcf': merged_mutation_file,
@@ -46,7 +48,6 @@ def run_snpeff(job, merged_mutation_file, univ_options, snpeff_options):
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     input_files['snpeff_index'] = untargz(input_files['snpeff_index.tar.gz'], work_dir)
     input_files = {key: docker_path(path) for key, path in input_files.items()}
-
     parameters = ['eff',
                   '-dataDir', input_files['snpeff_index'],
                   '-c', '/'.join([input_files['snpeff_index'],
