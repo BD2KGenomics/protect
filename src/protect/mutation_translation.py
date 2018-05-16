@@ -110,6 +110,16 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
         fusion_files = {key: docker_path(path) for key, path in fusion_files.items()}
         parameters += ['--transcripts', fusion_files['transcripts.fa'],
                        '--fusions', fusion_files['fusion_calls']]
+        if transgene_options['filter_mt_fusions'] is True:
+            parameters.append('--filter_mt_fusions')
+        if transgene_options['filter_ig_pairs'] is True:
+            parameters.append('--filter_ig_pairs')
+        if transgene_options['filter_rna_gene_fusions'] is True:
+            parameters.append('--filter_rna_gene_fusions')
+        if transgene_options['filter_readthroughs'] is True:
+            parameters.append('--filter_readthroughs')
+            parameters.extend(['--readthrough_threshold',
+                               str(transgene_options['readthrough_threshold'])])
 
     docker_call(tool='transgene',
                 tool_parameters=parameters,

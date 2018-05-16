@@ -414,6 +414,11 @@ be substituted with S3 links. Descriptions for creating all files can be found i
             gencode_transcript_fasta : /path/to/gencode_transcripts.faa     -> The transcript file for the gencode gtf.
             gencode_annotation_gtf : /path/to/gencode_annotation.gtf        -> The gencode genome annotation file.
             genome_fasta : /path/to/hg19.faa                                -> The gencode genome fasta file
+            filter_mt_fusions: True                                         -> Switch to filter mitochondrial gene pairs
+            filter_ig_pairs: True                                           -> Switch to filter immunoglobulin gene pairs
+            filter_rna_gene_fusions: True                                   -> Switch to filter rna-gene pairs
+            filter_readthroughs: True                                       -> Switch to filter readthroughs
+            readthrough_threshold: 500000                                   -> Threshold below which pairs will be called readthroughs
             version: 2.2.2
 
     haplotyping:
