@@ -329,7 +329,7 @@ def pept_diff(p1, p2):
         return sum([p1[i] != p2[i] for i in range(len(p1))])
 
 
-def _get_normal_peptides(mhc_df, iars, peplen):
+def _get_normal_peptides(job, mhc_df, iars, peplen):
     """
     Get the corresponding normal peptides for the tumor peptides that have already been subjected to
     mhc:peptide binding prediction.
@@ -345,38 +345,42 @@ def _get_normal_peptides(mhc_df, iars, peplen):
     for pred in mhc_df.itertuples():
         containing_iars = [i for i, sl in iars.items() if pred.pept in sl[0]]
         assert len(containing_iars) != 0, "No IARS contained the peptide"
-        if len(containing_iars) > 1:
-            # If there are multiple IARs, they all or none of them have to have a corresponding
-            # normal.
-            assert len(set([len(y) for x, y in iars.items() if x in containing_iars])) == 1
         if len(iars[containing_iars[0]]) == 1:
             # This is a fusion and has no corresponding normal
             normal_peptides.append('N' * peplen)
         else:
-            tum, norm = iars[containing_iars[0]]
-            pos = tum.find(pred.pept)
-            temp_normal_pept = norm[pos:pos + peplen]
-            ndiff = pept_diff(pred.pept, temp_normal_pept)
-            assert ndiff != 0
-            if ndiff == 1:
-                normal_peptides.append(norm[pos:pos + peplen])
+            # If there are multiple IARs, they all or none of them have to have a corresponding
+            # normal.
+            if len(set([len(y) for x, y in iars.items() if x in containing_iars])) != 1:
+                job.fileStore.logToMaster('Some IARS were found to contain the substring but were'
+                                          'inconsistent with the presence of a corresponding '
+                                          'normal.')
+                normal_peptides.append('N' * peplen)
             else:
-                if len(tum) == len(norm):
-                    # Too (2+) many single nucleotide changes to warrant having a normal counterpart
-                    # This might be an artifact
-                    normal_peptides.append('N' * peplen)
+                tum, norm = iars[containing_iars[0]]
+                pos = tum.find(pred.pept)
+                temp_normal_pept = norm[pos:pos + peplen]
+                ndiff = pept_diff(pred.pept, temp_normal_pept)
+                assert ndiff != 0
+                if ndiff == 1:
+                    normal_peptides.append(norm[pos:pos + peplen])
                 else:
-                    # There is an indel in play. The difference cannot be in the last AA as that
-                    # would have come out properly in the first case. There is a possibility that
-                    # the indel was in the first AA causing a shift. We can handle that by looking
-                    # at the suffix.
-                    pos = norm.find(pred.pept[1:])
-                    if pos != -1:
-                        # The suffix was found,
-                        normal_peptides.append(norm[pos-1:pos + peplen])
-                    else:
-                        # The indel was too large to warrant having a normal counterpart
+                    if len(tum) == len(norm):
+                        # Too (2+) many single nucleotide changes to warrant having a normal
+                        # counterpart. This might be an artifact
                         normal_peptides.append('N' * peplen)
+                    else:
+                        # There is an indel in play. The difference cannot be in the last AA as that
+                        # would have come out properly in the first case. There is a possibility
+                        # that the indel was in the first AA causing a shift. We can handle that by
+                        # looking at the suffix.
+                        pos = norm.find(pred.pept[1:])
+                        if pos != -1:
+                            # The suffix was found,
+                            normal_peptides.append(norm[pos-1:pos + peplen])
+                        else:
+                            # The indel was too large to warrant having a normal counterpart
+                            normal_peptides.append('N' * peplen)
 
     mhc_df['normal_pept'] = normal_peptides
     return mhc_df, normal_peptides
@@ -417,7 +421,7 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
                     'predictor': None}
         elif predictor == 'Consensus':
             results = _process_consensus_mhcii(mhc_file)
-            results, peptides = _get_normal_peptides(results, iars, peplen)
+            results, peptides = _get_normal_peptides(job, results, iars, peplen)
             with open('peptides.faa', 'w') as pfile:
                 for pept in peptides:
                     print('>', pept, '\n', pept, sep='', file=pfile)
@@ -431,7 +435,7 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
                     'predictor': 'Consensus'}
         elif predictor == 'Sturniolo':
             results = _process_sturniolo_mhcii(mhc_file)
-            results, peptides = _get_normal_peptides(results, iars, peplen)
+            results, peptides = _get_normal_peptides(job, results, iars, peplen)
             with open('peptides.faa', 'w') as pfile:
                 for pept in peptides:
                     print('>', pept, '\n', pept, sep='', file=pfile)
@@ -445,7 +449,7 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
                     'predictor': 'Sturniolo'}
         elif predictor == 'netMHCIIpan':
             results = _process_net_mhcii(mhc_file)
-            results, peptides = _get_normal_peptides(results, iars, peplen)
+            results, peptides = _get_normal_peptides(job, results, iars, peplen)
             with open('peptides.faa', 'w') as pfile:
                 for pept in peptides:
                     print('>', pept, '\n', pept, sep='', file=pfile)
@@ -465,7 +469,7 @@ def predict_normal_binding(job, binding_result, transgened_files, allele, peplen
         mhc_file = job.fileStore.readGlobalFile(binding_result,
                                                 os.path.join(work_dir, 'mhci_results'))
         results = _process_mhci(mhc_file)
-        results, peptides = _get_normal_peptides(results, iars, peplen)
+        results, peptides = _get_normal_peptides(job, results, iars, peplen)
         with open('peptides.faa', 'w') as pfile:
             for pept in peptides:
                 print('>', pept, '\n', pept, sep='', file=pfile)
