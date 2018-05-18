@@ -90,7 +90,8 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
                   '--pep_lens', '9,10,15',
                   '--cores', str(transgene_options['n']),
                   '--genome', input_files['genome.fa'],
-                  '--annotation', input_files['annotation.gtf']]
+                  '--annotation', input_files['annotation.gtf'],
+                  '--log_file', '/data/transgene.log']
 
     if snpeffed_file is not None:
         parameters.extend(['--snpeff', input_files['snpeffed_muts.vcf']])
@@ -111,13 +112,19 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
         parameters += ['--transcripts', fusion_files['transcripts.fa'],
                        '--fusions', fusion_files['fusion_calls']]
 
-    docker_call(tool='transgene',
-                tool_parameters=parameters,
-                work_dir=work_dir,
-                dockerhub=univ_options['dockerhub'],
-                tool_version=transgene_options['version'])
+    try:
+        docker_call(tool='transgene',
+                    tool_parameters=parameters,
+                    work_dir=work_dir,
+                    dockerhub=univ_options['dockerhub'],
+                    tool_version=transgene_options['version'])
+    finally:
+        logfile = os.path.join(os.getcwd(), 'transgene.log')
+        export_results(job, job.fileStore.writeGlobalFile(logfile), logfile, univ_options,
+                       subfolder='mutations/transgened')
 
     output_files = defaultdict()
+    peptides_not_found = False
     for peplen in ['9', '10', '15']:
         for tissue_type in ['tumor', 'normal']:
             pepfile = '_'.join(['transgened', tissue_type, peplen, 'mer_peptides.faa'])
@@ -128,9 +135,13 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
                 if tissue_type == 'tumor':
                     os.rename(os.path.join(work_dir, old_pepfile + '.map'),
                               os.path.join(work_dir, pepfile + '.map'))
-
+            if not os.path.exists(pepfile):
+                peptides_not_found = True
+                break
             output_files[pepfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, pepfile))
             export_results(job, output_files[pepfile], pepfile, univ_options, subfolder='peptides')
+        if peptides_not_found:
+            break
         mapfile = '_'.join(['transgened_tumor', peplen, 'mer_peptides.faa.map'])
         output_files[mapfile] = job.fileStore.writeGlobalFile(os.path.join(work_dir, mapfile))
         export_results(job, output_files[mapfile], mapfile, univ_options, subfolder='peptides')
@@ -144,6 +155,10 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
         os.rename('transgened_transgened.bedpe', 'fusions.bedpe')
         export_results(job, job.fileStore.writeGlobalFile('fusions.bedpe'), 'fusions.bedpe',
                        univ_options, subfolder='mutations/transgened')
-
-    job.fileStore.logToMaster('Ran transgene on %s successfully' % univ_options['patient'])
-    return output_files
+    if peptides_not_found:
+        job.fileStore.logToMaster('Transgene failed to find any peptides for %s.'
+                                  % univ_options['patient'])
+        return None
+    else:
+        job.fileStore.logToMaster('Ran transgene on %s successfully' % univ_options['patient'])
+        return output_files
