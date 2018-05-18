@@ -83,6 +83,9 @@ expression_estimation:
         # version: 1.2.0
 
 mutation_calling:
+    consensus:
+        indel_majority: 1
+        snv_majority: 2
     indexes:
         chromosomes: canonical_chr, chrM
         genome_fasta: S3://protect-data/hg38_references/hg38.fa.tar.gz

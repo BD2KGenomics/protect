@@ -335,6 +335,11 @@ be substituted with S3 links. Descriptions for creating all files can be found i
             version: 1.2.0
 
     mutation_calling:
+        consensus:
+            indel_majority:                                   -> Number of callers required to accept an indel.
+                                                                 Will dynamically compute the indel majority by default.
+            snv_majority:                                     -> Number of callers required to accept an snv.
+                                                                 Will dynamically compute the snv majority by default.
         indexes:
             chromsosomes: canonical, canonical_chr, chr1, Y       -> A list of chromosomes to process.
                                                                      This options overrides the

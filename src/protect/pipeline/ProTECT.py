@@ -434,8 +434,25 @@ def _parse_config_file(job, config_file, max_cores=None):
     job.fileStore.logToMaster('Obtaining tool inputs')
     if (sample_without_variants and all(tool_options[k]['run'] is False
                                         for k in mutation_caller_list
-                                        if k not in ('indexes', 'fusion_inspector'))):
+                                        if k not in ('indexes', 'fusion_inspector', 'consensus'))):
         raise RuntimeError("Cannot run mutation callers if all callers are set to run = False.")
+
+    for mut_type in ('snv', 'indel'):
+        if tool_options['consensus'][mut_type + '_majority'] is not None:
+            if not isinstance(tool_options['consensus'][mut_type + '_majority'], int):
+                raise RuntimeError('Majorities have to be integers. Got %s for %s_majority.' %
+                                   (tool_options['consensus'][mut_type + '_majority'], mut_type))
+            if mut_type == 'snv':
+                count = sum(tool_options[k]['run'] is True
+                            for k in ('muse', 'mutect', 'somaticsniper', 'radia', 'strelka'))
+            else:
+                count = 1 if tool_options['strelka']['run'] is True else 0
+            if tool_options['consensus'][mut_type + '_majority'] > count:
+                raise RuntimeError('Majority cannot be greater than the number of callers. '
+                                   'Got number of %s callers = %s majority = %s.' %
+                                   (mut_type, count,
+                                    tool_options['consensus'][mut_type + '_majority']))
+            
     process_tool_inputs = job.addChildJobFn(get_all_tool_inputs, tool_options,
                                             mutation_caller_list=mutation_caller_list)
     job.fileStore.logToMaster('Obtained tool inputs')
@@ -687,7 +704,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         bam_files['tumor_rna'].addChild(mutations['radia'])
         get_mutations = job.wrapJobFn(run_mutation_aggregator,
                                       {caller: cjob.rv() for caller, cjob in mutations.items()},
-                                      univ_options, disk='100M', memory='100M',
+                                      univ_options, tool_options['consensus'], disk='100M', memory='100M',
                                       cores=1).encapsulate()
         for caller in mutations:
             mutations[caller].addChild(get_mutations)
@@ -777,7 +794,7 @@ def get_all_tool_inputs(job, tools, outer_key='', mutation_caller_list=None):
         indexes = tools.pop('indexes')
         indexes['chromosomes'] = parse_chromosome_string(job, indexes['chromosomes'])
         for mutation_caller in mutation_caller_list:
-            if mutation_caller == 'indexes':
+            if mutation_caller in ('indexes', 'consensus'):
                 continue
             tools[mutation_caller].update(indexes)
     return tools
