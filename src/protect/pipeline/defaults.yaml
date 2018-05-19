@@ -88,6 +88,11 @@ mutation_annotation:
 
 mutation_translation:
     transgene:
+        filter_mt_fusions: True
+        filter_ig_pairs: True
+        filter_rna_gene_fusions: True
+        filter_readthroughs: True
+        readthrough_threshold: 500000
         version: 2.5.0
 
 haplotyping:
