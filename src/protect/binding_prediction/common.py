@@ -58,6 +58,10 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
                             +- 'normal': fsID
     :rtype: tuple(dict, dict)
     """
+    if transgened_files is None:
+        job.fileStore.logToMaster('spawn_antigen_predictors received no peptides from Transgene for %s. Skipping.'
+                                  % univ_options['patient'])
+        return None
     work_dir = os.getcwd()
     mhci_options, mhcii_options = mhc_options
     pept_files = {
@@ -498,6 +502,10 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
     :rtype: dict
     """
     job.fileStore.logToMaster('Merging MHC calls')
+    if antigen_predictions is None and transgened_files is None:
+        job.fileStore.logToMaster('merge_mhc_peptide_calls received no peptides from Transgene (and no pMHC binding '
+                                  'predictions) for %s. Skipping.' % univ_options['patient'])
+        return None
     work_dir = os.getcwd()
     pept_files = {
         '10_mer.faa': transgened_files['transgened_tumor_10_mer_peptides.faa'],
@@ -568,7 +576,9 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files, univ_opt
                 print_mhc_peptide(pred, peptides, pepmap, mhcii_resfile,
                                   netmhc=mhcii_preds[key]['predictor'] == 'netMHCIIpan')
     if not(mhci_called or mhcii_called):
-        raise RuntimeError('No peptides available for ranking')
+        job.fileStore.logToMaster('No peptides available for ranking after running merge_mhc_peptide_calls on %s.'
+                                  % univ_options['patient'])
+        return None
     output_files = defaultdict()
     for mhc_file in [mhci_resfile.name, mhcii_resfile.name]:
         output_files[os.path.split(mhc_file)[1]] = job.fileStore.writeGlobalFile(mhc_file)

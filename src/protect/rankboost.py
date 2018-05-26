@@ -36,6 +36,10 @@ def wrap_rankboost(job, rsem_files, merged_mhc_calls, transgene_out, univ_option
                 +- 'mhci_rankboost_detailed_results.txt': fsID
     :rtype: dict
     """
+    if merged_mhc_calls is None:
+        job.fileStore.logToMaster('Rankboost was provided no peptides from sample %s for ranking. Skipping.'
+                                  % univ_options['patient'])
+        return None
     rankboost = job.addChildJobFn(boost_ranks, rsem_files['rsem.isoforms.results'],
                                   merged_mhc_calls, transgene_out, univ_options, rankboost_options)
 
