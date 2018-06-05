@@ -51,27 +51,46 @@ def chromosomes_from_fai(genome_fai):
     return chromosomes
 
 
-def run_mutation_aggregator(job, mutation_results, univ_options):
+def run_mutation_aggregator(job, mutation_results, univ_options, consensus_options):
     """
     Aggregate all the called mutations.
 
     :param dict mutation_results: Dict of dicts of the various mutation callers in a per chromosome
            format
     :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict consensus_options: options specific for consensus mutation calling
     :returns: fsID for the merged mutations file
     :rtype: toil.fileStore.FileID
     """
     # Setup an input data structure for the merge function
     out = {}
-    for chrom in mutation_results['mutect'].keys():
-        out[chrom] = job.addChildJobFn(merge_perchrom_mutations, chrom, mutation_results,
-                                       univ_options).rv()
-    merged_snvs = job.addFollowOnJobFn(merge_perchrom_vcfs, out, 'merged', univ_options)
-    job.fileStore.logToMaster('Aggregated mutations for %s successfully' % univ_options['patient'])
-    return merged_snvs.rv()
+    chroms = {}
+    # Extract the chromosomes from a mutation caller if at least one mutation caller is selected.  All callers should
+    # have the same chromosomes.
+    for caller in mutation_results:
+        if mutation_results[caller] is None:
+            continue
+        else:
+            if caller == 'strelka':
+                if mutation_results['strelka']['snvs'] is None:
+                    continue
+                chroms = mutation_results['strelka']['snvs'].keys()
+            else:
+                chroms = mutation_results[caller].keys()
+            break
+    if chroms:
+        for chrom in chroms:
+            out[chrom] = job.addChildJobFn(merge_perchrom_mutations, chrom, mutation_results,
+                                           univ_options, consensus_options).rv()
+        merged_snvs = job.addFollowOnJobFn(merge_perchrom_vcfs, out, 'merged', univ_options)
+        job.fileStore.logToMaster('Aggregated mutations for %s successfully' % univ_options['patient'])
+        return merged_snvs.rv()
+    else:
+        return None
 
 
-def merge_perchrom_mutations(job, chrom, mutations, univ_options):
+
+def merge_perchrom_mutations(job, chrom, mutations, univ_options, consensus_options):
     """
     Merge the mutation calls for a single chromosome.
 
@@ -79,6 +98,7 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
     :param dict mutations: dict of dicts of the various mutation caller names as keys, and a dict of
            per chromosome job store ids for vcfs as value
     :param dict univ_options: Dict of universal options used by almost all tools
+    :param dict consensus_options: options specific for consensus mutation calling
     :returns fsID for vcf contaning merged calls for the given chromosome
     :rtype: toil.fileStore.FileID
     """
@@ -91,39 +111,40 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
     mutations.pop('indels')
     mutations['strelka_indels'] = mutations['strelka']['indels']
     mutations['strelka_snvs'] = mutations['strelka']['snvs']
-    vcf_processor = {'snvs': {'mutect': process_mutect_vcf,
+    vcf_processor = {'snv': {'mutect': process_mutect_vcf,
                               'muse': process_muse_vcf,
                               'radia': process_radia_vcf,
                               'somaticsniper': process_somaticsniper_vcf,
                               'strelka_snvs': process_strelka_vcf
                               },
-                     'indels': {'strelka_indels': process_strelka_vcf
+                     'indel': {'strelka_indels': process_strelka_vcf
                                 }
                      }
-    #                 'fusions': lambda x: None,
-    #                 'indels': lambda x: None}
-    # For now, let's just say 2 out of n need to call it.
-    # num_preds = len(mutations)
-    # majority = int((num_preds + 0.5) / 2)
-    majority = {'snvs': 2,
-                'indels': 1}
-
     accepted_hits = defaultdict(dict)
-
     for mut_type in vcf_processor.keys():
         # Get input files
         perchrom_mutations = {caller: vcf_processor[mut_type][caller](job, mutations[caller][chrom],
                                                                       work_dir, univ_options)
-                              for caller in vcf_processor[mut_type]}
+                              for caller in vcf_processor[mut_type]
+                              if mutations[caller] is not None}
+        if not perchrom_mutations:
+            continue
         # Process the strelka key
-        perchrom_mutations['strelka'] = perchrom_mutations['strelka_' + mut_type]
-        perchrom_mutations.pop('strelka_' + mut_type)
+        if 'strelka_' + mut_type in perchrom_mutations:
+            perchrom_mutations['strelka'] = perchrom_mutations['strelka_' + mut_type]
+            perchrom_mutations.pop('strelka_' + mut_type)
+        if consensus_options[mut_type + '_majority'] is not None:
+            majority = consensus_options[mut_type + '_majority']
+        elif len(perchrom_mutations) <= 2:
+            majority = 1
+        else:
+            majority = (len(perchrom_mutations) + 1) / 2
         # Read in each file to a dict
         vcf_lists = {caller: read_vcf(vcf_file) for caller, vcf_file in perchrom_mutations.items()}
         all_positions = list(set(itertools.chain(*vcf_lists.values())))
         for position in sorted(all_positions):
             hits = {caller: position in vcf_lists[caller] for caller in perchrom_mutations.keys()}
-            if sum(hits.values()) >= majority[mut_type]:
+            if sum(hits.values()) >= majority:
                 callers = ','.join([caller for caller, hit in hits.items() if hit])
                 assert position[1] not in accepted_hits[position[0]]
                 accepted_hits[position[0]][position[1]] = (position[2], position[3], callers)
@@ -157,7 +178,7 @@ def read_vcf(vcf_file):
             if line.startswith('#'):
                 continue
             line = line.strip().split()
-            vcf_dict.append((line[0], line[1], line[3], line[4]))
+            vcf_dict.append((line[0], line[1], line[3].upper(), line[4].upper()))
     return vcf_dict
 
 

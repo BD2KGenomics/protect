@@ -638,7 +638,7 @@ def email_report(job, univ_options):
         server = smtplib.SMTP('localhost')
     except socket.error as e:
         if e.errno == 111:
-            print('No mail utils on this maachine')
+            print('No mail utils on this machine')
         else:
             print('Unexpected error while attempting to send an email.')
         print('Could not send email report')

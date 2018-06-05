@@ -83,6 +83,9 @@ expression_estimation:
         # version: 1.2.0
 
 mutation_calling:
+    consensus:
+        indel_majority: 1
+        snv_majority: 2
     indexes:
         chromosomes: canonical_chr, chrM
         genome_fasta: S3://protect-data/hg38_references/hg38.fa.tar.gz
@@ -95,8 +98,10 @@ mutation_calling:
         dbsnp_tbi: S3://protect-data/hg38_references/dbsnp_coding.vcf.gz.tbi
     mutect:
         java_Xmx: 2G
+        # run: True
         # version: 1.1.7
     muse:
+        # run: True
         # version: 1.0rc_submission_b391201
     radia:
         cosmic_beds: S3://protect-data/hg38_references/radia_cosmic.tar.gz
@@ -104,8 +109,10 @@ mutation_calling:
         retrogene_beds: S3://protect-data/hg38_references/radia_retrogenes.tar.gz
         pseudogene_beds: S3://protect-data/hg38_references/radia_pseudogenes.tar.gz
         gencode_beds: S3://protect-data/hg38_references/radia_gencode.tar.gz
+        # run: True
         # version: 398366ef07b5911d8082ed61cbf03d487a41f286
     somaticsniper:
+        # run: True
         # version: 1.0.4
         samtools:
             # version: 0.1.8
@@ -118,6 +125,7 @@ mutation_calling:
         #run_trinity: True
         #version: 1.0.1
     strelka:
+        # run: True
         # version: 1.0.15
         config_file: S3://protect-data/hg38_references/strelka_bwa_WXS_config.ini.tar.gz
 

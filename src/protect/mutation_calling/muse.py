@@ -78,6 +78,8 @@ def run_muse(job, tumor_bam, normal_bam, univ_options, muse_options):
                  +- 'chrM': fsID
     :rtype: dict
     """
+    if muse_options['run'] is False:
+        return None
     # Get a list of chromosomes to handle
     if muse_options['chromosomes']:
         chromosomes = muse_options['chromosomes']

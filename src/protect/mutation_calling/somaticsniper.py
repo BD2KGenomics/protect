@@ -85,6 +85,8 @@ def run_somaticsniper(job, tumor_bam, normal_bam, univ_options, somaticsniper_op
                  +- 'chrM': fsID
     :rtype: toil.fileStore.FileID|dict
     """
+    if somaticsniper_options['run'] is False:
+        return None
     # Get a list of chromosomes to handle
     if somaticsniper_options['chromosomes']:
         chromosomes = somaticsniper_options['chromosomes']

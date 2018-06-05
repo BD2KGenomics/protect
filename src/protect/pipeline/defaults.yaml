@@ -55,22 +55,30 @@ expression_estimation:
         version: 1.2.20
 
 mutation_calling:
+    consensus:
+        indel_majority:
+        snv_majority:
     indexes:
         chromosomes:
     mutect:
         java_Xmx: 2G
         version: 1.1.7
+        run: True
     muse:
         version: 1.0rc_submission_b391201
+        run: True
     radia:
         version: bcda721fc1f9c28d8b9224c2f95c440759cd3a03
+        run: True
     somaticsniper:
+        run: True
         version: 1.0.4
         samtools:
             version: 0.1.8
         bam_readcount:
             version: 0.7.4
     strelka:
+        run: True
         version: 1.0.15
 
     star_fusion:

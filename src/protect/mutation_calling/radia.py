@@ -87,6 +87,8 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
                  +- 'chrM': fsID
     :rtype: dict
     """
+    if radia_options['run'] is False:
+        return None
     if 'rna_genome' in rna_bam.keys():
         rna_bam = rna_bam['rna_genome']
     elif set(rna_bam.keys()) == {'rna_genome_sorted.bam', 'rna_genome_sorted.bam.bai'}:
