@@ -134,10 +134,9 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
               file=outfile)
         print('#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO', file=outfile)
         for chrom in chrom_sorted(accepted_hits.keys()):
-            for position in sorted(accepted_hits[chrom]):
-                    print(chrom, position, '.', accepted_hits[chrom][position][0],
-                          accepted_hits[chrom][position][1], '.', 'PASS',
-                          'callers=' + accepted_hits[chrom][position][2], sep='\t', file=outfile)
+            for position in sorted(accepted_hits[chrom], key=lambda x: int(x)):
+                print(chrom, position, '.', accepted_hits[chrom][position][0], accepted_hits[chrom][position][1], '.',
+                      'PASS', 'callers=' + accepted_hits[chrom][position][2], sep='\t', file=outfile)
     fsid = job.fileStore.writeGlobalFile(outfile.name)
     export_results(job, fsid, outfile.name, univ_options, subfolder='mutations/merged')
     return fsid
