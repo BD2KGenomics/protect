@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -16,7 +16,7 @@
 
 # A lot of this code was taken from toil/test/src/__init__.py
 
-from __future__ import absolute_import
+
 import logging
 import os
 import tempfile

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 from math import ceil
 
 from protect.common import (docker_call,
@@ -75,10 +75,10 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
 
     input_files['rsem_index'] = untargz(input_files['rsem_index.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     parameters = ['--paired-end',
-                  '-p', str(rsem_options['n']),
+                  '-p', str(20),
                   '--bam',
                   input_files['star_transcriptome.bam'],
                   '--no-bam-output',

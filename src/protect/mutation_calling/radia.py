@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 from collections import defaultdict
 from math import ceil
 
@@ -87,7 +87,7 @@ def run_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options):
                  +- 'chrM': fsID
     :rtype: dict
     """
-    if 'rna_genome' in rna_bam.keys():
+    if 'rna_genome' in list(rna_bam.keys()):
         rna_bam = rna_bam['rna_genome']
     elif set(rna_bam.keys()) == {'rna_genome_sorted.bam', 'rna_genome_sorted.bam.bai'}:
         pass
@@ -151,7 +151,7 @@ def run_radia_perchrom(job, bams, univ_options, radia_options, chrom):
 
     for key in ('genome.fa', 'genome.fa.fai'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     radia_output = ''.join([work_dir, '/radia_', chrom, '.vcf'])
     radia_log = ''.join([work_dir, '/radia_', chrom, '_radia.log'])
@@ -214,7 +214,7 @@ def run_filter_radia(job, bams, radia_file, univ_options, radia_options, chrom):
     for key in ('cosmic_beds', 'dbsnp_beds', 'retrogene_beds', 'pseudogene_beds', 'gencode_beds'):
         input_files[key] = untargz(input_files[key], work_dir)
 
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     filterradia_log = ''.join([work_dir, '/radia_filtered_', chrom, '_radia.log'])
     parameters = [univ_options['patient'],  # shortID
