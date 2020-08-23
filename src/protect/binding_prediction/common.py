@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import absolute_import, print_function
+
 from collections import defaultdict
 
 from protect.binding_prediction.mhci import predict_mhci_binding
@@ -108,7 +108,7 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
             mhci_preds[(allele, peplen)] = mhci_job.addChildJobFn(
                 predict_normal_binding,
                 mhci_job.rv(),
-                {x: y for x, y in pept_files.items() if peplen in x},
+                {x: y for x, y in list(pept_files.items()) if peplen in x},
                 allele,
                 peplen,
                 univ_options,
@@ -125,7 +125,7 @@ def spawn_antigen_predictors(job, transgened_files, phlat_files, univ_options, m
         mhcii_preds[(allele, 15)] = mhcii_job.addFollowOnJobFn(
             predict_normal_binding,
             mhcii_job.rv(),
-            {x: y for x, y in pept_files.items() if '15' in x},
+            {x: y for x, y in list(pept_files.items()) if '15' in x},
             allele,
             '15',
             univ_options,
@@ -145,8 +145,8 @@ def read_fastas(input_files):
     :return: The read fastas in a dictionary of tuples
     :rtype: dict
     """
-    tumor_file = [y for x, y in input_files.items() if x.startswith('T')][0]
-    normal_file = [y for x, y in input_files.items() if x.startswith('N')][0]
+    tumor_file = [y for x, y in list(input_files.items()) if x.startswith('T')][0]
+    normal_file = [y for x, y in list(input_files.items()) if x.startswith('N')][0]
     output_files = defaultdict(list)
     output_files = _read_fasta(tumor_file, output_files)
     num_entries = len(output_files)
@@ -343,7 +343,7 @@ def _get_normal_peptides(job, mhc_df, iars, peplen):
     peplen = int(peplen)
     normal_peptides = []
     for pred in mhc_df.itertuples():
-        containing_iars = [i for i, sl in iars.items() if pred.pept in sl[0]]
+        containing_iars = [i for i, sl in list(iars.items()) if pred.pept in sl[0]]
         assert len(containing_iars) != 0, "No IARS contained the peptide"
         if len(iars[containing_iars[0]]) == 1:
             # This is a fusion and has no corresponding normal
@@ -351,7 +351,7 @@ def _get_normal_peptides(job, mhc_df, iars, peplen):
         else:
             # If there are multiple IARs, they all or none of them have to have a corresponding
             # normal.
-            if len(set([len(y) for x, y in iars.items() if x in containing_iars])) != 1:
+            if len(set([len(y) for x, y in list(iars.items()) if x in containing_iars])) != 1:
                 job.fileStore.logToMaster('Some IARS were found to contain the substring but were'
                                           'inconsistent with the presence of a corresponding '
                                           'normal.')
@@ -594,7 +594,7 @@ def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile, netmhc=False):
     if netmhc:
         peptide_names = [neoepitope_info.peptide_name]
     else:
-        peptide_names = [x for x, y in peptides.items() if neoepitope_info.pept in y]
+        peptide_names = [x for x, y in list(peptides.items()) if neoepitope_info.pept in y]
     # Convert named tuple to dict so it can be modified
     neoepitope_info = neoepitope_info._asdict()
     # Handle fusion peptides (They are characterized by having all N's as the normal partner)

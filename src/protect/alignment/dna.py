@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import absolute_import, print_function
+
 from math import ceil
 
 from protect.alignment.common import index_bamfile, index_disk
@@ -128,7 +128,7 @@ def run_bwa(job, fastqs, sample_type, univ_options, bwa_options):
             input_files[read_file + gz] = input_files[read_file] + gz
     # Untar the index
     input_files['bwa_index'] = untargz(input_files['bwa_index.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     parameters = ['mem',
                   '-t', str(bwa_options['n']),

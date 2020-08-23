@@ -19,7 +19,7 @@ Author : Arjun Arkal Rao
 Affiliation : UCSC BME, UCSC Genomics Institute
 File : protect/test/test_file_downloads.py
 """
-from __future__ import print_function
+
 
 from protect.common import get_file_from_s3
 from protect.common import get_file_from_url

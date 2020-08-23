@@ -20,7 +20,7 @@ File : docker_scripts/precision_immuno.py
 Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
-from __future__ import print_function
+
 
 import argparse
 import base64
@@ -77,7 +77,7 @@ def parse_config_file(job, config_file):
         # along with it's parameters.
         for groupname, group_params in tool_specific_param_generator(job, conf):
             if groupname == 'patient':
-                if 'patient_id' not in group_params.keys():
+                if 'patient_id' not in list(group_params.keys()):
                     raise ParameterError('A patient group is missing the patient_id flag.')
                 sample_set[group_params['patient_id']] = group_params
             elif groupname == 'Universal_Options':
@@ -99,7 +99,7 @@ def parse_config_file(job, config_file):
         raise ParameterError(' The following tools have no arguments in the config file : \n' +
                              '\n'.join(missing_tools))
     # Start a job for each sample in the sample set
-    for patient_id in sample_set.keys():
+    for patient_id in list(sample_set.keys()):
         job.addFollowOnJobFn(pipeline_launchpad, sample_set[patient_id], univ_options, tool_options)
     return None
 
@@ -296,7 +296,7 @@ def delete_fastqs(job, fastqs):
             +- 'normal_dna': [<JSid for 1.fastq> , <JSid for 2.fastq>]
     """
     for fq_type in ['tumor_rna', 'tumor_dna', 'normal_dna']:
-        for i in xrange(0,2):
+        for i in range(0,2):
             job.fileStore.deleteGlobalFile(fastqs[fq_type][i])
     return None
 
@@ -685,7 +685,7 @@ def spawn_radia(job, rna_bam, tumor_bam, normal_bam, univ_options, radia_options
             'normal_dnai': normal_bam['normal_dna_fix_pg_sorted.bam.bai']}
     # Make a dict object to hold the return values for each of the chromosome jobs.  Then run radia
     # on each chromosome.
-    chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
+    chromosomes = [''.join(['chr', str(x)]) for x in list(range(1, 23)) + ['X', 'Y']]
     perchrom_radia = defaultdict()
     for chrom in chromosomes:
         perchrom_radia[chrom] = job.addChildJobFn(run_radia, bams, univ_options, radia_options,
@@ -710,11 +710,11 @@ def merge_radia(job, perchrom_rvs):
     work_dir = job.fileStore.getLocalTempDir()
     # We need to squash the input dict of dicts to a single dict such that it can be passed to
     # get_files_from_filestore
-    input_files = {filename: jsid for perchrom_files in perchrom_rvs.values()
-                   for filename, jsid in perchrom_files.items()}
+    input_files = {filename: jsid for perchrom_files in list(perchrom_rvs.values())
+                   for filename, jsid in list(perchrom_files.items())}
     input_files = get_files_from_filestore(job, input_files, work_dir,
                                            docker=False)
-    chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
+    chromosomes = [''.join(['chr', str(x)]) for x in list(range(1, 23)) + ['X', 'Y']]
     with open('/'.join([work_dir, 'radia_calls.vcf']), 'w') as radfile, \
             open('/'.join([work_dir, 'radia_filter_passing_calls.vcf']), 'w') as radpassfile:
         for chrom in chromosomes:
@@ -909,7 +909,7 @@ def spawn_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     job.fileStore.logToMaster('Running spawn_mutect on %s' % univ_options['patient'])
     # Make a dict object to hold the return values for each of the chromosome
     # jobs.  Then run mutect on each chromosome.
-    chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
+    chromosomes = [''.join(['chr', str(x)]) for x in list(range(1, 23)) + ['X', 'Y']]
     perchrom_mutect = defaultdict()
     for chrom in chromosomes:
         perchrom_mutect[chrom] = job.addChildJobFn(run_mutect, tumor_bam, normal_bam, univ_options,
@@ -932,10 +932,10 @@ def merge_mutect(job, perchrom_rvs):
     work_dir = job.fileStore.getLocalTempDir()
     # We need to squash the input dict of dicts to a single dict such that it can be passed to
     # get_files_from_filestore
-    input_files = {filename: jsid for perchrom_files in perchrom_rvs.values()
-                   for filename, jsid in perchrom_files.items()}
+    input_files = {filename: jsid for perchrom_files in list(perchrom_rvs.values())
+                   for filename, jsid in list(perchrom_files.items())}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
-    chromosomes = [''.join(['chr', str(x)]) for x in range(1, 23) + ['X', 'Y']]
+    chromosomes = [''.join(['chr', str(x)]) for x in list(range(1, 23)) + ['X', 'Y']]
     with open('/'.join([work_dir, 'mutect_calls.vcf']), 'w') as mutvcf, \
             open('/'.join([work_dir, 'mutect_calls.out']), 'w') as mutout, \
             open('/'.join([work_dir, 'mutect_passing_calls.vcf']), 'w') as mutpassvcf:
@@ -1076,7 +1076,7 @@ def run_mutation_aggregator(job, fusion_output, radia_output, mutect_output, ind
     input_files.pop('fusion.vcf')
     # read files into memory
     vcf_file = defaultdict()
-    mutcallers = input_files.keys()
+    mutcallers = list(input_files.keys())
     with open(''.join([work_dir, '/', univ_options['patient'], '_merged_mutations.vcf']),
               'w') as merged_mut_file:
         for mut_caller in mutcallers:
@@ -1502,8 +1502,8 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files):
     mhci_files = get_files_from_filestore(job, mhci_preds, work_dir)
     # First split mhcii_preds into prediction files and predictors and maintain keys so we can later
     # reference them in pairs
-    mhcii_predictors = {x: y[1] for x, y in mhcii_preds.items()}
-    mhcii_files = {x: y[0] for x, y in mhcii_preds.items()}
+    mhcii_predictors = {x: y[1] for x, y in list(mhcii_preds.items())}
+    mhcii_files = {x: y[0] for x, y in list(mhcii_preds.items())}
     mhcii_files = get_files_from_filestore(job, mhcii_files, work_dir)
     # Get peptide files
     pept_files = get_files_from_filestore(job, pept_files, work_dir)
@@ -1515,7 +1515,7 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files):
         pepmap = json.load(mapfile)
     # Incorporate peptide names into the merged calls
     with open('/'.join([work_dir, 'mhci_merged_files.list']), 'w') as mhci_resfile:
-        for mhcifile in mhci_files.values():
+        for mhcifile in list(mhci_files.values()):
             with open(mhcifile, 'r') as mf:
                 for line in mf:
                     # Skip header lines
@@ -1536,7 +1536,7 @@ def merge_mhc_peptide_calls(job, antigen_predictions, transgened_files):
     # Incorporate peptide names into the merged calls
     with open('/'.join([work_dir, 'mhcii_merged_files.list']), 'w') as \
             mhcii_resfile:
-        for mhciifile in mhcii_files.keys():
+        for mhciifile in list(mhcii_files.keys()):
             core_col = None  # Variable to hold the column number with the core
             if mhcii_predictors[mhciifile] == 'Consensus':
                 with open(mhcii_files[mhciifile], 'r') as mf:
@@ -1740,7 +1740,7 @@ def prepare_samples(job, fastqs, univ_options):
                        'normal_dna_fastq_prefix'}
     if set(fastqs.keys()).difference(allowed_samples) != {'patient_id'}:
         raise ParameterError('Sample with the following parameters has an error:\n' +
-                             '\n'.join(fastqs.values()))
+                             '\n'.join(list(fastqs.values())))
     # For each sample type, check if the prefix is an S3 link or a regular file
     # Download S3 files.
     for sample_type in ['tumor_dna', 'tumor_rna', 'normal_dna']:
@@ -1800,7 +1800,7 @@ def get_files_from_filestore(job, files, work_dir, cache=True, docker=False):
     work_dir is the location where the file should be stored
     cache indiciates whether caching should be used
     """
-    for name in files.keys():
+    for name in list(files.keys()):
         outfile = job.fileStore.readGlobalFile(files[name], '/'.join([work_dir, name]), cache=cache)
         # If the file pointed to a tarball, extract it to WORK_DIR
         if tarfile.is_tarfile(outfile) and file_xext(outfile).startswith('.tar'):
@@ -1847,15 +1847,15 @@ def most_probable_alleles(allele_list):
         except KeyError:
             all_alleles[allele] = [float(pvalue)]
     # If there are less than 2 alleles, report all
-    if len(all_alleles.keys()) <= 2:
-        return all_alleles.keys()
+    if len(list(all_alleles.keys())) <= 2:
+        return list(all_alleles.keys())
     # Else, get the two with most evidence.  Evidence is gauged by
     # a) How many files (of the 3) thought that Allele was present
     # b) In a tie, who has a lower avg p value
     # In the lambda function, if 2 alleles have the same number of calls, the sum of the p values is
     # a measure of the avg because avg = sum / n and n is equal in both of them.
     else:
-        return sorted(all_alleles.keys(), key=lambda x: \
+        return sorted(list(all_alleles.keys()), key=lambda x: \
             (-len(all_alleles[x]), sum(all_alleles[x])))[0:2]
 
 
@@ -2031,7 +2031,7 @@ def print_mhc_peptide(neoepitope_info, peptides, pepmap, outfile):
                      'ensembl_gene\thugo_gene\tcomma_sep_transcript_mutations'
     """
     allele, pept, pred, core = neoepitope_info
-    peptide_names = [x for x, y in peptides.items() if pept in y]
+    peptide_names = [x for x, y in list(peptides.items()) if pept in y]
     # For each peptide, append the ensembl gene
     for peptide_name in peptide_names:
         print(allele, pept, peptide_name, core, '0', pred, pepmap[peptide_name], sep='\t',
@@ -2368,7 +2368,7 @@ def strip_xext(filepath):
     :return str filepath: Path to the file with the compression extension stripped off.
     """
     ext_size = len(file_xext(filepath).split('.')) - 1
-    for i in xrange(0, ext_size):
+    for i in range(0, ext_size):
         filepath = os.path.splitext(filepath)[0]
     return filepath
 

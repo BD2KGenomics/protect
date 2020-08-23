@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import absolute_import, print_function
+
 from collections import defaultdict
 from math import ceil
 
@@ -94,7 +94,7 @@ def run_star(job, fastqs, univ_options, star_options):
     if os.path.exists(star_fusion_idx):
         input_files['star_index'] = star_fusion_idx
 
-    input_files = {key: docker_path(path, work_dir=work_dir) for key, path in input_files.items()}
+    input_files = {key: docker_path(path, work_dir=work_dir) for key, path in list(input_files.items())}
 
     # Using recommended STAR-Fusion parameters:
     # https://github.com/STAR-Fusion/STAR-Fusion/wiki

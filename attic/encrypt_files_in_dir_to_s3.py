@@ -24,7 +24,7 @@ ORIGINAL AUTHOR: John Vivian
 
 Move files in a directory, or entire directory structures to S3 with (or without) encryption.
 """
-from __future__ import print_function
+
 import argparse
 import base64
 import hashlib

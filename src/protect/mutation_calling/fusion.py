@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 from math import ceil
 
 from bd2k.util.expando import Expando
@@ -129,9 +129,9 @@ def run_fusion(job,
     # Check for fusion prediction
     with open(fusion_path, 'r') as f:
         # Skip header
-        f.next()
+        next(f)
         try:
-            f.next()
+            next(f)
         except StopIteration:
             logging.warning('%s: Did not find any fusions!' % univ_options['patient'])
             return
@@ -168,7 +168,7 @@ def run_fusion(job,
     # fusion fragments per million reads
     if os.path.exists(fusion_path):
         with open(fusion_path, 'r') as f, open(output_path, 'w') as g:
-            g.write(f.next())
+            g.write(next(f))
             for line in f:
                 fields = line.strip().split()
 
@@ -241,7 +241,7 @@ def parse_star_fusion(infile):
     :rtype: bd2k.util.expando.Expando
     """
     reader = csv.reader(infile, delimiter='\t')
-    header = reader.next()
+    header = next(reader)
     header = {key: index for index, key in enumerate(header)}
 
     features = ['LeftGene', 'LeftLocalBreakpoint', 'LeftBreakpoint',
@@ -267,8 +267,8 @@ def get_transcripts(transcript_file):
         while True:
             # Usually the transcript is on one line
             try:
-                info = fa.next()
-                seq = fa.next()
+                info = next(fa)
+                seq = next(fa)
 
                 assert info.startswith('>')
 
@@ -435,13 +435,13 @@ def reformat_star_fusion_output(job,
             score = 'Junction:%s-Spanning:%s' % (record.JunctionReadCount, record.SpanningFragCount)
 
             # Add empty sequences in case Trinity doesn't output one
-            if len(five_pr_splits[fusion].keys()) == 0:
+            if len(list(five_pr_splits[fusion].keys())) == 0:
                 five_pr_splits[fusion]['N/A'] = '.'
 
-            if len(three_pr_splits[fusion].keys()) == 0:
+            if len(list(three_pr_splits[fusion].keys())) == 0:
                 three_pr_splits[fusion]['N/A'] = '.'
 
-            for transcript_id in five_pr_splits[fusion].keys():
+            for transcript_id in list(five_pr_splits[fusion].keys()):
                 five_prime_seq = five_pr_splits[fusion][transcript_id]
                 three_prime_seq = three_pr_splits[fusion][transcript_id]
 

@@ -19,7 +19,7 @@ Author : Arjun Arkal Rao
 Affiliation : UCSC BME, UCSC Genomics Institute
 File : protect/test/test_spawn_antigen_predictors.py
 """
-from __future__ import print_function
+
 
 from protect.binding_prediction.common import spawn_antigen_predictors, merge_mhc_peptide_calls
 from protect.pipeline.ProTECT import _parse_config_file

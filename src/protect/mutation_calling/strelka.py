@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 from math import ceil
 
 from protect.common import (docker_call,
@@ -130,7 +130,7 @@ def run_strelka_full(job, tumor_bam, normal_bam, univ_options, strelka_options):
 
     for key in ('genome.fa', 'genome.fa.fai', 'config.ini'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     parameters = [input_files['config.ini'],
                   input_files['tumor.bam'],

@@ -19,7 +19,7 @@ Author : Arjun Arkal Rao
 Affiliation : UCSC BME, UCSC Genomics Institute
 File : protect/test/test_snpeff.py
 """
-from __future__ import print_function
+
 
 from protect.mutation_annotation.snpeff import run_snpeff
 from protect.pipeline.ProTECT import _parse_config_file

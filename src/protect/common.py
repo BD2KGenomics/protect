@@ -21,12 +21,12 @@ File : protect/ProTECT.py
 Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
-from __future__ import print_function
+
 
 from collections import defaultdict
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 import errno
 import gzip
@@ -38,7 +38,7 @@ import socket
 import subprocess
 import sys
 import tarfile
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import uuid
 
 
@@ -53,7 +53,7 @@ def get_files_from_filestore(job, files, work_dir, docker=False):
     :return: Dict of files: (optionallly docker-friendly) fileepaths
     :rtype: dict
     """
-    for name in files.keys():
+    for name in list(files.keys()):
         outfile = job.fileStore.readGlobalFile(files[name], '/'.join([work_dir, name]))
         # If the files will be sent to docker, we will mount work_dir to the container as /data and
         # we want the /data prefixed path to the file
@@ -355,8 +355,8 @@ def get_file_from_url(job, any_url, encryption_key=None, per_file_encryption=Tru
     url = any_url
     parsed_url = urlparse(any_url)
     try:
-        response = urllib2.urlopen(url)
-    except urllib2.HTTPError:
+        response = urllib.request.urlopen(url)
+    except urllib.error.HTTPError:
         if parsed_url.netloc.startswith(('s3', 'S3')):
             job.fileStore.logToMaster("Detected https link is for an encrypted s3 file.")
             return get_file_from_s3(job, any_url, encryption_key=encryption_key,
@@ -431,7 +431,7 @@ def export_results(job, fsid, file_name, univ_options, subfolder=None):
         # Handle Local
         try:
             # Create the directory if required
-            os.makedirs(output_folder, 0755)
+            os.makedirs(output_folder, 0o755)
         except OSError as err:
             if err.errno != errno.EEXIST:
                 raise
@@ -455,7 +455,7 @@ def delete_fastqs(job, patient_dict):
 
     :param dict patient_dict: Dict of list of input fastqs
     """
-    for key in patient_dict.keys():
+    for key in list(patient_dict.keys()):
         if 'fastq' not in key:
             continue
         job.fileStore.logToMaster('Deleting "%s:%s" ' % (patient_dict['patient_id'], key) +
@@ -472,10 +472,10 @@ def delete_bams(job, bams, patient_id):
     :param dict bams: Dict of bam and bai files
     :param str patient_id: The ID of the patient for logging purposes.
     """
-    bams = {b: v for b, v in bams.items()
+    bams = {b: v for b, v in list(bams.items())
             if (b.endswith('.bam') or b.endswith('.bai')) and v is not None}
     if bams:
-        for key, val in bams.items():
+        for key, val in list(bams.items()):
             job.fileStore.logToMaster('Deleting "%s" for patient "%s".' % (key, patient_id))
             job.fileStore.deleteGlobalFile(val)
     elif 'rna_genome' in bams:

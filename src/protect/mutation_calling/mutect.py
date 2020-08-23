@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 from collections import defaultdict
 from math import ceil
 
@@ -124,7 +124,7 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
     for key in ('genome.fa', 'genome.fa.fai', 'genome.dict', 'cosmic.vcf', 'cosmic.vcf.idx',
                 'dbsnp.vcf.idx'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     mutout = ''.join([work_dir, '/', chrom, '.out'])
     mutvcf = ''.join([work_dir, '/', chrom, '.vcf'])

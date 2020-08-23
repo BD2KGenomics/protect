@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 from collections import Counter
 from protect.addons.common import TCGAToGTEx
 from protect.common import export_results, get_files_from_filestore, untargz
@@ -81,7 +81,7 @@ def assess_mhc_genes(job, gene_expression, rna_haplotype, univ_options, reports_
 
     # Read the patient gene values into a dictionary
     gene_expressions = pd.read_table(input_files['rsem_quant.tsv'], index_col=0, header=0)
-    gene_expressions = Counter({x.split('.')[0]: y for x, y in gene_expressions['TPM'].to_dict().items()})
+    gene_expressions = Counter({x.split('.')[0]: y for x, y in list(gene_expressions['TPM'].to_dict().items())})
     # Print the report
     roles = {x for x in background_df['Roles'].values if ',' not in x}
     with open('mhc_pathway_report.txt', 'w') as mpr:

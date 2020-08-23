@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import absolute_import, print_function
+
 from collections import defaultdict
 from math import ceil
 
@@ -83,7 +83,7 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
     input_files['pepts.fa'] = untargz(input_files['pepts.fa.tar.gz'], work_dir)
     input_files['genome.fa'] = untargz(input_files['genome.fa.tar.gz'], work_dir)
     input_files['annotation.gtf'] = untargz(input_files['annotation.gtf.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     parameters = ['--peptides', input_files['pepts.fa'],
                   '--prefix', 'transgened',
@@ -107,7 +107,7 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
 
         fusion_files = get_files_from_filestore(job, fusion_files, work_dir, docker=False)
         fusion_files['transcripts.fa'] = untargz(fusion_files['transcripts.fa.tar.gz'], work_dir)
-        fusion_files = {key: docker_path(path) for key, path in fusion_files.items()}
+        fusion_files = {key: docker_path(path) for key, path in list(fusion_files.items())}
         parameters += ['--transcripts', fusion_files['transcripts.fa'],
                        '--fusions', fusion_files['fusion_calls']]
 

@@ -29,10 +29,10 @@ import errno
 import subprocess
 import sys
 
-
-toil_version = '3.8.0'
-s3am_version = '2.0.1'
-gdc_version = 'v1.1.0'
+#outdated for python3 
+#toil_version = '3.8.0'
+#s3am_version = '2.0.1'
+#gdc_version = 'v1.1.0'
 
 
 def check_tool_version(tool, required_version, blacklisted_versions=None, binary=False):
@@ -66,9 +66,9 @@ def check_tool_version(tool, required_version, blacklisted_versions=None, binary
             raise RuntimeError('Does %s have a version.py?' % tool)
 
     if type(parse_version(installed_version)) == _LegacyVersion:
-        print('Detecting that the installed version of "%s"(%s) is probably based off a git commit '
+        print(('Detecting that the installed version of "%s"(%s) is probably based off a git commit '
               'and assuming this build is for testing purposes.  If this is not the case, please '
-              'try again with a valid version of "%s".' % (tool, installed_version, tool))
+              'try again with a valid version of "%s".' % (tool, installed_version, tool)))
     elif parse_version(installed_version) < parse_version(required_version):
         raise RuntimeError('%s was detected to be version (%s) but ProTECT requires (%s)' %
                            (tool, installed_version, required_version))

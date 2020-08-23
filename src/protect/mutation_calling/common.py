@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import absolute_import, print_function
+
 from collections import defaultdict
 
 from protect.common import chrom_sorted, export_results, get_files_from_filestore, untargz
@@ -63,7 +63,7 @@ def run_mutation_aggregator(job, mutation_results, univ_options):
     """
     # Setup an input data structure for the merge function
     out = {}
-    for chrom in mutation_results['mutect'].keys():
+    for chrom in list(mutation_results['mutect'].keys()):
         out[chrom] = job.addChildJobFn(merge_perchrom_mutations, chrom, mutation_results,
                                        univ_options).rv()
     merged_snvs = job.addFollowOnJobFn(merge_perchrom_vcfs, out, 'merged', univ_options)
@@ -110,7 +110,7 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
 
     accepted_hits = defaultdict(dict)
 
-    for mut_type in vcf_processor.keys():
+    for mut_type in list(vcf_processor.keys()):
         # Get input files
         perchrom_mutations = {caller: vcf_processor[mut_type][caller](job, mutations[caller][chrom],
                                                                       work_dir, univ_options)
@@ -119,12 +119,12 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
         perchrom_mutations['strelka'] = perchrom_mutations['strelka_' + mut_type]
         perchrom_mutations.pop('strelka_' + mut_type)
         # Read in each file to a dict
-        vcf_lists = {caller: read_vcf(vcf_file) for caller, vcf_file in perchrom_mutations.items()}
-        all_positions = list(set(itertools.chain(*vcf_lists.values())))
+        vcf_lists = {caller: read_vcf(vcf_file) for caller, vcf_file in list(perchrom_mutations.items())}
+        all_positions = list(set(itertools.chain(*list(vcf_lists.values()))))
         for position in sorted(all_positions):
-            hits = {caller: position in vcf_lists[caller] for caller in perchrom_mutations.keys()}
+            hits = {caller: position in vcf_lists[caller] for caller in list(perchrom_mutations.keys())}
             if sum(hits.values()) >= majority[mut_type]:
-                callers = ','.join([caller for caller, hit in hits.items() if hit])
+                callers = ','.join([caller for caller, hit in list(hits.items()) if hit])
                 assert position[1] not in accepted_hits[position[0]]
                 accepted_hits[position[0]][position[1]] = (position[2], position[3], callers)
 
@@ -133,7 +133,7 @@ def merge_perchrom_mutations(job, chrom, mutations, univ_options):
         print('##INFO=<ID=callers,Number=.,Type=String,Description=List of supporting callers.',
               file=outfile)
         print('#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO', file=outfile)
-        for chrom in chrom_sorted(accepted_hits.keys()):
+        for chrom in chrom_sorted(list(accepted_hits.keys())):
             for position in sorted(accepted_hits[chrom]):
                     print(chrom, position, '.', accepted_hits[chrom][position][0],
                           accepted_hits[chrom][position][1], '.', 'PASS',
@@ -172,11 +172,11 @@ def merge_perchrom_vcfs(job, perchrom_vcfs, tool_name, univ_options):
     :rtype: toil.fileStore.FileID
     """
     work_dir = os.getcwd()
-    input_files = {''.join([chrom, '.vcf']): jsid for chrom, jsid in perchrom_vcfs.items()}
+    input_files = {''.join([chrom, '.vcf']): jsid for chrom, jsid in list(perchrom_vcfs.items())}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
     first = True
     with open(''.join([work_dir, '/', 'all_merged.vcf']), 'w') as outvcf:
-        for chromvcfname in chrom_sorted([x.rstrip('.vcf') for x in input_files.keys()]):
+        for chromvcfname in chrom_sorted([x.rstrip('.vcf') for x in list(input_files.keys())]):
             with open(input_files[chromvcfname + '.vcf'], 'r') as infile:
                 for line in infile:
                     line = line.strip()
@@ -233,7 +233,7 @@ def unmerge(job, input_vcf, tool_name, chromosomes, tool_options, univ_options):
         print(''.join(header), file=read_chromosomes[chrom], end='')
     outdict = {}
     chroms = set(chromosomes).intersection(set(read_chromosomes.keys()))
-    for chrom, chromvcf in read_chromosomes.items():
+    for chrom, chromvcf in list(read_chromosomes.items()):
         chromvcf.close()
         if chrom not in chroms:
             continue

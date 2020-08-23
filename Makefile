@@ -45,8 +45,8 @@ help:
 	@echo "$$help"
 
 
-python=python2.7
-pip=pip2.7
+python=python
+pip=pip
 tests=src/protect/test/unit
 extras=
 
@@ -55,7 +55,7 @@ normal=\033[0m
 red=\033[0;31m
 
 prepare: check_venv
-	@$(pip) install toil==3.8.0 pytest==2.8.3
+	@$(pip) install toil pytest
 
 develop: check_venv
 	$(pip) install -e .$(extras)
@@ -107,10 +107,10 @@ clean_pypi:
 
 clean: clean_develop clean_sdist clean_pypi
 
-
-check_venv:
-	@$(python) -c 'import sys; sys.exit( int( not hasattr(sys, "real_prefix") ) )' \
-		|| ( echo "$(red)A virtualenv must be active.$(normal)" ; false )
+#always fails, even though in a venv
+#check_venv:
+#	@$(python) -c 'import sys; sys.exit( int( not hasattr(sys, "real_prefix") ) )' \
+#		|| ( echo "$(red)A virtualenv must be active.$(normal)" ; false )
 
 
 check_clean_working_copy:
