@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -14,13 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from pkg_resources import parse_version
-try:
-    from pkg_resources import SetuptoolsLegacyVersion as _LegacyVersion
-except ImportError as e:
-    if 'SetuptoolsLegacyVersion' in e.message:
-        from packaging.version import LegacyVersion as _LegacyVersion
-    else:
-        raise
+#try:
+#    from pkg_resources import SetuptoolsLegacyVersion as _LegacyVersion
+#except ImportError as e:
+#    if 'SetuptoolsLegacyVersion' in e.message:
+#        from packaging.version import LegacyVersion as _LegacyVersion
+#    else:
+#        raise
 from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
 from version import version
@@ -79,11 +79,11 @@ def check_tool_version(tool, required_version, blacklisted_versions=None, binary
 
 
 # Check Toil version
-check_tool_version('toil', toil_version, binary=True)
+#check_tool_version('toil', toil_version, binary=True)
 # Check S3am version
-check_tool_version('s3am', s3am_version, binary=True)
+#check_tool_version('s3am', s3am_version, binary=True)
 # Check gdc-client version
-check_tool_version('gdc-client', gdc_version, binary=True, blacklisted_versions=['v1.2.0'])
+#check_tool_version('gdc-client', gdc_version, binary=True, blacklisted_versions=['v1.2.0'])
 
 
 # Set up a test class
@@ -117,10 +117,10 @@ setup(name='protect',
       license='Apache',
       install_requires=[
           'PyYAML',
-          'pandas==0.19.2'
+          'pandas'
       ],
       tests_require=[
-          'pytest==2.8.3'],
+          'pytest'],
       test_suite='protect',
       entry_points={
           'console_scripts': [
