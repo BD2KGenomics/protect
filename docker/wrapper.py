@@ -437,20 +437,20 @@ if __name__ == '__main__':
                         help='Tabix index for dbsnp.gz.')
 
     parser.add_argument('--mhc-pathways-file', type=str,
-                        default="S3://cgl-pipeline-inputs/protect/ci_references/"
+                        default="S3://protect-data/hg38_references/"
                                 "mhc_pathways.tsv.tar.gz",
                         help='JSON file containing the various genes in the MHC pathway'
                              'and their mean TPM expressions across samples in a background set.')
     parser.add_argument('--itx-resistance-file', type=str,
-                        default="S3://cgl-pipeline-inputs/protect/ci_references/"
+                        default="S3://protect-data/hg38_references/"
                                 "itx_resistance.tsv.tar.gz",
                         help='')
     parser.add_argument('--immune-resistance-pathways-file', type=str,
-                        default="S3://cgl-pipeline-inputs/protect/ci_references/"
+                        default="S3://protect-data/hg38_references/"
                                 "immune_resistance_pathways.json.tar.gz",
                         help='')
     parser.add_argument('--car-t-targets-file', type=str,
-                        default="S3://cgl-pipeline-inputs/protect/ci_references/"
+                        default="S3://protect-data/hg38_references/"
                                 "car_t_targets.tsv.tar.gzz",
                         help='')
 

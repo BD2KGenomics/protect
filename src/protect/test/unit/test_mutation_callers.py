@@ -101,7 +101,7 @@ class TestMutationCallers(ProtectTest):
     def _get_fusion_options(job):
         star_fusion_options = {}
         fusion_inspector_options = {}
-        call = 's3am download S3://cgl-pipeline-inputs/protect/ci_references/ci_star_fusion_compatible_index.tar.gz ./index.tar.gz'
+        call = 's3am download S3://protect-data/hg38_references/ci_star_fusion_compatible_index.tar.gz ./index.tar.gz'
         subprocess.check_call(call.split(' '))
         star_fusion_options['index'] = fusion_inspector_options['index'] = job.fileStore.writeGlobalFile('index.tar.gz')
         # Trinity now sets a minimum for the number of reads, so don't run it
@@ -192,7 +192,7 @@ class TestMutationCallers(ProtectTest):
         :return: FSID for each paired FASTQ
         """
 
-        base_call = 's3am download S3://cgl-pipeline-inputs/protect/ci_references/'
+        base_call = 's3am download S3://protect-data/hg38_references/'
         samples = ['RNA_CD74_ROS1_1.fq.gz', 'RNA_CD74_ROS1_2.fq.gz']
         for sample in samples:
             call = '{base}{sample} ./{sample}'.format(base=base_call, sample=sample)
@@ -209,7 +209,7 @@ class TestMutationCallers(ProtectTest):
         :return: FSID for each paired FASTQ
         """
 
-        base_call = 's3am download S3://cgl-pipeline-inputs/protect/ci_references/'
+        base_call = 's3am download S3://protect-data/hg38_references/'
         sample = 'CD74_ROS1_Chimeric.out.junction'
         call = '{base}{sample} ./ChimericJunction'.format(base=base_call, sample=sample)
         subprocess.check_call(call.split(' '))

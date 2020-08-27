@@ -1,0 +1,175 @@
+## Copyright 2016 UCSC Computational Genomics Lab
+## Original contributor: Arjun Arkal Rao
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##    http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+####################################################################################################
+####################################################################################################
+##  This is the input parameter file for the precision immuno pipeline.  The parameters for each of
+##  the tools is provided here.  The file is written in the YAML format.  A nice description of the
+##  format can be found at http://docs.ansible.com/ansible/YAMLSyntax.html
+##
+##  You can add comments anywhere in this file by prefixing it with a '#'
+##
+##  Unless otherwise mentioned, all fields must be filled.
+##
+####################################################################################################
+####################################################################################################
+
+# Any number of patients/samples can be listed here
+patients:
+    TEST:
+        tumor_dna_bam : /home/dranion/InternalSD/School\ Work/gerald_D1VCPACXX_1.bam
+        normal_dna_bam : /home/dranion/InternalSD/School\ Work/gerald_D1VCPACXX_6.bam
+        tumor_rna_bam : /home/dranion/InternalSD/School\ Work/gerald_C1TD1ACXX_8_ACAGTG.bam
+
+        tumor_type: 'SKCM'
+
+# These are options that are used by most tools
+Universal_Options:
+    dockerhub: aarjunrao
+    java_Xmx: 20G
+    reference_build: hg38 # Acceptable options are hg38, hg38, GRCh37, GRCh38
+    # sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS else optional
+    # sse_key_is_master: True # True or False.  Required if using AWS else optional
+    # gdc_download_token: /path/to/token.txt # Path to the user's GDC download token.
+    storage_location: Local # Local or aws:<bucket_name> for where the output must go
+    #storage_location: aws:protect-run-xyz
+    output_folder: /home/dranion/treehouse/protect3/results # Path to where the output must go.
+    #mail_to: test.email@host.com  # Email patients:
+    TEST:
+        tumor_dna_bam : /home/dranion/InternalSD/School\ Work/gerald_D1VCPACXX_1.bam
+        normal_dna_bam : /home/dranion/InternalSD/School\ Work/gerald_D1VCPACXX_6.bam
+        tumor_rna_bam : /home/dranion/InternalSD/School\ Work/gerald_C1TD1ACXX_8_ACAGTG.bam
+
+        tumor_type: 'SKCM'
+
+for sending success report.
+
+
+# These options are for each module. You probably don't need to change any of this!
+alignment:
+    cutadapt:
+        a: AGATCGGAAGAG
+        A: AGATCGGAAGAG
+        # version: 1.9.1
+    star:
+        type: star # use starlong if your reads are > 150bp
+        index: S3://protect-data/hg38_references/star_with_fusion_100bp_readlen_indexes.tar.gz # Use star_without if you set star_fusion = False
+        # version: 2.5.2b
+    bwa:
+       index: S3://protect-data/hg38_references/bwa_index.tar.gz
+        # version: 0.7.9a
+    post:
+        samtools:
+            # version: 1.2
+        picard:
+            # version: 1.135
+
+expression_estimation:
+    rsem:
+        index: S3://protect-data/hg38_references/rsem_index.tar.gz
+        # version: 1.2.0
+
+mutation_calling:
+    indexes:
+        chromosomes: canonical_chr, chrM
+        genome_fasta: S3://protect-data/hg38_references/hg38.fa.tar.gz
+        genome_fai: S3://protect-data/hg38_references/hg38.fa.fai.tar.gz
+        genome_dict: S3://protect-data/hg38_references/hg38.dict.tar.gz
+        cosmic_vcf: S3://protect-data/hg38_references/CosmicCodingMuts.vcf.tar.gz
+        cosmic_idx: S3://protect-data/hg38_references/CosmicCodingMuts.vcf.idx.tar.gz
+        dbsnp_vcf: S3://protect-data/hg38_references/dbsnp_coding.vcf.gz
+        dbsnp_idx: S3://protect-data/hg38_references/dbsnp_coding.vcf.idx.tar.gz
+        dbsnp_tbi: S3://protect-data/hg38_references/dbsnp_coding.vcf.gz.tbi
+    mutect:
+        java_Xmx: 2G
+        # version: 1.1.7
+    muse:
+        # version: 1.0rc_submission_b391201
+    radia:
+        cosmic_beds: S3://protect-data/hg38_references/radia_cosmic.tar.gz
+        dbsnp_beds: S3://protect-data/hg38_references/radia_dbsnp.tar.gz
+        retrogene_beds: S3://protect-data/hg38_references/radia_retrogenes.tar.gz
+        pseudogene_beds: S3://protect-data/hg38_references/radia_pseudogenes.tar.gz
+        gencode_beds: S3://protect-data/hg38_references/radia_gencode.tar.gz
+        # version: 398366ef07b5911d8082ed61cbf03d487a41f286
+    somaticsniper:
+        # version: 1.0.4
+        samtools:
+            # version: 0.1.8
+        bam_readcount:
+            # version: 0.7.4
+    star_fusion:
+        #run: True
+        #version: 1.0.0
+    fusion_inspector:
+        #run_trinity: True
+        #version: 1.0.1
+    strelka:
+        # version: 1.0.15
+        config_file: S3://protect-data/hg38_references/strelka_bwa_WXS_config.ini.tar.gz
+
+
+mutation_annotation:
+    snpeff:
+        index: S3://protect-data/hg38_references/snpeff_index.tar.gz
+        # version: 3.6
+        java_Xmx: 20G
+
+mutation_translation:
+    transgene:
+        gencode_peptide_fasta : S3://protect-data/hg38_references/gencode.v25.pc_translations_NOPARY.fa.tar.gz
+        gencode_transcript_fasta : S3://protect-data/hg38_references/gencode.v25.pc_transcripts_NOPARY.fa.tar.gz
+        gencode_annotation_gtf : S3://protect-data/hg38_references/gencode.v25.annotation_NOPARY.gtf.tar.gz
+        genome_fasta : S3://protect-data/hg38_references/hg38.fa.tar.gz
+        # version: 2.2.2
+
+haplotyping:
+    phlat:
+        index: S3://protect-data/hg38_references/phlat_index.tar.gz
+        # version: 1.0
+
+mhc_peptide_binding:
+    mhci:
+        method_file: S3://protect-data/hg38_references/mhci_restrictions.json.tar.gz
+        pred: IEDB_recommended
+        # version: 2.13
+    mhcii:
+        method_file: S3://protect-data/hg38_references/mhcii_restrictions.json.tar.gz
+        pred: IEDB_recommended
+        # version: 2.13
+    netmhciipan:
+        # version: 3.1
+
+prediction_ranking:
+    rankboost:
+        mhci_args:
+            npa: 0.0
+            nph: 0.0
+            nMHC: 0.32
+            TPM: 0.0
+            overlap: 0.68
+            tndelta: 0.0
+        mhcii_args:
+            npa: 0.2
+            nph: 0.2
+            nMHC: 0.2
+            TPM: 0.2
+            tndelta: 0.2
+        # version: 2.0.3
+
+reports:
+    mhc_pathways_file: S3://protect-data/hg38_references/mhc_pathways.tsv.tar.gz
+    itx_resistance_file: S3://protect-data/hg38_references/itx_resistance.tsv.tar.gz
+    immune_resistance_pathways_file: S3://protect-data/hg38_references/immune_resistance_pathways.json.tar.gz
+    car_t_targets_file: S3://protect-data/hg38_references/car_t_targets.tsv.tar.gz
