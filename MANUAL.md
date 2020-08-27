@@ -547,7 +547,7 @@ purposes:
     12: g/f/jobO4yiE4        return self.run(fileStore)
     13: g/f/jobO4yiE4      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/job.py", line 1406, in run
     14: g/f/jobO4yiE4        rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
-    15: g/f/jobO4yiE4      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python2.7/site-packages/protect/binding_prediction/common.py", line 566, in merge_mhc_peptide_calls
+    15: g/f/jobO4yiE4      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python3/site-packages/protect/binding_prediction/common.py", line 566, in merge_mhc_peptide_calls
     16: g/f/jobO4yiE4        raise RuntimeError('No peptides available for ranking')
     17: g/f/jobO4yiE4    RuntimeError: No peptides available for ranking
     18: g/f/jobO4yiE4    ERROR:toil.worker:Exiting the worker because of a failed job on host sjcb10st7
@@ -581,9 +581,9 @@ do not store logs from tools (see BD2KGenomics/protect#275). The error looks sim
     Z/O/job1uH92D        return self.run(fileStore)
     Z/O/job1uH92D      File "/home/ucsc/arjun/tools/dev/toil_clean/src/toil/job.py", line 1406, in run
     Z/O/job1uH92D        rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
-    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python2.7/site-packages/protect/mutation_calling/radia.py", line 238, in run_filter_radia
+    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python3/site-packages/protect/mutation_calling/radia.py", line 238, in run_filter_radia
     Z/O/job1uH92D        tool_version=radia_options['version'])
-    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python2.7/site-packages/protect/common.py", line 138, in docker_call
+    Z/O/job1uH92D      File "/home/ucsc/arjun/tools/protect_toil_clean/local/lib/python3/site-packages/protect/common.py", line 138, in docker_call
     Z/O/job1uH92D        'for command \"%s\"' % ' '.join(call),)
     Z/O/job1uH92D    RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /scratch/bio/ucsc/toil-681c097c-61da-4687-b734-c5051f0aa19f/tmped2fnu/f041f939-5c0d-40be-a884-68635e929d09:/data --log-driver=none aarjunrao/filterradia:bcda721fc1f9c28d8b9224c2f95c440759cd3a03 TCGA-CH-5788 17 /data/radia.vcf /data /home/radia/scripts -d /data/radia_dbsnp -r /data/radia_retrogenes -p /data/radia_pseudogenes -c /data/radia_cosmic -t /data/radia_gencode --noSnpEff --noBlacklist --noTargets --noRnaBlacklist -f /data/hg38.fa --log=INFO -g /data/radia_filtered_chr17_radia.log"
     Z/O/job1uH92D    ERROR:toil.worker:Exiting the worker because of a failed job on host sjcb10st1
