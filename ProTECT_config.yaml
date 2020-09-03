@@ -53,7 +53,7 @@ Universal_Options:
 
         tumor_type: 'SKCM'
 
-for sending success report.
+# for sending success report.
 
 
 # These options are for each module. You probably don't need to change any of this!
