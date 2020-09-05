@@ -28,10 +28,12 @@
 # Any number of patients/samples can be listed here
 patients:
     TEST:
-        tumor_dna_bam : /home/dranion/InternalSD/School\ Work/gerald_D1VCPACXX_1.bam
-        normal_dna_bam : /home/dranion/InternalSD/School\ Work/gerald_D1VCPACXX_6.bam
-        tumor_rna_bam : /home/dranion/InternalSD/School\ Work/gerald_C1TD1ACXX_8_ACAGTG.bam
-
+        tumor_dna_fastq_1: /home/dranion/treehouse/gms/hcc1395_1tenth_percent/sort/gerald_D1VCPACXX_1_R1.fastq
+        tumor_dna_fastq_2: /home/dranion/treehouse/gms/hcc1395_1tenth_percent/sort/gerald_D1VCPACXX_1_R2.fastq   
+        normal_dna_fastq_1: /home/dranion/treehouse/gms/hcc1395_1tenth_percent/sort/gerald_D1VCPACXX_6_R1.fastq 
+        normal_dna_fastq_2: /home/dranion/treehouse/gms/hcc1395_1tenth_percent/sort/gerald_D1VCPACXX_6_R2.fastq
+        tumor_rna_fastq_1: /home/dranion/treehouse/gms/hcc1395_1tenth_percent/sort/gerald_C1TD1ACXX_8_ACAGTG_R1.fastq 
+        tumor_rna_fastq_2: /home/dranion/treehouse/gms/hcc1395_1tenth_percent/sort/gerald_C1TD1ACXX_8_ACAGTG_R2.fastq
         tumor_type: 'SKCM'
 
 # These are options that are used by most tools
@@ -50,7 +52,6 @@ Universal_Options:
         tumor_dna_bam : /home/dranion/InternalSD/School\ Work/gerald_D1VCPACXX_1.bam
         normal_dna_bam : /home/dranion/InternalSD/School\ Work/gerald_D1VCPACXX_6.bam
         tumor_rna_bam : /home/dranion/InternalSD/School\ Work/gerald_C1TD1ACXX_8_ACAGTG.bam
-
         tumor_type: 'SKCM'
 
 # for sending success report.
