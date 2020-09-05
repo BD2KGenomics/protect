@@ -600,7 +600,11 @@ def canonical_chrom_sorted(in_chroms):
     if 'MT' in in_chroms:
         in_chroms[in_chroms.index('MT')] = 'M'
         mt = True
-    in_chroms = sorted(in_chroms, key=lambda c: int(c) if c not in ('X', 'Y', 'M') else c)
+    num_in_chroms = sorted(filter(str.isnumeric, in_chroms),
+                       key = lambda c: int(c))
+    chr_in_chroms = sorted(filter(str.isalpha, in_chroms))
+    in_chroms = num_in_chroms.copy()
+    in_chroms.extend(chr_in_chroms)
     try:
         m_index = in_chroms.index('M')
     except ValueError:
