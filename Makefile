@@ -48,16 +48,16 @@ help:
 python=python
 pip=pip
 tests=src/protect/test/unit
-extras=bd2k-python-lib s3am
+extras=
 green=\033[0;32m
 normal=\033[0m
 red=\033[0;31m
 
 prepare: check_venv
-	@$(pip) install toil pytest
+	@$(pip) install toil pytest bd2k-python-lib s3am
 
 develop: check_venv
-	$(pip) install $(extras)
+	$(pip) install -e .$(extras)
 clean_develop: check_venv
 	- $(pip) uninstall -y protect
 	- rm -rf src/*.egg-info
