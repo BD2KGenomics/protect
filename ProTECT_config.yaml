@@ -39,7 +39,7 @@ patients:
 # These are options that are used by most tools
 Universal_Options:
     dockerhub: aarjunrao
-    java_Xmx: 20G
+    java_Xmx: 12G
     reference_build: hg38 # Acceptable options are hg38, hg38, GRCh37, GRCh38
     # sse_key: /path/to/master.key # Path to the AWS master key.  Required if using AWS else optional
     # sse_key_is_master: True # True or False.  Required if using AWS else optional
