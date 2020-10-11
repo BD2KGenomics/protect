@@ -5,6 +5,7 @@ pimmuno_2.py
 develop_data/
 venv/
 .cache/
+jobStore/
 test-report.xml
 __pycache__
 *.DONE
