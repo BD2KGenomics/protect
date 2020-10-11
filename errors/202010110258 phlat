@@ -1,0 +1,355 @@
+[2020-10-11T02:45:49-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-vrhfvnhs
+[2020-10-11T02:45:49-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-8xpgm6ib
+[2020-10-11T02:45:49-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_cutadapt/instance-xfrh8ah4
+[2020-10-11T02:45:49-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-a5ark53j
+[2020-10-11T02:45:49-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+[2020-10-11T02:45:49-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instanc
+e-vrhfvnhs with job batch system ID: 0 and cores: 4, disk: 7.8 G, and memory: 2.0 G
+[2020-10-11T02:45:49-0700] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-r5
+xtr9zr with job batch system ID: 1 and cores: 4, disk: 9.6 G, and memory: 20.0 G
+[2020-10-11T02:45:49-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instanc
+e-8xpgm6ib with job batch system ID: 2 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-11T02:45:49-0700] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-h_
+u0bx5b with job batch system ID: 3 and cores: 4, disk: 9.4 G, and memory: 20.0 G
+[2020-10-11T02:45:49-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instanc
+e-a5ark53j with job batch system ID: 4 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-11T02:45:49-0700] [MainThread] [I] [toil.leader] Issued job 'run_cutadapt' kind-run_cutadapt/i
+nstance-xfrh8ah4 with job batch system ID: 5 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-11T02:45:49-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir
+/node-63724b0a-38c3-4733-a482-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpzmy3wdo7/worker_log.txt
+[2020-10-11T02:45:51-0700] [MainThread] [I] [toil.leader] 1 jobs are running, 5 jobs are issued and wai
+ting to run
+[2020-10-11T02:46:35-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicati
+ng failure) from job _toil_worker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instan
+ce-vrhfvnhs.
+[2020-10-11T02:46:35-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kin
+d-run_phlat/instance-vrhfvnhs
+[2020-10-11T02:46:35-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indica
+ting failure: 'run_phlat' kind-run_phlat/instance-vrhfvnhs
+[2020-10-11T02:46:35-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-vrhfvnhs
+ follows:
+=========>
+	[2020-10-11T02:45:49-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-11T02:45:49-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb
+357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	Error response from daemon: Get "https://registry-1.docker.io/v2/": net/http: TLS handshake tim
+eout
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 120, in docker_call
+	    subprocess.check_call(call)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'pull', 'aarjunrao/phlat:1.0']' returned non
+-zero exit status 1.
+
+	During handling of the above exception, another exception occurred:
+
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in
+workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _r
+unner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _r
+un
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in ru
+n
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 72, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 122, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status ' +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker pull aarjun
+rao/phlat:1.0"
+	[2020-10-11T02:46:34-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a faile
+d job on host drkthomp-virtualbox
+<=========
+[2020-10-11T02:46:35-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remainin
+g retry count of job 'run_phlat' kind-run_phlat/instance-vrhfvnhs with ID kind-run_phlat/instance-vrhfv
+nhs to 1
+[2020-10-11T02:46:35-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instanc
+e-vrhfvnhs with job batch system ID: 6 and cores: 4, disk: 7.8 G, and memory: 2.0 G
+[2020-10-11T02:46:35-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir
+/node-63724b0a-38c3-4733-a482-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpl8w7g8he/worker_log.txt
+[2020-10-11T02:47:36-0700] [MainThread] [I] [toil.leader] Job ended: 'run_cutadapt' kind-run_cutadapt/i
+nstance-xfrh8ah4
+[2020-10-11T02:47:36-0700] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-gietgg6t w
+ith job batch system ID: 7 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-10-11T02:47:36-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-11-2
+020 02:47:36: Ran cutadapt on TEST successfully
+[2020-10-11T02:47:36-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir
+/node-63724b0a-38c3-4733-a482-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpcstkpeka/worker_log.txt
+[2020-10-11T02:50:24-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicati
+ng failure) from job _toil_worker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instan
+ce-8xpgm6ib.
+[2020-10-11T02:50:24-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kin
+d-run_phlat/instance-8xpgm6ib
+[2020-10-11T02:50:24-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indica
+ting failure: 'run_phlat' kind-run_phlat/instance-8xpgm6ib
+[2020-10-11T02:50:24-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-8xpgm6ib
+ follows:
+=========>
+	[2020-10-11T02:47:36-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-11T02:47:36-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb
+357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	1.0: Pulling from aarjunrao/phlat
+	943c334059c7: Already exists
+	a1acf99303d2: Already exists
+	27616aacb7b3: Already exists
+	35d12cd1c9fc: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	a27d4604b3b3: Already exists
+	b23184322fd8: Already exists
+	45490e2c3ebf: Already exists
+	a3ed95caeb02: Already exists
+	07bc45a5d3f9: Already exists
+	a3ed95caeb02: Already exists
+	4e8282f9b0b2: Pulling fs layer
+	d8467ea2e124: Pulling fs layer
+	b53fc7d0498f: Pulling fs layer
+	30ab0013e0b7: Pulling fs layer
+	949d3b3c935b: Pulling fs layer
+	a98c227726f6: Pulling fs layer
+	4347594c2d1a: Pulling fs layer
+	f13886bcc594: Pulling fs layer
+	a3ed95caeb02: Pulling fs layer
+	4347594c2d1a: Waiting
+	f13886bcc594: Waiting
+	a3ed95caeb02: Waiting
+	949d3b3c935b: Waiting
+	a98c227726f6: Waiting
+	30ab0013e0b7: Waiting
+	4e8282f9b0b2: Verifying Checksum
+	4e8282f9b0b2: Download complete
+	4e8282f9b0b2: Pull complete
+	b53fc7d0498f: Verifying Checksum
+	b53fc7d0498f: Download complete
+	d8467ea2e124: Verifying Checksum
+	d8467ea2e124: Download complete
+	30ab0013e0b7: Verifying Checksum
+	30ab0013e0b7: Download complete
+	a98c227726f6: Verifying Checksum
+	a98c227726f6: Download complete
+	f13886bcc594: Verifying Checksum
+	f13886bcc594: Download complete
+	d8467ea2e124: Pull complete
+	949d3b3c935b: Verifying Checksum
+	949d3b3c935b: Download complete
+	a3ed95caeb02: Verifying Checksum
+	a3ed95caeb02: Download complete
+	4347594c2d1a: Verifying Checksum
+	4347594c2d1a: Download complete
+	b53fc7d0498f: Pull complete
+	30ab0013e0b7: Pull complete
+	949d3b3c935b: Pull complete
+	a98c227726f6: Pull complete
+	4347594c2d1a: Pull complete
+	f13886bcc594: Pull complete
+	a3ed95caeb02: Pull complete
+	Digest: sha256:a11b92ed62d9e189ae36823abeb405c8bca9f41f47fd0d956397c539f8534b5f
+	Status: Downloaded newer image for aarjunrao/phlat:1.0
+	docker.io/aarjunrao/phlat:1.0
+	491247 reads; of these:
+	  491247 (100.00%) were paired; of these:
+	    3488 (0.71%) aligned concordantly 0 times
+	    442898 (90.16%) aligned concordantly exactly 1 time
+	    44861 (9.13%) aligned concordantly >1 times
+	99.29% overall alignment rate
+	.....Process Bowtie 2 mapping on normal_dna.......
+
+	.....Prepare files of normal_dna for PHLAT.......
+
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/wo
+rkDir/node-63724b0a-38c3-4733-a482-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpcstkpeka/e48ad10f-5
+c07-4855-b05f-65eacef49a00:/data', '--log-driver=none', 'aarjunrao/phlat:1.0', '-1', '/data/input_1.fas
+tq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2', '-
+tag', 'normal_dna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1
+.
+
+	During handling of the above exception, another exception occurred:
+
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in
+workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _r
+unner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _r
+un
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in ru
+n
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 72, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=tr
+ue -v /home/drkthomp/workDir/node-63724b0a-38c3-4733-a482-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3
+/tmpcstkpeka/e48ad10f-5c07-4855-b05f-65eacef49a00:/data --log-driver=none aarjunrao/phlat:1.0 -1 /data/
+input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag normal
+_dna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-11T02:50:24-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a faile
+d job on host drkthomp-virtualbox
+<=========
+[2020-10-11T02:50:24-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remainin
+g retry count of job 'run_phlat' kind-run_phlat/instance-8xpgm6ib with ID kind-run_phlat/instance-8xpgm
+6ib to 1
+[2020-10-11T02:50:24-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instanc
+e-8xpgm6ib with job batch system ID: 8 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-11T02:50:25-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir
+/node-63724b0a-38c3-4733-a482-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpvppnj5ub/worker_log.txt
+[2020-10-11T02:52:26-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker
+ run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-a5ark53j.
+[2020-10-11T02:52:26-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-a5ark53j
+[2020-10-11T02:52:26-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-ru
+n_phlat/instance-a5ark53j
+[2020-10-11T02:52:26-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-a5ark53j follows:
+=========>
+	[2020-10-11T02:50:25-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-11T02:50:25-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host d
+rkthomp-virtualbox.
+	462668 reads; of these:
+	  462668 (100.00%) were paired; of these:
+	    75207 (16.26%) aligned concordantly 0 times
+	    235430 (50.89%) aligned concordantly exactly 1 time
+	    152031 (32.86%) aligned concordantly >1 times
+	83.74% overall alignment rate
+	.....Process Bowtie 2 mapping on tumor_rna.......
+
+	.....Prepare files of tumor_rna for PHLAT.......
+
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/workDir/node-63724b0a-38c3-4733-a48
+2-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpvppnj5ub/6824d77d-283e-4c5a-9cc5-c77bf0460ae9:/data', '--log-driver=none', 'aarjunrao
+/phlat:1.0', '-1', '/data/input_1.fastq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2'
+, '-tag', 'tumor_rna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1.
+
+	During handling of the above exception, another exception occurred:
+
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 72, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /home/drkthomp/workDir/node
+-63724b0a-38c3-4733-a482-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpvppnj5ub/6824d77d-283e-4c5a-9cc5-c77bf0460ae9:/data --log-driv
+er=none aarjunrao/phlat:1.0 -1 /data/input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag tu
+mor_rna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-11T02:52:26-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========
+[2020-10-11T02:52:26-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat'
+kind-run_phlat/instance-a5ark53j with ID kind-run_phlat/instance-a5ark53j to 1
+[2020-10-11T02:52:26-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-a5ark53j with job batch system
+ID: 9 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-11T02:52:26-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-63724b0a-38c3-4733-a482-9b7
+c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpqvjh0h0n/worker_log.txt
+[2020-10-11T02:55:15-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker
+ run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-8xpgm6ib.
+[2020-10-11T02:55:15-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-8xpgm6ib
+[2020-10-11T02:55:15-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-ru
+n_phlat/instance-8xpgm6ib
+[2020-10-11T02:55:15-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-8xpgm6ib follows:
+=========>
+	[2020-10-11T02:52:26-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-11T02:52:26-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host d
+rkthomp-virtualbox.
+	491247 reads; of these:
+	  491247 (100.00%) were paired; of these:
+	    3488 (0.71%) aligned concordantly 0 times
+	    442898 (90.16%) aligned concordantly exactly 1 time
+	    44861 (9.13%) aligned concordantly >1 times
+	99.29% overall alignment rate
+	.....Process Bowtie 2 mapping on normal_dna.......
+
+	.....Prepare files of normal_dna for PHLAT.......
+
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/workDir/node-63724b0a-38c3-4733-a48
+2-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpqvjh0h0n/06bb4ff5-ef0a-4186-8805-9d2d424211c8:/data', '--log-driver=none', 'aarjunrao
+/phlat:1.0', '-1', '/data/input_1.fastq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2'
+, '-tag', 'normal_dna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1.
+
+	During handling of the above exception, another exception occurred:
+
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 72, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /home/drkthomp/workDir/node
+-63724b0a-38c3-4733-a482-9b7c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpqvjh0h0n/06bb4ff5-ef0a-4186-8805-9d2d424211c8:/data --log-driv
+er=none aarjunrao/phlat:1.0 -1 /data/input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag no
+rmal_dna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-11T02:55:15-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========
+[2020-10-11T02:55:15-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat'
+kind-run_phlat/instance-8xpgm6ib with ID kind-run_phlat/instance-8xpgm6ib to 0
+[2020-10-11T02:55:15-0700] [MainThread] [W] [toil.leader] Job 'run_phlat' kind-run_phlat/instance-8xpgm6ib with ID kind-run_phlat/instan
+ce-8xpgm6ib is completely failed
+[2020-10-11T02:55:15-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-63724b0a-38c3-4733-a482-9b7
+c3ca99788-1e53f69f16d74e0b881e7db602b2d2c3/tmpmtp81cj4/worker_log.txt
+^C^C[2020-10-11T02:56:18-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_wo
+rker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-vrhfvnhs.
+^CTraceback (most recent call last):
+  File "/home/drkthomp/protect3/venv/bin/_toil_worker", line 5, in <module>
+    from toil.worker import main
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/__init__.py", line 20, in <module>
