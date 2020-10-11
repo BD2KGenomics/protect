@@ -110,7 +110,7 @@ def docker_call(tool, tool_parameters, work_dir, java_xmx=None, outfile=None,
     docker_tool = ''.join([dockerhub, '/', tool, ':', tool_version])
     # Get the docker image on the worker if needed
     call = ['docker', 'images']
-    dimg_rv = subprocess.check_output(call)
+    dimg_rv = subprocess.check_output(call).decode('utf-8')
     existing_images = [':'.join(x.split()[0:2]) for x in dimg_rv.splitlines()
                        if x.startswith(dockerhub)]
 
