@@ -1,0 +1,260 @@
+[2020-10-10T18:30:34-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpnxpnfmic/worker_log.txt
+[2020-10-10T18:30:34-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:30:34: Obtaining file (reports:car_t_targets_file)
+ to the file job store
+[2020-10-10T18:42:03-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-3xuthybc
+[2020-10-10T18:42:04-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmp9enkrl3j/worker_log.txt
+[2020-10-10T18:42:04-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:42:04: Obtaining file (snpeff:index) to the file j
+ob store
+[2020-10-10T18:42:11-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:42:11: Obtaining file (transgene:gencode_peptide_f
+asta) to the file job store
+[2020-10-10T18:42:11-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-1tq_doef
+[2020-10-10T18:42:11-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmp9xm2iz5s/worker_log.txt
+[2020-10-10T18:44:05-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-onp40fdo
+[2020-10-10T18:44:05-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:44:05: Obtaining file (indexes:dbsnp_vcf) to the f
+ile job store
+[2020-10-10T18:44:05-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpgzfcij8r/worker_log.txt
+[2020-10-10T18:44:06-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-bej18yp1
+[2020-10-10T18:44:06-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:44:06: Obtaining file (reports:mhc_pathways_file) 
+to the file job store
+[2020-10-10T18:44:06-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpehzwwqqa/worker_log.txt
+[2020-10-10T18:44:24-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-68jw45m7
+[2020-10-10T18:44:24-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpzcvq0ixe/worker_log.txt
+[2020-10-10T18:44:24-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:44:24: Obtaining file (radia:cosmic_beds) to the f
+ile job store
+[2020-10-10T18:44:25-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-5nh8bxbe
+[2020-10-10T18:44:25-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpfezaj816/worker_log.txt
+[2020-10-10T18:44:25-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:44:25: Obtaining file (indexes:genome_fai) to the 
+file job store
+[2020-10-10T18:45:04-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-a7wxahhq
+[2020-10-10T18:45:04-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmp3_s7satr/worker_log.txt
+[2020-10-10T18:45:04-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:45:04: Obtaining file (indexes:cosmic_vcf) to the 
+file job store
+[2020-10-10T18:45:04-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-8rv6x9eu
+[2020-10-10T18:45:04-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpf6qih6z0/worker_log.txt
+[2020-10-10T18:45:04-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:45:04: Obtaining file (strelka:config_file) to the
+ file job store
+[2020-10-10T18:45:05-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-1u8182hh
+[2020-10-10T18:45:05-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmp_37so54e/worker_log.txt
+[2020-10-10T18:45:05-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:45:05: Obtaining file (radia:retrogene_beds) to th
+e file job store
+[2020-10-10T18:45:07-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-1pn9ymci
+[2020-10-10T18:45:07-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:45:07: Obtaining file (indexes:dbsnp_idx) to the f
+ile job store
+[2020-10-10T18:46:16-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-6ujlyl9w
+[2020-10-10T18:46:16-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 18:46:16: Obtaining file (bwa:index) to the file job 
+store
+[2020-10-10T19:03:24-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:03:24: Obtaining file (phlat:index) to the file jo
+b store
+[2020-10-10T19:03:24-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-zov6m_46
+[2020-10-10T19:10:20-0700] [MainThread] [I] [toil.leader] 1 jobs are running, 0 
+jobs are issued and waiting to run
+[2020-10-10T19:22:47-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeli
+ne_inputs' kind-get_pipeline_inputs/instance-g5filouy
+[2020-10-10T19:22:47-0700] [MainThread] [I] [toil.leader] Issued job 'launch_pro
+tect' kind-launch_protect/instance-hz1_ae6g with job batch system ID: 30 and cor
+es: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-10T19:22:47-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:22:47: Obtaining file (star:index) to the file job
+ store
+[2020-10-10T19:22:47-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpxe8rlkrk/worker_log.txt
+[2020-10-10T19:22:48-0700] [MainThread] [I] [toil.leader] Job ended: 'launch_pro
+tect' kind-launch_protect/instance-hz1_ae6g
+[2020-10-10T19:22:48-0700] [MainThread] [I] [toil.leader] Issued job 'prepare_sa
+mples' kind-prepare_samples/instance-ov48vrxg with job batch system ID: 31 and c
+ores: 1, disk: 40.0 G, and memory: 2.0 G
+[2020-10-10T19:22:49-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpou9vug5p/worker_log.txt
+[2020-10-10T19:23:31-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:23:31: Downloading Inputs for TEST
+[2020-10-10T19:23:31-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:23:31: Obtaining file (TEST:normal_dna_fastq_2) to
+ the file job store
+[2020-10-10T19:23:31-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:23:31: Obtaining file (TEST:tumor_rna_fastq_1) to 
+the file job store
+[2020-10-10T19:23:31-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:23:31: Obtaining file (TEST:tumor_dna_fastq_1) to 
+the file job store
+[2020-10-10T19:23:31-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:23:31: Obtaining file (TEST:normal_dna_fastq_1) to
+ the file job store
+[2020-10-10T19:23:31-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:23:31: Obtaining file (TEST:tumor_rna_fastq_2) to 
+the file job store
+[2020-10-10T19:23:31-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message f
+rom job at time 10-10-2020 19:23:31: Obtaining file (TEST:tumor_dna_fastq_2) to 
+the file job store
+[2020-10-10T19:23:31-0700] [MainThread] [I] [toil.leader] Job ended: 'prepare_sa
+mples' kind-prepare_samples/instance-ov48vrxg
+[2020-10-10T19:23:31-0700] [MainThread] [I] [toil.leader] Issued job 'get_patien
+t_fastqs' kind-get_patient_fastqs/instance-uebtou6z with job batch system ID: 32
+ and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-10-10T19:23:31-0700] [MainThread] [I] [toil.leader] Issued job 'get_patien
+t_fastqs' kind-get_patient_fastqs/instance-vid4ipgt with job batch system ID: 33
+ and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-10-10T19:23:31-0700] [MainThread] [I] [toil.leader] Issued job 'get_patien
+t_fastqs' kind-get_patient_fastqs/instance-thvdi_2_ with job batch system ID: 34
+ and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpz31v839a/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpf8wh3lv1/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmp55svqdsp/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Job ended: 'get_patien
+t_fastqs' kind-get_patient_fastqs/instance-thvdi_2_
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-pf4569cs with job batch system ID: 35 and c
+ores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-wrmal69c with job batch system ID: 36 and c
+ores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Job ended: 'get_patien
+t_fastqs' kind-get_patient_fastqs/instance-vid4ipgt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-axz3wj0j with job batch system ID: 37 and c
+ores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-lu8fhwd_ with job batch system ID: 38 and c
+ores: 1, disk: 100.0 M, and memory: 2.0 G
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Job ended: 'get_patien
+t_fastqs' kind-get_patient_fastqs/instance-uebtou6z
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-idyv9uyv with job batch system ID: 39 and c
+ores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-_vz1u_x7 with job batch system ID: 40 and c
+ores: 1, disk: 100.0 M, and memory: 2.0 G
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpbixrdmpk/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpjihwvv70/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpnjzrq_r2/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Job ended: 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-pf4569cs
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpflulx9f5/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat'
+ kind-run_phlat/instance-ft5phwm5 with job batch system ID: 41 and cores: 4, dis
+k: 7.7 G, and memory: 2.0 G
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpady15hlr/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Job ended: 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-wrmal69c
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'run_cutada
+pt' kind-run_cutadapt/instance-6f8cn5ks with job batch system ID: 42 and cores: 
+1, disk: 539.2 M, and memory: 2.0 G
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmp2l_dsop_/worker_log.txt
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Job ended: 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-axz3wj0j
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat'
+ kind-run_phlat/instance-k06mp0_z with job batch system ID: 43 and cores: 4, dis
+k: 7.7 G, and memory: 2.0 G
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Job ended: 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-idyv9uyv
+[2020-10-10T19:23:32-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat'
+ kind-run_phlat/instance-wqt7mcyf with job batch system ID: 44 and cores: 4, dis
+k: 7.8 G, and memory: 2.0 G
+[2020-10-10T19:23:33-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpcihfmlee/worker_log.txt
+[2020-10-10T19:23:33-0700] [MainThread] [I] [toil.leader] Job ended: 'Encapsulat
+edJob' kind-EncapsulatedJob/instance-lu8fhwd_
+[2020-10-10T19:23:33-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Go
+t exit code 1 (indicating failure) from job _toil_worker run_cutadapt file:/home
+/drkthomp/protect3/jobStore kind-run_cutadapt/instance-6f8cn5ks.
+[2020-10-10T19:23:33-0700] [MainThread] [I] [toil.worker] Redirecting logging to
+ /home/drkthomp/workDir/node-cbabd37a-13ea-4540-bb67-748b76bc85e7-1e53f69f16d74e
+0b881e7db602b2d2c3/tmpjcpzwd4a/worker_log.txt
+
+Workflow Progress  89%|██████▎| 40/45 (0 failures) [1h 13:14<09:09, 0.01 jobs/s]
+Traceback (most recent call last):
+  File "/home/drkthomp/protect3/venv/bin/ProTECT", line 33, in <module>
+    sys.exit(load_entry_point('protect', 'console_scripts', 'ProTECT')())
+  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 1025, in main
+    Job.Runner.startToil(start, params)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 796, in startToil
+    return toil.start(job)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/common.py", line 846, in start
+    return self._runMainLoop(rootJobGraph)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/common.py", line 1133, in _runMainLoop
+    return Leader(config=self.config,
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/leader.py", line 235, in run
+    self.innerLoop()
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/leader.py", line 558, in innerLoop
+    self._processReadyJobs()
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/leader.py", line 482, in _processReadyJobs
+    self._processReadyJob(jobGraph, resultStatus)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/leader.py", line 452, in _processReadyJob
+    self._runJobSuccessors(jobGraph)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/leader.py", line 370, in _runJobSuccessors
+    self.issueJobs(successors)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/leader.py", line 697, in issueJobs
+    self.issueJob(job)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/leader.py", line 676, in issueJob
+    jobBatchSystemID = self.batchSystem.issueBatchJob(jobNode)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/batchSystems/singleMachine.py", line 497, in issueBatchJob
+    self.checkResourceRequest(jobNode.memory, cores, jobNode.disk, name=jobNode.jobName,
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/batchSystems/abstractBatchSystem.py", line 300, in checkResourceRequest
+    raise InsufficientSystemResources('memory', memory, self.maxMemory,
+toil.batchSystems.abstractBatchSystem.InsufficientSystemResources: The job run_bwa is requesting 21474836480 bytes of memory, more than the maximum of 14712700928 bytes of memory that SingleMachineBatchSystem was configured with. Scale is set to 1.
+
