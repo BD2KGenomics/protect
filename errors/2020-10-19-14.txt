@@ -1,0 +1,10 @@
+[2020-10-19T14:55:25-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-foexdy0m
+[2020-10-19T14:55:25-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+[2020-10-19T14:55:25-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-foexdy0m with job batch system ID: 0 and cores: 4, disk: 7.8 G, and memory: 2.0 G
+[2020-10-19T14:55:25-0700] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-n45358fz with job batch system ID: 1 and cores: 4, disk: 9.6 G, and memory: 12.0 G
+[2020-10-19T14:55:25-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-xpy0rfpy with job batch system ID: 2 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-19T14:55:25-0700] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-75n4628j with job batch system ID: 3 and cores: 4, disk: 9.4 G, and memory: 12.0 G
+[2020-10-19T14:55:25-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-2oiyd0li with job batch system ID: 4 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-19T14:55:25-0700] [MainThread] [I] [toil.leader] Issued job 'run_star' kind-run_star/instance-rpbnfzyy with job batch system ID: 5 and cores: 4, disk: 52.8 G, and memory: 48.6 G
+[2020-10-19T14:55:25-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-77a2b3ac-69eb-4325-9205-afc132e2b6e3-1e53f69f16d74e0b881e7db602b2d2c3/tmplgo6vvm6/worker_log.txt
+[2020-10-19T14:55:27-0700] [MainThread] [I] [toil.leader] 1 jobs are running, 5 jobs are issued and waiting to run

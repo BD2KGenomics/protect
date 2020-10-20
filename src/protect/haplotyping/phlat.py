@@ -51,6 +51,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
         'input_2.fastq': fastqs[1],
         'phlat_index.tar.gz': phlat_options['index']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
+    print(input_files)
     # Handle gzipped files
     gz = '.gz' if is_gzipfile(input_files['input_1.fastq']) else ''
     if gz:

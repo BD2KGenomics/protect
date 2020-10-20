@@ -1,0 +1,613 @@
+[2020-10-19T16:55:14-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+[2020-10-19T16:55:14-0700] [MainThread] [I] [toil.leader] Issued job 'parse_config_file' kind-parse_config_file/instance-6z_yzhbw with job batch system ID: 0 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:14-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpzwunuav1/worker_log.txt
+[2020-10-19T16:55:15-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 16:55:15: Parsing config file
+[2020-10-19T16:55:15-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 16:55:15: Obtaining tool inputs
+[2020-10-19T16:55:15-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 16:55:15: Obtained tool inputs
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Job ended: 'parse_config_file' kind-parse_config_file/instance-6z_yzhbw
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] 0 jobs are running, 0 jobs are issued and waiting to run
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-3ot0nqrl with job batch system ID: 1 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-zq7r2fof with job batch system ID: 2 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-jzbemfd2 with job batch system ID: 3 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-a82w2061 with job batch system ID: 4 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-sohjmdrx with job batch system ID: 5 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-s7uqh4l5 with job batch system ID: 6 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-wsb3vfxw with job batch system ID: 7 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-vz7a41kb with job batch system ID: 8 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-ue7dbx_y with job batch system ID: 9 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-b2p8fmcs with job batch system ID: 10 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-7aptjv8m with job batch system ID: 11 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-88k469b1 with job batch system ID: 12 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-8nav8g_w with job batch system ID: 13 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-1nv69jcb with job batch system ID: 14 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-1ibo1747 with job batch system ID: 15 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-2pfe72sp with job batch system ID: 16 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-hbd_web4 with job batch system ID: 17 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-vfbtut8x with job batch system ID: 18 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-qr4sdt3x with job batch system ID: 19 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6s511qxp with job batch system ID: 20 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-zf_4y0r9 with job batch system ID: 21 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-z1kq216o with job batch system ID: 22 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-wu4un7pj with job batch system ID: 23 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-qeqilzdt with job batch system ID: 24 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-_tjtgbal with job batch system ID: 25 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-_vdkxdam with job batch system ID: 26 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-38htzb_g with job batch system ID: 27 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-4q9y9qdt with job batch system ID: 28 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-affo6juu with job batch system ID: 29 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpyabe_f4v/worker_log.txt
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpmak877i1/worker_log.txt
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpg38fsy_q/worker_log.txt
+[2020-10-19T16:55:15-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpyydetbh9/worker_log.txt
+[2020-10-19T17:05:14-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-a82w2061
+[2020-10-19T17:05:14-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:05:14: Obtaining file (indexes:genome_fasta) to the file job store
+[2020-10-19T17:05:14-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpvy2fjfbk/worker_log.txt
+[2020-10-19T17:05:15-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-vz7a41kb
+[2020-10-19T17:05:15-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:05:15: Obtaining file (indexes:cosmic_idx) to the file job store
+[2020-10-19T17:05:15-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp7ifahyb5/worker_log.txt
+[2020-10-19T17:05:16-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-4q9y9qdt
+[2020-10-19T17:05:16-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:05:16: Obtaining file (reports:immune_resistance_pathways_file) to the file job store
+[2020-10-19T17:05:16-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmphcj22yyc/worker_log.txt
+[2020-10-19T17:06:51-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-jzbemfd2
+[2020-10-19T17:06:51-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpb5s_mwjh/worker_log.txt
+[2020-10-19T17:06:51-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:06:51: Obtaining file (rsem:index) to the file job store
+[2020-10-19T17:07:26-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-wsb3vfxw
+[2020-10-19T17:07:26-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:07:26: Obtaining file (indexes:cosmic_vcf) to the file job store
+[2020-10-19T17:07:27-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpxzkxoeiv/worker_log.txt
+[2020-10-19T17:07:27-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-38htzb_g
+[2020-10-19T17:07:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:07:27: Obtaining file (reports:itx_resistance_file) to the file job store
+[2020-10-19T17:07:27-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpydeo3m77/worker_log.txt
+[2020-10-19T17:07:34-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-qr4sdt3x
+[2020-10-19T17:07:34-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:07:34: Obtaining file (transgene:gencode_peptide_fasta) to the file job store
+[2020-10-19T17:07:34-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmplbxp6byq/worker_log.txt
+[2020-10-19T17:07:34-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-affo6juu
+[2020-10-19T17:07:34-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:07:34: Obtaining file (reports:car_t_targets_file) to the file job store
+[2020-10-19T17:07:35-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpkfbxisy1/worker_log.txt
+[2020-10-19T17:07:36-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-z1kq216o
+[2020-10-19T17:07:36-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:07:36: Obtaining file (transgene:genome_fasta) to the file job store
+[2020-10-19T17:07:37-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpzsqvbvg2/worker_log.txt
+[2020-10-19T17:07:37-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-sohjmdrx
+[2020-10-19T17:07:37-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmprg348wrm/worker_log.txt
+[2020-10-19T17:07:38-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:07:38: Obtaining file (indexes:genome_fai) to the file job store
+[2020-10-19T17:07:38-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-s7uqh4l5
+[2020-10-19T17:07:38-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpct9dnkyb/worker_log.txt
+[2020-10-19T17:07:38-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:07:38: Obtaining file (indexes:genome_dict) to the file job store
+[2020-10-19T17:18:26-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-8nav8g_w
+[2020-10-19T17:18:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:18:27: Obtaining file (radia:dbsnp_beds) to the file job store
+[2020-10-19T17:18:27-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp7825aax7/worker_log.txt
+[2020-10-19T17:18:49-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6s511qxp
+[2020-10-19T17:18:49-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:18:49: Obtaining file (transgene:gencode_transcript_fasta) to the file job store
+[2020-10-19T17:18:49-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmph5vjynu5/worker_log.txt
+[2020-10-19T17:18:50-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:18:50: Obtaining file (mhcii:method_file) to the file job store
+[2020-10-19T17:18:50-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-_tjtgbal
+[2020-10-19T17:18:50-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpvwke7f57/worker_log.txt
+[2020-10-19T17:19:07-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-88k469b1
+[2020-10-19T17:19:07-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpo3ditjxq/worker_log.txt
+[2020-10-19T17:19:07-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:19:07: Obtaining file (radia:cosmic_beds) to the file job store
+[2020-10-19T17:19:09-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:19:09: Obtaining file (indexes:dbsnp_idx) to the file job store
+[2020-10-19T17:19:09-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-b2p8fmcs
+[2020-10-19T17:19:09-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmplljpxctp/worker_log.txt
+[2020-10-19T17:28:16-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-ue7dbx_y
+[2020-10-19T17:28:16-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:28:16: Obtaining file (indexes:dbsnp_vcf) to the file job store
+[2020-10-19T17:28:16-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpk54shb5y/worker_log.txt
+[2020-10-19T17:28:17-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-2pfe72sp
+[2020-10-19T17:28:17-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:28:17: Obtaining file (radia:gencode_beds) to the file job store
+[2020-10-19T17:28:17-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp9_00eb1h/worker_log.txt
+[2020-10-19T17:28:19-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-7aptjv8m
+[2020-10-19T17:28:19-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp7lvzztal/worker_log.txt
+[2020-10-19T17:28:19-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:28:19: Obtaining file (indexes:dbsnp_tbi) to the file job store
+[2020-10-19T17:33:09-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-zq7r2fof
+[2020-10-19T17:33:09-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpydjoimv4/worker_log.txt
+[2020-10-19T17:33:09-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:33:09: Obtaining file (bwa:index) to the file job store
+[2020-10-19T17:33:10-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-1nv69jcb
+[2020-10-19T17:33:10-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpxsyao8mc/worker_log.txt
+[2020-10-19T17:33:10-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:33:10: Obtaining file (radia:retrogene_beds) to the file job store
+[2020-10-19T17:33:11-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-1ibo1747
+[2020-10-19T17:33:11-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpukzqga3e/worker_log.txt
+[2020-10-19T17:33:11-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:33:11: Obtaining file (radia:pseudogene_beds) to the file job store
+[2020-10-19T17:33:11-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-_vdkxdam
+[2020-10-19T17:33:11-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpouksc11k/worker_log.txt
+[2020-10-19T17:33:11-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:33:11: Obtaining file (reports:mhc_pathways_file) to the file job store
+[2020-10-19T17:33:12-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-hbd_web4
+[2020-10-19T17:33:12-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:33:12: Obtaining file (strelka:config_file) to the file job store
+[2020-10-19T17:33:12-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmphde5aptl/worker_log.txt
+[2020-10-19T17:33:42-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-zf_4y0r9
+[2020-10-19T17:33:42-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp5f11s8cv/worker_log.txt
+[2020-10-19T17:33:42-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:33:42: Obtaining file (transgene:gencode_annotation_gtf) to the file job store
+[2020-10-19T17:33:43-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-qeqilzdt
+[2020-10-19T17:33:43-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:33:43: Obtaining file (mhci:method_file) to the file job store
+[2020-10-19T17:38:36-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-vfbtut8x
+[2020-10-19T17:38:36-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:38:36: Obtaining file (snpeff:index) to the file job store
+[2020-10-19T17:50:10-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-wu4un7pj
+[2020-10-19T17:50:10-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 17:50:10: Obtaining file (phlat:index) to the file job store
+[2020-10-19T17:55:17-0700] [MainThread] [I] [toil.leader] 1 jobs are running, 0 jobs are issued and waiting to run
+[2020-10-19T18:12:27-0700] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-3ot0nqrl
+[2020-10-19T18:12:27-0700] [MainThread] [I] [toil.leader] Issued job 'launch_protect' kind-launch_protect/instance-twmlpdal with job batch system ID: 30 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-19T18:12:28-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:12:28: Obtaining file (star:index) to the file job store
+[2020-10-19T18:12:35-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp_34dbhgg/worker_log.txt
+[2020-10-19T18:12:36-0700] [MainThread] [I] [toil.leader] Job ended: 'launch_protect' kind-launch_protect/instance-twmlpdal
+[2020-10-19T18:12:36-0700] [MainThread] [I] [toil.leader] Issued job 'prepare_samples' kind-prepare_samples/instance-bgcywx3p with job batch system ID: 31 and cores: 1, disk: 40.0 G, and memory: 2.0 G
+[2020-10-19T18:12:36-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpz0f5zfxg/worker_log.txt
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.leader] Job ended: 'prepare_samples' kind-prepare_samples/instance-bgcywx3p
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.leader] Issued job 'get_patient_fastqs' kind-get_patient_fastqs/instance-rfimzy94 with job batch system ID: 32 and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.leader] Issued job 'get_patient_fastqs' kind-get_patient_fastqs/instance-yd9qq2y6 with job batch system ID: 33 and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.leader] Issued job 'get_patient_fastqs' kind-get_patient_fastqs/instance-gz400tcp with job batch system ID: 34 and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-10-19T18:13:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:13:27: Downloading Inputs for TEST
+[2020-10-19T18:13:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:13:27: Obtaining file (TEST:tumor_dna_fastq_2) to the file job store
+[2020-10-19T18:13:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:13:27: Obtaining file (TEST:normal_dna_fastq_1) to the file job store
+[2020-10-19T18:13:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:13:27: Obtaining file (TEST:tumor_dna_fastq_1) to the file job store
+[2020-10-19T18:13:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:13:27: Obtaining file (TEST:tumor_rna_fastq_1) to the file job store
+[2020-10-19T18:13:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:13:27: Obtaining file (TEST:normal_dna_fastq_2) to the file job store
+[2020-10-19T18:13:27-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:13:27: Obtaining file (TEST:tumor_rna_fastq_2) to the file job store
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp0h42moby/worker_log.txt
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpwlju589m/worker_log.txt
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpcy8tnpe6/worker_log.txt
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.leader] Job ended: 'get_patient_fastqs' kind-get_patient_fastqs/instance-yd9qq2y6
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-71c26qug with job batch system ID: 35 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-10-19T18:13:27-0700] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-jm64shh5 with job batch system ID: 36 and cores: 1, disk: 100.0 M, and memory: 2.0 G
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Job ended: 'get_patient_fastqs' kind-get_patient_fastqs/instance-rfimzy94
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-cmnhiln5 with job batch system ID: 37 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-0yywb779 with job batch system ID: 38 and cores: 1, disk: 100.0 M, and memory: 2.0 G
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Job ended: 'get_patient_fastqs' kind-get_patient_fastqs/instance-gz400tcp
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-gbwokb12 with job batch system ID: 39 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-zbsn_cy4 with job batch system ID: 40 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpvdbx8kkz/worker_log.txt
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-71c26qug
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-j5t5f3ax with job batch system ID: 41 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpg7fkyjah/worker_log.txt
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpckug2acy/worker_log.txt
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpbger8qyf/worker_log.txt
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpgl094r20/worker_log.txt
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp8r1vs78f/worker_log.txt
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-jm64shh5
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-nl7qvmik with job batch system ID: 42 and cores: 4, disk: 9.4 G, and memory: 12.0 G
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-cmnhiln5
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-wyy831pe with job batch system ID: 43 and cores: 4, disk: 7.8 G, and memory: 2.0 G
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-gbwokb12
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-dyn6bo3z with job batch system ID: 44 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-0yywb779
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-39qi7a25 with job batch system ID: 45 and cores: 4, disk: 9.6 G, and memory: 12.0 G
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-zbsn_cy4
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.leader] Issued job 'run_cutadapt' kind-run_cutadapt/instance-aop8fhhj with job batch system ID: 46 and cores: 1, disk: 539.2 M, and memory: 2.0 G
+[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpd8hvoy4h/worker_log.txt
+[2020-10-19T18:14:57-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_bwa file:/home/drkthomp/protect3/jobStore kind-run_bwa/instance-nl7qvmik.
+[2020-10-19T18:14:57-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_bwa' kind-run_bwa/instance-nl7qvmik
+[2020-10-19T18:14:57-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_bwa' kind-run_bwa/instance-nl7qvmik
+[2020-10-19T18:14:57-0700] [MainThread] [W] [toil.leader] Log from job kind-run_bwa/instance-nl7qvmik follows:
+=========>
+	[2020-10-19T18:13:28-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:13:28-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/alignment/dna.py", line 140, in run_bwa
+	    docker_call(tool='bwa', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 101, in docker_call
+	    assert isinstance(outfile, file), 'outfile was not passsed a file'
+	NameError: name 'file' is not defined
+	[2020-10-19T18:14:56-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========
+[2020-10-19T18:14:57-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_bwa' kind-run_bwa/instance-nl7qvmik with ID kind-run_bwa/instance-nl7qvmik to 1
+[2020-10-19T18:14:57-0700] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-nl7qvmik with job batch system ID: 47 and cores: 4, disk: 9.4 G, and memory: 12.0 G
+[2020-10-19T18:14:58-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmphqh2kspz/worker_log.txt
+[2020-10-19T18:17:57-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-dyn6bo3z.
+[2020-10-19T18:17:57-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-dyn6bo3z
+[2020-10-19T18:17:57-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-dyn6bo3z
+[2020-10-19T18:17:57-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-dyn6bo3z follows:
+=========>
+	[2020-10-19T18:14:58-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:14:58-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	462668 reads; of these:
+	  462668 (100.00%) were paired; of these:
+	    75207 (16.26%) aligned concordantly 0 times
+	    235430 (50.89%) aligned concordantly exactly 1 time
+	    152031 (32.86%) aligned concordantly >1 times
+	83.74% overall alignment rate
+	.....Process Bowtie 2 mapping on tumor_rna.......
+	
+	.....Prepare files of tumor_rna for PHLAT.......
+	
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmphqh2kspz/d29e0646-f21a-49aa-a135-1795672538fc:/data', '--log-driver=none', 'aarjunrao/phlat:1.0', '-1', '/data/input_1.fastq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2', '-tag', 'tumor_rna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 73, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmphqh2kspz/d29e0646-f21a-49aa-a135-1795672538fc:/data --log-driver=none aarjunrao/phlat:1.0 -1 /data/input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag tumor_rna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-19T18:17:57-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+	{'input_1.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmphqh2kspz/d29e0646-f21a-49aa-a135-1795672538fc/input_1.fastq', 'input_2.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmphqh2kspz/d29e0646-f21a-49aa-a135-1795672538fc/input_2.fastq', 'phlat_index.tar.gz': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmphqh2kspz/d29e0646-f21a-49aa-a135-1795672538fc/phlat_index.tar.gz'}
+<=========
+[2020-10-19T18:17:57-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-dyn6bo3z with ID kind-run_phlat/instance-dyn6bo3z to 1
+[2020-10-19T18:17:57-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-dyn6bo3z with job batch system ID: 48 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-19T18:17:59-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp9ghrqz2a/worker_log.txt
+[2020-10-19T18:19:17-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_bwa file:/home/drkthomp/protect3/jobStore kind-run_bwa/instance-39qi7a25.
+[2020-10-19T18:19:17-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_bwa' kind-run_bwa/instance-39qi7a25
+[2020-10-19T18:19:17-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_bwa' kind-run_bwa/instance-39qi7a25
+[2020-10-19T18:19:17-0700] [MainThread] [W] [toil.leader] Log from job kind-run_bwa/instance-39qi7a25 follows:
+=========>
+	[2020-10-19T18:17:59-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:17:59-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/alignment/dna.py", line 140, in run_bwa
+	    docker_call(tool='bwa', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 101, in docker_call
+	    assert isinstance(outfile, file), 'outfile was not passsed a file'
+	NameError: name 'file' is not defined
+	[2020-10-19T18:19:16-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========
+[2020-10-19T18:19:17-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_bwa' kind-run_bwa/instance-39qi7a25 with ID kind-run_bwa/instance-39qi7a25 to 1
+[2020-10-19T18:19:17-0700] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-39qi7a25 with job batch system ID: 49 and cores: 4, disk: 9.6 G, and memory: 12.0 G
+[2020-10-19T18:19:18-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpr7_rtzjc/worker_log.txt
+[2020-10-19T18:20:13-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_bwa file:/home/drkthomp/protect3/jobStore kind-run_bwa/instance-nl7qvmik.
+[2020-10-19T18:20:13-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_bwa' kind-run_bwa/instance-nl7qvmik
+[2020-10-19T18:20:13-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_bwa' kind-run_bwa/instance-nl7qvmik
+[2020-10-19T18:20:13-0700] [MainThread] [W] [toil.leader] Log from job kind-run_bwa/instance-nl7qvmik follows:
+=========>
+	[2020-10-19T18:19:18-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:19:18-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/alignment/dna.py", line 140, in run_bwa
+	    docker_call(tool='bwa', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 101, in docker_call
+	    assert isinstance(outfile, file), 'outfile was not passsed a file'
+	NameError: name 'file' is not defined
+	[2020-10-19T18:20:12-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========
+[2020-10-19T18:20:13-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_bwa' kind-run_bwa/instance-nl7qvmik with ID kind-run_bwa/instance-nl7qvmik to 0
+[2020-10-19T18:20:13-0700] [MainThread] [W] [toil.leader] Job 'run_bwa' kind-run_bwa/instance-nl7qvmik with ID kind-run_bwa/instance-nl7qvmik is completely failed
+[2020-10-19T18:20:13-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp8j4mqmrx/worker_log.txt
+[2020-10-19T18:22:49-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-dyn6bo3z.
+[2020-10-19T18:22:49-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-dyn6bo3z
+[2020-10-19T18:22:49-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-dyn6bo3z
+[2020-10-19T18:22:49-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-dyn6bo3z follows:
+=========>
+	[2020-10-19T18:20:13-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:20:13-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	462668 reads; of these:
+	  462668 (100.00%) were paired; of these:
+	    75207 (16.26%) aligned concordantly 0 times
+	    235430 (50.89%) aligned concordantly exactly 1 time
+	    152031 (32.86%) aligned concordantly >1 times
+	83.74% overall alignment rate
+	.....Process Bowtie 2 mapping on tumor_rna.......
+	
+	.....Prepare files of tumor_rna for PHLAT.......
+	
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp8j4mqmrx/d7cf399c-7991-44fc-9763-b75671fb50d4:/data', '--log-driver=none', 'aarjunrao/phlat:1.0', '-1', '/data/input_1.fastq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2', '-tag', 'tumor_rna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 73, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp8j4mqmrx/d7cf399c-7991-44fc-9763-b75671fb50d4:/data --log-driver=none aarjunrao/phlat:1.0 -1 /data/input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag tumor_rna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-19T18:22:48-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+	{'input_1.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp8j4mqmrx/d7cf399c-7991-44fc-9763-b75671fb50d4/input_1.fastq', 'input_2.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp8j4mqmrx/d7cf399c-7991-44fc-9763-b75671fb50d4/input_2.fastq', 'phlat_index.tar.gz': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmp8j4mqmrx/d7cf399c-7991-44fc-9763-b75671fb50d4/phlat_index.tar.gz'}
+<=========
+[2020-10-19T18:22:49-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-dyn6bo3z with ID kind-run_phlat/instance-dyn6bo3z to 0
+[2020-10-19T18:22:49-0700] [MainThread] [W] [toil.leader] Job 'run_phlat' kind-run_phlat/instance-dyn6bo3z with ID kind-run_phlat/instance-dyn6bo3z is completely failed
+[2020-10-19T18:22:49-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpzj2ufyd8/worker_log.txt
+[2020-10-19T18:26:16-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-wyy831pe.
+[2020-10-19T18:26:16-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-wyy831pe
+[2020-10-19T18:26:16-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-wyy831pe
+[2020-10-19T18:26:16-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-wyy831pe follows:
+=========>
+	[2020-10-19T18:22:49-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:22:49-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	567573 reads; of these:
+	  567573 (100.00%) were paired; of these:
+	    3570 (0.63%) aligned concordantly 0 times
+	    514680 (90.68%) aligned concordantly exactly 1 time
+	    49323 (8.69%) aligned concordantly >1 times
+	99.37% overall alignment rate
+	.....Process Bowtie 2 mapping on tumor_dna.......
+	
+	.....Prepare files of tumor_dna for PHLAT.......
+	
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpzj2ufyd8/11b68275-efb9-4da5-b092-8fc06a28bd71:/data', '--log-driver=none', 'aarjunrao/phlat:1.0', '-1', '/data/input_1.fastq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2', '-tag', 'tumor_dna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 73, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpzj2ufyd8/11b68275-efb9-4da5-b092-8fc06a28bd71:/data --log-driver=none aarjunrao/phlat:1.0 -1 /data/input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag tumor_dna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-19T18:26:16-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+	{'input_1.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpzj2ufyd8/11b68275-efb9-4da5-b092-8fc06a28bd71/input_1.fastq', 'input_2.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpzj2ufyd8/11b68275-efb9-4da5-b092-8fc06a28bd71/input_2.fastq', 'phlat_index.tar.gz': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpzj2ufyd8/11b68275-efb9-4da5-b092-8fc06a28bd71/phlat_index.tar.gz'}
+<=========
+[2020-10-19T18:26:16-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-wyy831pe with ID kind-run_phlat/instance-wyy831pe to 1
+[2020-10-19T18:26:16-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-wyy831pe with job batch system ID: 50 and cores: 4, disk: 7.8 G, and memory: 2.0 G
+[2020-10-19T18:26:16-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpd_baalno/worker_log.txt
+[2020-10-19T18:29:19-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-j5t5f3ax.
+[2020-10-19T18:29:19-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-j5t5f3ax
+[2020-10-19T18:29:19-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-j5t5f3ax
+[2020-10-19T18:29:19-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-j5t5f3ax follows:
+=========>
+	[2020-10-19T18:26:16-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:26:16-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	491247 reads; of these:
+	  491247 (100.00%) were paired; of these:
+	    3488 (0.71%) aligned concordantly 0 times
+	    442898 (90.16%) aligned concordantly exactly 1 time
+	    44861 (9.13%) aligned concordantly >1 times
+	99.29% overall alignment rate
+	.....Process Bowtie 2 mapping on normal_dna.......
+	
+	.....Prepare files of normal_dna for PHLAT.......
+	
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpd_baalno/ba1f4175-9246-4334-ba0a-fe8d2f8e7b38:/data', '--log-driver=none', 'aarjunrao/phlat:1.0', '-1', '/data/input_1.fastq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2', '-tag', 'normal_dna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 73, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpd_baalno/ba1f4175-9246-4334-ba0a-fe8d2f8e7b38:/data --log-driver=none aarjunrao/phlat:1.0 -1 /data/input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag normal_dna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-19T18:29:19-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+	{'input_1.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpd_baalno/ba1f4175-9246-4334-ba0a-fe8d2f8e7b38/input_1.fastq', 'input_2.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpd_baalno/ba1f4175-9246-4334-ba0a-fe8d2f8e7b38/input_2.fastq', 'phlat_index.tar.gz': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpd_baalno/ba1f4175-9246-4334-ba0a-fe8d2f8e7b38/phlat_index.tar.gz'}
+<=========
+[2020-10-19T18:29:19-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-j5t5f3ax with ID kind-run_phlat/instance-j5t5f3ax to 1
+[2020-10-19T18:29:19-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-j5t5f3ax with job batch system ID: 51 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-19T18:29:20-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpevrcd_19/worker_log.txt
+[2020-10-19T18:32:41-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-wyy831pe.
+[2020-10-19T18:32:41-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-wyy831pe
+[2020-10-19T18:32:41-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-wyy831pe
+[2020-10-19T18:32:41-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-wyy831pe follows:
+=========>
+	[2020-10-19T18:29:20-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:29:20-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	567573 reads; of these:
+	  567573 (100.00%) were paired; of these:
+	    3570 (0.63%) aligned concordantly 0 times
+	    514680 (90.68%) aligned concordantly exactly 1 time
+	    49323 (8.69%) aligned concordantly >1 times
+	99.37% overall alignment rate
+	.....Process Bowtie 2 mapping on tumor_dna.......
+	
+	.....Prepare files of tumor_dna for PHLAT.......
+	
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpevrcd_19/aaf341a0-836d-4fdb-ad14-ecc46c8582ed:/data', '--log-driver=none', 'aarjunrao/phlat:1.0', '-1', '/data/input_1.fastq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2', '-tag', 'tumor_dna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 73, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpevrcd_19/aaf341a0-836d-4fdb-ad14-ecc46c8582ed:/data --log-driver=none aarjunrao/phlat:1.0 -1 /data/input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag tumor_dna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-19T18:32:41-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+	{'input_1.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpevrcd_19/aaf341a0-836d-4fdb-ad14-ecc46c8582ed/input_1.fastq', 'input_2.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpevrcd_19/aaf341a0-836d-4fdb-ad14-ecc46c8582ed/input_2.fastq', 'phlat_index.tar.gz': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpevrcd_19/aaf341a0-836d-4fdb-ad14-ecc46c8582ed/phlat_index.tar.gz'}
+<=========
+[2020-10-19T18:32:41-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-wyy831pe with ID kind-run_phlat/instance-wyy831pe to 0
+[2020-10-19T18:32:41-0700] [MainThread] [W] [toil.leader] Job 'run_phlat' kind-run_phlat/instance-wyy831pe with ID kind-run_phlat/instance-wyy831pe is completely failed
+[2020-10-19T18:32:41-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpjevzqsps/worker_log.txt
+[2020-10-19T18:33:38-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_bwa file:/home/drkthomp/protect3/jobStore kind-run_bwa/instance-39qi7a25.
+[2020-10-19T18:33:38-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_bwa' kind-run_bwa/instance-39qi7a25
+[2020-10-19T18:33:38-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_bwa' kind-run_bwa/instance-39qi7a25
+[2020-10-19T18:33:38-0700] [MainThread] [W] [toil.leader] Log from job kind-run_bwa/instance-39qi7a25 follows:
+=========>
+	[2020-10-19T18:32:41-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:32:41-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/alignment/dna.py", line 140, in run_bwa
+	    docker_call(tool='bwa', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 101, in docker_call
+	    assert isinstance(outfile, file), 'outfile was not passsed a file'
+	NameError: name 'file' is not defined
+	[2020-10-19T18:33:37-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========
+[2020-10-19T18:33:38-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_bwa' kind-run_bwa/instance-39qi7a25 with ID kind-run_bwa/instance-39qi7a25 to 0
+[2020-10-19T18:33:38-0700] [MainThread] [W] [toil.leader] Job 'run_bwa' kind-run_bwa/instance-39qi7a25 with ID kind-run_bwa/instance-39qi7a25 is completely failed
+[2020-10-19T18:33:39-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpbit8qnxo/worker_log.txt
+[2020-10-19T18:33:50-0700] [MainThread] [I] [toil.leader] Job ended: 'run_cutadapt' kind-run_cutadapt/instance-aop8fhhj
+[2020-10-19T18:33:50-0700] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-pj1938zl with job batch system ID: 52 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-10-19T18:33:51-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpk71upqs5/worker_log.txt
+[2020-10-19T18:33:51-0700] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 10-19-2020 18:33:51: Ran cutadapt on TEST successfully
+[2020-10-19T18:37:24-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/home/drkthomp/protect3/jobStore kind-run_phlat/instance-j5t5f3ax.
+[2020-10-19T18:37:24-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-j5t5f3ax
+[2020-10-19T18:37:24-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-j5t5f3ax
+[2020-10-19T18:37:24-0700] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-j5t5f3ax follows:
+=========>
+	[2020-10-19T18:33:51-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-19T18:33:51-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	491247 reads; of these:
+	  491247 (100.00%) were paired; of these:
+	    3488 (0.71%) aligned concordantly 0 times
+	    442898 (90.16%) aligned concordantly exactly 1 time
+	    44861 (9.13%) aligned concordantly >1 times
+	99.29% overall alignment rate
+	.....Process Bowtie 2 mapping on normal_dna.......
+	
+	.....Prepare files of normal_dna for PHLAT.......
+	
+	..... Running PHLAT .......
+	Traceback (most recent call last):
+	  File "/home/phlat-1.0/dist/PHLAT.py", line 64, in <module>
+	    go(tag,outdir,phlatdir)
+	  File "/home/yubai/programs/phlat-1.0/dist/utilities.py", line 79, in go
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 617, in __init__
+	  File "/home/yubai/programs/phlat-1.0/dist/extensions.py", line 645, in setMaster
+	IndexError: list index out of range
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib/python3.8/subprocess.py", line 364, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpk71upqs5/a37cc46e-5f9c-48f0-9c61-db0a80864e05:/data', '--log-driver=none', 'aarjunrao/phlat:1.0', '-1', '/data/input_1.fastq', '-2', '/data/input_2.fastq', '-index', '/data/index4phlat', '-b2url', '/usr/local/bin/bowtie2', '-tag', 'normal_dna', '-e', '/home/phlat-1.0', '-o', '/data', '-p', '4']' returned non-zero exit status 1.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 73, in run_phlat
+	    docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
+	  File "/home/drkthomp/protect3/src/protect/common.py", line 138, in docker_call
+	    raise RuntimeError('docker command returned a non-zero exit status (%s)' % err.returncode +
+	RuntimeError: docker command returned a non-zero exit status (1)for command "docker run --rm=true -v /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpk71upqs5/a37cc46e-5f9c-48f0-9c61-db0a80864e05:/data --log-driver=none aarjunrao/phlat:1.0 -1 /data/input_1.fastq -2 /data/input_2.fastq -index /data/index4phlat -b2url /usr/local/bin/bowtie2 -tag normal_dna -e /home/phlat-1.0 -o /data -p 4"
+	[2020-10-19T18:37:24-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+	{'input_1.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpk71upqs5/a37cc46e-5f9c-48f0-9c61-db0a80864e05/input_1.fastq', 'input_2.fastq': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpk71upqs5/a37cc46e-5f9c-48f0-9c61-db0a80864e05/input_2.fastq', 'phlat_index.tar.gz': '/home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpk71upqs5/a37cc46e-5f9c-48f0-9c61-db0a80864e05/phlat_index.tar.gz'}
+<=========
+[2020-10-19T18:37:24-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-j5t5f3ax with ID kind-run_phlat/instance-j5t5f3ax to 0
+[2020-10-19T18:37:24-0700] [MainThread] [W] [toil.leader] Job 'run_phlat' kind-run_phlat/instance-j5t5f3ax with ID kind-run_phlat/instance-j5t5f3ax is completely failed
+[2020-10-19T18:37:25-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpybqhu9re/worker_log.txt
+[2020-10-19T18:37:25-0700] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-pj1938zl
+[2020-10-19T18:37:25-0700] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-bwrjybkc with job batch system ID: 53 and cores: 1, disk: 100.0 M, and memory: 2.0 G
+[2020-10-19T18:37:25-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmprpemv6o8/worker_log.txt
+[2020-10-19T18:37:26-0700] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-bwrjybkc
+[2020-10-19T18:37:26-0700] [MainThread] [I] [toil.leader] Issued job 'run_star' kind-run_star/instance-5q77j6ix with job batch system ID: 54 and cores: 4, disk: 52.8 G, and memory: 48.6 G
+[2020-10-19T18:55:18-0700] [MainThread] [I] [toil.leader] 0 jobs are running, 1 jobs are issued and waiting to run
+[2020-10-19T19:55:19-0700] [MainThread] [I] [toil.leader] 0 jobs are running, 1 jobs are issued and waiting to run
+[2020-10-19T20:55:20-0700] [MainThread] [I] [toil.leader] 0 jobs are running, 1 jobs are issued and waiting to run
+[2020-10-19T21:55:22-0700] [MainThread] [I] [toil.leader] 0 jobs are running, 1 jobs are issued and waiting to run
