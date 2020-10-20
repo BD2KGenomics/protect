@@ -98,7 +98,7 @@ def docker_call(tool, tool_parameters, work_dir, java_xmx=None, outfile=None,
     # If an outifle has been provided, then ensure that it is of type file, it is writeable, and
     # that it is open.
     if outfile:
-        assert isinstance(outfile, file), 'outfile was not passsed a file'
+        assert isinstance(outfile, IOBase), 'outfile was not passsed a file'
         assert outfile.mode in ['w', 'a', 'wb', 'ab'], 'outfile not writeable'
         assert not outfile.closed, 'outfile is closed'
     # If the call is interactive, set intereactive to -i
