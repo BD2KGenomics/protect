@@ -1,0 +1,65 @@
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-EncapsulatedJob/instance-p2km7zbq
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-8gyqgqyx
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ourgk6vm
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-bm4dpfik
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-0p9602y6
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-EncapsulatedJob/instance-70qhj097
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-yrvj0gxx
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-tjkov9ea
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-gl_w17lv
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-cev_msom
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-0t3dxg78
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-EncapsulatedJob/instance-8neyzru4
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-c65720sq
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-cije5tr0
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-daisoolw
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-9hdk8gj3
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-92gnpm9m
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-vodde7jc
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-wyy831pe
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-EncapsulatedJob/instance-jm64shh5
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-6clikwgf
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-h18ep_9e
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-40bfs1db
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-j5t5f3ax
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-cp3zlhzq
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-3a6rn9f9
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-dyn6bo3z
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-EncapsulatedJob/instance-0yywb779
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-55hd3p6y
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-fu63ea_u
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-0oyi7ie_
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-wflniclq
+[2020-10-20T19:54:01-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-sfhpnee3
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-wyy831pe with job batch system ID: 0 and cores: 4, disk: 7.8 G, and memory: 2.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-j5t5f3ax with job batch system ID: 1 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-8gyqgqyx with job batch system ID: 2 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-55hd3p6y with job batch system ID: 3 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-cije5tr0 with job batch system ID: 4 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-cp3zlhzq with job batch system ID: 5 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h18ep_9e with job batch system ID: 6 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-vodde7jc with job batch system ID: 7 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-40bfs1db with job batch system ID: 8 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-92gnpm9m with job batch system ID: 9 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gl_w17lv with job batch system ID: 10 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-6clikwgf with job batch system ID: 11 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-0p9602y6 with job batch system ID: 12 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-tjkov9ea with job batch system ID: 13 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9hdk8gj3 with job batch system ID: 14 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-cev_msom with job batch system ID: 15 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fu63ea_u with job batch system ID: 16 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-0oyi7ie_ with job batch system ID: 17 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ourgk6vm with job batch system ID: 18 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-3a6rn9f9 with job batch system ID: 19 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-sfhpnee3 with job batch system ID: 20 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-bm4dpfik with job batch system ID: 21 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-0t3dxg78 with job batch system ID: 22 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-daisoolw with job batch system ID: 23 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-c65720sq with job batch system ID: 24 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-wflniclq with job batch system ID: 25 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-yrvj0gxx with job batch system ID: 26 and cores: 1, disk: 23.0 G, and memory: 6.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-dyn6bo3z with job batch system ID: 27 and cores: 4, disk: 7.7 G, and memory: 2.0 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.leader] Issued job 'run_star' kind-run_star/instance-5q77j6ix with job batch system ID: 28 and cores: 4, disk: 52.8 G, and memory: 48.6 G
+[2020-10-20T19:54:01-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-72996abd-6cf4-462a-aea1-4d483640105b-1e53f69f16d74e0b881e7db602b2d2c3/tmpne_33r5r/worker_log.txt
+[2020-10-20T19:54:03-0700] [MainThread] [I] [toil.leader] 1 jobs are running, 28 jobs are issued and waiting to run

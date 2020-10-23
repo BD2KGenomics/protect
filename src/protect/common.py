@@ -27,7 +27,7 @@ from collections import defaultdict
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from urllib.parse import urlparse
-
+from io import IOBase
 import errno
 import gzip
 import logging
@@ -173,7 +173,7 @@ def gunzip(input_gzip_file, block_size=1024):
     with gzip.open(input_gzip_file) as infile:
         with open(os.path.splitext(input_gzip_file)[0], 'w') as outfile:
             while True:
-                block = infile.read(block_size)
+                block = str(infile.read(block_size))
                 if block == '':
                     break
                 else:
@@ -197,7 +197,7 @@ def is_gzipfile(filename):
         'point to a file.'
     with open(filename, 'rb') as in_f:
         start_of_file = in_f.read(3)
-        if start_of_file == '\x1f\x8b\x08':
+        if start_of_file == b'\x1f\x8b\x08':
             return True
         else:
             return False
