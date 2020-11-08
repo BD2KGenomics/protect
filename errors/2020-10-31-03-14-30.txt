@@ -1,0 +1,197 @@
+[2020-10-31T03:14:36-0700] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-parse_config_file/instance-s_nr25h6
+[2020-10-31T03:14:36-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+[2020-10-31T03:14:36-0700] [MainThread] [I] [toil.leader] Issued job 'parse_config_file' kind-parse_config_file/instance-s_nr25h6 with job batch system ID: 0 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-f1f8997a-f8d2-4f90-ad06-953f95d5bcdd-1e53f69f16d74e0b881e7db602b2d2c3/tmpb02q6w3q/worker_log.txt
+[2020-10-31T03:14:37-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker parse_config_file file:/home/drkthomp/protect3/jobStore kind-parse_config_file/instance-s_nr25h6.
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'parse_config_file' kind-parse_config_file/instance-s_nr25h6
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'parse_config_file' kind-parse_config_file/instance-s_nr25h6
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.leader] Log from job kind-parse_config_file/instance-s_nr25h6 follows:
+=========>
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Parsing config file
+	/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py:333: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+	  input_config = yaml.load(conf.read())
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 443, in parse_config_file
+	    sample_set, univ_options, processed_tool_inputs = _parse_config_file(job, config_file,
+	  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 333, in _parse_config_file
+	    input_config = yaml.load(conf.read())
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/__init__.py", line 114, in load
+	    return loader.get_single_data()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/constructor.py", line 49, in get_single_data
+	    node = self.get_single_node()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 36, in get_single_node
+	    document = self.compose_document()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 55, in compose_document
+	    node = self.compose_node(None, None)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 133, in compose_mapping_node
+	    item_value = self.compose_node(node, item_key)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 133, in compose_mapping_node
+	    item_value = self.compose_node(node, item_key)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 127, in compose_mapping_node
+	    while not self.check_event(MappingEndEvent):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/parser.py", line 98, in check_event
+	    self.current_event = self.state()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/parser.py", line 428, in parse_block_mapping_key
+	    if self.check_token(KeyToken):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/scanner.py", line 116, in check_token
+	    self.fetch_more_tokens()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/scanner.py", line 258, in fetch_more_tokens
+	    raise ScannerError("while scanning for the next token", None,
+	yaml.scanner.ScannerError: while scanning for the next token
+	found character '\t' that cannot start any token
+	  in "<unicode string>", line 32, column 1:
+	    	tumor_dna_fastq_2: /home/drktho ... 
+	    ^
+	[2020-10-31T03:14:37-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'parse_config_file' kind-parse_config_file/instance-s_nr25h6 with ID kind-parse_config_file/instance-s_nr25h6 to 1
+[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.leader] 0 jobs are running, 0 jobs are issued and waiting to run
+[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.leader] Issued job 'parse_config_file' kind-parse_config_file/instance-s_nr25h6 with job batch system ID: 1 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.worker] Redirecting logging to /home/drkthomp/workDir/node-f1f8997a-f8d2-4f90-ad06-953f95d5bcdd-1e53f69f16d74e0b881e7db602b2d2c3/tmp0l1bqexv/worker_log.txt
+[2020-10-31T03:14:37-0700] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker parse_config_file file:/home/drkthomp/protect3/jobStore kind-parse_config_file/instance-s_nr25h6.
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'parse_config_file' kind-parse_config_file/instance-s_nr25h6
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'parse_config_file' kind-parse_config_file/instance-s_nr25h6
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.leader] Log from job kind-parse_config_file/instance-s_nr25h6 follows:
+=========>
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Parsing config file
+	/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py:333: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+	  input_config = yaml.load(conf.read())
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 443, in parse_config_file
+	    sample_set, univ_options, processed_tool_inputs = _parse_config_file(job, config_file,
+	  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 333, in _parse_config_file
+	    input_config = yaml.load(conf.read())
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/__init__.py", line 114, in load
+	    return loader.get_single_data()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/constructor.py", line 49, in get_single_data
+	    node = self.get_single_node()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 36, in get_single_node
+	    document = self.compose_document()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 55, in compose_document
+	    node = self.compose_node(None, None)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 133, in compose_mapping_node
+	    item_value = self.compose_node(node, item_key)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 133, in compose_mapping_node
+	    item_value = self.compose_node(node, item_key)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 127, in compose_mapping_node
+	    while not self.check_event(MappingEndEvent):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/parser.py", line 98, in check_event
+	    self.current_event = self.state()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/parser.py", line 428, in parse_block_mapping_key
+	    if self.check_token(KeyToken):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/scanner.py", line 116, in check_token
+	    self.fetch_more_tokens()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/scanner.py", line 258, in fetch_more_tokens
+	    raise ScannerError("while scanning for the next token", None,
+	yaml.scanner.ScannerError: while scanning for the next token
+	found character '\t' that cannot start any token
+	  in "<unicode string>", line 32, column 1:
+	    	tumor_dna_fastq_2: /home/drktho ... 
+	    ^
+	[2020-10-31T03:14:37-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'parse_config_file' kind-parse_config_file/instance-s_nr25h6 with ID kind-parse_config_file/instance-s_nr25h6 to 0
+[2020-10-31T03:14:37-0700] [MainThread] [W] [toil.leader] Job 'parse_config_file' kind-parse_config_file/instance-s_nr25h6 with ID kind-parse_config_file/instance-s_nr25h6 is completely failed
+[2020-10-31T03:14:41-0700] [MainThread] [I] [toil.leader] Finished toil run with 1 failed jobs.
+[2020-10-31T03:14:41-0700] [MainThread] [I] [toil.leader] Failed jobs at end of the run: 'parse_config_file' kind-parse_config_file/instance-s_nr25h6
+Traceback (most recent call last):
+  File "/home/drkthomp/protect3/venv/bin/ProTECT", line 33, in <module>
+    sys.exit(load_entry_point('protect', 'console_scripts', 'ProTECT')())
+  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 1025, in main
+    Job.Runner.startToil(start, params)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 798, in startToil
+    return toil.restart()
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/common.py", line 878, in restart
+    return self._runMainLoop(rootJobGraph)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/common.py", line 1133, in _runMainLoop
+    return Leader(config=self.config,
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/leader.py", line 269, in run
+    raise FailedJobsException(self.config.jobStore, self.toilState.totalFailedJobs, self.jobStore)
+toil.leader.FailedJobsException: The job store 'file:/home/drkthomp/protect3/jobStore' contains 1 failed jobs: 'parse_config_file' kind-parse_config_file/instance-s_nr25h6
+Log from job 'parse_config_file' kind-parse_config_file/instance-s_nr25h6 follows:
+=========>
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host drkthomp-virtualbox.
+	[2020-10-31T03:14:37-0700] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Parsing config file
+	/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py:333: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+	  input_config = yaml.load(conf.read())
+	Traceback (most recent call last):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 443, in parse_config_file
+	    sample_set, univ_options, processed_tool_inputs = _parse_config_file(job, config_file,
+	  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 333, in _parse_config_file
+	    input_config = yaml.load(conf.read())
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/__init__.py", line 114, in load
+	    return loader.get_single_data()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/constructor.py", line 49, in get_single_data
+	    node = self.get_single_node()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 36, in get_single_node
+	    document = self.compose_document()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 55, in compose_document
+	    node = self.compose_node(None, None)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 133, in compose_mapping_node
+	    item_value = self.compose_node(node, item_key)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 133, in compose_mapping_node
+	    item_value = self.compose_node(node, item_key)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 84, in compose_node
+	    node = self.compose_mapping_node(anchor)
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/composer.py", line 127, in compose_mapping_node
+	    while not self.check_event(MappingEndEvent):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/parser.py", line 98, in check_event
+	    self.current_event = self.state()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/parser.py", line 428, in parse_block_mapping_key
+	    if self.check_token(KeyToken):
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/scanner.py", line 116, in check_token
+	    self.fetch_more_tokens()
+	  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/yaml/scanner.py", line 258, in fetch_more_tokens
+	    raise ScannerError("while scanning for the next token", None,
+	yaml.scanner.ScannerError: while scanning for the next token
+	found character '\t' that cannot start any token
+	  in "<unicode string>", line 32, column 1:
+	    	tumor_dna_fastq_2: /home/drktho ... 
+	    ^
+	[2020-10-31T03:14:37-0700] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host drkthomp-virtualbox
+<=========

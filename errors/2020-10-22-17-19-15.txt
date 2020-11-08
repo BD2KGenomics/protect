@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/drkthomp/protect3/venv/bin/ProTECT", line 33, in <module>
+    sys.exit(load_entry_point('protect', 'console_scripts', 'ProTECT')())
+  File "/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 1026, in main
+    Job.Runner.startToil(start, params)
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/job.py", line 794, in startToil
+    with Toil(options) as toil:
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/common.py", line 776, in __enter__
+    jobStore.resume()
+  File "/home/drkthomp/protect3/venv/lib/python3.8/site-packages/toil/jobStores/fileJobStore.py", line 121, in resume
+    raise NoSuchJobStoreException(self.jobStoreDir)
+toil.jobStores.abstractJobStore.NoSuchJobStoreException: The job store '/home/drkthomp/protect3/jobStore' does not exist, so there is nothing to restart.
