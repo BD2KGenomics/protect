@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/fileJobStore.py", line 104, in initialize
+    os.mkdir(self.jobStoreDir)
+FileExistsError: [Errno 17] File exists: '/private/home/drkthomp/protect3/jobStore'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/private/home/drkthomp/protect3/venv/bin/ProTECT", line 11, in <module>
+    load_entry_point('protect', 'console_scripts', 'ProTECT')()
+  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 1025, in main
+    Job.Runner.startToil(start, params)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 794, in startToil
+    with Toil(options) as toil:
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/common.py", line 774, in __enter__
+    jobStore.initialize(config)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/fileJobStore.py", line 107, in initialize
+    raise JobStoreExistsException(self.jobStoreDir)
+toil.jobStores.abstractJobStore.JobStoreExistsException: The job store '/private/home/drkthomp/protect3/jobStore' already exists. Use --restart to resume the workflow, or remove the job store with 'toil clean' to start the workflow from scratch.

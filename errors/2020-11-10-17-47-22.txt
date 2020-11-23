@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/fileJobStore.py", line 556, in readSharedFileStream
+    with open(self._getSharedFilePath(sharedFileName), 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/private/home/drkthomp/protect3/jobStore/files/shared/config.pickle'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/private/home/drkthomp/protect3/venv/bin/ProTECT", line 11, in <module>
+    load_entry_point('protect', 'console_scripts', 'ProTECT')()
+  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 1025, in main
+    Job.Runner.startToil(start, params)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 794, in startToil
+    with Toil(options) as toil:
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/common.py", line 776, in __enter__
+    jobStore.resume()
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/fileJobStore.py", line 122, in resume
+    super(FileJobStore, self).resume()
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/abstractJobStore.py", line 164, in resume
+    with self.readSharedFileStream('config.pickle') as fileHandle:
+  File "/usr/lib64/python3.6/contextlib.py", line 81, in __enter__
+    return next(self.gen)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/fileJobStore.py", line 560, in readSharedFileStream
+    raise NoSuchFileException(sharedFileName)
+toil.jobStores.abstractJobStore.NoSuchFileException: File 'config.pickle' does not exist.

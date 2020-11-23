@@ -1,0 +1,76 @@
+[2020-11-08T15:44:25-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-get_pipeline_inputs/instance-5vyrv57t
+[2020-11-08T15:44:25-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-get_pipeline_inputs/instance-so6a9eh_
+[2020-11-08T15:44:25-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-parse_config_file/instance-buse8sx7
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_ with job batch system ID: 0 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-0q41m4jt with job batch system ID: 1 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-r_s003vc with job batch system ID: 2 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-zzulcz80 with job batch system ID: 3 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-5vyrv57t with job batch system ID: 4 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-0x52rixc with job batch system ID: 5 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-f8kem078 with job batch system ID: 6 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-10qlus8x with job batch system ID: 7 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-bqg5g1te with job batch system ID: 8 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-pvsm6vla with job batch system ID: 9 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:25-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-homdbmzy with job batch system ID: 10 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmp8uvd3pj7/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmp6h7v4bxr/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmpruac22uh/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmpgozb4up8/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmp77x8qqxp/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmp15os55up/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmp4in9pe3b/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmp4j_p2rm4/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmp4dcbp4_r/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmp43yt9b61/worker_log.txt
+[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmpr3rsu5l4/worker_log.txt
+[2020-11-08T15:44:27-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker get_pipeline_inputs file:/private/home/drkthomp/protect3/jobStore kind-get_pipeline_inputs/instance-so6a9eh_.
+[2020-11-08T15:44:27-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_
+[2020-11-08T15:44:27-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_
+[2020-11-08T15:44:27-0800] [MainThread] [W] [toil.leader] Log from job kind-get_pipeline_inputs/instance-so6a9eh_ follows:
+=========>
+	[2020-11-08T15:44:26-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-08T15:44:26-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-08T15:44:27-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Obtaining file (star:index) to the file job store
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 804, in get_pipeline_inputs
+	    assert os.path.exists(input_file), 'Bogus Input : ' + input_file
+	AssertionError: Bogus Input : /scratch/drkthomp/protect-indexs/protect-data/star_with_fusion_100bp_readlen_indexes.tar.gz
+	[2020-11-08T15:44:27-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-08T15:44:27-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_ with ID kind-get_pipeline_inputs/instance-so6a9eh_ to 1
+[2020-11-08T15:44:27-0800] [MainThread] [I] [toil.leader] 10 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-08T15:44:27-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_ with job batch system ID: 11 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-08T15:44:28-0800] [MainThread] [I] [toil.worker] Redirecting logging to /tmp/node-b3157790-d4c6-49ae-8620-5f2a1485ceb4-e8611b53-bdab-4598-acae-87977f99831e/tmpnwvsq_1c/worker_log.txt
+[2020-11-08T15:44:28-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker get_pipeline_inputs file:/private/home/drkthomp/protect3/jobStore kind-get_pipeline_inputs/instance-so6a9eh_.
+[2020-11-08T15:44:28-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_
+[2020-11-08T15:44:28-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_
+[2020-11-08T15:44:28-0800] [MainThread] [W] [toil.leader] Log from job kind-get_pipeline_inputs/instance-so6a9eh_ follows:
+=========>
+	[2020-11-08T15:44:28-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-08T15:44:28-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-08T15:44:28-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Obtaining file (star:index) to the file job store
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 804, in get_pipeline_inputs
+	    assert os.path.exists(input_file), 'Bogus Input : ' + input_file
+	AssertionError: Bogus Input : /scratch/drkthomp/protect-indexs/protect-data/star_with_fusion_100bp_readlen_indexes.tar.gz
+	[2020-11-08T15:44:28-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-08T15:44:28-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_ with ID kind-get_pipeline_inputs/instance-so6a9eh_ to 0
+[2020-11-08T15:44:29-0800] [MainThread] [W] [toil.leader] Job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-so6a9eh_ with ID kind-get_pipeline_inputs/instance-so6a9eh_ is completely failed

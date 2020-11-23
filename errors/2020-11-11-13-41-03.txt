@@ -1,0 +1,114 @@
+[2020-11-11T13:41:05-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-parse_config_file/instance-x3p_8ykw
+[2020-11-11T13:41:05-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-get_pipeline_inputs/instance-6sm7y6xy
+[2020-11-11T13:41:05-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+[2020-11-11T13:41:05-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy with job batch system ID: 0 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-11T13:41:06-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/tmp/node-40d45df0-0414-4c8c-bfa2-203d7b77e976-e8611b53-bdab-4598-acae-87977f99831e/tmpc802qz61/worker_log.txt
+[2020-11-11T13:41:07-0800] [MainThread] [I] [toil.leader] 1 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-11T13:53:42-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker get_pipeline_inputs file:/private/home/drkthomp/protect3/jobStore kind-get_pipeline_inputs/instance-6sm7y6xy.
+[2020-11-11T13:53:42-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy
+[2020-11-11T13:53:42-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy
+[2020-11-11T13:53:42-0800] [MainThread] [W] [toil.leader] Log from job kind-get_pipeline_inputs/instance-6sm7y6xy follows:
+=========>
+	[2020-11-11T13:41:06-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-11T13:41:06-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-11T13:41:06-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Obtaining file (star:index) to the file job store
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 805, in get_pipeline_inputs
+	    input_file = job.fileStore.writeGlobalFile(input_file)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/fileStores/nonCachingFileStore.py", line 91, in writeGlobalFile
+	    fileStoreID = self.jobStore.writeFile(absLocalFileName, creatorID, cleanup)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/fileJobStore.py", line 387, in writeFile
+	    atomic_copy(localFilePath, absPath)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/lib/misc.py", line 225, in atomic_copy
+	    shutil.copyfile(src_path, dest_path_tmp)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 122, in copyfile
+	    copyfileobj(fsrc, fdst)
+	OSError: [Errno 122] Disk quota exceeded
+	[2020-11-11T13:53:42-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-11T13:53:53-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy with ID kind-get_pipeline_inputs/instance-6sm7y6xy to 1
+[2020-11-11T13:53:53-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy with job batch system ID: 1 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-11T13:53:54-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/tmp/node-40d45df0-0414-4c8c-bfa2-203d7b77e976-e8611b53-bdab-4598-acae-87977f99831e/tmpuxo7h5ih/worker_log.txt
+[2020-11-11T14:05:52-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker get_pipeline_inputs file:/private/home/drkthomp/protect3/jobStore kind-get_pipeline_inputs/instance-6sm7y6xy.
+[2020-11-11T14:05:52-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy
+[2020-11-11T14:05:52-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy
+[2020-11-11T14:05:52-0800] [MainThread] [W] [toil.leader] Log from job kind-get_pipeline_inputs/instance-6sm7y6xy follows:
+=========>
+	[2020-11-11T13:53:54-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-11T13:53:54-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-11T13:53:56-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Obtaining file (star:index) to the file job store
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 805, in get_pipeline_inputs
+	    input_file = job.fileStore.writeGlobalFile(input_file)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/fileStores/nonCachingFileStore.py", line 91, in writeGlobalFile
+	    fileStoreID = self.jobStore.writeFile(absLocalFileName, creatorID, cleanup)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/fileJobStore.py", line 387, in writeFile
+	    atomic_copy(localFilePath, absPath)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/lib/misc.py", line 225, in atomic_copy
+	    shutil.copyfile(src_path, dest_path_tmp)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 122, in copyfile
+	    copyfileobj(fsrc, fdst)
+	OSError: [Errno 122] Disk quota exceeded
+	[2020-11-11T14:05:51-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-11T14:06:02-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy with ID kind-get_pipeline_inputs/instance-6sm7y6xy to 0
+[2020-11-11T14:06:02-0800] [MainThread] [W] [toil.leader] Job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy with ID kind-get_pipeline_inputs/instance-6sm7y6xy is completely failed
+[2020-11-11T14:06:08-0800] [MainThread] [I] [toil.leader] Finished toil run with 2 failed jobs.
+[2020-11-11T14:06:08-0800] [MainThread] [I] [toil.leader] Failed jobs at end of the run: 'get_all_tool_inputs' kind-parse_config_file/instance-x3p_8ykw 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy
+Traceback (most recent call last):
+  File "/private/home/drkthomp/protect3/venv/bin/ProTECT", line 11, in <module>
+    load_entry_point('protect', 'console_scripts', 'ProTECT')()
+  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 1025, in main
+    Job.Runner.startToil(start, params)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 798, in startToil
+    return toil.restart()
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/common.py", line 878, in restart
+    return self._runMainLoop(rootJobGraph)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/common.py", line 1138, in _runMainLoop
+    jobCache=self._jobCache).run()
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/leader.py", line 269, in run
+    raise FailedJobsException(self.config.jobStore, self.toilState.totalFailedJobs, self.jobStore)
+toil.leader.FailedJobsException: The job store 'file:/private/home/drkthomp/protect3/jobStore' contains 2 failed jobs: 'get_all_tool_inputs' kind-parse_config_file/instance-x3p_8ykw, 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy
+Log from job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-6sm7y6xy follows:
+=========>
+	[2020-11-11T13:53:54-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-11T13:53:54-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-11T13:53:56-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Obtaining file (star:index) to the file job store
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 805, in get_pipeline_inputs
+	    input_file = job.fileStore.writeGlobalFile(input_file)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/fileStores/nonCachingFileStore.py", line 91, in writeGlobalFile
+	    fileStoreID = self.jobStore.writeFile(absLocalFileName, creatorID, cleanup)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/jobStores/fileJobStore.py", line 387, in writeFile
+	    atomic_copy(localFilePath, absPath)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/lib/misc.py", line 225, in atomic_copy
+	    shutil.copyfile(src_path, dest_path_tmp)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 122, in copyfile
+	    copyfileobj(fsrc, fdst)
+	OSError: [Errno 122] Disk quota exceeded
+	[2020-11-11T14:05:51-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
