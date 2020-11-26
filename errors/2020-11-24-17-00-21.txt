@@ -1,0 +1,408 @@
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-d9qjg3jl
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-q4vn5u6_
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-0xdl6glf
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_rsem/instance-mzzok2e3
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-9uka9hrw
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-7_6wjfvk
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ovr5_kcb
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_fusion/instance-g9_082sr
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-eg7xdcao
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-mppqh5vo
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-EncapsulatedJob/instance-lp8p96ga
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-v628y3w0
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-rd57kqhd
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-bv9m7hf3
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-xz7ir9sh
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-r7m8gybn
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-EncapsulatedJob/instance-hrzipcl_
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-k3tx4a2p
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-aux6_f19
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ewrzdiri
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-06rjxk27
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-uuibculn
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-r1uv5wsv
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-EncapsulatedJob/instance-2k5wcr51
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-yb2yf65u
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-2u48n_5f
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-xbtj2suv
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-jkvqxjgf
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ge6vacd7
+[2020-11-24T17:00:23-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-2dtgopje
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-uuibculn with job batch system ID: 0 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-aux6_f19 with job batch system ID: 1 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-d9qjg3jl with job batch system ID: 2 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-eg7xdcao with job batch system ID: 3 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mppqh5vo with job batch system ID: 4 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-yb2yf65u with job batch system ID: 5 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-q4vn5u6_ with job batch system ID: 6 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ge6vacd7 with job batch system ID: 7 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-7_6wjfvk with job batch system ID: 8 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-2u48n_5f with job batch system ID: 9 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jkvqxjgf with job batch system ID: 10 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-bv9m7hf3 with job batch system ID: 11 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r1uv5wsv with job batch system ID: 12 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9uka9hrw with job batch system ID: 13 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ewrzdiri with job batch system ID: 14 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ovr5_kcb with job batch system ID: 15 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xbtj2suv with job batch system ID: 16 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-0xdl6glf with job batch system ID: 17 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-v628y3w0 with job batch system ID: 18 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-k3tx4a2p with job batch system ID: 19 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-06rjxk27 with job batch system ID: 20 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-rd57kqhd with job batch system ID: 21 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xz7ir9sh with job batch system ID: 22 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r7m8gybn with job batch system ID: 23 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-2dtgopje with job batch system ID: 24 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_fusion' kind-run_fusion/instance-g9_082sr with job batch system ID: 25 and cores: 80, disk: 53.4 G, and memory: 48.6 G
+[2020-11-24T17:00:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with job batch system ID: 26 and cores: 80, disk: 5.0 G, and memory: 2.0 G
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpbcfpe253/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpp11d4y5r/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp2jw13s76/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp1nnhxf0i/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpkc70bd95/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp2pbunwi_/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp9jhd4h4p/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpwbvpd2dq/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpcsa12bih/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpxtv2h0to/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpyiwyl_mk/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpqemi4291/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpdv8rq18r/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmps1cun2wa/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp0bqxujvr/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp_9nus0tv/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpyz5546g4/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpfqb308wj/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp18p8a26f/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpsr_jfesi/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp2yfyrg3z/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp55gyr6_i/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpwd1cjnn2/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpk_jfry9e/worker_log.txt
+[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp25_an2lw/worker_log.txt
+[2020-11-24T17:00:25-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp0rjeivhd/worker_log.txt
+[2020-11-24T17:00:25-0800] [MainThread] [I] [toil.leader] 26 jobs are running, 1 jobs are issued and waiting to run
+[2020-11-24T17:23:38-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_fusion file:/scratch/drkthomp/jobStore kind-run_fusion/instance-g9_082sr.
+[2020-11-24T17:23:38-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_fusion' kind-run_fusion/instance-g9_082sr
+[2020-11-24T17:23:38-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_fusion' kind-run_fusion/instance-g9_082sr
+[2020-11-24T17:23:38-0800] [MainThread] [W] [toil.leader] Log from job kind-run_fusion/instance-g9_082sr follows:
+=========>
+	[2020-11-24T17:00:24-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-24T17:00:24-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	CMD: mkdir -p /data/fusion-output
+	* Running CMD: /opt/STAR-Fusion-v1.0.0/util/STAR-Fusion.predict  -J /data/STAR.junction  --genome_lib_dir /data/star_with_fusion_100bp_readlen_index  --min_junction_reads 1  --min_sum_frags 2  --min_novel_junction_support 3  -O /data/fusion-output/star-fusion 
+	CMD: mkdir -p /data/fusion-output/star-fusion.predict.intermediates_dir
+	-parsing GTF file: /data/star_with_fusion_100bp_readlen_index/ref_annot.gtf
+	-building interval tree for fast searching of gene overlaps
+	-parsing fusion evidence: /data/STAR.junction
+	-mapping reads to genes
+	-outputting fusion candidates to file: /data/fusion-output/star-fusion.fusion_candidates.preliminary
+	* Running CMD: /opt/STAR-Fusion-v1.0.0/util/append_breakpoint_junction_info.pl /data/fusion-output/star-fusion.fusion_candidates.preliminary /data/star_with_fusion_100bp_readlen_index > /data/fusion-output/star-fusion.fusion_candidates.preliminary.wSpliceInfo
+	[fai_load] build FASTA index.
+	* Running CMD: /opt/STAR-Fusion-v1.0.0/util/STAR-Fusion.filter  --fusion_preds /data/fusion-output/star-fusion.fusion_candidates.preliminary.wSpliceInfo  -E 0.001  --tmpdir /tmp  --min_junction_reads 1  --min_sum_frags 2  --require_LDAS 1  --max_promiscuity 3  --min_novel_junction_support 3  --min_alt_pct_junction 10  --aggregate_novel_junction_dist 5  --genome_lib_dir /data/star_with_fusion_100bp_readlen_index  --out_prefix /data/fusion-output/star-fusion
+	CMD: mkdir -p /data/fusion-output/star-fusion.filter.intermediates_dir
+	CMD: /opt/STAR-Fusion-v1.0.0/util/../FusionFilter/blast_and_promiscuity_filter.pl --out_prefix /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion -E 0.001 --max_promiscuity 3 --fusion_preds /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter --genome_lib_dir /data/star_with_fusion_100bp_readlen_index 
+	CMD: /opt/STAR-Fusion-v1.0.0/FusionFilter/util/blast_filter.pl --fusion_preds /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter -E 0.001 --genome_lib_dir /data/star_with_fusion_100bp_readlen_index
+	CMD: /opt/STAR-Fusion-v1.0.0/FusionFilter/util/promiscuity_filter.pl --fusion_preds /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.post_blast_filter  --genome_lib_dir /data/star_with_fusion_100bp_readlen_index  --max_promiscuity 3  --min_pct_dom_promiscuity 20 
+	CMD: cp /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.post_blast_filter.post_promisc_filter /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.final
+	CMD: /opt/STAR-Fusion-v1.0.0/util/column_exclusions.pl /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter JunctionReads,SpanningFrags > /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.abridged
+	CMD: /opt/STAR-Fusion-v1.0.0/util/column_exclusions.pl /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.filt_info JunctionReads,SpanningFrags > /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.filt_info.abridged
+	CMD: /opt/STAR-Fusion-v1.0.0/util/column_exclusions.pl /data/fusion-output/star-fusion.fusion_candidates.final  JunctionReads,SpanningFrags > /data/fusion-output/star-fusion.fusion_candidates.final.abridged
+	CMD: /opt/STAR-Fusion-v1.0.0/util/column_exclusions.pl /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.post_blast_filter.post_promisc_filter JunctionReads,SpanningFrags > /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.post_blast_filter.post_promisc_filter.abridged
+	
+	
+		* Process complete.  See output: /data/fusion-output/star-fusion.fusion_candidates.final (or .abridged version)
+	
+	
+	[2020-11-24T17:22:46-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Exporting files/for-job/kind-run_fusion/instance-g9_082sr/file-7j8z7yuq/star-fusion.fusion_candidates.final.abridged to output location
+	1.0.1: Pulling from aarjunrao/fusion-inspector
+	04c460fac791: Already exists
+	0a0916b29f3e: Already exists
+	b25f4e7a7766: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	595fd1429200: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	95b1864271d3: Already exists
+	08455334bb58: Already exists
+	d79e1b284af7: Already exists
+	6022965ff030: Already exists
+	a3ed95caeb02: Already exists
+	5397d43b7e0a: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	08d436ec9dcd: Already exists
+	1681d1d31560: Already exists
+	a056f67462ec: Already exists
+	3e6cd62720d9: Already exists
+	a3ed95caeb02: Already exists
+	6ccb234d8efe: Already exists
+	a3ed95caeb02: Already exists
+	4bf02e4e6cf7: Pulling fs layer
+	58d3153f09f0: Pulling fs layer
+	4bbda8a040c3: Pulling fs layer
+	3cfa2f80eba3: Pulling fs layer
+	938b83cf2dfb: Pulling fs layer
+	ae26bd2195d8: Pulling fs layer
+	7f9817c0b135: Pulling fs layer
+	16f449fc63dd: Pulling fs layer
+	488ffd6d1c08: Pulling fs layer
+	4ea50944e40a: Pulling fs layer
+	938b83cf2dfb: Waiting
+	16f449fc63dd: Waiting
+	7f9817c0b135: Waiting
+	6c51d46ebbc3: Pulling fs layer
+	488ffd6d1c08: Waiting
+	4ea50944e40a: Waiting
+	6c51d46ebbc3: Waiting
+	4bbda8a040c3: Verifying Checksum
+	4bbda8a040c3: Download complete
+	58d3153f09f0: Verifying Checksum
+	58d3153f09f0: Download complete
+	4bf02e4e6cf7: Verifying Checksum
+	4bf02e4e6cf7: Download complete
+	938b83cf2dfb: Verifying Checksum
+	938b83cf2dfb: Download complete
+	ae26bd2195d8: Verifying Checksum
+	ae26bd2195d8: Download complete
+	4bf02e4e6cf7: Pull complete
+	3cfa2f80eba3: Verifying Checksum
+	3cfa2f80eba3: Download complete
+	58d3153f09f0: Pull complete
+	4bbda8a040c3: Pull complete
+	3cfa2f80eba3: Pull complete
+	938b83cf2dfb: Pull complete
+	488ffd6d1c08: Verifying Checksum
+	488ffd6d1c08: Download complete
+	7f9817c0b135: Verifying Checksum
+	7f9817c0b135: Download complete
+	ae26bd2195d8: Pull complete
+	6c51d46ebbc3: Verifying Checksum
+	6c51d46ebbc3: Download complete
+	7f9817c0b135: Pull complete
+	16f449fc63dd: Verifying Checksum
+	16f449fc63dd: Download complete
+	4ea50944e40a: Verifying Checksum
+	4ea50944e40a: Download complete
+	16f449fc63dd: Pull complete
+	488ffd6d1c08: Pull complete
+	4ea50944e40a: Pull complete
+	6c51d46ebbc3: Pull complete
+	Digest: sha256:a8dfdb8d938005f3dd9cafb54b5c7e5d140a07005c5aae286c15c9c56e49597c
+	Status: Downloaded newer image for aarjunrao/fusion-inspector:1.0.1
+	usage: FusionInspector [-h] --fusions CHIM_SUMMARY_FILES --genome_lib_dir
+	                       GENOME_LIB_DIR --left_fq LEFT_FQ_FILENAME --right_fq
+	                       RIGHT_FQ_FILENAME --out_prefix OUT_PREFIX
+	                       [--align_utils ALIGN_UTILS]
+	                       [--min_junction_reads MIN_JUNCTION_READS]
+	                       [--min_sum_frags MIN_SUM_FRAGS]
+	                       [--min_novel_junction_support MIN_NOVEL_JUNCTION_SUPPORT]
+	                       [--require_LDAS REQUIRE_LDAS]
+	                       [--max_promiscuity MAX_PROMISCUITY] [-E EVALUE]
+	                       [--min_per_id MIN_PER_ID] [--only_fusion_reads]
+	                       [--capture_genome_alignments] [--include_Trinity]
+	                       [--prep_for_IGV] [--write_intermediate_results]
+	                       [--no_cleanup] [--version] [--CPU CPU] [--dirty]
+	                       [--aligner_path ALIGNER_PATH]
+	                       [--mem_benchmark I_MEM_BENCHMARK]
+	                       [--out_dir Output_directory]
+	FusionInspector: error: argument --CPU: invalid int value: '80.0'
+	[2020-11-24T17:23:28-0800] [MainThread] [W] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Job used more disk than requested. Consider modifying the user script to avoid the chance of failure due to incorrectly requested resources. Job files/for-job/kind-EncapsulatedJob/instance-v67rsjos/cleanup/file-d_nkrp7o/stream used 111.61% (59.6 GB [64028901376B] used, 53.4 GB [57369019908B] requested) at the end of its run.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 291, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpyz5546g4/bc43a4b5-98d1-4e5d-b16a-21548bd92604/t4azbndxa:/data', '--log-driver=none', 'aarjunrao/fusion-inspector:1.0.1', '--fusions', '/data/fusion-output/star-fusion.fusion_candidates.final.abridged', '--genome_lib', 'star_with_fusion_100bp_readlen_index', '--left_fq', '/data/rna_1.fq.gz', '--right_fq', '/data/rna_2.fq.gz', '--out_dir', '/data/FusionInspector', '--out_prefix', 'FusionInspector', '--CPU', '80.0', '--include_Trinity']' returned non-zero exit status 2.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/fusion.py", line 154, in run_fusion
+	    tool_version=fusion_inspector_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 139, in docker_call
+	    'for command \"%s\"' % ' '.join(call),)
+	RuntimeError: docker command returned a non-zero exit status (2)for command "docker run --rm=true -v /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpyz5546g4/bc43a4b5-98d1-4e5d-b16a-21548bd92604/t4azbndxa:/data --log-driver=none aarjunrao/fusion-inspector:1.0.1 --fusions /data/fusion-output/star-fusion.fusion_candidates.final.abridged --genome_lib star_with_fusion_100bp_readlen_index --left_fq /data/rna_1.fq.gz --right_fq /data/rna_2.fq.gz --out_dir /data/FusionInspector --out_prefix FusionInspector --CPU 80.0 --include_Trinity"
+	[2020-11-24T17:23:28-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-24T17:23:38-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_fusion' kind-run_fusion/instance-g9_082sr with ID kind-run_fusion/instance-g9_082sr to 1
+[2020-11-24T17:23:38-0800] [MainThread] [I] [toil.leader] Issued job 'run_fusion' kind-run_fusion/instance-g9_082sr with job batch system ID: 27 and cores: 80, disk: 53.4 G, and memory: 48.6 G
+[2020-11-24T17:23:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpy4anvbbo/worker_log.txt
+[2020-11-24T17:24:34-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_rsem file:/scratch/drkthomp/jobStore kind-run_rsem/instance-mzzok2e3.
+[2020-11-24T17:24:34-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_rsem' kind-run_rsem/instance-mzzok2e3
+[2020-11-24T17:24:34-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_rsem' kind-run_rsem/instance-mzzok2e3
+[2020-11-24T17:24:34-0800] [MainThread] [W] [toil.leader] Log from job kind-run_rsem/instance-mzzok2e3 follows:
+=========>
+	[2020-11-24T17:23:39-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-24T17:23:39-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/expression_profiling/rsem.py", line 88, in run_rsem
+	    dockerhub=univ_options['dockerhub'], tool_version=rsem_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 286, in check_call
+	    retcode = call(*popenargs, **kwargs)
+	  File "/usr/lib64/python3.6/subprocess.py", line 267, in call
+	    with Popen(*popenargs, **kwargs) as p:
+	  File "/usr/lib64/python3.6/subprocess.py", line 709, in __init__
+	    restore_signals, start_new_session)
+	  File "/usr/lib64/python3.6/subprocess.py", line 1275, in _execute_child
+	    restore_signals, start_new_session, preexec_fn)
+	TypeError: expected str, bytes or os.PathLike object, not int
+	[2020-11-24T17:24:33-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-24T17:24:34-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with ID kind-run_rsem/instance-mzzok2e3 to 1
+[2020-11-24T17:24:34-0800] [MainThread] [I] [toil.leader] Issued job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with job batch system ID: 28 and cores: 80, disk: 5.0 G, and memory: 2.0 G
+[2020-11-24T17:24:35-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpemf4jdqr/worker_log.txt
+[2020-11-24T17:34:35-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_fusion file:/scratch/drkthomp/jobStore kind-run_fusion/instance-g9_082sr.
+[2020-11-24T17:34:35-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_fusion' kind-run_fusion/instance-g9_082sr
+[2020-11-24T17:34:35-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_fusion' kind-run_fusion/instance-g9_082sr
+[2020-11-24T17:34:35-0800] [MainThread] [W] [toil.leader] Log from job kind-run_fusion/instance-g9_082sr follows:
+=========>
+	[2020-11-24T17:24:35-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-24T17:24:35-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	CMD: mkdir -p /data/fusion-output
+	* Running CMD: /opt/STAR-Fusion-v1.0.0/util/STAR-Fusion.predict  -J /data/STAR.junction  --genome_lib_dir /data/star_with_fusion_100bp_readlen_index  --min_junction_reads 1  --min_sum_frags 2  --min_novel_junction_support 3  -O /data/fusion-output/star-fusion 
+	CMD: mkdir -p /data/fusion-output/star-fusion.predict.intermediates_dir
+	-parsing GTF file: /data/star_with_fusion_100bp_readlen_index/ref_annot.gtf
+	-building interval tree for fast searching of gene overlaps
+	-parsing fusion evidence: /data/STAR.junction
+	-mapping reads to genes
+	-outputting fusion candidates to file: /data/fusion-output/star-fusion.fusion_candidates.preliminary
+	* Running CMD: /opt/STAR-Fusion-v1.0.0/util/append_breakpoint_junction_info.pl /data/fusion-output/star-fusion.fusion_candidates.preliminary /data/star_with_fusion_100bp_readlen_index > /data/fusion-output/star-fusion.fusion_candidates.preliminary.wSpliceInfo
+	[fai_load] build FASTA index.
+	* Running CMD: /opt/STAR-Fusion-v1.0.0/util/STAR-Fusion.filter  --fusion_preds /data/fusion-output/star-fusion.fusion_candidates.preliminary.wSpliceInfo  -E 0.001  --tmpdir /tmp  --min_junction_reads 1  --min_sum_frags 2  --require_LDAS 1  --max_promiscuity 3  --min_novel_junction_support 3  --min_alt_pct_junction 10  --aggregate_novel_junction_dist 5  --genome_lib_dir /data/star_with_fusion_100bp_readlen_index  --out_prefix /data/fusion-output/star-fusion
+	CMD: mkdir -p /data/fusion-output/star-fusion.filter.intermediates_dir
+	CMD: /opt/STAR-Fusion-v1.0.0/util/../FusionFilter/blast_and_promiscuity_filter.pl --out_prefix /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion -E 0.001 --max_promiscuity 3 --fusion_preds /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter --genome_lib_dir /data/star_with_fusion_100bp_readlen_index 
+	CMD: /opt/STAR-Fusion-v1.0.0/FusionFilter/util/blast_filter.pl --fusion_preds /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter -E 0.001 --genome_lib_dir /data/star_with_fusion_100bp_readlen_index
+	CMD: /opt/STAR-Fusion-v1.0.0/FusionFilter/util/promiscuity_filter.pl --fusion_preds /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.post_blast_filter  --genome_lib_dir /data/star_with_fusion_100bp_readlen_index  --max_promiscuity 3  --min_pct_dom_promiscuity 20 
+	CMD: cp /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.post_blast_filter.post_promisc_filter /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.final
+	CMD: /opt/STAR-Fusion-v1.0.0/util/column_exclusions.pl /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter JunctionReads,SpanningFrags > /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.abridged
+	CMD: /opt/STAR-Fusion-v1.0.0/util/column_exclusions.pl /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.filt_info JunctionReads,SpanningFrags > /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.filt_info.abridged
+	CMD: /opt/STAR-Fusion-v1.0.0/util/column_exclusions.pl /data/fusion-output/star-fusion.fusion_candidates.final  JunctionReads,SpanningFrags > /data/fusion-output/star-fusion.fusion_candidates.final.abridged
+	CMD: /opt/STAR-Fusion-v1.0.0/util/column_exclusions.pl /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.post_blast_filter.post_promisc_filter JunctionReads,SpanningFrags > /data/fusion-output/star-fusion.filter.intermediates_dir/star-fusion.pre_blast_filter.post_blast_filter.post_promisc_filter.abridged
+	
+	
+		* Process complete.  See output: /data/fusion-output/star-fusion.fusion_candidates.final (or .abridged version)
+	
+	
+	[2020-11-24T17:34:24-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Exporting files/for-job/kind-run_fusion/instance-g9_082sr/file-00gboftw/star-fusion.fusion_candidates.final.abridged to output location
+	usage: FusionInspector [-h] --fusions CHIM_SUMMARY_FILES --genome_lib_dir
+	                       GENOME_LIB_DIR --left_fq LEFT_FQ_FILENAME --right_fq
+	                       RIGHT_FQ_FILENAME --out_prefix OUT_PREFIX
+	                       [--align_utils ALIGN_UTILS]
+	                       [--min_junction_reads MIN_JUNCTION_READS]
+	                       [--min_sum_frags MIN_SUM_FRAGS]
+	                       [--min_novel_junction_support MIN_NOVEL_JUNCTION_SUPPORT]
+	                       [--require_LDAS REQUIRE_LDAS]
+	                       [--max_promiscuity MAX_PROMISCUITY] [-E EVALUE]
+	                       [--min_per_id MIN_PER_ID] [--only_fusion_reads]
+	                       [--capture_genome_alignments] [--include_Trinity]
+	                       [--prep_for_IGV] [--write_intermediate_results]
+	                       [--no_cleanup] [--version] [--CPU CPU] [--dirty]
+	                       [--aligner_path ALIGNER_PATH]
+	                       [--mem_benchmark I_MEM_BENCHMARK]
+	                       [--out_dir Output_directory]
+	FusionInspector: error: argument --CPU: invalid int value: '80.0'
+	[2020-11-24T17:34:26-0800] [MainThread] [W] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Job used more disk than requested. Consider modifying the user script to avoid the chance of failure due to incorrectly requested resources. Job files/for-job/kind-EncapsulatedJob/instance-v67rsjos/cleanup/file-d_nkrp7o/stream used 111.61% (59.6 GB [64028901376B] used, 53.4 GB [57369019908B] requested) at the end of its run.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 291, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpemf4jdqr/38ee5094-cf45-4cb8-9184-63af240a9b8a/t8qnl3oju:/data', '--log-driver=none', 'aarjunrao/fusion-inspector:1.0.1', '--fusions', '/data/fusion-output/star-fusion.fusion_candidates.final.abridged', '--genome_lib', 'star_with_fusion_100bp_readlen_index', '--left_fq', '/data/rna_1.fq.gz', '--right_fq', '/data/rna_2.fq.gz', '--out_dir', '/data/FusionInspector', '--out_prefix', 'FusionInspector', '--CPU', '80.0', '--include_Trinity']' returned non-zero exit status 2.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/fusion.py", line 154, in run_fusion
+	    tool_version=fusion_inspector_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 139, in docker_call
+	    'for command \"%s\"' % ' '.join(call),)
+	RuntimeError: docker command returned a non-zero exit status (2)for command "docker run --rm=true -v /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpemf4jdqr/38ee5094-cf45-4cb8-9184-63af240a9b8a/t8qnl3oju:/data --log-driver=none aarjunrao/fusion-inspector:1.0.1 --fusions /data/fusion-output/star-fusion.fusion_candidates.final.abridged --genome_lib star_with_fusion_100bp_readlen_index --left_fq /data/rna_1.fq.gz --right_fq /data/rna_2.fq.gz --out_dir /data/FusionInspector --out_prefix FusionInspector --CPU 80.0 --include_Trinity"
+	[2020-11-24T17:34:26-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-24T17:34:35-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_fusion' kind-run_fusion/instance-g9_082sr with ID kind-run_fusion/instance-g9_082sr to 0
+[2020-11-24T17:34:35-0800] [MainThread] [W] [toil.leader] Job 'run_fusion' kind-run_fusion/instance-g9_082sr with ID kind-run_fusion/instance-g9_082sr is completely failed
+[2020-11-24T17:34:36-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp0nh79xal/worker_log.txt
+[2020-11-24T17:35:32-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_rsem file:/scratch/drkthomp/jobStore kind-run_rsem/instance-mzzok2e3.
+[2020-11-24T17:35:32-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_rsem' kind-run_rsem/instance-mzzok2e3
+[2020-11-24T17:35:32-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_rsem' kind-run_rsem/instance-mzzok2e3
+[2020-11-24T17:35:32-0800] [MainThread] [W] [toil.leader] Log from job kind-run_rsem/instance-mzzok2e3 follows:
+=========>
+	[2020-11-24T17:34:36-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-24T17:34:36-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/expression_profiling/rsem.py", line 88, in run_rsem
+	    dockerhub=univ_options['dockerhub'], tool_version=rsem_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 286, in check_call
+	    retcode = call(*popenargs, **kwargs)
+	  File "/usr/lib64/python3.6/subprocess.py", line 267, in call
+	    with Popen(*popenargs, **kwargs) as p:
+	  File "/usr/lib64/python3.6/subprocess.py", line 709, in __init__
+	    restore_signals, start_new_session)
+	  File "/usr/lib64/python3.6/subprocess.py", line 1275, in _execute_child
+	    restore_signals, start_new_session, preexec_fn)
+	TypeError: expected str, bytes or os.PathLike object, not int
+	[2020-11-24T17:35:31-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-24T17:35:32-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with ID kind-run_rsem/instance-mzzok2e3 to 0
+[2020-11-24T17:35:32-0800] [MainThread] [W] [toil.leader] Job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with ID kind-run_rsem/instance-mzzok2e3 is completely failed
+[2020-11-24T18:00:26-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T19:00:27-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T20:00:28-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T21:00:28-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T22:00:29-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T23:00:30-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T00:00:30-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T01:00:31-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T02:00:32-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T03:00:33-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T04:00:34-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T05:00:34-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T06:00:35-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T07:00:36-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T08:00:37-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T09:00:37-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T10:00:38-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T11:00:38-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T12:00:39-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T13:00:40-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-25T14:00:40-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run

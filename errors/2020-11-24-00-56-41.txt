@@ -1,0 +1,266 @@
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-d9qjg3jl
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-xz7ir9sh
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-9uka9hrw
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-rd57kqhd
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ge6vacd7
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-7_6wjfvk
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-yb2yf65u
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-2u48n_5f
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-xbtj2suv
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-v628y3w0
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-c60ojvxr
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-2dtgopje
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-mppqh5vo
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-etqwe7dv
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-r1uv5wsv
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_phlat/instance-klw60gaa
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-k3tx4a2p
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-r7m8gybn
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-uuibculn
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-eg7xdcao
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-q4vn5u6_
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-0xdl6glf
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-jkvqxjgf
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-06rjxk27
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-aux6_f19
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ewrzdiri
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ovr5_kcb
+[2020-11-24T00:56:43-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-bv9m7hf3
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-klw60gaa with job batch system ID: 0 and cores: 80, disk: 8.4 G, and memory: 2.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-c60ojvxr with job batch system ID: 1 and cores: 80, disk: 8.3 G, and memory: 2.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-uuibculn with job batch system ID: 2 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-aux6_f19 with job batch system ID: 3 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-d9qjg3jl with job batch system ID: 4 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-eg7xdcao with job batch system ID: 5 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mppqh5vo with job batch system ID: 6 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-yb2yf65u with job batch system ID: 7 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-q4vn5u6_ with job batch system ID: 8 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ge6vacd7 with job batch system ID: 9 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-7_6wjfvk with job batch system ID: 10 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-2u48n_5f with job batch system ID: 11 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jkvqxjgf with job batch system ID: 12 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-bv9m7hf3 with job batch system ID: 13 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r1uv5wsv with job batch system ID: 14 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9uka9hrw with job batch system ID: 15 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ewrzdiri with job batch system ID: 16 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ovr5_kcb with job batch system ID: 17 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xbtj2suv with job batch system ID: 18 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-0xdl6glf with job batch system ID: 19 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-v628y3w0 with job batch system ID: 20 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-k3tx4a2p with job batch system ID: 21 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-06rjxk27 with job batch system ID: 22 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-rd57kqhd with job batch system ID: 23 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xz7ir9sh with job batch system ID: 24 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r7m8gybn with job batch system ID: 25 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-2dtgopje with job batch system ID: 26 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-etqwe7dv with job batch system ID: 27 and cores: 80, disk: 8.2 G, and memory: 2.0 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_fusion' kind-run_fusion/instance-g9_082sr with job batch system ID: 28 and cores: 80, disk: 53.4 G, and memory: 48.6 G
+[2020-11-24T00:56:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with job batch system ID: 29 and cores: 80, disk: 5.0 G, and memory: 2.0 G
+[2020-11-24T00:56:44-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpvb41yyc4/worker_log.txt
+[2020-11-24T00:56:44-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmphx0tgt_y/worker_log.txt
+[2020-11-24T00:56:45-0800] [MainThread] [I] [toil.leader] 2 jobs are running, 28 jobs are issued and waiting to run
+[2020-11-24T01:03:39-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-24-2020 01:03:39: Ran phlat on TEST:normal_dna successfully
+[2020-11-24T01:03:40-0800] [MainThread] [I] [toil.leader] Job ended: 'run_phlat' kind-run_phlat/instance-c60ojvxr
+[2020-11-24T01:03:40-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-wyv5bfui with job batch system ID: 30 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpzhshrqvs/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmptsdjn27x/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpa0zjnmcb/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpkjn29toh/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpppmdrs5y/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmps33zvev4/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpgwk1uvmf/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp60r4a80g/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp3g_3rhp1/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpzzhh_rnv/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpjlxmok16/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpd4etjbgq/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp639f2b0q/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpjhaq7eot/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp5pne01ho/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpexod06mb/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpc3cq1va_/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmps1jbx6gn/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpw5fnjxh0/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpvqmh76wu/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpd30398_j/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp5hqteo0x/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpddsu00ob/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpqdq_ps5_/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmps9fjspj4/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpn1ifbw1i/worker_log.txt
+[2020-11-24T01:03:42-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-wyv5bfui
+[2020-11-24T01:05:29-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-24-2020 01:05:29: Ran phlat on TEST:tumor_dna successfully
+[2020-11-24T01:05:30-0800] [MainThread] [I] [toil.leader] Job ended: 'run_phlat' kind-run_phlat/instance-klw60gaa
+[2020-11-24T01:05:30-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-m1isjmol with job batch system ID: 31 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-24T01:05:30-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpaymcsw14/worker_log.txt
+[2020-11-24T01:05:30-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpiv_6rqgc/worker_log.txt
+[2020-11-24T01:05:31-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-m1isjmol
+[2020-11-24T01:29:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_fusion file:/scratch/drkthomp/jobStore kind-run_fusion/instance-g9_082sr.
+[2020-11-24T01:29:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_fusion' kind-run_fusion/instance-g9_082sr
+[2020-11-24T01:29:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_fusion' kind-run_fusion/instance-g9_082sr
+[2020-11-24T01:29:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_fusion/instance-g9_082sr follows:
+=========>
+	[2020-11-24T01:05:30-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-24T01:05:30-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Error, don't understand arguments: [--CPU 80.0]  at /opt/STAR-Fusion-v1.0.0/STAR-Fusion line 167.
+	[2020-11-24T01:29:01-0800] [MainThread] [W] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Job used more disk than requested. Consider modifying the user script to avoid the chance of failure due to incorrectly requested resources. Job files/for-job/kind-EncapsulatedJob/instance-v67rsjos/cleanup/file-d_nkrp7o/stream used 111.60% (59.6 GB [64023429120B] used, 53.4 GB [57369019908B] requested) at the end of its run.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 291, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpiv_6rqgc/e208c2c7-4c72-4c85-ac78-cd0db9be5621/t0pvytum0:/data', '--log-driver=none', 'aarjunrao/star-fusion:1.0.0', '--chimeric_junction', '/data/STAR.junction', '--output_dir', '/data/fusion-output', '--genome_lib_dir', 'star_with_fusion_100bp_readlen_index', '--CPU', '80.0']' returned non-zero exit status 255.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/fusion.py", line 118, in run_fusion
+	    tool_version=star_fusion_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 139, in docker_call
+	    'for command \"%s\"' % ' '.join(call),)
+	RuntimeError: docker command returned a non-zero exit status (255)for command "docker run --rm=true -v /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpiv_6rqgc/e208c2c7-4c72-4c85-ac78-cd0db9be5621/t0pvytum0:/data --log-driver=none aarjunrao/star-fusion:1.0.0 --chimeric_junction /data/STAR.junction --output_dir /data/fusion-output --genome_lib_dir star_with_fusion_100bp_readlen_index --CPU 80.0"
+	[2020-11-24T01:29:01-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-24T01:29:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_fusion' kind-run_fusion/instance-g9_082sr with ID kind-run_fusion/instance-g9_082sr to 1
+[2020-11-24T01:29:11-0800] [MainThread] [I] [toil.leader] Issued job 'run_fusion' kind-run_fusion/instance-g9_082sr with job batch system ID: 32 and cores: 80, disk: 53.4 G, and memory: 48.6 G
+[2020-11-24T01:29:12-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp9zogi40k/worker_log.txt
+[2020-11-24T01:35:11-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-24-2020 01:35:11: Ran phlat on TEST:tumor_rna successfully
+[2020-11-24T01:35:12-0800] [MainThread] [I] [toil.leader] Job ended: 'run_phlat' kind-run_phlat/instance-etqwe7dv
+[2020-11-24T01:35:12-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-55j01114 with job batch system ID: 33 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-24T01:35:13-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpw46kediw/worker_log.txt
+[2020-11-24T01:35:13-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpg3iynrfv/worker_log.txt
+[2020-11-24T01:35:13-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-55j01114
+[2020-11-24T01:35:13-0800] [MainThread] [I] [toil.leader] Issued job 'merge_phlat_calls' kind-merge_phlat_calls/instance-ss_40opd with job batch system ID: 34 and cores: 1, disk: 100.0 M, and memory: 100.0 M
+[2020-11-24T01:35:13-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpfc79tn8w/worker_log.txt
+[2020-11-24T01:35:14-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_phlat_calls' kind-merge_phlat_calls/instance-ss_40opd
+[2020-11-24T01:35:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-24-2020 01:35:14: Merging Phlat calls
+[2020-11-24T01:35:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-24-2020 01:35:14: Exporting files/for-job/kind-merge_phlat_calls/instance-ss_40opd/file-vndwe_fy/mhci_alleles.list to output location
+[2020-11-24T01:35:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-24-2020 01:35:14: Exporting files/for-job/kind-merge_phlat_calls/instance-ss_40opd/file-9hy1brp9/mhcii_alleles.list to output location
+[2020-11-24T01:41:55-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_fusion file:/scratch/drkthomp/jobStore kind-run_fusion/instance-g9_082sr.
+[2020-11-24T01:41:55-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_fusion' kind-run_fusion/instance-g9_082sr
+[2020-11-24T01:41:55-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_fusion' kind-run_fusion/instance-g9_082sr
+[2020-11-24T01:41:55-0800] [MainThread] [W] [toil.leader] Log from job kind-run_fusion/instance-g9_082sr follows:
+=========>
+	[2020-11-24T01:35:13-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-24T01:35:13-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Error, don't understand arguments: [--CPU 80.0]  at /opt/STAR-Fusion-v1.0.0/STAR-Fusion line 167.
+	[2020-11-24T01:41:46-0800] [MainThread] [W] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Job used more disk than requested. Consider modifying the user script to avoid the chance of failure due to incorrectly requested resources. Job files/for-job/kind-EncapsulatedJob/instance-v67rsjos/cleanup/file-d_nkrp7o/stream used 111.60% (59.6 GB [64023433216B] used, 53.4 GB [57369019908B] requested) at the end of its run.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 291, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpg3iynrfv/5cf085e6-030a-48be-a946-bde49209bdc5/t5q__6g_m:/data', '--log-driver=none', 'aarjunrao/star-fusion:1.0.0', '--chimeric_junction', '/data/STAR.junction', '--output_dir', '/data/fusion-output', '--genome_lib_dir', 'star_with_fusion_100bp_readlen_index', '--CPU', '80.0']' returned non-zero exit status 255.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/fusion.py", line 118, in run_fusion
+	    tool_version=star_fusion_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 139, in docker_call
+	    'for command \"%s\"' % ' '.join(call),)
+	RuntimeError: docker command returned a non-zero exit status (255)for command "docker run --rm=true -v /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmpg3iynrfv/5cf085e6-030a-48be-a946-bde49209bdc5/t5q__6g_m:/data --log-driver=none aarjunrao/star-fusion:1.0.0 --chimeric_junction /data/STAR.junction --output_dir /data/fusion-output --genome_lib_dir star_with_fusion_100bp_readlen_index --CPU 80.0"
+	[2020-11-24T01:41:46-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-24T01:41:55-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_fusion' kind-run_fusion/instance-g9_082sr with ID kind-run_fusion/instance-g9_082sr to 0
+[2020-11-24T01:41:55-0800] [MainThread] [W] [toil.leader] Job 'run_fusion' kind-run_fusion/instance-g9_082sr with ID kind-run_fusion/instance-g9_082sr is completely failed
+[2020-11-24T01:41:56-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp7jkt14ns/worker_log.txt
+[2020-11-24T01:42:55-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_rsem file:/scratch/drkthomp/jobStore kind-run_rsem/instance-mzzok2e3.
+[2020-11-24T01:42:55-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_rsem' kind-run_rsem/instance-mzzok2e3
+[2020-11-24T01:42:55-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_rsem' kind-run_rsem/instance-mzzok2e3
+[2020-11-24T01:42:55-0800] [MainThread] [W] [toil.leader] Log from job kind-run_rsem/instance-mzzok2e3 follows:
+=========>
+	[2020-11-24T01:41:56-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-24T01:41:56-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/expression_profiling/rsem.py", line 88, in run_rsem
+	    dockerhub=univ_options['dockerhub'], tool_version=rsem_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 286, in check_call
+	    retcode = call(*popenargs, **kwargs)
+	  File "/usr/lib64/python3.6/subprocess.py", line 267, in call
+	    with Popen(*popenargs, **kwargs) as p:
+	  File "/usr/lib64/python3.6/subprocess.py", line 709, in __init__
+	    restore_signals, start_new_session)
+	  File "/usr/lib64/python3.6/subprocess.py", line 1275, in _execute_child
+	    restore_signals, start_new_session, preexec_fn)
+	TypeError: expected str, bytes or os.PathLike object, not float
+	[2020-11-24T01:42:54-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-24T01:42:55-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with ID kind-run_rsem/instance-mzzok2e3 to 1
+[2020-11-24T01:42:55-0800] [MainThread] [I] [toil.leader] Issued job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with job batch system ID: 35 and cores: 80, disk: 5.0 G, and memory: 2.0 G
+[2020-11-24T01:42:56-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-0afffc36-5183-48a3-b8b6-f3fc5f1d5a9c-e8611b53-bdab-4598-acae-87977f99831e/tmp4azb3v8w/worker_log.txt
+[2020-11-24T01:43:53-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_rsem file:/scratch/drkthomp/jobStore kind-run_rsem/instance-mzzok2e3.
+[2020-11-24T01:43:53-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_rsem' kind-run_rsem/instance-mzzok2e3
+[2020-11-24T01:43:53-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_rsem' kind-run_rsem/instance-mzzok2e3
+[2020-11-24T01:43:53-0800] [MainThread] [W] [toil.leader] Log from job kind-run_rsem/instance-mzzok2e3 follows:
+=========>
+	[2020-11-24T01:42:56-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-24T01:42:56-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/expression_profiling/rsem.py", line 88, in run_rsem
+	    dockerhub=univ_options['dockerhub'], tool_version=rsem_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 136, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 286, in check_call
+	    retcode = call(*popenargs, **kwargs)
+	  File "/usr/lib64/python3.6/subprocess.py", line 267, in call
+	    with Popen(*popenargs, **kwargs) as p:
+	  File "/usr/lib64/python3.6/subprocess.py", line 709, in __init__
+	    restore_signals, start_new_session)
+	  File "/usr/lib64/python3.6/subprocess.py", line 1275, in _execute_child
+	    restore_signals, start_new_session, preexec_fn)
+	TypeError: expected str, bytes or os.PathLike object, not float
+	[2020-11-24T01:43:52-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-24T01:43:53-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with ID kind-run_rsem/instance-mzzok2e3 to 0
+[2020-11-24T01:43:53-0800] [MainThread] [W] [toil.leader] Job 'run_rsem' kind-run_rsem/instance-mzzok2e3 with ID kind-run_rsem/instance-mzzok2e3 is completely failed
+[2020-11-24T01:56:45-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T02:56:46-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T03:56:46-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T04:56:47-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T05:56:48-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T06:56:49-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T07:56:49-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T08:56:50-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T09:56:51-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T10:56:51-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T11:56:52-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T12:56:53-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T13:56:53-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T14:56:54-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-24T15:56:55-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
