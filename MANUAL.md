@@ -27,59 +27,37 @@ ProTECT is implemented in the [Toil](https://github.com/BD2KGenomics/toil.git) f
 runs the workflow described in [protect/Flowchart.txt](
 https://github.com/BD2KGenomics/protect/blob/master/Flowchart.txt).
 
+**This manual is a quick adaptation for an adaptation of ProTECT to py3** 
+
 
 # Installation
 
 ProTECT requires Toil and we recommend installing ProTECT and its requirements in a
 [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
 
-ProTECT also requires [s3am](https://github.com/BD2KGenomics/s3am.git) version 2.0.1 to download and
+~ProTECT also requires [s3am](https://github.com/BD2KGenomics/s3am.git) version 2.0.1 to download and
 upload files from S3. We recommend installing s3am in its own virtualenv using the directions in
 the s3am manual, then putting the s3am binary on your $PATH.  ProTECT will NOT attempt to install
-s3am during installation.
+s3am during installation.~ 
 
-ProTECT uses pkg_resources from setuptools to verify versions of tools during install. As of setuptools
+currently WIP. for now, **only references to local files will work**. anything that requires access to s3am (s3 buckets) will **fail**. 
+
+~ProTECT uses pkg_resources from setuptools to verify versions of tools during install. As of setuptools
 39.0.1, some modules were moved to the packaging module. If your machine has setuptools >=39.0.1, you
-will need the packaging module.
+will need the packaging module.~
 
 Lastly, ProTECT uses [docker](https://www.docker.com/) to run the various sub-tools in a
 reproducible, platform independent manner. ProTECT will NOT attempt to install docker during
 installation.
 
-### Method 1 - Using PIP (recommended)
-
-First create a virtualenv at your desired location (Here we create it in the folder ~/venvs)
-
-    virtualenv ~/venvs/protect
-
-Activate the virtualenv
-
-    source ~/venvs/protect/bin/activate
-
-NOTE: Installation was tested using pip 7.1.2 and 8.1.1. We have seen issues with the installation
-of pyYAML with lower versions of pip and recommend upgrading pip before installing ProTECT.
-
-    pip install --upgrade pip
-
-Install Toil
-
-    pip install toil[aws]==3.5.2
-
-Install packaging (required if setuptools>=39.0.1)
-
-    pip install packaging
-
-Install ProTECT and all dependencies in the virtualenv
-
-    pip install protect
-
+~Method 1 - Using PIP (recommended)~
 ### Method 2 - Installing from Source
 
 This will install ProTECT in an editable mode.
 
 Obtain the source from Github
 
-    git clone https://www.github.com/BD2KGenomics/protect.git
+    git clone https://www.github.com/Dranion/protect.git
 
 Create and activate a virtualenv in the project folder (Important since the Makefile checks for
 this and will fail if it detects that you are not in a virtual environment)
@@ -100,14 +78,8 @@ Install ProTECT
 
     make develop
 
-## Method 3 - Using Docker
+~Method 3 - Using Docker~
 
-Dockerized versions of ProTECT releases can be found at https://quay.io/organization/ucsc_cgl. These
-Docker containers run the ProTECT pipeline in single machine mode. The only difference between the
-Docker and Python versions of the pipeline is that the Docker container takes the config options,
-described below, as command line arguments as opposed to a config file. Running the container
-without any arguments will list all the available options. Also, currently the dockerized version of
-ProTECT only supports local file export.
 
 # Running ProTECT
 
@@ -173,7 +145,7 @@ in the pipeline, and the information on the input samples. Elements before a `:`
 dictionary read into ProTECT and should **NOT** be modified (Barring the patient ID key in the
 patients dictionary). Only values to the right of the `:` should be edited.
 
-Every required reference file is provided in the AWS bucket `cgl-pipeline-inputs` under the folder
+Every required reference file is provided in the AWS bucket `protect-data` under the folder
 `protect/hg19_references` or `protect/hg38_references`. The `README` file in the same location
 describes in detail how each file was generated. To use a file located in an s3 bucket, replace
 `/path/to` in the following descriptions with `s3://<databucket>/<folder_in_bucket>`.
