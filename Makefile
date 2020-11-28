@@ -106,10 +106,10 @@ clean_pypi:
 
 clean: clean_develop clean_sdist clean_pypi
 
-#always fails, even though in a venv
-#check_venv:
-#	@$(python) -c 'import sys; sys.exit( int( not hasattr(sys, "real_prefix") ) )' \
-#		|| ( echo "$(red)A virtualenv must be active.$(normal)" ; false )
+
+check_venv:
+	@$(python) -c 'import sys; sys.exit( int( not hasattr(sys, "base_prefix") ) )' \
+		|| ( echo "$(red)A virtualenv must be active.$(normal)" ; false )
 
 
 check_clean_working_copy:
