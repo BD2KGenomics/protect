@@ -3,7 +3,7 @@
 
 Adapation of ProTECT to use python 3.8 instead of 2.7. Currently have tested a complete run using fastq files from [HCC1395 WGS Exome RNA Seq Data](https://github.com/genome/gms/wiki/HCC1395-WGS-Exome-RNA-Seq-Data), but have not checked results against the [original ProTECT](https://github.com/BD2KGenomics/protect) with TCGA PRAD yet. 
 
-Adaptation done using 2to3 and manual bug testing. Manual changes soon to be recorded. Continuing to the original README: 
+Adaptation done using 2to3 and manual bug testing. Manual changes recorded [at changes.md](https://github.com/Dranion/protect/blob/master/changes.md). Continuing to the original README: 
 
 This repo contains the Python libraries for the Precision Immunology Pipeline developed at UCSC.
 
