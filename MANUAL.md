@@ -63,7 +63,7 @@ Create and activate a virtualenv in the project folder (Important since the Make
 this and will fail if it detects that you are not in a virtual environment)
 
     cd protect
-    virtualenv venv
+    virtualenv --python=python3 venv
     source venv/bin/activate
 
 Install Toil and pytest
