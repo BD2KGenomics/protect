@@ -23,6 +23,6 @@ All docker images used in this pipeline are available at
 
 
 To learn how the pipeline can be run on a sample, head over to the [ProTECT Manual](
-https://github.com/BD2KGenomics/protect/blob/master/MANUAL.md)
+https://github.com/Dranion/protect/blob/master/MANUAL.md)
 
 ProTECT is currently in its infancy and is under continuous development.  We would appreciate users sharing the level 3 data produced by ProTECT with us such that we can better train our predictive models.
