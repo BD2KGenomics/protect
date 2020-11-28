@@ -1,6 +1,9 @@
-[![Stories in Ready](https://badge.waffle.io/BD2KGenomics/protect.png?label=ready&title=Ready)](https://waffle.io/BD2KGenomics/protect)
 # ProTECT
 ### **Pr**ediction **o**f **T**-Cell **E**pitopes for **C**ancer **T**herapy
+
+Adapation of ProTECT to use python 3.8 instead of 2.7. Currently have tested a complete run using fastq files from [HCC1395 WGS Exome RNA Seq Data](https://github.com/genome/gms/wiki/HCC1395-WGS-Exome-RNA-Seq-Data), but have not checked results against the [original ProTECT](https://github.com/BD2KGenomics/protect) with TCGA PRAD yet. 
+
+Adaptation done using 2to3 and manual bug testing. Manual changes soon to be recorded. Continuing to the original README: 
 
 This repo contains the Python libraries for the Precision Immunology Pipeline developed at UCSC.
 
