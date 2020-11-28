@@ -70,9 +70,9 @@ Install Toil and pytest
 
     make prepare
 
-Install packaging (required if setuptools>=39.0.1)
+Install the python3 conversion of bd2k
 
-    pip install packaging
+    make special_install
 
 Install ProTECT
 
