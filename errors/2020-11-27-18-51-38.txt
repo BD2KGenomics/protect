@@ -1,0 +1,808 @@
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-du24kqrt
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-p8mcfs96
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-5i9__ll1
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-989tgher
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-y2fcywgt
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ey78_apt
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-77hux1xy
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-r0a3rxak
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-e1yejtsm
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-gyttywxo
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-5zdtbtsn
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-m6rpu3gh
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-hxsjhjvp
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-t15qgjy0
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-h0tdg49o
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-1jh6nqug
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-mgq6ru10
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-ntmj9aw5
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-fgj0w2_w
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-f3zgk1bv
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-9i484bqi
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-xqryz_ub
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-_u307ivu
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-jvmeok8w
+[2020-11-27T18:51:40-0800] [MainThread] [C] [toil.jobStores.abstractJobStore] Repairing job: kind-run_mutect_perchrom/instance-4f2ha64d
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn with job batch system ID: 0 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0 with job batch system ID: 1 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher with job batch system ID: 2 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w with job batch system ID: 3 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt with job batch system ID: 4 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d with job batch system ID: 5 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug with job batch system ID: 6 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt with job batch system ID: 7 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv with job batch system ID: 8 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak with job batch system ID: 9 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi with job batch system ID: 10 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o with job batch system ID: 11 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp with job batch system ID: 12 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5 with job batch system ID: 13 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm with job batch system ID: 14 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu with job batch system ID: 15 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt with job batch system ID: 16 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1 with job batch system ID: 17 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10 with job batch system ID: 18 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96 with job batch system ID: 19 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy with job batch system ID: 20 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh with job batch system ID: 21 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo with job batch system ID: 22 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w with job batch system ID: 23 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub with job batch system ID: 24 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp28nxxy6y/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpiavg9wld/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdqc9gjkj/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpfj925aiz/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpca05603m/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpczpqtnjg/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpu3901gc9/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpzgzipkwy/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp_9fgs680/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp2wpnrjk4/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1zvx1f76/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpf59m6m9r/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp6zrvdjm_/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp_wtrktgy/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpubzbxoo4/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmprjepo8rp/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpp66ptrsm/worker_log.txt
+[2020-11-27T18:51:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp383rm4r4/worker_log.txt
+[2020-11-27T18:51:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpivwncu7m/worker_log.txt
+[2020-11-27T18:51:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpjtrxl6bj/worker_log.txt
+[2020-11-27T18:51:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp9spso3lu/worker_log.txt
+[2020-11-27T18:51:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp4vluck__/worker_log.txt
+[2020-11-27T18:51:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplpjb8146/worker_log.txt
+[2020-11-27T18:51:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpkzr8hpm6/worker_log.txt
+[2020-11-27T18:51:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp0nip6cw0/worker_log.txt
+[2020-11-27T18:51:42-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-27T19:27:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:16: unzipping dbsnp.vcf
+[2020-11-27T19:27:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:16: unzipped dbsnp
+[2020-11-27T19:27:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:16: configured input files for docker
+[2020-11-27T19:27:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:16: starting mutect docker call
+[2020-11-27T19:27:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:16: finshed docker, outputting now
+[2020-11-27T19:27:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:16: Exporting files/for-job/kind-run_mutect_perchrom/instance-xqryz_ub/file-ibzpebdl/chrM.vcf to output location
+[2020-11-27T19:27:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:16: Ran MuTect on TEST:chrM successfully
+[2020-11-27T19:27:21-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub
+[2020-11-27T19:27:21-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-ey28e5_5 with job batch system ID: 25 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:27:22-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp3is4qxl9/worker_log.txt
+[2020-11-27T19:27:22-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-ey28e5_5
+[2020-11-27T19:27:22-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-7kwh6teo with job batch system ID: 26 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:27:23-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpv25t9xrb/worker_log.txt
+[2020-11-27T19:27:23-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-7kwh6teo
+[2020-11-27T19:27:23-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:23: unzipping dbsnp.vcf
+[2020-11-27T19:27:23-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:23: unzipped dbsnp
+[2020-11-27T19:27:23-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:23: configured input files for docker
+[2020-11-27T19:27:23-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:23: starting mutect docker call
+[2020-11-27T19:27:23-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:23: finshed docker, outputting now
+[2020-11-27T19:27:23-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:23: Exporting files/for-job/kind-run_mutect_perchrom/instance-mgq6ru10/file-byyos56q/chr19.vcf to output location
+[2020-11-27T19:27:23-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:23: Ran MuTect on TEST:chr19 successfully
+[2020-11-27T19:27:28-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10
+[2020-11-27T19:27:28-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-ngjd_q56 with job batch system ID: 27 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:27:29-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp720zskr5/worker_log.txt
+[2020-11-27T19:27:29-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-ngjd_q56
+[2020-11-27T19:27:29-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-ei8t4y9l with job batch system ID: 28 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:27:30-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpt1oqydkt/worker_log.txt
+[2020-11-27T19:27:30-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-ei8t4y9l
+[2020-11-27T19:27:56-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:56: unzipping dbsnp.vcf
+[2020-11-27T19:27:56-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:56: unzipped dbsnp
+[2020-11-27T19:27:56-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:56: configured input files for docker
+[2020-11-27T19:27:56-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:56: starting mutect docker call
+[2020-11-27T19:27:56-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:56: finshed docker, outputting now
+[2020-11-27T19:27:56-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:56: Exporting files/for-job/kind-run_mutect_perchrom/instance-jvmeok8w/file-w659sqt7/chrY.vcf to output location
+[2020-11-27T19:27:56-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:27:56: Ran MuTect on TEST:chrY successfully
+[2020-11-27T19:28:01-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w
+[2020-11-27T19:28:01-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-vd702lg6 with job batch system ID: 29 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:28:02-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp42unfinz/worker_log.txt
+[2020-11-27T19:28:02-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-vd702lg6
+[2020-11-27T19:28:02-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-f_o8awfa with job batch system ID: 30 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:28:03-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpbtmvtynj/worker_log.txt
+[2020-11-27T19:28:03-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-f_o8awfa
+[2020-11-27T19:28:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:16: unzipping dbsnp.vcf
+[2020-11-27T19:28:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:16: unzipped dbsnp
+[2020-11-27T19:28:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:16: configured input files for docker
+[2020-11-27T19:28:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:16: starting mutect docker call
+[2020-11-27T19:28:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:16: finshed docker, outputting now
+[2020-11-27T19:28:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:16: Exporting files/for-job/kind-run_mutect_perchrom/instance-m6rpu3gh/file-tsip0rtl/chr22.vcf to output location
+[2020-11-27T19:28:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:16: Ran MuTect on TEST:chr22 successfully
+[2020-11-27T19:28:22-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh
+[2020-11-27T19:28:22-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-9ibizl8t with job batch system ID: 31 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:28:23-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpaf_mnd3m/worker_log.txt
+[2020-11-27T19:28:23-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-9ibizl8t
+[2020-11-27T19:28:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-030qvgzd with job batch system ID: 32 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:28:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpg3h1rk8d/worker_log.txt
+[2020-11-27T19:28:24-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-030qvgzd
+[2020-11-27T19:28:31-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:31: unzipping dbsnp.vcf
+[2020-11-27T19:28:31-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:31: unzipped dbsnp
+[2020-11-27T19:28:31-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:31: configured input files for docker
+[2020-11-27T19:28:31-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:31: starting mutect docker call
+[2020-11-27T19:28:31-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:31: finshed docker, outputting now
+[2020-11-27T19:28:31-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:31: Exporting files/for-job/kind-run_mutect_perchrom/instance-ntmj9aw5/file-dhkkeyes/chr14.vcf to output location
+[2020-11-27T19:28:31-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:31: Ran MuTect on TEST:chr14 successfully
+[2020-11-27T19:28:36-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5
+[2020-11-27T19:28:36-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-tym7l_46 with job batch system ID: 33 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:28:37-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1f9u5x7t/worker_log.txt
+[2020-11-27T19:28:37-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-tym7l_46
+[2020-11-27T19:28:37-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-rnhvgo7a with job batch system ID: 34 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:28:38-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp316zos0j/worker_log.txt
+[2020-11-27T19:28:38-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-rnhvgo7a
+[2020-11-27T19:28:42-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:42: unzipping dbsnp.vcf
+[2020-11-27T19:28:42-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:42: unzipped dbsnp
+[2020-11-27T19:28:42-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:42: configured input files for docker
+[2020-11-27T19:28:42-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:42: starting mutect docker call
+[2020-11-27T19:28:42-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:42: finshed docker, outputting now
+[2020-11-27T19:28:42-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:42: Exporting files/for-job/kind-run_mutect_perchrom/instance-77hux1xy/file-nnzqhdnp/chr21.vcf to output location
+[2020-11-27T19:28:42-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:28:42: Ran MuTect on TEST:chr21 successfully
+[2020-11-27T19:28:47-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy
+[2020-11-27T19:28:47-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-9awvrwpx with job batch system ID: 35 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:28:48-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp7m81qsv7/worker_log.txt
+[2020-11-27T19:28:48-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-9awvrwpx
+[2020-11-27T19:28:48-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-6xxfkfl2 with job batch system ID: 36 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:28:49-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpai5poed6/worker_log.txt
+[2020-11-27T19:28:49-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-6xxfkfl2
+[2020-11-27T19:29:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:16: unzipping dbsnp.vcf
+[2020-11-27T19:29:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:16: unzipped dbsnp
+[2020-11-27T19:29:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:16: configured input files for docker
+[2020-11-27T19:29:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:16: starting mutect docker call
+[2020-11-27T19:29:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:16: finshed docker, outputting now
+[2020-11-27T19:29:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:16: Exporting files/for-job/kind-run_mutect_perchrom/instance-p8mcfs96/file-ra0_epmo/chr20.vcf to output location
+[2020-11-27T19:29:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:16: Ran MuTect on TEST:chr20 successfully
+[2020-11-27T19:29:22-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96
+[2020-11-27T19:29:22-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-fny9vudc with job batch system ID: 37 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:29:22-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpd6w1ka58/worker_log.txt
+[2020-11-27T19:29:23-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-fny9vudc
+[2020-11-27T19:29:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-7an9pegh with job batch system ID: 38 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:29:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp3bjelb3o/worker_log.txt
+[2020-11-27T19:29:24-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-7an9pegh
+[2020-11-27T19:29:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:26: unzipping dbsnp.vcf
+[2020-11-27T19:29:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:26: unzipped dbsnp
+[2020-11-27T19:29:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:26: configured input files for docker
+[2020-11-27T19:29:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:26: starting mutect docker call
+[2020-11-27T19:29:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:26: finshed docker, outputting now
+[2020-11-27T19:29:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:26: Exporting files/for-job/kind-run_mutect_perchrom/instance-_u307ivu/file-hufvgnvh/chr16.vcf to output location
+[2020-11-27T19:29:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:26: Ran MuTect on TEST:chr16 successfully
+[2020-11-27T19:29:31-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu
+[2020-11-27T19:29:31-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-2e_g8ivg with job batch system ID: 39 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:29:32-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmps8r98huo/worker_log.txt
+[2020-11-27T19:29:32-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-2e_g8ivg
+[2020-11-27T19:29:32-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-1zw81rwj with job batch system ID: 40 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:29:33-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpg5yi23ke/worker_log.txt
+[2020-11-27T19:29:33-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-1zw81rwj
+[2020-11-27T19:29:39-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:39: unzipping dbsnp.vcf
+[2020-11-27T19:29:39-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:39: unzipped dbsnp
+[2020-11-27T19:29:39-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:39: configured input files for docker
+[2020-11-27T19:29:39-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:39: starting mutect docker call
+[2020-11-27T19:29:39-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:39: finshed docker, outputting now
+[2020-11-27T19:29:39-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:39: Exporting files/for-job/kind-run_mutect_perchrom/instance-hxsjhjvp/file-1uqaomm1/chr13.vcf to output location
+[2020-11-27T19:29:39-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:39: Ran MuTect on TEST:chr13 successfully
+[2020-11-27T19:29:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:40: unzipping dbsnp.vcf
+[2020-11-27T19:29:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:40: unzipped dbsnp
+[2020-11-27T19:29:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:40: configured input files for docker
+[2020-11-27T19:29:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:40: starting mutect docker call
+[2020-11-27T19:29:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:40: finshed docker, outputting now
+[2020-11-27T19:29:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:40: Exporting files/for-job/kind-run_mutect_perchrom/instance-du24kqrt/file-er_w3mmm/chr17.vcf to output location
+[2020-11-27T19:29:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:40: Ran MuTect on TEST:chr17 successfully
+[2020-11-27T19:29:44-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp
+[2020-11-27T19:29:44-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-w2kp_jod with job batch system ID: 41 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:29:45-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpr_6v06is/worker_log.txt
+[2020-11-27T19:29:45-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt
+[2020-11-27T19:29:45-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-vb50qcqs with job batch system ID: 42 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:29:45-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-w2kp_jod
+[2020-11-27T19:29:45-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-z1dbqpwz with job batch system ID: 43 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:29:46-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpfppn_eci/worker_log.txt
+[2020-11-27T19:29:46-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpb4v53j44/worker_log.txt
+[2020-11-27T19:29:46-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-z1dbqpwz
+[2020-11-27T19:29:46-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-vb50qcqs
+[2020-11-27T19:29:46-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-t670_m75 with job batch system ID: 44 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:29:47-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpi01zgyvu/worker_log.txt
+[2020-11-27T19:29:47-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-t670_m75
+[2020-11-27T19:29:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:54: unzipping dbsnp.vcf
+[2020-11-27T19:29:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:54: unzipped dbsnp
+[2020-11-27T19:29:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:54: configured input files for docker
+[2020-11-27T19:29:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:54: starting mutect docker call
+[2020-11-27T19:29:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:54: finshed docker, outputting now
+[2020-11-27T19:29:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:54: Exporting files/for-job/kind-run_mutect_perchrom/instance-5i9__ll1/file-rwwigl8u/chr18.vcf to output location
+[2020-11-27T19:29:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:29:54: Ran MuTect on TEST:chr18 successfully
+[2020-11-27T19:29:59-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1
+[2020-11-27T19:29:59-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-axwxldsm with job batch system ID: 45 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:30:00-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpiyxsa33w/worker_log.txt
+[2020-11-27T19:30:00-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-axwxldsm
+[2020-11-27T19:30:00-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-rlk8veoh with job batch system ID: 46 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:30:01-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpw1spmmw0/worker_log.txt
+[2020-11-27T19:30:01-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-rlk8veoh
+[2020-11-27T19:30:03-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:03: unzipping dbsnp.vcf
+[2020-11-27T19:30:03-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:03: unzipped dbsnp
+[2020-11-27T19:30:03-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:03: configured input files for docker
+[2020-11-27T19:30:03-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:03: starting mutect docker call
+[2020-11-27T19:30:03-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:03: finshed docker, outputting now
+[2020-11-27T19:30:03-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:03: Exporting files/for-job/kind-run_mutect_perchrom/instance-e1yejtsm/file-phyh8s8u/chr15.vcf to output location
+[2020-11-27T19:30:03-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:03: Ran MuTect on TEST:chr15 successfully
+[2020-11-27T19:30:08-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm
+[2020-11-27T19:30:08-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-agnrge02 with job batch system ID: 47 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:30:09-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpiibarirt/worker_log.txt
+[2020-11-27T19:30:09-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-agnrge02
+[2020-11-27T19:30:09-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-pihl7nio with job batch system ID: 48 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:30:09-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpp0pjvzhf/worker_log.txt
+[2020-11-27T19:30:10-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-pihl7nio
+[2020-11-27T19:30:12-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:12: unzipping dbsnp.vcf
+[2020-11-27T19:30:12-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:12: unzipped dbsnp
+[2020-11-27T19:30:12-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:12: configured input files for docker
+[2020-11-27T19:30:12-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:12: starting mutect docker call
+[2020-11-27T19:30:12-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:12: finshed docker, outputting now
+[2020-11-27T19:30:12-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:12: Exporting files/for-job/kind-run_mutect_perchrom/instance-gyttywxo/file-i7hkgwmb/chrX.vcf to output location
+[2020-11-27T19:30:12-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:12: Ran MuTect on TEST:chrX successfully
+[2020-11-27T19:30:18-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo
+[2020-11-27T19:30:18-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-qatscu9_ with job batch system ID: 49 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:30:18-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmps6lc1re5/worker_log.txt
+[2020-11-27T19:30:19-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-qatscu9_
+[2020-11-27T19:30:19-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-_90_leu0 with job batch system ID: 50 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:30:19-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp795382i1/worker_log.txt
+[2020-11-27T19:30:20-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-_90_leu0
+[2020-11-27T19:30:55-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:55: unzipping dbsnp.vcf
+[2020-11-27T19:30:55-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:55: unzipped dbsnp
+[2020-11-27T19:30:55-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:55: configured input files for docker
+[2020-11-27T19:30:55-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:55: starting mutect docker call
+[2020-11-27T19:30:55-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:55: finshed docker, outputting now
+[2020-11-27T19:30:55-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:55: Exporting files/for-job/kind-run_mutect_perchrom/instance-f3zgk1bv/file-5yijhene/chr9.vcf to output location
+[2020-11-27T19:30:55-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:30:55: Ran MuTect on TEST:chr9 successfully
+[2020-11-27T19:31:00-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv
+[2020-11-27T19:31:00-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-a89bt18q with job batch system ID: 51 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:31:01-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp7dnedzjs/worker_log.txt
+[2020-11-27T19:31:02-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-a89bt18q
+[2020-11-27T19:31:02-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-kc69f8vr with job batch system ID: 52 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:31:02-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:02: unzipping dbsnp.vcf
+[2020-11-27T19:31:02-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:02: unzipped dbsnp
+[2020-11-27T19:31:02-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:02: configured input files for docker
+[2020-11-27T19:31:02-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:02: starting mutect docker call
+[2020-11-27T19:31:02-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:02: finshed docker, outputting now
+[2020-11-27T19:31:02-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:02: Exporting files/for-job/kind-run_mutect_perchrom/instance-9i484bqi/file-mmren2xk/chr11.vcf to output location
+[2020-11-27T19:31:02-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:02: Ran MuTect on TEST:chr11 successfully
+[2020-11-27T19:31:02-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpebufkps8/worker_log.txt
+[2020-11-27T19:31:02-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-kc69f8vr
+[2020-11-27T19:31:07-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi
+[2020-11-27T19:31:07-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-i1pusei2 with job batch system ID: 53 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:31:08-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpn7ox2039/worker_log.txt
+[2020-11-27T19:31:08-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-i1pusei2
+[2020-11-27T19:31:08-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-e3gki4ix with job batch system ID: 54 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:31:09-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp36a7bz8i/worker_log.txt
+[2020-11-27T19:31:09-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-e3gki4ix
+[2020-11-27T19:31:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:14: unzipping dbsnp.vcf
+[2020-11-27T19:31:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:14: unzipped dbsnp
+[2020-11-27T19:31:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:14: configured input files for docker
+[2020-11-27T19:31:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:14: starting mutect docker call
+[2020-11-27T19:31:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:14: finshed docker, outputting now
+[2020-11-27T19:31:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:14: Exporting files/for-job/kind-run_mutect_perchrom/instance-h0tdg49o/file-f3w9txq2/chr12.vcf to output location
+[2020-11-27T19:31:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:14: Ran MuTect on TEST:chr12 successfully
+[2020-11-27T19:31:19-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o
+[2020-11-27T19:31:19-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-63vxbniz with job batch system ID: 55 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:31:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:20: unzipping dbsnp.vcf
+[2020-11-27T19:31:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:20: unzipped dbsnp
+[2020-11-27T19:31:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:20: configured input files for docker
+[2020-11-27T19:31:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:20: starting mutect docker call
+[2020-11-27T19:31:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:20: finshed docker, outputting now
+[2020-11-27T19:31:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:20: Exporting files/for-job/kind-run_mutect_perchrom/instance-r0a3rxak/file-j_cp69xe/chr10.vcf to output location
+[2020-11-27T19:31:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:20: Ran MuTect on TEST:chr10 successfully
+[2020-11-27T19:31:20-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpe7g474de/worker_log.txt
+[2020-11-27T19:31:20-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-63vxbniz
+[2020-11-27T19:31:20-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-l0norp0m with job batch system ID: 56 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:31:21-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpyswmr7sy/worker_log.txt
+[2020-11-27T19:31:21-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-l0norp0m
+[2020-11-27T19:31:25-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak
+[2020-11-27T19:31:25-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-at6zynqq with job batch system ID: 57 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:31:25-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp5gkt1fnm/worker_log.txt
+[2020-11-27T19:31:26-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-at6zynqq
+[2020-11-27T19:31:26-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-l7vpzyz4 with job batch system ID: 58 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:31:26-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpel09vqd0/worker_log.txt
+[2020-11-27T19:31:26-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-l7vpzyz4
+[2020-11-27T19:31:28-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:28: unzipping dbsnp.vcf
+[2020-11-27T19:31:28-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:28: unzipped dbsnp
+[2020-11-27T19:31:28-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:28: configured input files for docker
+[2020-11-27T19:31:28-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:28: starting mutect docker call
+[2020-11-27T19:31:28-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:28: finshed docker, outputting now
+[2020-11-27T19:31:28-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:28: Exporting files/for-job/kind-run_mutect_perchrom/instance-y2fcywgt/file-z6e4g9ga/chr8.vcf to output location
+[2020-11-27T19:31:28-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:31:28: Ran MuTect on TEST:chr8 successfully
+[2020-11-27T19:31:33-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt
+[2020-11-27T19:31:33-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-658__1nb with job batch system ID: 59 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:31:34-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpmf63j0pc/worker_log.txt
+[2020-11-27T19:31:34-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-658__1nb
+[2020-11-27T19:31:34-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-wlvnhdem with job batch system ID: 60 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:31:35-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpwph7238p/worker_log.txt
+[2020-11-27T19:31:35-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-wlvnhdem
+[2020-11-27T19:32:01-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:01: unzipping dbsnp.vcf
+[2020-11-27T19:32:01-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:01: unzipped dbsnp
+[2020-11-27T19:32:01-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:01: configured input files for docker
+[2020-11-27T19:32:01-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:01: starting mutect docker call
+[2020-11-27T19:32:01-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:01: finshed docker, outputting now
+[2020-11-27T19:32:01-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:01: Exporting files/for-job/kind-run_mutect_perchrom/instance-4f2ha64d/file-72wquezo/chr6.vcf to output location
+[2020-11-27T19:32:01-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:01: Ran MuTect on TEST:chr6 successfully
+[2020-11-27T19:32:06-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d
+[2020-11-27T19:32:06-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-kchgky60 with job batch system ID: 61 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:32:07-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpnv4zmjz5/worker_log.txt
+[2020-11-27T19:32:07-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-kchgky60
+[2020-11-27T19:32:07-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-yjn16wtm with job batch system ID: 62 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:32:08-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp716usih0/worker_log.txt
+[2020-11-27T19:32:08-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-yjn16wtm
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: unzipping dbsnp.vcf
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: unzipped dbsnp
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: configured input files for docker
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: starting mutect docker call
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: finshed docker, outputting now
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: Exporting files/for-job/kind-run_mutect_perchrom/instance-1jh6nqug/file-eurb2w7v/chr7.vcf to output location
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: Ran MuTect on TEST:chr7 successfully
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: unzipping dbsnp.vcf
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: unzipped dbsnp
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: configured input files for docker
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: starting mutect docker call
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: finshed docker, outputting now
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: Exporting files/for-job/kind-run_mutect_perchrom/instance-ey78_apt/file-1femcant/chr5.vcf to output location
+[2020-11-27T19:32:26-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:26: Ran MuTect on TEST:chr5 successfully
+[2020-11-27T19:32:32-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt
+[2020-11-27T19:32:32-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-r52wwzhy with job batch system ID: 63 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:32:32-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug
+[2020-11-27T19:32:32-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-vn_5q21z with job batch system ID: 64 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:32:33-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpe_wvgt0n/worker_log.txt
+[2020-11-27T19:32:33-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-r52wwzhy
+[2020-11-27T19:32:33-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-29o5kgl4 with job batch system ID: 65 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:32:33-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpw9gxxnad/worker_log.txt
+[2020-11-27T19:32:33-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-vn_5q21z
+[2020-11-27T19:32:33-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-dz5pfkoc with job batch system ID: 66 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:32:34-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmporie0h8c/worker_log.txt
+[2020-11-27T19:32:34-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-29o5kgl4
+[2020-11-27T19:32:34-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp64s7hs7q/worker_log.txt
+[2020-11-27T19:32:34-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-dz5pfkoc
+[2020-11-27T19:32:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:54: unzipping dbsnp.vcf
+[2020-11-27T19:32:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:54: unzipped dbsnp
+[2020-11-27T19:32:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:54: configured input files for docker
+[2020-11-27T19:32:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:54: starting mutect docker call
+[2020-11-27T19:32:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:54: finshed docker, outputting now
+[2020-11-27T19:32:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:54: Exporting files/for-job/kind-run_mutect_perchrom/instance-fgj0w2_w/file-ehwa66xg/chr4.vcf to output location
+[2020-11-27T19:32:54-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:32:54: Ran MuTect on TEST:chr4 successfully
+[2020-11-27T19:33:00-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w
+[2020-11-27T19:33:00-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-fc9l_3e0 with job batch system ID: 67 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:33:00-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp54db86c1/worker_log.txt
+[2020-11-27T19:33:00-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-fc9l_3e0
+[2020-11-27T19:33:00-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-f7d6aq5_ with job batch system ID: 68 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:33:01-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpq_6smjg1/worker_log.txt
+[2020-11-27T19:33:01-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-f7d6aq5_
+[2020-11-27T19:33:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:14: unzipping dbsnp.vcf
+[2020-11-27T19:33:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:14: unzipped dbsnp
+[2020-11-27T19:33:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:14: configured input files for docker
+[2020-11-27T19:33:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:14: starting mutect docker call
+[2020-11-27T19:33:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:14: finshed docker, outputting now
+[2020-11-27T19:33:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:14: Exporting files/for-job/kind-run_mutect_perchrom/instance-989tgher/file-6o4kevln/chr3.vcf to output location
+[2020-11-27T19:33:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:14: Ran MuTect on TEST:chr3 successfully
+[2020-11-27T19:33:20-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher
+[2020-11-27T19:33:20-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-fpnlf0vq with job batch system ID: 69 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:33:21-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp_genjbll/worker_log.txt
+[2020-11-27T19:33:21-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-fpnlf0vq
+[2020-11-27T19:33:21-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-npf1btg7 with job batch system ID: 70 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:33:22-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpcp8988if/worker_log.txt
+[2020-11-27T19:33:22-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-npf1btg7
+[2020-11-27T19:33:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:37: unzipping dbsnp.vcf
+[2020-11-27T19:33:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:37: unzipped dbsnp
+[2020-11-27T19:33:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:37: configured input files for docker
+[2020-11-27T19:33:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:37: starting mutect docker call
+[2020-11-27T19:33:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:37: finshed docker, outputting now
+[2020-11-27T19:33:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:37: Exporting files/for-job/kind-run_mutect_perchrom/instance-t15qgjy0/file-nx3mii86/chr2.vcf to output location
+[2020-11-27T19:33:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:33:37: Ran MuTect on TEST:chr2 successfully
+[2020-11-27T19:33:42-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0
+[2020-11-27T19:33:42-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-i03h6y20 with job batch system ID: 71 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:33:43-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp9zu_k2m3/worker_log.txt
+[2020-11-27T19:33:43-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-i03h6y20
+[2020-11-27T19:33:43-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-dkq5pakk with job batch system ID: 72 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:33:44-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpa9l20unk/worker_log.txt
+[2020-11-27T19:33:44-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-dkq5pakk
+[2020-11-27T19:34:06-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:06: unzipping dbsnp.vcf
+[2020-11-27T19:34:06-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:06: unzipped dbsnp
+[2020-11-27T19:34:06-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:06: configured input files for docker
+[2020-11-27T19:34:06-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:06: starting mutect docker call
+[2020-11-27T19:34:06-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:06: finshed docker, outputting now
+[2020-11-27T19:34:06-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:06: Exporting files/for-job/kind-run_mutect_perchrom/instance-5zdtbtsn/file-0zghnu93/chr1.vcf to output location
+[2020-11-27T19:34:06-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:06: Ran MuTect on TEST:chr1 successfully
+[2020-11-27T19:34:11-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn
+[2020-11-27T19:34:11-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-x4ugfdbr with job batch system ID: 73 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:34:12-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpfc6lhycg/worker_log.txt
+[2020-11-27T19:34:12-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-x4ugfdbr
+[2020-11-27T19:34:12-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-EncapsulatedJob/instance-yzx302yq with job batch system ID: 74 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:34:13-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1vlyx18h/worker_log.txt
+[2020-11-27T19:34:13-0800] [MainThread] [I] [toil.leader] Job ended: 'run_mutect_perchrom' kind-EncapsulatedJob/instance-yzx302yq
+[2020-11-27T19:34:13-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-rong8s8v with job batch system ID: 75 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:34:13-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp5mmuguxe/worker_log.txt
+[2020-11-27T19:34:13-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-rong8s8v
+[2020-11-27T19:34:13-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-_w1f8gtw with job batch system ID: 76 and cores: 1, disk: 100.0 M, and memory: 100.0 M
+[2020-11-27T19:34:14-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp7l5r1yh9/worker_log.txt
+[2020-11-27T19:34:14-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:14: Aggregated mutations for TEST successfully
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-_w1f8gtw
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-9z773tpr with job batch system ID: 77 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-ft1vefev with job batch system ID: 78 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-836_00fn with job batch system ID: 79 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-redg2qyx with job batch system ID: 80 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-5_e3d94i with job batch system ID: 81 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-aqtytsn8 with job batch system ID: 82 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-t9vtdihl with job batch system ID: 83 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-otj75j2y with job batch system ID: 84 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-u6wht2_v with job batch system ID: 85 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-qzodfsg_ with job batch system ID: 86 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-yxx95nf4 with job batch system ID: 87 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-bch7cwh9 with job batch system ID: 88 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-dyxkfwq2 with job batch system ID: 89 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-arlwozsc with job batch system ID: 90 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-qmg9q837 with job batch system ID: 91 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-l2k7ypdh with job batch system ID: 92 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-r0kx4zjt with job batch system ID: 93 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-tfwjbyc3 with job batch system ID: 94 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-pani4kva with job batch system ID: 95 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-n__5cy5h with job batch system ID: 96 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-k6oyqide with job batch system ID: 97 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-24tmw_7t with job batch system ID: 98 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-qsa0yy75 with job batch system ID: 99 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-sfgrzuxv with job batch system ID: 100 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:15-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-94592i89 with job batch system ID: 101 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpq8a88ta7/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp5qp9pft_/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpmvadhsvx/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpbeq7gf48/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp6czrdzot/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1i4vaxyy/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplshr0gin/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdhmg8n7q/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdy1r1ry9/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp0sn3_9dm/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp0mi4a7cr/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpfeipfs2s/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpnv41a6al/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp7rsd7cs7/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpynokbhf2/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpqec9ue8z/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpy82ddbmz/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpxuzcr2gh/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmphwxe106s/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp_fiz34tx/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpvkhpitxz/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpzviqetw0/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpc9plzwr_/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpbt6e10_z/worker_log.txt
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmppp3ofszk/worker_log.txt
+[2020-11-27T19:34:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:16: process mutect vcf start
+[2020-11-27T19:34:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:16: Exporting files/for-job/kind-merge_perchrom_mutations/instance-9z773tpr/file-p9qlgvol/chr1.vcf to output location
+[2020-11-27T19:34:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:16: process mutect vcf start
+[2020-11-27T19:34:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:16: Exporting files/for-job/kind-merge_perchrom_mutations/instance-aqtytsn8/file-hrqklguu/chr6.vcf to output location
+[2020-11-27T19:34:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:16: process mutect vcf start
+[2020-11-27T19:34:16-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:16: Exporting files/for-job/kind-merge_perchrom_mutations/instance-otj75j2y/file-i0d78rho/chr8.vcf to output location
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-aqtytsn8
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-9z773tpr
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-otj75j2y
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-bch7cwh9
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-l2k7ypdh
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-redg2qyx
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-qzodfsg_
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-n__5cy5h
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-5_e3d94i
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-qmg9q837
+[2020-11-27T19:34:16-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-t9vtdihl
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-bch7cwh9/file-1914ngjq/chr12.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-redg2qyx/file-_jp8yyzn/chr4.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-l2k7ypdh/file-3h0aixcm/chr16.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-qzodfsg_/file-0bhft75i/chr10.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-n__5cy5h/file-98f_59ki/chr20.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-5_e3d94i/file-p0_ehd2z/chr5.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-qmg9q837/file-tnq47yuz/chr15.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-t9vtdihl/file-c7fabua6/chr7.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-k6oyqide/file-pkah_qne/chr21.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-yxx95nf4/file-5odtfody/chr11.vcf to output location
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-k6oyqide
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-yxx95nf4
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-u6wht2_v
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-qsa0yy75
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-sfgrzuxv
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-arlwozsc
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-tfwjbyc3
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-94592i89
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-836_00fn
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-dyxkfwq2
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-r0kx4zjt
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-ft1vefev
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-pani4kva
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_mutations' kind-merge_perchrom_mutations/instance-24tmw_7t
+[2020-11-27T19:34:17-0800] [MainThread] [I] [toil.leader] Issued job 'merge_perchrom_vcfs' kind-merge_perchrom_vcfs/instance-h1k9mt2n with job batch system ID: 102 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-arlwozsc/file-wog9abso/chr14.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-u6wht2_v/file-3k7rhiwl/chr9.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-qsa0yy75/file-8csy2621/chrX.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-sfgrzuxv/file-ptvtfaox/chrY.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-94592i89/file-wuqvxzlv/chrM.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-tfwjbyc3/file-nli27x59/chr18.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-pani4kva/file-ftt2_iwp/chr19.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-r0kx4zjt/file-3lzwhfp1/chr17.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-dyxkfwq2/file-a1h_neqc/chr13.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-836_00fn/file-2hn3mau7/chr3.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-24tmw_7t/file-u50i9gfb/chr22.vcf to output location
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: process mutect vcf start
+[2020-11-27T19:34:17-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:17: Exporting files/for-job/kind-merge_perchrom_mutations/instance-ft1vefev/file-yyf4_us3/chr2.vcf to output location
+[2020-11-27T19:34:18-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpimnqzm85/worker_log.txt
+[2020-11-27T19:34:18-0800] [MainThread] [I] [toil.leader] Job ended: 'merge_perchrom_vcfs' kind-merge_perchrom_vcfs/instance-h1k9mt2n
+[2020-11-27T19:34:18-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-bn2q7ksu with job batch system ID: 103 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:34:18-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:18: Exporting files/for-job/kind-merge_perchrom_vcfs/instance-h1k9mt2n/file-rw554xsd/all_merged.vcf to output location
+[2020-11-27T19:34:18-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:18: Ran merge_perchrom_vcfs for merged successfully
+[2020-11-27T19:34:18-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpnm45sm6f/worker_log.txt
+[2020-11-27T19:34:19-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-bn2q7ksu
+[2020-11-27T19:34:19-0800] [MainThread] [I] [toil.leader] Issued job 'delete_bams' kind-delete_bams/instance-ia_03zca with job batch system ID: 104 and cores: 1, disk: 100.0 M, and memory: 100.0 M
+[2020-11-27T19:34:19-0800] [MainThread] [I] [toil.leader] Issued job 'delete_bams' kind-delete_bams/instance-yr_262lz with job batch system ID: 105 and cores: 1, disk: 100.0 M, and memory: 100.0 M
+[2020-11-27T19:34:19-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-1rgbxdn2 with job batch system ID: 106 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:34:19-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpqsjmylsc/worker_log.txt
+[2020-11-27T19:34:19-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpyfygnuva/worker_log.txt
+[2020-11-27T19:34:19-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpop6l4_4b/worker_log.txt
+[2020-11-27T19:34:20-0800] [MainThread] [I] [toil.leader] Job ended: 'delete_bams' kind-delete_bams/instance-ia_03zca
+[2020-11-27T19:34:20-0800] [MainThread] [I] [toil.leader] Job ended: 'delete_bams' kind-delete_bams/instance-yr_262lz
+[2020-11-27T19:34:20-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-1rgbxdn2
+[2020-11-27T19:34:20-0800] [MainThread] [I] [toil.leader] Issued job 'run_snpeff' kind-run_snpeff/instance-wm1d36r1 with job batch system ID: 107 and cores: 1, disk: 6.0 G, and memory: 2.0 G
+[2020-11-27T19:34:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:20: Deleting "tumor_dna_fix_pg_sorted.bam" for patient "TEST".
+[2020-11-27T19:34:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:20: Deleting "tumor_dna_fix_pg_sorted.bam.bai" for patient "TEST".
+[2020-11-27T19:34:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:20: Deleting "normal_dna_fix_pg_sorted.bam" for patient "TEST".
+[2020-11-27T19:34:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:34:20: Deleting "normal_dna_fix_pg_sorted.bam.bai" for patient "TEST".
+[2020-11-27T19:34:20-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpwcz2cuoc/worker_log.txt
+[2020-11-27T19:36:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:36:20: Exporting files/for-job/kind-run_snpeff/instance-wm1d36r1/file-8zf4wy79/mutations.vcf to output location
+[2020-11-27T19:36:20-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 19:36:20: Ran snpeff on TEST successfully
+[2020-11-27T19:36:21-0800] [MainThread] [I] [toil.leader] Job ended: 'run_snpeff' kind-run_snpeff/instance-wm1d36r1
+[2020-11-27T19:36:21-0800] [MainThread] [I] [toil.leader] Issued job 'Job' kind-Job/instance-770lc4lu with job batch system ID: 108 and cores: 0, disk: 100.0 M, and memory: 512.0 M
+[2020-11-27T19:36:22-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpmigm34pd/worker_log.txt
+[2020-11-27T19:36:22-0800] [MainThread] [I] [toil.leader] Job ended: 'Job' kind-Job/instance-770lc4lu
+[2020-11-27T19:36:22-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-vevukocf with job batch system ID: 109 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T19:36:23-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpqwbyafk3/worker_log.txt
+[2020-11-27T19:36:23-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-vevukocf
+[2020-11-27T19:36:23-0800] [MainThread] [I] [toil.leader] Issued job 'run_transgene' kind-run_transgene/instance-qj3j385j with job batch system ID: 110 and cores: 1, disk: 310.2 M, and memory: 100.0 M
+[2020-11-27T19:36:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpovwwmtjn/worker_log.txt
+[2020-11-27T19:37:39-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_transgene file:/scratch/drkthomp/jobStore kind-run_transgene/instance-qj3j385j.
+[2020-11-27T19:37:39-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_transgene' kind-run_transgene/instance-qj3j385j
+[2020-11-27T19:37:39-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_transgene' kind-run_transgene/instance-qj3j385j
+[2020-11-27T19:37:39-0800] [MainThread] [W] [toil.leader] Log from job kind-run_transgene/instance-qj3j385j follows:
+=========>
+	[2020-11-27T19:36:24-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T19:36:24-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	2.5.0: Pulling from aarjunrao/transgene
+	04c460fac791: Already exists
+	0a0916b29f3e: Already exists
+	b25f4e7a7766: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	595fd1429200: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	95b1864271d3: Already exists
+	08455334bb58: Already exists
+	d79e1b284af7: Already exists
+	6022965ff030: Already exists
+	a3ed95caeb02: Already exists
+	5397d43b7e0a: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	a3ed95caeb02: Already exists
+	08d436ec9dcd: Already exists
+	1681d1d31560: Already exists
+	a056f67462ec: Already exists
+	3e6cd62720d9: Already exists
+	a3ed95caeb02: Already exists
+	6ccb234d8efe: Already exists
+	a3ed95caeb02: Already exists
+	d3e04f19bd90: Pulling fs layer
+	120cdff75942: Pulling fs layer
+	93815a1b4f2c: Pulling fs layer
+	8ec7ea6e5e66: Pulling fs layer
+	a3ed95caeb02: Pulling fs layer
+	a3ed95caeb02: Waiting
+	8ec7ea6e5e66: Waiting
+	93815a1b4f2c: Verifying Checksum
+	93815a1b4f2c: Download complete
+	120cdff75942: Verifying Checksum
+	120cdff75942: Download complete
+	8ec7ea6e5e66: Verifying Checksum
+	8ec7ea6e5e66: Download complete
+	a3ed95caeb02: Download complete
+	d3e04f19bd90: Verifying Checksum
+	d3e04f19bd90: Download complete
+	d3e04f19bd90: Pull complete
+	120cdff75942: Pull complete
+	93815a1b4f2c: Pull complete
+	8ec7ea6e5e66: Pull complete
+	a3ed95caeb02: Pull complete
+	Digest: sha256:6f04cc98211a4d1fa46a54cf43d8a6de25e69ba715485ab037fbda6610090d00
+	Status: Downloaded newer image for aarjunrao/transgene:2.5.0
+	usage: transgene [-h] [--peptides PEPTIDE_FILE]
+	                 [--snpeff SNPEFF_FILE | --vep VEP_FILE]
+	                 [--genome GENOME_FILE] [--indel_extend_length EXTEND_LENGTH]
+	                 [--fusions FUSION_FILE] [--transcripts TRANSCRIPT_FILE]
+	                 [--annotation ANNOTATION_FILE] [--filter_mt_fusions]
+	                 [--filter_ig_pairs] [--filter_rna_gene_fusions]
+	                 [--filter_readthroughs]
+	                 [--readthrough_threshold RT_THRESHOLD] [--rna_file RNA_FILE]
+	                 [--reject_threshold REJECT_THRESHOLD]
+	                 [--min_rna_alt_freq RNA_MIN_ALT_FREQ] [--filterOxoG]
+	                 [--dna_file DNA_FILE]
+	                 [--min_OxoG_variant_freq OXOG_MIN_ALT_FREQ]
+	                 [--log_level {INFO,DEBUG,WARNING,ERROR}] [--log_file LOGFILE]
+	                 --prefix PREFIX [--pep_lens PEP_LENS] [--no_json_dumps]
+	                 [--cores CORES]
+	transgene: error: argument --cores: invalid int value: '80.0'
+	[2020-11-27T19:37:38-0800] [MainThread] [W] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Job used more disk than requested. Consider modifying the user script to avoid the chance of failure due to incorrectly requested resources. Job files/for-job/kind-EncapsulatedJob/instance-vevukocf/cleanup/file-rasmyjg9/stream used 1817.94% (5.5 GB [5914071040B] used, 310.2 MB [325317817B] requested) at the end of its run.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 137, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 291, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpovwwmtjn/95d14368-7407-43e7-baa0-8c5c7ce5f40f:/data', '--log-driver=none', 'aarjunrao/transgene:2.5.0', '--peptides', '/data/gencode.v25.pc_translations_NOPARY.fa', '--prefix', 'transgened', '--pep_lens', '9,10,15', '--cores', '80.0', '--genome', '/data/hg38.fa', '--annotation', '/data/gencode.v25.annotation_NOPARY.gtf', '--snpeff', '/data/snpeffed_muts.vcf', '--rna_file', '/data/rna.bam', '--transcripts', '/data/gencode.v25.pc_transcripts_NOPARY.fa', '--fusions', '/data/fusion_calls']' returned non-zero exit status 2.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_translation.py", line 118, in run_transgene
+	    tool_version=transgene_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 140, in docker_call
+	    'for command \"%s\"' % ' '.join(call),)
+	RuntimeError: docker command returned a non-zero exit status (2)for command "docker run --rm=true -v /data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpovwwmtjn/95d14368-7407-43e7-baa0-8c5c7ce5f40f:/data --log-driver=none aarjunrao/transgene:2.5.0 --peptides /data/gencode.v25.pc_translations_NOPARY.fa --prefix transgened --pep_lens 9,10,15 --cores 80.0 --genome /data/hg38.fa --annotation /data/gencode.v25.annotation_NOPARY.gtf --snpeff /data/snpeffed_muts.vcf --rna_file /data/rna.bam --transcripts /data/gencode.v25.pc_transcripts_NOPARY.fa --fusions /data/fusion_calls"
+	[2020-11-27T19:37:38-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-27T19:37:39-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_transgene' kind-run_transgene/instance-qj3j385j with ID kind-run_transgene/instance-qj3j385j to 1
+[2020-11-27T19:37:39-0800] [MainThread] [W] [toil.jobGraph] We have increased the default memory of the failed job 'run_transgene' kind-run_transgene/instance-qj3j385j to 2147483648 bytes
+[2020-11-27T19:37:39-0800] [MainThread] [W] [toil.jobGraph] We have increased the disk of the failed job 'run_transgene' kind-run_transgene/instance-qj3j385j to the default of 2147483648 bytes
+[2020-11-27T19:37:39-0800] [MainThread] [I] [toil.leader] Issued job 'run_transgene' kind-run_transgene/instance-qj3j385j with job batch system ID: 111 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T19:37:40-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpeek2yuwe/worker_log.txt
+[2020-11-27T19:38:47-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_transgene file:/scratch/drkthomp/jobStore kind-run_transgene/instance-qj3j385j.
+[2020-11-27T19:38:47-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_transgene' kind-run_transgene/instance-qj3j385j
+[2020-11-27T19:38:47-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_transgene' kind-run_transgene/instance-qj3j385j
+[2020-11-27T19:38:47-0800] [MainThread] [W] [toil.leader] Log from job kind-run_transgene/instance-qj3j385j follows:
+=========>
+	[2020-11-27T19:37:40-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T19:37:40-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	usage: transgene [-h] [--peptides PEPTIDE_FILE]
+	                 [--snpeff SNPEFF_FILE | --vep VEP_FILE]
+	                 [--genome GENOME_FILE] [--indel_extend_length EXTEND_LENGTH]
+	                 [--fusions FUSION_FILE] [--transcripts TRANSCRIPT_FILE]
+	                 [--annotation ANNOTATION_FILE] [--filter_mt_fusions]
+	                 [--filter_ig_pairs] [--filter_rna_gene_fusions]
+	                 [--filter_readthroughs]
+	                 [--readthrough_threshold RT_THRESHOLD] [--rna_file RNA_FILE]
+	                 [--reject_threshold REJECT_THRESHOLD]
+	                 [--min_rna_alt_freq RNA_MIN_ALT_FREQ] [--filterOxoG]
+	                 [--dna_file DNA_FILE]
+	                 [--min_OxoG_variant_freq OXOG_MIN_ALT_FREQ]
+	                 [--log_level {INFO,DEBUG,WARNING,ERROR}] [--log_file LOGFILE]
+	                 --prefix PREFIX [--pep_lens PEP_LENS] [--no_json_dumps]
+	                 [--cores CORES]
+	transgene: error: argument --cores: invalid int value: '80.0'
+	[2020-11-27T19:38:46-0800] [MainThread] [W] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Job used more disk than requested. Consider modifying the user script to avoid the chance of failure due to incorrectly requested resources. Job files/for-job/kind-EncapsulatedJob/instance-vevukocf/cleanup/file-rasmyjg9/stream used 1817.94% (5.5 GB [5914071040B] used, 310.2 MB [325317817B] requested) at the end of its run.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 137, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 291, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpeek2yuwe/a6ab82f8-4fb2-47c7-aca6-8dc94f9073ff:/data', '--log-driver=none', 'aarjunrao/transgene:2.5.0', '--peptides', '/data/gencode.v25.pc_translations_NOPARY.fa', '--prefix', 'transgened', '--pep_lens', '9,10,15', '--cores', '80.0', '--genome', '/data/hg38.fa', '--annotation', '/data/gencode.v25.annotation_NOPARY.gtf', '--snpeff', '/data/snpeffed_muts.vcf', '--rna_file', '/data/rna.bam', '--transcripts', '/data/gencode.v25.pc_transcripts_NOPARY.fa', '--fusions', '/data/fusion_calls']' returned non-zero exit status 2.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_translation.py", line 118, in run_transgene
+	    tool_version=transgene_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 140, in docker_call
+	    'for command \"%s\"' % ' '.join(call),)
+	RuntimeError: docker command returned a non-zero exit status (2)for command "docker run --rm=true -v /data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpeek2yuwe/a6ab82f8-4fb2-47c7-aca6-8dc94f9073ff:/data --log-driver=none aarjunrao/transgene:2.5.0 --peptides /data/gencode.v25.pc_translations_NOPARY.fa --prefix transgened --pep_lens 9,10,15 --cores 80.0 --genome /data/hg38.fa --annotation /data/gencode.v25.annotation_NOPARY.gtf --snpeff /data/snpeffed_muts.vcf --rna_file /data/rna.bam --transcripts /data/gencode.v25.pc_transcripts_NOPARY.fa --fusions /data/fusion_calls"
+	[2020-11-27T19:38:46-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-27T19:38:47-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_transgene' kind-run_transgene/instance-qj3j385j with ID kind-run_transgene/instance-qj3j385j to 0
+[2020-11-27T19:38:47-0800] [MainThread] [W] [toil.leader] Job 'run_transgene' kind-run_transgene/instance-qj3j385j with ID kind-run_transgene/instance-qj3j385j is completely failed
+[2020-11-27T19:39:22-0800] [MainThread] [I] [toil.leader] Finished toil run with 42 failed jobs.
+[2020-11-27T19:39:22-0800] [MainThread] [I] [toil.leader] Failed jobs at end of the run: 'run_muse' kind-EncapsulatedJob/instance-qi2fqyz_ 'run_transgene' kind-EncapsulatedJob/instance-vevukocf 'Job' kind-Job/instance-7s1jyb6z 'Job' kind-Job/instance-wizon1te 'prepare_samples' kind-prepare_samples/instance-qyxpumun 'Job' kind-Job/instance-rb7logwp 'merge_phlat_calls' kind-merge_phlat_calls/instance-6j0cplsq 'get_all_tool_inputs' kind-parse_config_file/instance-utcdr1zk 'run_bwa' kind-EncapsulatedJob/instance-gxt8is74 'run_cutadapt' kind-EncapsulatedJob/instance-o9p20i2e 'run_mutect' kind-EncapsulatedJob/instance-bj0twc34 'Job' kind-Job/instance-770lc4lu 'run_bwa' kind-EncapsulatedJob/instance-5drwan9s 'run_mutation_aggregator' kind-EncapsulatedJob/instance-_w1f8gtw 'Job' kind-Job/instance-ccadqh9a 'run_phlat' kind-EncapsulatedJob/instance-tm0pcusm 'run_transgene' kind-run_transgene/instance-qj3j385j 'Job' kind-Job/instance-l6jndejt 'run_phlat' kind-EncapsulatedJob/instance-p8idulz4 'Job' kind-Job/instance-7rcs33og 'run_star' kind-EncapsulatedJob/instance-y_lo_bvx 'Job' kind-Job/instance-p3i6d1f0 'Job' kind-Job/instance-19ln8xui 'get_patient_fastqs' kind-get_patient_fastqs/instance-2pjao3y3 'launch_protect' kind-launch_protect/instance-oyefziao 'get_patient_fastqs' kind-get_patient_fastqs/instance-ttmsgsd1 'Job' kind-Job/instance-j3z8ggs3 'run_phlat' kind-EncapsulatedJob/instance-czlzbjjr 'run_snpeff' kind-EncapsulatedJob/instance-1rgbxdn2 'get_patient_fastqs' kind-get_patient_fastqs/instance-0csdd7bl 'run_rsem' kind-EncapsulatedJob/instance-i6wy4k24 'Job' kind-Job/instance-na5nlnmq 'run_fusion' kind-EncapsulatedJob/instance-mgdq08hc 'Job' kind-Job/instance-bn2q7ksu 'Job' kind-Job/instance-5x2sz54b 'run_strelka_full' kind-EncapsulatedJob/instance-ixd9le0x 'run_indel_caller' kind-run_indel_caller/instance-0_hyd44y 'Job' kind-Job/instance-rong8s8v 'run_somaticsniper' kind-EncapsulatedJob/instance-wlu1vdpy 'Job' kind-Job/instance-hlsgfes5 'run_radia' kind-EncapsulatedJob/instance-y0q8img4 'Job' kind-Job/instance-p8u5n56k
+Traceback (most recent call last):
+  File "/private/home/drkthomp/protect3/venv/bin/ProTECT", line 11, in <module>
+    load_entry_point('protect', 'console_scripts', 'ProTECT')()
+  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 1028, in main
+    Job.Runner.startToil(start, params)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 798, in startToil
+    return toil.restart()
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/common.py", line 878, in restart
+    return self._runMainLoop(rootJobGraph)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/common.py", line 1138, in _runMainLoop
+    jobCache=self._jobCache).run()
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/leader.py", line 269, in run
+    raise FailedJobsException(self.config.jobStore, self.toilState.totalFailedJobs, self.jobStore)
+toil.leader.FailedJobsException: The job store 'file:/scratch/drkthomp/jobStore' contains 42 failed jobs: 'run_muse' kind-EncapsulatedJob/instance-qi2fqyz_, 'run_transgene' kind-EncapsulatedJob/instance-vevukocf, 'Job' kind-Job/instance-7s1jyb6z, 'Job' kind-Job/instance-wizon1te, 'prepare_samples' kind-prepare_samples/instance-qyxpumun, 'Job' kind-Job/instance-rb7logwp, 'merge_phlat_calls' kind-merge_phlat_calls/instance-6j0cplsq, 'get_all_tool_inputs' kind-parse_config_file/instance-utcdr1zk, 'run_bwa' kind-EncapsulatedJob/instance-gxt8is74, 'run_cutadapt' kind-EncapsulatedJob/instance-o9p20i2e, 'run_mutect' kind-EncapsulatedJob/instance-bj0twc34, 'Job' kind-Job/instance-770lc4lu, 'run_bwa' kind-EncapsulatedJob/instance-5drwan9s, 'run_mutation_aggregator' kind-EncapsulatedJob/instance-_w1f8gtw, 'Job' kind-Job/instance-ccadqh9a, 'run_phlat' kind-EncapsulatedJob/instance-tm0pcusm, 'run_transgene' kind-run_transgene/instance-qj3j385j, 'Job' kind-Job/instance-l6jndejt, 'run_phlat' kind-EncapsulatedJob/instance-p8idulz4, 'Job' kind-Job/instance-7rcs33og, 'run_star' kind-EncapsulatedJob/instance-y_lo_bvx, 'Job' kind-Job/instance-p3i6d1f0, 'Job' kind-Job/instance-19ln8xui, 'get_patient_fastqs' kind-get_patient_fastqs/instance-2pjao3y3, 'launch_protect' kind-launch_protect/instance-oyefziao, 'get_patient_fastqs' kind-get_patient_fastqs/instance-ttmsgsd1, 'Job' kind-Job/instance-j3z8ggs3, 'run_phlat' kind-EncapsulatedJob/instance-czlzbjjr, 'run_snpeff' kind-EncapsulatedJob/instance-1rgbxdn2, 'get_patient_fastqs' kind-get_patient_fastqs/instance-0csdd7bl, 'run_rsem' kind-EncapsulatedJob/instance-i6wy4k24, 'Job' kind-Job/instance-na5nlnmq, 'run_fusion' kind-EncapsulatedJob/instance-mgdq08hc, 'Job' kind-Job/instance-bn2q7ksu, 'Job' kind-Job/instance-5x2sz54b, 'run_strelka_full' kind-EncapsulatedJob/instance-ixd9le0x, 'run_indel_caller' kind-run_indel_caller/instance-0_hyd44y, 'Job' kind-Job/instance-rong8s8v, 'run_somaticsniper' kind-EncapsulatedJob/instance-wlu1vdpy, 'Job' kind-Job/instance-hlsgfes5, 'run_radia' kind-EncapsulatedJob/instance-y0q8img4, 'Job' kind-Job/instance-p8u5n56k
+Log from job 'run_transgene' kind-run_transgene/instance-qj3j385j follows:
+=========>
+	[2020-11-27T19:37:40-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T19:37:40-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	usage: transgene [-h] [--peptides PEPTIDE_FILE]
+	                 [--snpeff SNPEFF_FILE | --vep VEP_FILE]
+	                 [--genome GENOME_FILE] [--indel_extend_length EXTEND_LENGTH]
+	                 [--fusions FUSION_FILE] [--transcripts TRANSCRIPT_FILE]
+	                 [--annotation ANNOTATION_FILE] [--filter_mt_fusions]
+	                 [--filter_ig_pairs] [--filter_rna_gene_fusions]
+	                 [--filter_readthroughs]
+	                 [--readthrough_threshold RT_THRESHOLD] [--rna_file RNA_FILE]
+	                 [--reject_threshold REJECT_THRESHOLD]
+	                 [--min_rna_alt_freq RNA_MIN_ALT_FREQ] [--filterOxoG]
+	                 [--dna_file DNA_FILE]
+	                 [--min_OxoG_variant_freq OXOG_MIN_ALT_FREQ]
+	                 [--log_level {INFO,DEBUG,WARNING,ERROR}] [--log_file LOGFILE]
+	                 --prefix PREFIX [--pep_lens PEP_LENS] [--no_json_dumps]
+	                 [--cores CORES]
+	transgene: error: argument --cores: invalid int value: '80.0'
+	[2020-11-27T19:38:46-0800] [MainThread] [W] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: Job used more disk than requested. Consider modifying the user script to avoid the chance of failure due to incorrectly requested resources. Job files/for-job/kind-EncapsulatedJob/instance-vevukocf/cleanup/file-rasmyjg9/stream used 1817.94% (5.5 GB [5914071040B] used, 310.2 MB [325317817B] requested) at the end of its run.
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 137, in docker_call
+	    subprocess.check_call(call, stdout=outfile)
+	  File "/usr/lib64/python3.6/subprocess.py", line 291, in check_call
+	    raise CalledProcessError(retcode, cmd)
+	subprocess.CalledProcessError: Command '['docker', 'run', '--rm=true', '-v', '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpeek2yuwe/a6ab82f8-4fb2-47c7-aca6-8dc94f9073ff:/data', '--log-driver=none', 'aarjunrao/transgene:2.5.0', '--peptides', '/data/gencode.v25.pc_translations_NOPARY.fa', '--prefix', 'transgened', '--pep_lens', '9,10,15', '--cores', '80.0', '--genome', '/data/hg38.fa', '--annotation', '/data/gencode.v25.annotation_NOPARY.gtf', '--snpeff', '/data/snpeffed_muts.vcf', '--rna_file', '/data/rna.bam', '--transcripts', '/data/gencode.v25.pc_transcripts_NOPARY.fa', '--fusions', '/data/fusion_calls']' returned non-zero exit status 2.
+	
+	During handling of the above exception, another exception occurred:
+	
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_translation.py", line 118, in run_transgene
+	    tool_version=transgene_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 140, in docker_call
+	    'for command \"%s\"' % ' '.join(call),)
+	RuntimeError: docker command returned a non-zero exit status (2)for command "docker run --rm=true -v /data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpeek2yuwe/a6ab82f8-4fb2-47c7-aca6-8dc94f9073ff:/data --log-driver=none aarjunrao/transgene:2.5.0 --peptides /data/gencode.v25.pc_translations_NOPARY.fa --prefix transgened --pep_lens 9,10,15 --cores 80.0 --genome /data/hg38.fa --annotation /data/gencode.v25.annotation_NOPARY.gtf --snpeff /data/snpeffed_muts.vcf --rna_file /data/rna.bam --transcripts /data/gencode.v25.pc_transcripts_NOPARY.fa --fusions /data/fusion_calls"
+	[2020-11-27T19:38:46-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========

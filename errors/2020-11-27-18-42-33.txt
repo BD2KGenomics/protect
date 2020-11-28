@@ -1,0 +1,1577 @@
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn with job batch system ID: 0 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0 with job batch system ID: 1 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher with job batch system ID: 2 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w with job batch system ID: 3 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt with job batch system ID: 4 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d with job batch system ID: 5 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug with job batch system ID: 6 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt with job batch system ID: 7 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv with job batch system ID: 8 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak with job batch system ID: 9 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi with job batch system ID: 10 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o with job batch system ID: 11 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp with job batch system ID: 12 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5 with job batch system ID: 13 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm with job batch system ID: 14 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu with job batch system ID: 15 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt with job batch system ID: 16 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1 with job batch system ID: 17 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10 with job batch system ID: 18 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96 with job batch system ID: 19 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy with job batch system ID: 20 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh with job batch system ID: 21 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo with job batch system ID: 22 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w with job batch system ID: 23 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:30-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub with job batch system ID: 24 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:45:31-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpzg5zzrmk/worker_log.txt
+[2020-11-27T18:45:31-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp9jdeea1n/worker_log.txt
+[2020-11-27T18:45:31-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpb2l863hh/worker_log.txt
+[2020-11-27T18:45:32-0800] [MainThread] [I] [toil.leader] 25 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-27T18:45:38-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp58_1cn9_/worker_log.txt
+[2020-11-27T18:45:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpab800ddd/worker_log.txt
+[2020-11-27T18:46:18-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpitet8ox3/worker_log.txt
+[2020-11-27T18:46:44-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp3be7x0u9/worker_log.txt
+[2020-11-27T18:46:44-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpjcwj2nc6/worker_log.txt
+[2020-11-27T18:46:44-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpv8bf72q4/worker_log.txt
+[2020-11-27T18:46:44-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp6yhcrhtb/worker_log.txt
+[2020-11-27T18:46:51-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp2teuozjy/worker_log.txt
+[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpjh9fin3x/worker_log.txt
+[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpansptsae/worker_log.txt
+[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp2p9cmaq3/worker_log.txt
+[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpg27akjz0/worker_log.txt
+[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp18xq_ze0/worker_log.txt
+[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpz2u3k3m2/worker_log.txt
+[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpuydnybq9/worker_log.txt
+[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpmzhqf2mq/worker_log.txt
+[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpq7fv1wvf/worker_log.txt
+[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpiackf7oz/worker_log.txt
+[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpddobhrbc/worker_log.txt
+[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpopxybrb0/worker_log.txt
+[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp88s1wb0r/worker_log.txt
+[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpz_r7nf7h/worker_log.txt
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-gyttywxo.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-gyttywxo follows:
+=========>
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo with ID kind-run_mutect_perchrom/instance-gyttywxo to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo with job batch system ID: 25 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-t15qgjy0.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-t15qgjy0 follows:
+=========>
+	[2020-11-27T18:45:31-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:45:31-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0 with ID kind-run_mutect_perchrom/instance-t15qgjy0 to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0 with job batch system ID: 26 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-5zdtbtsn.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-5zdtbtsn follows:
+=========>
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn with ID kind-run_mutect_perchrom/instance-5zdtbtsn to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn with job batch system ID: 27 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-fgj0w2_w.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-fgj0w2_w follows:
+=========>
+	[2020-11-27T18:45:31-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:45:31-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w with ID kind-run_mutect_perchrom/instance-fgj0w2_w to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w with job batch system ID: 28 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-f3zgk1bv.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-f3zgk1bv follows:
+=========>
+	[2020-11-27T18:45:31-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:45:31-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv with ID kind-run_mutect_perchrom/instance-f3zgk1bv to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv with job batch system ID: 29 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-hxsjhjvp.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-hxsjhjvp follows:
+=========>
+	[2020-11-27T18:46:44-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:44-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp with ID kind-run_mutect_perchrom/instance-hxsjhjvp to 1
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-ntmj9aw5.
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-du24kqrt.
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp with job batch system ID: 30 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-ntmj9aw5 follows:
+=========>
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5 with ID kind-run_mutect_perchrom/instance-ntmj9aw5 to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5 with job batch system ID: 31 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-du24kqrt follows:
+=========>
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt with ID kind-run_mutect_perchrom/instance-du24kqrt to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt with job batch system ID: 32 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-4f2ha64d.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-4f2ha64d follows:
+=========>
+	[2020-11-27T18:45:41-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:45:41-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d with ID kind-run_mutect_perchrom/instance-4f2ha64d to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d with job batch system ID: 33 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-mgq6ru10.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-mgq6ru10 follows:
+=========>
+	[2020-11-27T18:46:44-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:44-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10 with ID kind-run_mutect_perchrom/instance-mgq6ru10 to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10 with job batch system ID: 34 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-5i9__ll1.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-5i9__ll1 follows:
+=========>
+	[2020-11-27T18:45:38-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:45:38-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1 with ID kind-run_mutect_perchrom/instance-5i9__ll1 to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1 with job batch system ID: 35 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-m6rpu3gh.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-m6rpu3gh follows:
+=========>
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh with ID kind-run_mutect_perchrom/instance-m6rpu3gh to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh with job batch system ID: 36 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-989tgher.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-989tgher follows:
+=========>
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher with ID kind-run_mutect_perchrom/instance-989tgher to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher with job batch system ID: 37 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-ey78_apt.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-ey78_apt follows:
+=========>
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt with ID kind-run_mutect_perchrom/instance-ey78_apt to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt with job batch system ID: 38 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-1jh6nqug.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-1jh6nqug follows:
+=========>
+	[2020-11-27T18:46:44-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:44-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug with ID kind-run_mutect_perchrom/instance-1jh6nqug to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug with job batch system ID: 39 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-y2fcywgt.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-y2fcywgt follows:
+=========>
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt with ID kind-run_mutect_perchrom/instance-y2fcywgt to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt with job batch system ID: 40 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-r0a3rxak.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-r0a3rxak follows:
+=========>
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak with ID kind-run_mutect_perchrom/instance-r0a3rxak to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak with job batch system ID: 41 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-9i484bqi.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-9i484bqi follows:
+=========>
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi with ID kind-run_mutect_perchrom/instance-9i484bqi to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi with job batch system ID: 42 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-h0tdg49o.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-h0tdg49o follows:
+=========>
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o with ID kind-run_mutect_perchrom/instance-h0tdg49o to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o with job batch system ID: 43 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-e1yejtsm.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-e1yejtsm follows:
+=========>
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:58-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm with ID kind-run_mutect_perchrom/instance-e1yejtsm to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm with job batch system ID: 44 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-_u307ivu.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-_u307ivu follows:
+=========>
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu with ID kind-run_mutect_perchrom/instance-_u307ivu to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu with job batch system ID: 45 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-p8mcfs96.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-p8mcfs96 follows:
+=========>
+	[2020-11-27T18:46:51-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:51-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96 with ID kind-run_mutect_perchrom/instance-p8mcfs96 to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96 with job batch system ID: 46 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-77hux1xy.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-77hux1xy follows:
+=========>
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:47:00-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy with ID kind-run_mutect_perchrom/instance-77hux1xy to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy with job batch system ID: 47 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-jvmeok8w.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-jvmeok8w follows:
+=========>
+	[2020-11-27T18:46:44-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:44-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w with ID kind-run_mutect_perchrom/instance-jvmeok8w to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w with job batch system ID: 48 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:10-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-xqryz_ub.
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-xqryz_ub follows:
+=========>
+	[2020-11-27T18:46:18-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:46:18-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:10-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub with ID kind-run_mutect_perchrom/instance-xqryz_ub to 1
+[2020-11-27T18:48:10-0800] [MainThread] [I] [toil.leader] Issued job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub with job batch system ID: 49 and cores: 1, disk: 23.5 G, and memory: 6.0 G
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpuqjou1fu/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpnb8idjh_/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpcpsy_vim/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmparc4qchx/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpowrncml8/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpj06jbw9k/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpg_dqce4n/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpt5m8c30o/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpp3iunvrq/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgbj6k8qt/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpt9ho6_p0/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpt_sm4j29/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmprumpyk60/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp3sna27gi/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1dqkslu_/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp2xevqw_w/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgfebcaby/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgmi8qsz8/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpkzikfebz/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1duuxvs2/worker_log.txt
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-5zdtbtsn.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-5zdtbtsn follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn with ID kind-run_mutect_perchrom/instance-5zdtbtsn to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5zdtbtsn with ID kind-run_mutect_perchrom/instance-5zdtbtsn is completely failed
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpoqlzkl3f/worker_log.txt
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-gyttywxo.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-gyttywxo follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo with ID kind-run_mutect_perchrom/instance-gyttywxo to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-gyttywxo with ID kind-run_mutect_perchrom/instance-gyttywxo is completely failed
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpaagledfa/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpysb37pv2/worker_log.txt
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-t15qgjy0.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-t15qgjy0 follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0 with ID kind-run_mutect_perchrom/instance-t15qgjy0 to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-t15qgjy0 with ID kind-run_mutect_perchrom/instance-t15qgjy0 is completely failed
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpnefh6elt/worker_log.txt
+[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpe7ufve49/worker_log.txt
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-fgj0w2_w.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-fgj0w2_w follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w with ID kind-run_mutect_perchrom/instance-fgj0w2_w to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-fgj0w2_w with ID kind-run_mutect_perchrom/instance-fgj0w2_w is completely failed
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-f3zgk1bv.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-f3zgk1bv follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv with ID kind-run_mutect_perchrom/instance-f3zgk1bv to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-f3zgk1bv with ID kind-run_mutect_perchrom/instance-f3zgk1bv is completely failed
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-hxsjhjvp.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-hxsjhjvp follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp with ID kind-run_mutect_perchrom/instance-hxsjhjvp to 0
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-ntmj9aw5.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-hxsjhjvp with ID kind-run_mutect_perchrom/instance-hxsjhjvp is completely failed
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-ntmj9aw5 follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5 with ID kind-run_mutect_perchrom/instance-ntmj9aw5 to 0
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-du24kqrt.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ntmj9aw5 with ID kind-run_mutect_perchrom/instance-ntmj9aw5 is completely failed
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-du24kqrt follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt with ID kind-run_mutect_perchrom/instance-du24kqrt to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-du24kqrt with ID kind-run_mutect_perchrom/instance-du24kqrt is completely failed
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-4f2ha64d.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-4f2ha64d follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d with ID kind-run_mutect_perchrom/instance-4f2ha64d to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-4f2ha64d with ID kind-run_mutect_perchrom/instance-4f2ha64d is completely failed
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-mgq6ru10.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-mgq6ru10 follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10 with ID kind-run_mutect_perchrom/instance-mgq6ru10 to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-mgq6ru10 with ID kind-run_mutect_perchrom/instance-mgq6ru10 is completely failed
+[2020-11-27T18:48:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-5i9__ll1.
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-5i9__ll1 follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1 with ID kind-run_mutect_perchrom/instance-5i9__ll1 to 0
+[2020-11-27T18:48:11-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-5i9__ll1 with ID kind-run_mutect_perchrom/instance-5i9__ll1 is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-ey78_apt.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-ey78_apt follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:11-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt with ID kind-run_mutect_perchrom/instance-ey78_apt to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-ey78_apt with ID kind-run_mutect_perchrom/instance-ey78_apt is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-_u307ivu.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-_u307ivu follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu with ID kind-run_mutect_perchrom/instance-_u307ivu to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-_u307ivu with ID kind-run_mutect_perchrom/instance-_u307ivu is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-e1yejtsm.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-e1yejtsm follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm with ID kind-run_mutect_perchrom/instance-e1yejtsm to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-e1yejtsm with ID kind-run_mutect_perchrom/instance-e1yejtsm is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-989tgher.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-989tgher follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher with ID kind-run_mutect_perchrom/instance-989tgher to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-989tgher with ID kind-run_mutect_perchrom/instance-989tgher is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-9i484bqi.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-9i484bqi follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi with ID kind-run_mutect_perchrom/instance-9i484bqi to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-9i484bqi with ID kind-run_mutect_perchrom/instance-9i484bqi is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-m6rpu3gh.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-m6rpu3gh follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh with ID kind-run_mutect_perchrom/instance-m6rpu3gh to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-m6rpu3gh with ID kind-run_mutect_perchrom/instance-m6rpu3gh is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-1jh6nqug.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-1jh6nqug follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug with ID kind-run_mutect_perchrom/instance-1jh6nqug to 0
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-y2fcywgt.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-1jh6nqug with ID kind-run_mutect_perchrom/instance-1jh6nqug is completely failed
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-y2fcywgt follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-r0a3rxak.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt with ID kind-run_mutect_perchrom/instance-y2fcywgt to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-y2fcywgt with ID kind-run_mutect_perchrom/instance-y2fcywgt is completely failed
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-r0a3rxak follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak with ID kind-run_mutect_perchrom/instance-r0a3rxak to 0
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-h0tdg49o.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-r0a3rxak with ID kind-run_mutect_perchrom/instance-r0a3rxak is completely failed
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-h0tdg49o follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o with ID kind-run_mutect_perchrom/instance-h0tdg49o to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-h0tdg49o with ID kind-run_mutect_perchrom/instance-h0tdg49o is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-77hux1xy.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-77hux1xy follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy with ID kind-run_mutect_perchrom/instance-77hux1xy to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-77hux1xy with ID kind-run_mutect_perchrom/instance-77hux1xy is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-jvmeok8w.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-jvmeok8w follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w with ID kind-run_mutect_perchrom/instance-jvmeok8w to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-jvmeok8w with ID kind-run_mutect_perchrom/instance-jvmeok8w is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-xqryz_ub.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-xqryz_ub follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub with ID kind-run_mutect_perchrom/instance-xqryz_ub to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-xqryz_ub with ID kind-run_mutect_perchrom/instance-xqryz_ub is completely failed
+[2020-11-27T18:48:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_mutect_perchrom file:/scratch/drkthomp/jobStore kind-run_mutect_perchrom/instance-p8mcfs96.
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_mutect_perchrom/instance-p8mcfs96 follows:
+=========>
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T18:48:11-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	[2020-11-27T18:48:12-0800] [MainThread] [I] [toil.fileStores.abstractFileStore] LOG-TO-MASTER: unzipping dbsnp.vcf
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/mutation_calling/mutect.py", line 129, in run_mutect_perchrom
+	    input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 179, in gunzip
+	    shutil.copyfileobj(infile, outfile)
+	  File "/private/home/drkthomp/protect3/venv/lib64/python3.6/shutil.py", line 82, in copyfileobj
+	    fdst.write(buf)
+	TypeError: write() argument must be str, not bytes
+	[2020-11-27T18:48:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	DEBUG: gunzip funciton
+	DEBUG: OPENING GZ FILE
+<=========
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96 with ID kind-run_mutect_perchrom/instance-p8mcfs96 to 0
+[2020-11-27T18:48:12-0800] [MainThread] [W] [toil.leader] Job 'run_mutect_perchrom' kind-run_mutect_perchrom/instance-p8mcfs96 with ID kind-run_mutect_perchrom/instance-p8mcfs96 is completely failed
