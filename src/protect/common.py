@@ -31,6 +31,7 @@ from io import IOBase
 import errno
 import gzip
 import logging
+import shutil 
 import os
 import re
 import smtplib
@@ -160,7 +161,7 @@ def untargz(input_targz_file, untar_to_dir):
     return return_value
 
 
-def gunzip(input_gzip_file, block_size=1024):
+def gunzip(input_gzip_file, block_size=2048):
     """
     Gunzips the input file to the same directory
 
@@ -168,20 +169,22 @@ def gunzip(input_gzip_file, block_size=1024):
     :return: path to the gunzipped file
     :rtype: str
     """
-    #TODO THIS IS THERE THE PROBLEM IS? WHAT IS THIS EVEN DOING
+    #TODO THIS IS WHERE THE PROBLEM IS? WHAT IS THIS EVEN DOING
     print("DEBUG: gunzip funciton") 
     assert os.path.splitext(input_gzip_file)[1] == '.gz'
     assert is_gzipfile(input_gzip_file)
     with gzip.open(input_gzip_file) as infile:
         print("DEBUG: OPENING GZ FILE")
-        with open(os.path.splitext(input_gzip_file)[0], 'w') as outfile:
-            while True:
-                block = str(infile.read(block_size))
-                if block == '':
-                    break
-                else:
-                    print("DEBUG: writing outfile block" + str(block))
-                    outfile.write(block)
+        with open(os.path.splitext(input_gzip_file)[0], 'wb') as outfile:
+            shutil.copyfileobj(infile, outfile)
+            #why copy a file like this?? tf
+            #while True:
+            #    block = str(infile.read(block_size))
+            #    if block == '':
+            #        break
+            #    else:
+            #        print("DEBUG: writing outfile block" + str(block))
+            #        outfile.write(block)
     return outfile.name
 
 

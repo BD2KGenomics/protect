@@ -88,7 +88,7 @@ def run_transgene(job, snpeffed_file, rna_bam, univ_options, transgene_options, 
     parameters = ['--peptides', input_files['pepts.fa'],
                   '--prefix', 'transgened',
                   '--pep_lens', '9,10,15',
-                  '--cores', str(transgene_options['n']),
+                  '--cores', str(20),
                   '--genome', input_files['genome.fa'],
                   '--annotation', input_files['annotation.gtf']]
 
