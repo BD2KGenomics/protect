@@ -54,7 +54,7 @@ normal=\033[0m
 red=\033[0;31m
 
 prepare: check_venv
-	@$(pip) install toil pytest bd2k-python-lib 
+	@$(pip) install toil pytest  
 
 develop: check_venv
 	$(pip) install -e .$(extras)
