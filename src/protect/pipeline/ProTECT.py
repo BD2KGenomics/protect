@@ -687,19 +687,21 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         # We may need the tumor one depending on OxoG
         if not patient_data['filter_for_OxoG']:
             get_mutations.addChild(delete_bam_files['tumor_dna'])
-
+    print("DEBUG: got to where snpeff should run")
     if get_mutations is not None:
         snpeff = job.wrapJobFn(run_snpeff, get_mutations.rv(), univ_options, tool_options['snpeff'],
                                disk=PromisedRequirement(snpeff_disk,
                                                         tool_options['snpeff']['index']))
         get_mutations.addChild(snpeff)
     else:
+        print("DEBUG: no snpeff")
         snpeff = None
 
     # The rest of the subgraph should be unchanged
     tumor_dna_bam = bam_files['tumor_dna'].rv() if patient_data['filter_for_OxoG'] else None
     fusion_calls = fusions.rv() if fusions else None
     snpeffed_calls = snpeff.rv() if snpeff else None
+    print("DEBUG: got to transgene wrap")
     transgene = job.wrapJobFn(run_transgene, snpeffed_calls, bam_files['tumor_rna'].rv(),
                               univ_options, tool_options['transgene'],
                               disk=PromisedRequirement(transgene_disk, bam_files['tumor_rna'].rv()),
@@ -714,24 +716,25 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         transgene.addChild(delete_bam_files['tumor_dna'])
     if fusions:
         fusions.addChild(transgene)
-
+    print("DEBUG: got to spawn mhc wrap")
     spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), haplotype_patient.rv(),
                               univ_options, (tool_options['mhci'], tool_options['mhcii']),
                               disk='100M', memory='100M', cores=1).encapsulate()
     haplotype_patient.addChild(spawn_mhc)
     transgene.addChild(spawn_mhc)
-
+    print("DEBUG: goat to merge mhc wrap")
     merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene.rv(), univ_options,
                               disk='100M', memory='100M', cores=1)
     spawn_mhc.addFollowOn(merge_mhc)
     transgene.addChild(merge_mhc)
-
+    print("DEBUG: got to rankboost wrap")
     rankboost = job.wrapJobFn(wrap_rankboost, rsem.rv(), merge_mhc.rv(), transgene.rv(),
                               univ_options, tool_options['rankboost'], disk='100M', memory='100M',
                               cores=1)
     rsem.addChild(rankboost)
     merge_mhc.addChild(rankboost)
     transgene.addChild(rankboost)
+    print("DEBUG: report success")
     report_success = job.wrapJobFn(email_report, univ_options)
     rankboost.addChild(report_success)
     return None

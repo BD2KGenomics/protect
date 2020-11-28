@@ -69,7 +69,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
                   '-tag', sample_type,
                   '-e', '/home/phlat-1.0',  # Phlat directory home
                   '-o', '/data',  # Output directory
-                  '-p', str(phlat_options['n'])]  # Number of threads
+                  '-p', str(10)]  # Number of threads
     docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
     output_file = job.fileStore.writeGlobalFile(''.join([work_dir, '/', sample_type, '_HLA.sum']))

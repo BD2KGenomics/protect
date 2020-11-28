@@ -78,7 +78,7 @@ def run_rsem(job, rna_bam, univ_options, rsem_options):
     input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     parameters = ['--paired-end',
-                  '-p', str(rsem_options['n']),
+                  '-p', str(20),
                   '--bam',
                   input_files['star_transcriptome.bam'],
                   '--no-bam-output',

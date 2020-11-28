@@ -106,7 +106,7 @@ def run_fusion(job,
     input_files['tool_index'] = os.path.basename(untargz(input_files['tool_index.tar.gz'],
                                                          work_dir))
 
-    cores = star_fusion_options['n']
+    cores = 20
     parameters.extend(['--output_dir', '/data/fusion-output',
                        '--genome_lib_dir', input_files['tool_index'],
                        '--CPU', str(cores)])
@@ -297,7 +297,8 @@ def split_fusion_transcript(annotation_path, transcripts):
 
     forward = 'ACGTN'
     reverse = 'TGCAN'
-    trans = string.maketrans(forward, reverse)
+    # string.maketrans depricated, so each type has its own maketrans methods
+    trans = str.maketrans(forward, reverse)
 
     # Pull in assembled transcript annotation
     five_pr_splits = collections.defaultdict(dict)
