@@ -1,0 +1,718 @@
+[2020-11-27T14:10:36-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+[2020-11-27T14:10:36-0800] [MainThread] [I] [toil.leader] Issued job 'parse_config_file' kind-parse_config_file/instance-utcdr1zk with job batch system ID: 0 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:36-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp22z41ydk/worker_log.txt
+[2020-11-27T14:10:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:37: Parsing config file
+[2020-11-27T14:10:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:37: Obtaining tool inputs
+[2020-11-27T14:10:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:37: Obtained tool inputs
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Job ended: 'parse_config_file' kind-parse_config_file/instance-utcdr1zk
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] 0 jobs are running, 0 jobs are issued and waiting to run
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-q2e4hax4 with job batch system ID: 1 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-_pgqif1s with job batch system ID: 2 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-b460cxvc with job batch system ID: 3 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-hhvzwv61 with job batch system ID: 4 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-hg1ifco9 with job batch system ID: 5 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-dz3ee358 with job batch system ID: 6 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-m1wenzhg with job batch system ID: 7 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-92mgm79m with job batch system ID: 8 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-pvqugon6 with job batch system ID: 9 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-95ltkomo with job batch system ID: 10 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-e6vzn0bx with job batch system ID: 11 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-j6d2cs1z with job batch system ID: 12 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-84czw0m_ with job batch system ID: 13 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-5b6cc686 with job batch system ID: 14 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-ipecs42j with job batch system ID: 15 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-5scs5d45 with job batch system ID: 16 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-xmfl9efj with job batch system ID: 17 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-ify9dp_j with job batch system ID: 18 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-86k5hkoi with job batch system ID: 19 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-cst8ecqv with job batch system ID: 20 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-qjz8vfdj with job batch system ID: 21 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-s7o9pug0 with job batch system ID: 22 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-mz9mj14s with job batch system ID: 23 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-5kyfgfzd with job batch system ID: 24 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-cmj7zg9i with job batch system ID: 25 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-g2l1f_9z with job batch system ID: 26 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-4u748z9c with job batch system ID: 27 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-vrlmorbv with job batch system ID: 28 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-w6l93h_s with job batch system ID: 29 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpbudqgls7/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp87ns35u_/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpsn5_rce1/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpze70uyu4/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmprqwfsmxf/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpbsc3ucae/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpx4iyoo8w/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp42c0abv9/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp9vz31pra/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpvtxofi5b/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpg2h52vz0/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpohdiwbzt/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp4qyd8fmn/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp8s42bw8i/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp7pm6hvwu/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmprncg9203/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1ohtegow/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp4b7_ibcc/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1tbxifhj/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpawli98by/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp2wqi_yz8/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmppwl6k7km/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpw37o8usf/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpu24ty5l7/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgc0tkzwp/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpxdv3pbj3/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpx07e3uv5/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp3pj6jla8/worker_log.txt
+[2020-11-27T14:10:39-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmprjf4qsxn/worker_log.txt
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-xmfl9efj
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (strelka:config_file) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (indexes:genome_fai) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (indexes:genome_dict) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (radia:gencode_beds) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (indexes:dbsnp_tbi) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (reports:itx_resistance_file) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (mhcii:method_file) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (indexes:cosmic_idx) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (reports:mhc_pathways_file) to the file job store
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-hg1ifco9
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-dz3ee358
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-5scs5d45
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-92mgm79m
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-e6vzn0bx
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-vrlmorbv
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-cmj7zg9i
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-g2l1f_9z
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-j6d2cs1z
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-4u748z9c
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-w6l93h_s
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-cst8ecqv
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-ipecs42j
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-qjz8vfdj
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-5kyfgfzd
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-5b6cc686
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-m1wenzhg
+[2020-11-27T14:10:40-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-95ltkomo
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (mhci:method_file) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (radia:cosmic_beds) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (reports:immune_resistance_pathways_file) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (transgene:gencode_transcript_fasta) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (reports:car_t_targets_file) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (indexes:dbsnp_idx) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (transgene:gencode_annotation_gtf) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (radia:pseudogene_beds) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (radia:retrogene_beds) to the file job store
+[2020-11-27T14:10:40-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:40: Obtaining file (indexes:cosmic_vcf) to the file job store
+[2020-11-27T14:10:41-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:41: Obtaining file (transgene:gencode_peptide_fasta) to the file job store
+[2020-11-27T14:10:41-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-86k5hkoi
+[2020-11-27T14:10:48-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-hhvzwv61
+[2020-11-27T14:10:48-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-s7o9pug0
+[2020-11-27T14:10:49-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:49: Obtaining file (indexes:genome_fasta) to the file job store
+[2020-11-27T14:10:49-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:49: Obtaining file (transgene:genome_fasta) to the file job store
+[2020-11-27T14:10:57-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:57: Obtaining file (radia:dbsnp_beds) to the file job store
+[2020-11-27T14:10:57-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-84czw0m_
+[2020-11-27T14:10:58-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-b460cxvc
+[2020-11-27T14:10:59-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:10:59: Obtaining file (rsem:index) to the file job store
+[2020-11-27T14:11:05-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-ify9dp_j
+[2020-11-27T14:11:05-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:11:05: Obtaining file (snpeff:index) to the file job store
+[2020-11-27T14:11:37-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-pvqugon6
+[2020-11-27T14:11:37-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:11:37: Obtaining file (indexes:dbsnp_vcf) to the file job store
+[2020-11-27T14:11:53-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:11:53: Obtaining file (bwa:index) to the file job store
+[2020-11-27T14:11:53-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-_pgqif1s
+[2020-11-27T14:12:08-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-mz9mj14s
+[2020-11-27T14:12:08-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:12:08: Obtaining file (phlat:index) to the file job store
+[2020-11-27T14:13:27-0800] [MainThread] [I] [toil.leader] Job ended: 'get_pipeline_inputs' kind-get_pipeline_inputs/instance-q2e4hax4
+[2020-11-27T14:13:27-0800] [MainThread] [I] [toil.leader] Issued job 'launch_protect' kind-launch_protect/instance-oyefziao with job batch system ID: 30 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:13:27-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:13:27: Obtaining file (star:index) to the file job store
+[2020-11-27T14:13:28-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpfmwyrj4p/worker_log.txt
+[2020-11-27T14:13:29-0800] [MainThread] [I] [toil.leader] Job ended: 'launch_protect' kind-launch_protect/instance-oyefziao
+[2020-11-27T14:13:29-0800] [MainThread] [I] [toil.leader] Issued job 'prepare_samples' kind-prepare_samples/instance-qyxpumun with job batch system ID: 31 and cores: 1, disk: 40.0 G, and memory: 2.0 G
+[2020-11-27T14:13:30-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpy7ce3o6i/worker_log.txt
+[2020-11-27T14:13:37-0800] [MainThread] [I] [toil.leader] Job ended: 'prepare_samples' kind-prepare_samples/instance-qyxpumun
+[2020-11-27T14:13:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_patient_fastqs' kind-get_patient_fastqs/instance-0csdd7bl with job batch system ID: 32 and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-11-27T14:13:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_patient_fastqs' kind-get_patient_fastqs/instance-2pjao3y3 with job batch system ID: 33 and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-11-27T14:13:37-0800] [MainThread] [I] [toil.leader] Issued job 'get_patient_fastqs' kind-get_patient_fastqs/instance-ttmsgsd1 with job batch system ID: 34 and cores: 1, disk: 10.0 M, and memory: 2.0 G
+[2020-11-27T14:13:38-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:13:38: Downloading Inputs for TEST
+[2020-11-27T14:13:38-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:13:38: Obtaining file (TEST:normal_dna_fastq_2) to the file job store
+[2020-11-27T14:13:38-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:13:38: Obtaining file (TEST:tumor_dna_fastq_2) to the file job store
+[2020-11-27T14:13:38-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:13:38: Obtaining file (TEST:tumor_rna_fastq_1) to the file job store
+[2020-11-27T14:13:38-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:13:38: Obtaining file (TEST:tumor_dna_fastq_1) to the file job store
+[2020-11-27T14:13:38-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:13:38: Obtaining file (TEST:normal_dna_fastq_1) to the file job store
+[2020-11-27T14:13:38-0800] [Thread-3  ] [I] [toil.statsAndLogging] Got message from job at time 11-27-2020 14:13:38: Obtaining file (TEST:tumor_rna_fastq_2) to the file job store
+[2020-11-27T14:13:38-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpwahoz1qk/worker_log.txt
+[2020-11-27T14:13:38-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmprrfrctx5/worker_log.txt
+[2020-11-27T14:13:38-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpj3z9sfbp/worker_log.txt
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Job ended: 'get_patient_fastqs' kind-get_patient_fastqs/instance-ttmsgsd1
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-tm0pcusm with job batch system ID: 35 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-o9p20i2e with job batch system ID: 36 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Job ended: 'get_patient_fastqs' kind-get_patient_fastqs/instance-0csdd7bl
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-czlzbjjr with job batch system ID: 37 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-5drwan9s with job batch system ID: 38 and cores: 1, disk: 100.0 M, and memory: 2.0 G
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Job ended: 'get_patient_fastqs' kind-get_patient_fastqs/instance-2pjao3y3
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-p8idulz4 with job batch system ID: 39 and cores: 0, disk: 1.0 M, and memory: 32.0 M
+[2020-11-27T14:13:39-0800] [MainThread] [I] [toil.leader] Issued job 'EncapsulatedJob' kind-EncapsulatedJob/instance-gxt8is74 with job batch system ID: 40 and cores: 1, disk: 100.0 M, and memory: 2.0 G
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp98lcpcfc/worker_log.txt
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp7lzrynh4/worker_log.txt
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp5b4dsnwo/worker_log.txt
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpeort4yjt/worker_log.txt
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpeqo_lq7r/worker_log.txt
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpipu5fbgz/worker_log.txt
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-o9p20i2e
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_cutadapt' kind-run_cutadapt/instance-yutysx82 with job batch system ID: 41 and cores: 1, disk: 1.8 G, and memory: 2.0 G
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-tm0pcusm
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-m9yl77yk with job batch system ID: 42 and cores: 80, disk: 8.2 G, and memory: 2.0 G
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-p8idulz4
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-d6snzyih with job batch system ID: 43 and cores: 80, disk: 8.3 G, and memory: 2.0 G
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-czlzbjjr
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-v64rszch with job batch system ID: 44 and cores: 80, disk: 8.4 G, and memory: 2.0 G
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-5drwan9s
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-fcmrk5t5 with job batch system ID: 45 and cores: 80, disk: 13.4 G, and memory: 12.0 G
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Job ended: 'EncapsulatedJob' kind-EncapsulatedJob/instance-gxt8is74
+[2020-11-27T14:13:40-0800] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-7e3ubnz3 with job batch system ID: 46 and cores: 80, disk: 12.8 G, and memory: 12.0 G
+[2020-11-27T14:13:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp0l35ublp/worker_log.txt
+[2020-11-27T14:13:41-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpl7ma4hvi/worker_log.txt
+[2020-11-27T14:13:41-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_cutadapt file:/scratch/drkthomp/jobStore kind-run_cutadapt/instance-yutysx82.
+[2020-11-27T14:13:41-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_cutadapt' kind-run_cutadapt/instance-yutysx82
+[2020-11-27T14:13:41-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_cutadapt' kind-run_cutadapt/instance-yutysx82
+[2020-11-27T14:13:41-0800] [MainThread] [W] [toil.leader] Log from job kind-run_cutadapt/instance-yutysx82 follows:
+=========>
+	[2020-11-27T14:13:41-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:13:41-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/qc/rna.py", line 59, in run_cutadapt
+	    dockerhub=univ_options['dockerhub'], tool_version=cutadapt_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:13:41-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-27T14:13:41-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_cutadapt' kind-run_cutadapt/instance-yutysx82 with ID kind-run_cutadapt/instance-yutysx82 to 1
+[2020-11-27T14:13:41-0800] [MainThread] [W] [toil.jobGraph] We have increased the disk of the failed job 'run_cutadapt' kind-run_cutadapt/instance-yutysx82 to the default of 2147483648 bytes
+[2020-11-27T14:13:41-0800] [MainThread] [I] [toil.leader] Issued job 'run_cutadapt' kind-run_cutadapt/instance-yutysx82 with job batch system ID: 47 and cores: 1, disk: 2.0 G, and memory: 2.0 G
+[2020-11-27T14:13:42-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp824t788m/worker_log.txt
+[2020-11-27T14:15:00-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/scratch/drkthomp/jobStore kind-run_phlat/instance-v64rszch.
+[2020-11-27T14:15:00-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-v64rszch
+[2020-11-27T14:15:00-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-v64rszch
+[2020-11-27T14:15:00-0800] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-v64rszch follows:
+=========>
+	[2020-11-27T14:13:42-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:13:42-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:14:52-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp824t788m/c94725e7-74b1-4ad5-beb6-9d2843ce6234/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp824t788m/c94725e7-74b1-4ad5-beb6-9d2843ce6234/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp824t788m/c94725e7-74b1-4ad5-beb6-9d2843ce6234/phlat_index.tar.gz'}
+<=========
+[2020-11-27T14:15:00-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-v64rszch with ID kind-run_phlat/instance-v64rszch to 1
+[2020-11-27T14:15:00-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-v64rszch with job batch system ID: 48 and cores: 80, disk: 8.4 G, and memory: 2.0 G
+[2020-11-27T14:15:00-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/scratch/drkthomp/jobStore kind-run_phlat/instance-m9yl77yk.
+[2020-11-27T14:15:00-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-m9yl77yk
+[2020-11-27T14:15:00-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-m9yl77yk
+[2020-11-27T14:15:00-0800] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-m9yl77yk follows:
+=========>
+	[2020-11-27T14:13:41-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:13:41-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:14:51-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp0l35ublp/71262221-6a92-49c6-aeb8-49eb3b8a0a66/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp0l35ublp/71262221-6a92-49c6-aeb8-49eb3b8a0a66/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp0l35ublp/71262221-6a92-49c6-aeb8-49eb3b8a0a66/phlat_index.tar.gz'}
+<=========
+[2020-11-27T14:15:00-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-m9yl77yk with ID kind-run_phlat/instance-m9yl77yk to 1
+[2020-11-27T14:15:00-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-m9yl77yk with job batch system ID: 49 and cores: 80, disk: 8.2 G, and memory: 2.0 G
+[2020-11-27T14:15:01-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpvo1wymnh/worker_log.txt
+[2020-11-27T14:15:01-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp69kcvz3e/worker_log.txt
+[2020-11-27T14:16:11-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/scratch/drkthomp/jobStore kind-run_phlat/instance-d6snzyih.
+[2020-11-27T14:16:11-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-d6snzyih
+[2020-11-27T14:16:11-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-d6snzyih
+[2020-11-27T14:16:11-0800] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-d6snzyih follows:
+=========>
+	[2020-11-27T14:15:01-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:15:01-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:16:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpvo1wymnh/f02da2f7-431d-4032-b57b-4d7a25ca5a2f/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpvo1wymnh/f02da2f7-431d-4032-b57b-4d7a25ca5a2f/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpvo1wymnh/f02da2f7-431d-4032-b57b-4d7a25ca5a2f/phlat_index.tar.gz'}
+<=========
+[2020-11-27T14:16:11-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-d6snzyih with ID kind-run_phlat/instance-d6snzyih to 1
+[2020-11-27T14:16:11-0800] [MainThread] [I] [toil.leader] Issued job 'run_phlat' kind-run_phlat/instance-d6snzyih with job batch system ID: 50 and cores: 80, disk: 8.3 G, and memory: 2.0 G
+[2020-11-27T14:16:12-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmp1fawerqj/worker_log.txt
+[2020-11-27T14:16:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_cutadapt file:/scratch/drkthomp/jobStore kind-run_cutadapt/instance-yutysx82.
+[2020-11-27T14:16:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_cutadapt' kind-run_cutadapt/instance-yutysx82
+[2020-11-27T14:16:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_cutadapt' kind-run_cutadapt/instance-yutysx82
+[2020-11-27T14:16:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_cutadapt/instance-yutysx82 follows:
+=========>
+	[2020-11-27T14:16:12-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:16:12-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/qc/rna.py", line 59, in run_cutadapt
+	    dockerhub=univ_options['dockerhub'], tool_version=cutadapt_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:16:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-27T14:16:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_cutadapt' kind-run_cutadapt/instance-yutysx82 with ID kind-run_cutadapt/instance-yutysx82 to 0
+[2020-11-27T14:16:12-0800] [MainThread] [W] [toil.leader] Job 'run_cutadapt' kind-run_cutadapt/instance-yutysx82 with ID kind-run_cutadapt/instance-yutysx82 is completely failed
+[2020-11-27T14:16:13-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgcvuxymi/worker_log.txt
+[2020-11-27T14:16:46-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_bwa file:/scratch/drkthomp/jobStore kind-run_bwa/instance-fcmrk5t5.
+[2020-11-27T14:16:46-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_bwa' kind-run_bwa/instance-fcmrk5t5
+[2020-11-27T14:16:46-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_bwa' kind-run_bwa/instance-fcmrk5t5
+[2020-11-27T14:16:46-0800] [MainThread] [W] [toil.leader] Log from job kind-run_bwa/instance-fcmrk5t5 follows:
+=========>
+	[2020-11-27T14:15:01-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:15:01-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/alignment/dna.py", line 142, in run_bwa
+	    tool_version=bwa_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:16:45-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-27T14:16:46-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_bwa' kind-run_bwa/instance-fcmrk5t5 with ID kind-run_bwa/instance-fcmrk5t5 to 1
+[2020-11-27T14:16:46-0800] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-fcmrk5t5 with job batch system ID: 51 and cores: 80, disk: 13.4 G, and memory: 12.0 G
+[2020-11-27T14:16:47-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplh6lw_me/worker_log.txt
+[2020-11-27T14:17:24-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/scratch/drkthomp/jobStore kind-run_phlat/instance-d6snzyih.
+[2020-11-27T14:17:24-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-d6snzyih
+[2020-11-27T14:17:24-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-d6snzyih
+[2020-11-27T14:17:24-0800] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-d6snzyih follows:
+=========>
+	[2020-11-27T14:16:13-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:16:13-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:17:22-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgcvuxymi/c7401915-c7ef-42bf-8a49-e6dc12723fed/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgcvuxymi/c7401915-c7ef-42bf-8a49-e6dc12723fed/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgcvuxymi/c7401915-c7ef-42bf-8a49-e6dc12723fed/phlat_index.tar.gz'}
+<=========
+[2020-11-27T14:17:24-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-d6snzyih with ID kind-run_phlat/instance-d6snzyih to 0
+[2020-11-27T14:17:24-0800] [MainThread] [W] [toil.leader] Job 'run_phlat' kind-run_phlat/instance-d6snzyih with ID kind-run_phlat/instance-d6snzyih is completely failed
+[2020-11-27T14:17:24-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdascl6ga/worker_log.txt
+[2020-11-27T14:17:58-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/scratch/drkthomp/jobStore kind-run_phlat/instance-v64rszch.
+[2020-11-27T14:17:58-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-v64rszch
+[2020-11-27T14:17:58-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-v64rszch
+[2020-11-27T14:17:58-0800] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-v64rszch follows:
+=========>
+	[2020-11-27T14:16:47-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:16:47-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:17:57-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplh6lw_me/41b69a31-ef48-4fd5-88bb-59fd0607a159/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplh6lw_me/41b69a31-ef48-4fd5-88bb-59fd0607a159/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplh6lw_me/41b69a31-ef48-4fd5-88bb-59fd0607a159/phlat_index.tar.gz'}
+<=========
+[2020-11-27T14:17:58-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-v64rszch with ID kind-run_phlat/instance-v64rszch to 0
+[2020-11-27T14:17:58-0800] [MainThread] [W] [toil.leader] Job 'run_phlat' kind-run_phlat/instance-v64rszch with ID kind-run_phlat/instance-v64rszch is completely failed
+[2020-11-27T14:17:59-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpjitzglb4/worker_log.txt
+[2020-11-27T14:18:34-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_phlat file:/scratch/drkthomp/jobStore kind-run_phlat/instance-m9yl77yk.
+[2020-11-27T14:18:34-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_phlat' kind-run_phlat/instance-m9yl77yk
+[2020-11-27T14:18:34-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_phlat' kind-run_phlat/instance-m9yl77yk
+[2020-11-27T14:18:34-0800] [MainThread] [W] [toil.leader] Log from job kind-run_phlat/instance-m9yl77yk follows:
+=========>
+	[2020-11-27T14:17:24-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:17:24-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:18:33-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdascl6ga/e193b8c5-df90-4f55-af24-6aecef7d9917/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdascl6ga/e193b8c5-df90-4f55-af24-6aecef7d9917/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdascl6ga/e193b8c5-df90-4f55-af24-6aecef7d9917/phlat_index.tar.gz'}
+<=========
+[2020-11-27T14:18:34-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_phlat' kind-run_phlat/instance-m9yl77yk with ID kind-run_phlat/instance-m9yl77yk to 0
+[2020-11-27T14:18:34-0800] [MainThread] [W] [toil.leader] Job 'run_phlat' kind-run_phlat/instance-m9yl77yk with ID kind-run_phlat/instance-m9yl77yk is completely failed
+[2020-11-27T14:18:35-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpfwls_luy/worker_log.txt
+[2020-11-27T14:19:41-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_bwa file:/scratch/drkthomp/jobStore kind-run_bwa/instance-fcmrk5t5.
+[2020-11-27T14:19:41-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_bwa' kind-run_bwa/instance-fcmrk5t5
+[2020-11-27T14:19:41-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_bwa' kind-run_bwa/instance-fcmrk5t5
+[2020-11-27T14:19:41-0800] [MainThread] [W] [toil.leader] Log from job kind-run_bwa/instance-fcmrk5t5 follows:
+=========>
+	[2020-11-27T14:17:59-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:17:59-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/alignment/dna.py", line 142, in run_bwa
+	    tool_version=bwa_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:19:39-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-27T14:19:41-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_bwa' kind-run_bwa/instance-fcmrk5t5 with ID kind-run_bwa/instance-fcmrk5t5 to 0
+[2020-11-27T14:19:41-0800] [MainThread] [W] [toil.leader] Job 'run_bwa' kind-run_bwa/instance-fcmrk5t5 with ID kind-run_bwa/instance-fcmrk5t5 is completely failed
+[2020-11-27T14:20:12-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_bwa file:/scratch/drkthomp/jobStore kind-run_bwa/instance-7e3ubnz3.
+[2020-11-27T14:20:12-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_bwa' kind-run_bwa/instance-7e3ubnz3
+[2020-11-27T14:20:12-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_bwa' kind-run_bwa/instance-7e3ubnz3
+[2020-11-27T14:20:12-0800] [MainThread] [W] [toil.leader] Log from job kind-run_bwa/instance-7e3ubnz3 follows:
+=========>
+	[2020-11-27T14:18:35-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:18:35-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/alignment/dna.py", line 142, in run_bwa
+	    tool_version=bwa_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:20:10-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-27T14:20:12-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_bwa' kind-run_bwa/instance-7e3ubnz3 with ID kind-run_bwa/instance-7e3ubnz3 to 1
+[2020-11-27T14:20:12-0800] [MainThread] [I] [toil.leader] Issued job 'run_bwa' kind-run_bwa/instance-7e3ubnz3 with job batch system ID: 52 and cores: 80, disk: 12.8 G, and memory: 12.0 G
+[2020-11-27T14:20:13-0800] [MainThread] [I] [toil.worker] Redirecting logging to /scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpz_y36x7c/worker_log.txt
+[2020-11-27T14:21:54-0800] [Thread-1  ] [E] [toil.batchSystems.singleMachine] Got exit code 1 (indicating failure) from job _toil_worker run_bwa file:/scratch/drkthomp/jobStore kind-run_bwa/instance-7e3ubnz3.
+[2020-11-27T14:21:54-0800] [MainThread] [W] [toil.leader] Job failed with exit value 1: 'run_bwa' kind-run_bwa/instance-7e3ubnz3
+[2020-11-27T14:21:54-0800] [MainThread] [W] [toil.leader] The job seems to have left a log file, indicating failure: 'run_bwa' kind-run_bwa/instance-7e3ubnz3
+[2020-11-27T14:21:54-0800] [MainThread] [W] [toil.leader] Log from job kind-run_bwa/instance-7e3ubnz3 follows:
+=========>
+	[2020-11-27T14:20:13-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:20:13-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/alignment/dna.py", line 142, in run_bwa
+	    tool_version=bwa_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:21:52-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+[2020-11-27T14:21:54-0800] [MainThread] [W] [toil.jobGraph] Due to failure we are reducing the remaining retry count of job 'run_bwa' kind-run_bwa/instance-7e3ubnz3 with ID kind-run_bwa/instance-7e3ubnz3 to 0
+[2020-11-27T14:21:54-0800] [MainThread] [W] [toil.leader] Job 'run_bwa' kind-run_bwa/instance-7e3ubnz3 with ID kind-run_bwa/instance-7e3ubnz3 is completely failed
+[2020-11-27T14:22:07-0800] [MainThread] [I] [toil.leader] Finished toil run with 18 failed jobs.
+[2020-11-27T14:22:07-0800] [MainThread] [I] [toil.leader] Failed jobs at end of the run: 'run_phlat' kind-EncapsulatedJob/instance-tm0pcusm 'prepare_samples' kind-prepare_samples/instance-qyxpumun 'run_cutadapt' kind-EncapsulatedJob/instance-o9p20i2e 'get_patient_fastqs' kind-get_patient_fastqs/instance-0csdd7bl 'run_bwa' kind-run_bwa/instance-fcmrk5t5 'run_bwa' kind-EncapsulatedJob/instance-gxt8is74 'run_bwa' kind-EncapsulatedJob/instance-5drwan9s 'get_patient_fastqs' kind-get_patient_fastqs/instance-2pjao3y3 'run_cutadapt' kind-run_cutadapt/instance-yutysx82 'get_patient_fastqs' kind-get_patient_fastqs/instance-ttmsgsd1 'run_phlat' kind-EncapsulatedJob/instance-czlzbjjr 'run_phlat' kind-run_phlat/instance-v64rszch 'get_all_tool_inputs' kind-parse_config_file/instance-utcdr1zk 'run_phlat' kind-run_phlat/instance-d6snzyih 'launch_protect' kind-launch_protect/instance-oyefziao 'run_phlat' kind-run_phlat/instance-m9yl77yk 'run_bwa' kind-run_bwa/instance-7e3ubnz3 'run_phlat' kind-EncapsulatedJob/instance-p8idulz4
+Traceback (most recent call last):
+  File "/private/home/drkthomp/protect3/venv/bin/ProTECT", line 11, in <module>
+    load_entry_point('protect', 'console_scripts', 'ProTECT')()
+  File "/private/home/drkthomp/protect3/src/protect/pipeline/ProTECT.py", line 1028, in main
+    Job.Runner.startToil(start, params)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 796, in startToil
+    return toil.start(job)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/common.py", line 846, in start
+    return self._runMainLoop(rootJobGraph)
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/common.py", line 1138, in _runMainLoop
+    jobCache=self._jobCache).run()
+  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/leader.py", line 269, in run
+    raise FailedJobsException(self.config.jobStore, self.toilState.totalFailedJobs, self.jobStore)
+toil.leader.FailedJobsException: The job store 'file:/scratch/drkthomp/jobStore' contains 18 failed jobs: 'run_phlat' kind-EncapsulatedJob/instance-tm0pcusm, 'prepare_samples' kind-prepare_samples/instance-qyxpumun, 'run_cutadapt' kind-EncapsulatedJob/instance-o9p20i2e, 'get_patient_fastqs' kind-get_patient_fastqs/instance-0csdd7bl, 'run_bwa' kind-run_bwa/instance-fcmrk5t5, 'run_bwa' kind-EncapsulatedJob/instance-gxt8is74, 'run_bwa' kind-EncapsulatedJob/instance-5drwan9s, 'get_patient_fastqs' kind-get_patient_fastqs/instance-2pjao3y3, 'run_cutadapt' kind-run_cutadapt/instance-yutysx82, 'get_patient_fastqs' kind-get_patient_fastqs/instance-ttmsgsd1, 'run_phlat' kind-EncapsulatedJob/instance-czlzbjjr, 'run_phlat' kind-run_phlat/instance-v64rszch, 'get_all_tool_inputs' kind-parse_config_file/instance-utcdr1zk, 'run_phlat' kind-run_phlat/instance-d6snzyih, 'launch_protect' kind-launch_protect/instance-oyefziao, 'run_phlat' kind-run_phlat/instance-m9yl77yk, 'run_bwa' kind-run_bwa/instance-7e3ubnz3, 'run_phlat' kind-EncapsulatedJob/instance-p8idulz4
+Log from job 'run_bwa' kind-run_bwa/instance-fcmrk5t5 follows:
+=========>
+	[2020-11-27T14:17:59-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:17:59-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/alignment/dna.py", line 142, in run_bwa
+	    tool_version=bwa_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:19:39-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+Log from job 'run_cutadapt' kind-run_cutadapt/instance-yutysx82 follows:
+=========>
+	[2020-11-27T14:16:12-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:16:12-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/qc/rna.py", line 59, in run_cutadapt
+	    dockerhub=univ_options['dockerhub'], tool_version=cutadapt_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:16:12-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
+Log from job 'run_phlat' kind-run_phlat/instance-v64rszch follows:
+=========>
+	[2020-11-27T14:16:47-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:16:47-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:17:57-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplh6lw_me/41b69a31-ef48-4fd5-88bb-59fd0607a159/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplh6lw_me/41b69a31-ef48-4fd5-88bb-59fd0607a159/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmplh6lw_me/41b69a31-ef48-4fd5-88bb-59fd0607a159/phlat_index.tar.gz'}
+<=========
+Log from job 'run_phlat' kind-run_phlat/instance-d6snzyih follows:
+=========>
+	[2020-11-27T14:16:13-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:16:13-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:17:22-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgcvuxymi/c7401915-c7ef-42bf-8a49-e6dc12723fed/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgcvuxymi/c7401915-c7ef-42bf-8a49-e6dc12723fed/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpgcvuxymi/c7401915-c7ef-42bf-8a49-e6dc12723fed/phlat_index.tar.gz'}
+<=========
+Log from job 'run_phlat' kind-run_phlat/instance-m9yl77yk follows:
+=========>
+	[2020-11-27T14:17:24-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:17:24-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/haplotyping/phlat.py", line 74, in run_phlat
+	    dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:18:33-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+	{'input_1.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdascl6ga/e193b8c5-df90-4f55-af24-6aecef7d9917/input_1.fastq', 'input_2.fastq': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdascl6ga/e193b8c5-df90-4f55-af24-6aecef7d9917/input_2.fastq', 'phlat_index.tar.gz': '/data/scratch/drkthomp/workDir/node-bd51875c-dc23-4882-b1fa-2fa41c9dc75d-e8611b53-bdab-4598-acae-87977f99831e/tmpdascl6ga/e193b8c5-df90-4f55-af24-6aecef7d9917/phlat_index.tar.gz'}
+<=========
+Log from job 'run_bwa' kind-run_bwa/instance-7e3ubnz3 follows:
+=========>
+	[2020-11-27T14:20:13-0800] [MainThread] [I] [toil.worker] ---TOIL WORKER OUTPUT LOG---
+	[2020-11-27T14:20:13-0800] [MainThread] [I] [toil] Running Toil version 4.2.0-3aa1da130141039cb357efe36d7df9b9f6ae9b5b on host mustard.
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied
+	Traceback (most recent call last):
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/worker.py", line 368, in workerScript
+	    job._runner(jobGraph=jobGraph, jobStore=jobStore, fileStore=fileStore, defer=defer)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1424, in _runner
+	    returnValues = self._run(jobGraph, fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1361, in _run
+	    return self.run(fileStore)
+	  File "/private/home/drkthomp/protect3/venv/lib/python3.6/site-packages/toil/job.py", line 1565, in run
+	    rValue = userFunction(*((self,) + tuple(self._args)), **self._kwargs)
+	  File "/private/home/drkthomp/protect3/src/protect/alignment/dna.py", line 142, in run_bwa
+	    tool_version=bwa_options['version'])
+	  File "/private/home/drkthomp/protect3/src/protect/common.py", line 113, in docker_call
+	    dimg_rv = subprocess.check_output(call).decode('utf-8')
+	  File "/usr/lib64/python3.6/subprocess.py", line 336, in check_output
+	    **kwargs).stdout
+	  File "/usr/lib64/python3.6/subprocess.py", line 418, in run
+	    output=stdout, stderr=stderr)
+	subprocess.CalledProcessError: Command '['docker', 'images']' returned non-zero exit status 1.
+	[2020-11-27T14:21:52-0800] [MainThread] [E] [toil.worker] Exiting the worker because of a failed job on host mustard
+<=========
