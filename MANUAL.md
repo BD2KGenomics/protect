@@ -70,7 +70,7 @@ Install Toil and pytest
 
     make prepare
 
-Install the python3 conversion of bd2k
+Install the python3 conversion of bd2k and s3am. *s3am is untested as I am running locally* 
 
     make special_install
 
