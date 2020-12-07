@@ -71,7 +71,6 @@ def assess_mhc_genes(job, gene_expression, rna_haplotype, univ_options, reports_
     # Read the background file
 
     background_df = pd.read_table(input_files['mhc_pathways.tsv'], index_col=0, header=0)
-    print(background_df)
 
     # Parse the rna phlat file
     if rna_haplotype is not None:
@@ -121,8 +120,7 @@ def assess_mhc_genes(job, gene_expression, rna_haplotype, univ_options, reports_
 
             for ensg in role_df.index:
                 #ix was depricated in 0.20.0 
-		#ensgName = background_df.ix[ensg, 'Name']
-		# i haven't worked with pandas before, but this *should* be the same? 
+        		#ensgName = background_df.ix[ensg, 'Name']
                 ensgName = background_df.loc[ensg, 'Name']
                 b_vals = {}
                 for bkg in b_types:

@@ -76,8 +76,6 @@ def run_mutect(job, tumor_bam, normal_bam, univ_options, mutect_options):
     :rtype: dict
     """
     # Get a list of chromosomes to handle
-    job.fileStore.logToMaster('DEBUG: running mutect, log to master')
-    print("DEBUG: running mutect")
     if mutect_options['chromosomes']:
         chromosomes = mutect_options['chromosomes']
     else:
@@ -125,15 +123,12 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
    
     # dbsnp.vcf should be bgzipped, but all others should be tar.gz'd
-    job.fileStore.logToMaster('unzipping dbsnp.vcf')
     input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
     #input_files['dbsnp.vcf'] = 
-    job.fileStore.logToMaster('unzipped dbsnp')
     for key in ('genome.fa', 'genome.fa.fai', 'genome.dict', 'cosmic.vcf', 'cosmic.vcf.idx',
                 'dbsnp.vcf.idx'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
     input_files = {key: docker_path(path) for key, path in list(input_files.items())}
-    job.fileStore.logToMaster('configured input files for docker')
     mutout = ''.join([work_dir, '/', chrom, '.out'])
     mutvcf = ''.join([work_dir, '/', chrom, '.vcf'])
     parameters = ['-R', input_files['genome.fa'],
@@ -149,11 +144,9 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
                   ]
     java_xmx = mutect_options['java_Xmx'] if mutect_options['java_Xmx'] \
         else univ_options['java_Xmx']
-    job.fileStore.logToMaster('starting mutect docker call')
     docker_call(tool='mutect', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], java_xmx=java_xmx,
                 tool_version=mutect_options['version'])
-    job.fileStore.logToMaster('finshed docker, outputting now')
     output_file = job.fileStore.writeGlobalFile(mutvcf)
     export_results(job, output_file, mutvcf, univ_options, subfolder='mutations/mutect')
     job.fileStore.logToMaster('Ran MuTect on %s:%s successfully' % (univ_options['patient'], chrom))
@@ -171,7 +164,6 @@ def process_mutect_vcf(job, mutect_vcf, work_dir, univ_options):
     :rtype: str
     """
     mutect_vcf = job.fileStore.readGlobalFile(mutect_vcf)
-    job.fileStore.logToMaster('process mutect vcf start')
 
     with open(mutect_vcf, 'r') as infile, open(mutect_vcf + 'mutect_parsed.tmp', 'w') as outfile:
         for line in infile:
