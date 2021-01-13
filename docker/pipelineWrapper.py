@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 
 import tarfile
 import argparse
@@ -103,7 +103,7 @@ class PipelineWrapperBuilder(object):
                 # move individual files out
                 for fileName in consistentNaming:
                     shutil.copyfile(getName(fileName), os.path.join(output_dir, os.path.basename(fileName)))
-                for src, dst in renamingNeeded.iteritems():
+                for src, dst in renamingNeeded.items():
                     if dst.endswith('.tar'):
                         make_tar(getName(src), os.path.join(output_dir, dst))
                     else:

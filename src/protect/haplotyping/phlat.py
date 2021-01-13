@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import absolute_import, print_function
+
 from collections import defaultdict
 from math import ceil
 
@@ -51,6 +51,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
         'input_2.fastq': fastqs[1],
         'phlat_index.tar.gz': phlat_options['index']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
+    print(input_files)
     # Handle gzipped files
     gz = '.gz' if is_gzipfile(input_files['input_1.fastq']) else ''
     if gz:
@@ -59,7 +60,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
             input_files[read_file + gz] = input_files[read_file] + gz
     # Untar the index
     input_files['phlat_index'] = untargz(input_files['phlat_index.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     parameters = ['-1', input_files['input_1.fastq' + gz],
                   '-2', input_files['input_2.fastq' + gz],
@@ -68,7 +69,7 @@ def run_phlat(job, fastqs, sample_type, univ_options, phlat_options):
                   '-tag', sample_type,
                   '-e', '/home/phlat-1.0',  # Phlat directory home
                   '-o', '/data',  # Output directory
-                  '-p', str(phlat_options['n'])]  # Number of threads
+                  '-p', str(10)]  # Number of threads
     docker_call(tool='phlat', tool_parameters=parameters, work_dir=work_dir,
                 dockerhub=univ_options['dockerhub'], tool_version=phlat_options['version'])
     output_file = job.fileStore.writeGlobalFile(''.join([work_dir, '/', sample_type, '_HLA.sum']))
@@ -182,13 +183,13 @@ def most_probable_alleles(allele_list):
         except KeyError:
             all_alleles[allele] = [float(pvalue)]
     # If there are less than 2 alleles, report all
-    if len(all_alleles.keys()) <= 2:
-        return all_alleles.keys()
+    if len(list(all_alleles.keys())) <= 2:
+        return list(all_alleles.keys())
     # Else, get the two with most evidence.  Evidence is gauged by
     # a) How many files (of the 3) thought that Allele was present
     # b) In a tie, who has a lower avg p value
     # In the lambda function, if 2 alleles have the same number of calls, the sum of the p values is
     # a measure of the avg because avg = sum / n and n is equal in both of them.
     else:
-        return sorted(all_alleles.keys(),
+        return sorted(list(all_alleles.keys()),
                       key=lambda x: (-len(all_alleles[x]), sum(all_alleles[x])))[0:2]

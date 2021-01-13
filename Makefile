@@ -45,17 +45,22 @@ help:
 	@echo "$$help"
 
 
-python=python2.7
-pip=pip2.7
+python=python
+pip=pip
 tests=src/protect/test/unit
 extras=
-
 green=\033[0;32m
 normal=\033[0m
 red=\033[0;31m
 
+# WIP 
+special_install: check_venv
+	git clone https://github.com/Dranion/bd2k-extras.git
+	make -C bd2k-extras/bd2k-python-lib develop
+	make -C bd2k-extras/s3am develop
+
 prepare: check_venv
-	@$(pip) install toil==3.8.0 pytest==2.8.3
+	@$(pip) install toil pytest  
 
 develop: check_venv
 	$(pip) install -e .$(extras)
@@ -107,11 +112,10 @@ clean_pypi:
 
 clean: clean_develop clean_sdist clean_pypi
 
-
 check_venv:
-	@$(python) -c 'import sys; sys.exit( int( not hasattr(sys, "real_prefix") ) )' \
-		|| ( echo "$(red)A virtualenv must be active.$(normal)" ; false )
-
+	@$(python) -c 'import sys; sys.exit( int( not (hasattr(sys, "real_prefix") or ( hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix ) ) ) )' \
+		|| [ ! -z "${VIRTUAL_ENV}" ] \
+		|| ( echo "$(red)A virtualenv must be active.$(normal)\n" ; false )
 
 check_clean_working_copy:
 	@echo "$(green)Checking if your working copy is clean ...$(normal)"

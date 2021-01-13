@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -21,7 +21,7 @@ File : protect/ProTECT.py
 Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
-from __future__ import print_function
+
 from collections import defaultdict
 from multiprocessing import cpu_count
 
@@ -160,7 +160,7 @@ def _add_default_entries(input_dict, defaults_dict):
     :return: updated dict
     :rtype: dict
     """
-    for key, value in defaults_dict.iteritems():
+    for key, value in defaults_dict.items():
         if key == 'patients':
             print('Cannot default `patients`.')
             continue
@@ -302,8 +302,8 @@ def parse_patients(job, patient_dict, skip_fusions=False):
         if f + '_fastq_2' not in output_dict:
             output_dict[f + '_fastq_2'] = get_fastq_2(job, patient_dict['patient_id'], f,
                                                       output_dict[f + '_fastq_1'])
-    output_dict['gdc_inputs'] = [k for k, v in output_dict.items() if str(v).startswith('gdc')]
-    if not any('dna' in k for k in output_dict.keys()):
+    output_dict['gdc_inputs'] = [k for k, v in list(output_dict.items()) if str(v).startswith('gdc')]
+    if not any('dna' in k for k in list(output_dict.keys())):
         # There are no input DNA files so we cannot filter for oxog
         output_dict['filter_for_OxoG'] = False
     return output_dict
@@ -354,7 +354,7 @@ def _parse_config_file(job, config_file, max_cores=None):
 
     # Flags to check for presence of encryption keys if required
     gdc_inputs = ssec_encrypted = False
-    for key in input_config.keys():
+    for key in list(input_config.keys()):
         if key == 'patients':
             # Ensure each patient contains the required entries
             for sample_name in input_config[key]:
@@ -410,7 +410,7 @@ def _parse_config_file(job, config_file, max_cores=None):
                     if key == 'alignment':
                         append_subgroup = ['post']
                     elif key == 'mutation_calling':
-                        mutation_caller_list = input_config[key].keys()
+                        mutation_caller_list = list(input_config[key].keys())
                         append_subgroup = []
                     else:
                         append_subgroup = []
@@ -443,7 +443,7 @@ def parse_config_file(job, config_file, max_cores=None):
     sample_set, univ_options, processed_tool_inputs = _parse_config_file(job, config_file,
                                                                          max_cores)
     # Start a job for each sample in the sample set
-    for patient_id in sample_set.keys():
+    for patient_id in list(sample_set.keys()):
         job.addFollowOnJobFn(launch_protect, sample_set[patient_id], univ_options,
                              processed_tool_inputs)
     return None
@@ -513,7 +513,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         haplotype_patient = job.wrapJobFn(get_patient_mhc_haplotype, sample_prep.rv())
         sample_prep.addChild(haplotype_patient)
     else:
-        assert None not in fastq_files.values()
+        assert None not in list(fastq_files.values())
         # We are guaranteed to have fastqs here
         for sample_type in 'tumor_dna', 'normal_dna', 'tumor_rna':
             phlat_files[sample_type] = job.wrapJobFn(
@@ -633,7 +633,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         # Fusions have been handled above, and we don't need to align DNA
         get_mutations = None
     else:
-        assert (None, None) not in zip(fastq_files.values(), bam_files.values())
+        assert (None, None) not in list(zip(list(fastq_files.values()), list(bam_files.values())))
         for sample_type in 'tumor_dna', 'normal_dna':
             if bam_files[sample_type] is None:
                 assert fastq_files[sample_type] is not None
@@ -677,7 +677,7 @@ def launch_protect(job, patient_data, univ_options, tool_options):
                 bam_files[sample_type].addChild(mutations[caller])
         bam_files['tumor_rna'].addChild(mutations['radia'])
         get_mutations = job.wrapJobFn(run_mutation_aggregator,
-                                      {caller: cjob.rv() for caller, cjob in mutations.items()},
+                                      {caller: cjob.rv() for caller, cjob in list(mutations.items())},
                                       univ_options, disk='100M', memory='100M',
                                       cores=1).encapsulate()
         for caller in mutations:
@@ -687,7 +687,6 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         # We may need the tumor one depending on OxoG
         if not patient_data['filter_for_OxoG']:
             get_mutations.addChild(delete_bam_files['tumor_dna'])
-
     if get_mutations is not None:
         snpeff = job.wrapJobFn(run_snpeff, get_mutations.rv(), univ_options, tool_options['snpeff'],
                                disk=PromisedRequirement(snpeff_disk,
@@ -714,18 +713,15 @@ def launch_protect(job, patient_data, univ_options, tool_options):
         transgene.addChild(delete_bam_files['tumor_dna'])
     if fusions:
         fusions.addChild(transgene)
-
     spawn_mhc = job.wrapJobFn(spawn_antigen_predictors, transgene.rv(), haplotype_patient.rv(),
                               univ_options, (tool_options['mhci'], tool_options['mhcii']),
                               disk='100M', memory='100M', cores=1).encapsulate()
     haplotype_patient.addChild(spawn_mhc)
     transgene.addChild(spawn_mhc)
-
     merge_mhc = job.wrapJobFn(merge_mhc_peptide_calls, spawn_mhc.rv(), transgene.rv(), univ_options,
                               disk='100M', memory='100M', cores=1)
     spawn_mhc.addFollowOn(merge_mhc)
     transgene.addChild(merge_mhc)
-
     rankboost = job.wrapJobFn(wrap_rankboost, rsem.rv(), merge_mhc.rv(), transgene.rv(),
                               univ_options, tool_options['rankboost'], disk='100M', memory='100M',
                               cores=1)

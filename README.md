@@ -1,6 +1,9 @@
-[![Stories in Ready](https://badge.waffle.io/BD2KGenomics/protect.png?label=ready&title=Ready)](https://waffle.io/BD2KGenomics/protect)
 # ProTECT
 ### **Pr**ediction **o**f **T**-Cell **E**pitopes for **C**ancer **T**herapy
+
+Adapation of ProTECT to use python 3.8 instead of 2.7. Currently have tested a complete run using fastq files from [HCC1395 WGS Exome RNA Seq Data](https://github.com/genome/gms/wiki/HCC1395-WGS-Exome-RNA-Seq-Data), with identical results in both version of python. 
+
+Adaptation done using 2to3 and manual bug testing. Manual changes recorded [at changes.md](https://github.com/Dranion/protect/blob/master/changes.md). Since s3am is python2, **currently is local only**, however an untested python3 version of s3am exists [here](https://github.com/Dranion/bd2k-extras/tree/main). Continuing to the original README: 
 
 This repo contains the Python libraries for the Precision Immunology Pipeline developed at UCSC.
 
@@ -20,6 +23,6 @@ All docker images used in this pipeline are available at
 
 
 To learn how the pipeline can be run on a sample, head over to the [ProTECT Manual](
-https://github.com/BD2KGenomics/protect/blob/master/MANUAL.md)
+https://github.com/Dranion/protect/blob/master/MANUAL.md)
 
 ProTECT is currently in its infancy and is under continuous development.  We would appreciate users sharing the level 3 data produced by ProTECT with us such that we can better train our predictive models.
