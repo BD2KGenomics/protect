@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 from collections import defaultdict
 from math import ceil
 
@@ -146,7 +146,7 @@ def run_somaticsniper_full(job, tumor_bam, normal_bam, univ_options, somaticsnip
 
     for key in ('genome.fa', 'genome.fa.fai'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     output_file = os.path.join(work_dir, 'somatic-sniper_full.vcf')
     parameters = ['-f', input_files['genome.fa'],
@@ -190,7 +190,7 @@ def filter_somaticsniper(job, tumor_bam, somaticsniper_output, tumor_pileup, uni
 
     for key in ('genome.fa', 'genome.fa.fai'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     # Run snpfilter.pl
     parameters = ['snpfilter.pl',
@@ -278,7 +278,7 @@ def run_pileup(job, tumor_bam, univ_options, somaticsniper_options):
 
     for key in ('genome.fa', 'genome.fa.fai'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
 
     parameters = ['pileup',
                   '-cvi',

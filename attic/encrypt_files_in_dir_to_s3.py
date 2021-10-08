@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright (C) 2016 UCSC Computational Genomics Lab
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ ORIGINAL AUTHOR: John Vivian
 
 Move files in a directory, or entire directory structures to S3 with (or without) encryption.
 """
-from __future__ import print_function
+
 import argparse
 import base64
 import hashlib

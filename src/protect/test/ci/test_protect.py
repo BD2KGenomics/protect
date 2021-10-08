@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -19,7 +19,7 @@ Author : Arjun Arkal Rao
 Affiliation : UCSC BME, UCSC Genomics Institute
 File : protect/test/test_reporting.py
 """
-from __future__ import print_function
+
 
 from protect.test import ProtectTest
 
@@ -173,8 +173,8 @@ class TestProtect(ProtectTest):
         expected_contents = {}
         for dir in expected_dirs:
             if isinstance(dir, dict):
-                assert len(dir.keys()) == 1
-                if dir.keys()[0] == 'mutations':
+                assert len(list(dir.keys())) == 1
+                if list(dir.keys())[0] == 'mutations':
                     expected_contents['mutations'] = ('/mnt/ephemeral/done/TEST/mutations',
                                                       sorted(dir['mutations']),
                                                       [])
@@ -198,7 +198,7 @@ class TestProtect(ProtectTest):
                         else:
                             expected_contents['mutations_' + caller] = \
                                 contents_per_dir['mutations'][caller]
-                elif dir.keys()[0] == 'alignments':
+                elif list(dir.keys())[0] == 'alignments':
                     alignment_files = []
                     for tissue_type in dir['alignments']:
                         alignment_files.extend(contents_per_dir['alignments'][tissue_type])
@@ -211,7 +211,7 @@ class TestProtect(ProtectTest):
                 expected_contents[dir] = contents_per_dir[dir]
 
         expected_outputs = [('/mnt/ephemeral/done/TEST',
-                             sorted([x for x in expected_contents.keys()
+                             sorted([x for x in list(expected_contents.keys())
                                       if not x.startswith('mutations_')]),
                              [])]
         expected_outputs.extend([expected_contents[d] for d in sorted(expected_contents.keys())])

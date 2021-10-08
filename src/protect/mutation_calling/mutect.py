@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import print_function
+
 from collections import defaultdict
 from math import ceil
 
@@ -105,7 +105,9 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
     :return: fsID for the chromsome vcf
     :rtype: toil.fileStore.FileID
     """
+       
     work_dir = os.getcwd()
+   
     input_files = {
         'tumor.bam': tumor_bam['tumor_dna_fix_pg_sorted.bam'],
         'tumor.bam.bai': tumor_bam['tumor_dna_fix_pg_sorted.bam.bai'],
@@ -119,13 +121,14 @@ def run_mutect_perchrom(job, tumor_bam, normal_bam, univ_options, mutect_options
         'dbsnp.vcf.gz': mutect_options['dbsnp_vcf'],
         'dbsnp.vcf.idx.tar.gz': mutect_options['dbsnp_idx']}
     input_files = get_files_from_filestore(job, input_files, work_dir, docker=False)
+   
     # dbsnp.vcf should be bgzipped, but all others should be tar.gz'd
     input_files['dbsnp.vcf'] = gunzip(input_files['dbsnp.vcf.gz'])
+    #input_files['dbsnp.vcf'] = 
     for key in ('genome.fa', 'genome.fa.fai', 'genome.dict', 'cosmic.vcf', 'cosmic.vcf.idx',
                 'dbsnp.vcf.idx'):
         input_files[key] = untargz(input_files[key + '.tar.gz'], work_dir)
-    input_files = {key: docker_path(path) for key, path in input_files.items()}
-
+    input_files = {key: docker_path(path) for key, path in list(input_files.items())}
     mutout = ''.join([work_dir, '/', chrom, '.out'])
     mutvcf = ''.join([work_dir, '/', chrom, '.vcf'])
     parameters = ['-R', input_files['genome.fa'],

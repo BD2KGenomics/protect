@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 UCSC Computational Genomics Lab
 # Original contributor: Arjun Arkal Rao
 #
@@ -21,16 +21,17 @@ File : protect/ProTECT.py
 Program info can be found in the docstring of the main function.
 Details can also be obtained by running the script with -h .
 """
-from __future__ import print_function
+
 
 from collections import defaultdict
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from urlparse import urlparse
-
+from urllib.parse import urlparse
+from io import IOBase
 import errno
 import gzip
 import logging
+import shutil 
 import os
 import re
 import smtplib
@@ -38,7 +39,7 @@ import socket
 import subprocess
 import sys
 import tarfile
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import uuid
 
 
@@ -53,7 +54,7 @@ def get_files_from_filestore(job, files, work_dir, docker=False):
     :return: Dict of files: (optionallly docker-friendly) fileepaths
     :rtype: dict
     """
-    for name in files.keys():
+    for name in list(files.keys()):
         outfile = job.fileStore.readGlobalFile(files[name], '/'.join([work_dir, name]))
         # If the files will be sent to docker, we will mount work_dir to the container as /data and
         # we want the /data prefixed path to the file
@@ -98,7 +99,7 @@ def docker_call(tool, tool_parameters, work_dir, java_xmx=None, outfile=None,
     # If an outifle has been provided, then ensure that it is of type file, it is writeable, and
     # that it is open.
     if outfile:
-        assert isinstance(outfile, file), 'outfile was not passsed a file'
+        assert isinstance(outfile, IOBase), 'outfile was not passsed a file'
         assert outfile.mode in ['w', 'a', 'wb', 'ab'], 'outfile not writeable'
         assert not outfile.closed, 'outfile is closed'
     # If the call is interactive, set intereactive to -i
@@ -110,7 +111,7 @@ def docker_call(tool, tool_parameters, work_dir, java_xmx=None, outfile=None,
     docker_tool = ''.join([dockerhub, '/', tool, ':', tool_version])
     # Get the docker image on the worker if needed
     call = ['docker', 'images']
-    dimg_rv = subprocess.check_output(call)
+    dimg_rv = subprocess.check_output(call).decode('utf-8')
     existing_images = [':'.join(x.split()[0:2]) for x in dimg_rv.splitlines()
                        if x.startswith(dockerhub)]
 
@@ -160,7 +161,7 @@ def untargz(input_targz_file, untar_to_dir):
     return return_value
 
 
-def gunzip(input_gzip_file, block_size=1024):
+def gunzip(input_gzip_file, block_size=2048):
     """
     Gunzips the input file to the same directory
 
@@ -171,13 +172,8 @@ def gunzip(input_gzip_file, block_size=1024):
     assert os.path.splitext(input_gzip_file)[1] == '.gz'
     assert is_gzipfile(input_gzip_file)
     with gzip.open(input_gzip_file) as infile:
-        with open(os.path.splitext(input_gzip_file)[0], 'w') as outfile:
-            while True:
-                block = infile.read(block_size)
-                if block == '':
-                    break
-                else:
-                    outfile.write(block)
+        with open(os.path.splitext(input_gzip_file)[0], 'wb') as outfile:
+            shutil.copyfileobj(infile, outfile)
     return outfile.name
 
 
@@ -197,7 +193,7 @@ def is_gzipfile(filename):
         'point to a file.'
     with open(filename, 'rb') as in_f:
         start_of_file = in_f.read(3)
-        if start_of_file == '\x1f\x8b\x08':
+        if start_of_file == b'\x1f\x8b\x08':
             return True
         else:
             return False
@@ -355,8 +351,8 @@ def get_file_from_url(job, any_url, encryption_key=None, per_file_encryption=Tru
     url = any_url
     parsed_url = urlparse(any_url)
     try:
-        response = urllib2.urlopen(url)
-    except urllib2.HTTPError:
+        response = urllib.request.urlopen(url)
+    except urllib.error.HTTPError:
         if parsed_url.netloc.startswith(('s3', 'S3')):
             job.fileStore.logToMaster("Detected https link is for an encrypted s3 file.")
             return get_file_from_s3(job, any_url, encryption_key=encryption_key,
@@ -431,7 +427,7 @@ def export_results(job, fsid, file_name, univ_options, subfolder=None):
         # Handle Local
         try:
             # Create the directory if required
-            os.makedirs(output_folder, 0755)
+            os.makedirs(output_folder, 0o755)
         except OSError as err:
             if err.errno != errno.EEXIST:
                 raise
@@ -455,7 +451,7 @@ def delete_fastqs(job, patient_dict):
 
     :param dict patient_dict: Dict of list of input fastqs
     """
-    for key in patient_dict.keys():
+    for key in list(patient_dict.keys()):
         if 'fastq' not in key:
             continue
         job.fileStore.logToMaster('Deleting "%s:%s" ' % (patient_dict['patient_id'], key) +
@@ -472,10 +468,10 @@ def delete_bams(job, bams, patient_id):
     :param dict bams: Dict of bam and bai files
     :param str patient_id: The ID of the patient for logging purposes.
     """
-    bams = {b: v for b, v in bams.items()
+    bams = {b: v for b, v in list(bams.items())
             if (b.endswith('.bam') or b.endswith('.bai')) and v is not None}
     if bams:
-        for key, val in bams.items():
+        for key, val in list(bams.items()):
             job.fileStore.logToMaster('Deleting "%s" for patient "%s".' % (key, patient_id))
             job.fileStore.deleteGlobalFile(val)
     elif 'rna_genome' in bams:
@@ -600,7 +596,11 @@ def canonical_chrom_sorted(in_chroms):
     if 'MT' in in_chroms:
         in_chroms[in_chroms.index('MT')] = 'M'
         mt = True
-    in_chroms = sorted(in_chroms, key=lambda c: int(c) if c not in ('X', 'Y', 'M') else c)
+    num_in_chroms = sorted(filter(str.isnumeric, in_chroms),
+                       key = lambda c: int(c))
+    chr_in_chroms = sorted(filter(str.isalpha, in_chroms))
+    in_chroms = num_in_chroms.copy()
+    in_chroms.extend(chr_in_chroms)
     try:
         m_index = in_chroms.index('M')
     except ValueError:
